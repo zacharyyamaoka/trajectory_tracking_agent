@@ -1,6 +1,6 @@
 """`tta`: the Trajectory Tracking Agent's command line (CONTRACT §4).
 
-    tta verify                                   # every dataset + tape sha256, the deployment builds
+    tta verify                                   # every dataset + tape sha256, the deployment builds, specs/ + feedback/ parse
     tta evaluate p7s [--split dev|holdout] [--workers N]   # scorecard + one ledger row, then PROGRESS.md + the chart
     tta leaderboard                              # OBJECTIVES §4's ranking, holdout - dev beside the admissible ones
     tta progress                                 # PROGRESS.md, status.json, site/progress.svg, site/views/*.svg
@@ -41,10 +41,18 @@ def cmd_verify(_: argparse.Namespace) -> int:
     except Exception as error:  # noqa: BLE001
         problems.append(f"deployment: {error}")
         dep = None
+    from trajectory_tracking_agent import notes
+
+    note_problems = notes.check(REPO_ROOT)  # specs/ and feedback/: each note parses and says what it must
     if problems:
         print(f"FAIL: {len(problems)} problem(s) in {dataset.DATASET_DIR.relative_to(REPO_ROOT)}")
         for problem in problems:
             print(f"  - {problem}")
+    if note_problems:
+        print(f"FAIL: {len(note_problems)} problem(s) in {notes.SPECS_DIR}/ and {notes.FEEDBACK_DIR}/")
+        for problem in note_problems:
+            print(f"  - {problem}")
+    if problems or note_problems:
         return 1
     tapes = sum(1 for name in record["files"] if name.startswith("tapes/"))
     counts = {split: len(dataset.tasks(split)) for split in dataset.SPLITS}
@@ -54,6 +62,7 @@ def cmd_verify(_: argparse.Namespace) -> int:
     print(f"    tasks: dev {counts['dev']}, holdout {counts['holdout']}; joints {', '.join(dep.joint_names)}")
     print(f"    deployment {dep.name}: {dep.host_rate_hz:g} Hz host, bus {dep.bus.source}, caps "
           f"{'/'.join(f'{c:g}' for c in dep.torque_cap_nm)} N·m, floor z = {dep.floor_z_m:g} m")
+    print(f"OK: {notes.summary(REPO_ROOT)}")
     return 0
 
 
@@ -136,7 +145,7 @@ def cmd_new(args: argparse.Namespace) -> int:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="tta", description="The Trajectory Tracking Agent (ruler v1, OBJECTIVES.md)")
     commands = parser.add_subparsers(dest="command", required=True)
-    commands.add_parser("verify", help="re-check every sha256 of the frozen dataset and its tapes").set_defaults(run=cmd_verify)
+    commands.add_parser("verify", help="re-check every sha256 of the frozen dataset and its tapes; specs/ and feedback/ parse").set_defaults(run=cmd_verify)
     evaluate = commands.add_parser("evaluate", help="score a solution: scorecard + one ledger row")
     evaluate.add_argument("id")
     evaluate.add_argument("--split", choices=("dev", "holdout"), default="dev")

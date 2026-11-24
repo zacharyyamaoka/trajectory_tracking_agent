@@ -27,6 +27,8 @@ never delete it.
 - [ ] Make the identification gain-portable: fit the plant torque M(q)·ë + kd·ė + kp·e (the full inverse of the board loop, M from the given model) instead of kp·e + kd·ė, then check by running one fit at x1 and x4. Expect: if it works, one model for every rung; if not, friction here is loop-dependent and each rung keeps its own fit.
 - [x] ~~Middle rung: the same pass at kp ×2~~ → `p5s-kp2-pass2` 0.045 mm. Frontier fitted at each gain: x1 0.070 · x2 0.045 · x4 0.031 mm.
 - [ ] Identify from a dedicated calibration run (a rich excitation trajectory, its own runs only) instead of the dev records, so the identified model never sees the tasks it is scored on. Needs a way to run a non-dataset trajectory through the boundary without `deployment.plant()` (see Suggestions for Zach).
+- [ ] Test O1.1, the boundary ([specs/O1.1](specs/O1.1-the-boundary.md) has no test): run one short task with a controller whose `tick` returns a bare array, one whose command leaves out a joint, and a correct one; assert the first two fail `completed` with the wrapper's reason and the third completes, and that `tick` runs at the deployment's host rate (count its calls). Expect: O1.1 unverified → pass; no score moves.
+- [ ] Test O1.3, the trajectory is given ([specs/O1.3](specs/O1.3-the-trajectory-is-given.md) has no test): a solution that tracks a retimed copy of its trajectory (half speed) is scored against the untouched tape (worse objective, the tape's sha256 unchanged after the run), and one that edits the given arrays in place fails `completed`. Expect: O1.3 unverified → pass; no score moves.
 
 ## Suggestions for Zach
 
