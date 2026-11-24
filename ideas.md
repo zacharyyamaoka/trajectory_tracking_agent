@@ -15,7 +15,8 @@ never delete it.
 - [x] ~~Second friction pass against the target velocity, from joint errors~~ → `p5s-fric2` 0.079 mm dev (holdout 0.102), admissible, better on 39/42.
 - [x] ~~Stiffer board gains (kp ×2, kd ×√2) on top of the identified models~~ → `p5s-kp2` 0.056 mm dev, admissible, better on 41/42; energy +8.6 %. Transfer risk: see Suggestions for Zach.
 - [x] ~~kp ×4, kd ×2~~ → `p5s-kp4` 0.046 mm dev, admissible, −17 % (diminishing); saturation share 0.038 %, energy +24 % over configured gains. Not going stiffer: more gain mostly buys twin-only accuracy.
-- [ ] Same joint-error identification for the inertia and velocity terms (pan, lift, w1 still lead +0.001 deg per rad/s²; pan +0.0025 deg per rad/s). Expect: a few %, the encoder floor is near (one count = 0.022 deg).
+- [x] ~~Same joint-error identification for the inertia terms~~ → the uniform qdd lead was the board's velocity-estimate lag, not inertia: `p5s-vlag` (ff −= kd·1.3 ms·qdd) 0.043 mm dev, admissible, −6 %.
+- [ ] Re-identify friction + gravity from joint errors at the current (kp ×4) gains, as an additive pass. Expect: the sign/qd terms left (+0.002..0.004 deg) gone, ~5 %.
 
 ## Suggestions for Zach
 
