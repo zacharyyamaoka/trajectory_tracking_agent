@@ -23,6 +23,7 @@ never delete it.
 - [x] ~~Fold the four identification passes into one model~~ → `p5s-onefit`: one model.json (exact merge, commands equal within 1.4e-14) and `identify_pass.py`, one command per further pass.
 - [x] ~~Pass 3 with identify_pass.py~~ → `p5s-pass3` 0.0313 mm dev (−0.7 %, better on 20/42; holdout 0.0307 vs 0.0302): converged. Further passes are noise; the joint error is a fifth of an encoder count.
 - [x] ~~Transfer check: the stiff line's identified model at the configured gains~~ → `p5s-pass3-g1` 0.156 mm, worse than the x1-fitted `p5s-fric2-pass2` (0.070) on 42/42 tasks. Joint-error identification learns the closed loop as well as the plant: refit at the gains you run.
+- [x] ~~Middle rung: the same pass at kp ×2~~ → `p5s-kp2-pass2` 0.045 mm. Frontier fitted at each gain: x1 0.070 · x2 0.045 · x4 0.031 mm.
 - [ ] Identify from a dedicated calibration run (a rich excitation trajectory, its own runs only) instead of the dev records, so the identified model never sees the tasks it is scored on. Needs a way to run a non-dataset trajectory through the boundary without `deployment.plant()` (see Suggestions for Zach).
 
 ## Suggestions for Zach
