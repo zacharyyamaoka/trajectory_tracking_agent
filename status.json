@@ -9,7 +9,7 @@
     "unit": "mm",
     "direction": "down",
     "target": null,
-    "level": "24 of 27 admissible",
+    "level": "25 of 28 admissible",
     "level_name": "ruler v1 \u00b7 ur5e_alone \u00b7 workspace/v2 dev",
     "next_gate": "an admissible solution below 0.032 mm",
     "on_track": true
@@ -24,7 +24,7 @@
   "blocked_on": null,
   "todo": {
     "open": 3,
-    "done_7d": 10,
+    "done_7d": 11,
     "top": [
       "Host Coulomb feed-forward on the best gen-0 layout. Expect: tool RMS down where the joints reverse (real_kp2's lever on BAM FB, never tried on the UR5e here).",
       "Per-joint lookahead calibrated on dev tasks only, not on robot_controllers' calibration sweep. Expect: lag down, RMS down a little.",
@@ -37,5 +37,5 @@
     "wandb": "Trajectory Tracking",
     "vault": null
   },
-  "updated_t": 1795538082.7961485
+  "updated_t": 1795538112.64816
 }
