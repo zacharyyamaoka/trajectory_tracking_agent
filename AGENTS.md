@@ -16,6 +16,8 @@ accurately, inside the gates, by proposing better controllers. Read `OBJECTIVES.
 
 - **Never edit the ruler**: `OBJECTIVES.md`, `src/trajectory_tracking_agent/ruler/`, `datasets/`. A ruler change is a
   new version, proposed in `docs/peps/` for Zach.
+- **Learn about the robot only through the boundary** (OBJECTIVES §1, "What a solution may know"): never the plant's
+  truth, never `deployment.plant()`, never a model with less than the given 10 % error. Identify what you need from your own dev runs.
 - **Never select on holdout.** Holdout is scored only to report a finished solution.
 - **Keep the losers.** A discarded solution's scorecard tells the next agent what not to try.
 - **One change per solution**, named in `meta.json`'s `change`, so the lineage reads as a story.

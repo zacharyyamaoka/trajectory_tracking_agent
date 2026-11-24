@@ -31,6 +31,15 @@ scorecard = trajectory_tracking_agent.evaluate("<solution id>", split="dev")
   one with position only; UR's direct torque is one with feed-forward only. The solution may use any of those fields.
 - **The deployment owns the rate and the bus**, never the solution: robot, scene, host rate, bus timing, the servo
   boards' model and caps.
+- **What a solution may know (clarified 2026-11-24, before any agent-written solution; no score changes):** it learns
+  about the robot only through the boundary, exactly as on a real arm: the deployment's public fields (joint names,
+  rates, bus, caps, limits, tool FK), the robot models robot_controllers *gives* the arm with the deployment's model
+  error (`base_scenario(arm).model_error`, 10 % on every link), and its own experiments run through the boundary
+  (commands in, joint states out: dev runs, or a calibration run such as robot_controllers' bus calibration). It never
+  reads the plant's parameters (`UR5E_TRUTH`, the plant's MjModel, its masses, friction or armature), never calls
+  `deployment.plant()`, and never uses a model with less error than it was given. WHY: a gain that comes from knowing
+  the simulator's truth can't transfer to a real arm ([simulator exploitation](https://en.wikipedia.org/wiki/Reward_hacking));
+  `tests/test_solutions_honest.py` checks every solution's source for it.
 - **A solution cannot retime, reshape or skip the trajectory** (layer 3 of the arm_motion_bench v2.0 layers: the
   trajectory and the robot are given; the levers are the torque and the controller).
 
