@@ -5,18 +5,18 @@
   "remit": "make robots track a given trajectory more accurately, inside the gates (ruler v1, OBJECTIVES.md)",
   "kpi": {
     "name": "tool_track_rms_mm (best admissible, dev)",
-    "value": 0.04339935280296428,
+    "value": 0.03152831645981026,
     "unit": "mm",
     "direction": "down",
     "target": null,
-    "level": "22 of 25 admissible",
+    "level": "23 of 26 admissible",
     "level_name": "ruler v1 \u00b7 ur5e_alone \u00b7 workspace/v2 dev",
-    "next_gate": "an admissible solution below 0.043 mm",
+    "next_gate": "an admissible solution below 0.032 mm",
     "on_track": true
   },
   "counter_kpi": {
     "name": "holdout - dev of the best (mm; reporting only, never selected on)",
-    "value": 0.0027252918412646668,
+    "value": -0.001489572017010981,
     "unit": "mm",
     "owner": "Trajectory Tracking Agent"
   },
@@ -24,11 +24,11 @@
   "blocked_on": null,
   "todo": {
     "open": 3,
-    "done_7d": 8,
+    "done_7d": 9,
     "top": [
       "Host Coulomb feed-forward on the best gen-0 layout. Expect: tool RMS down where the joints reverse (real_kp2's lever on BAM FB, never tried on the UR5e here).",
       "Per-joint lookahead calibrated on dev tasks only, not on robot_controllers' calibration sweep. Expect: lag down, RMS down a little.",
-      "Same joint-error identification for the inertia and velocity terms (pan, lift, w1 still lead +0.001 deg per rad/s\u00b2; pan +0.0025 deg per rad/s). Expect: a few %, the encoder floor is near (one count = 0.022 deg)."
+      "Re-identify friction + gravity from joint errors at the current (kp \u00d74) gains, as an additive pass. Expect: the sign/qd terms left (+0.002..0.004 deg) gone, ~5 %."
     ]
   },
   "links": {
@@ -37,5 +37,5 @@
     "wandb": "Trajectory Tracking",
     "vault": null
   },
-  "updated_t": 1795537956.209126
+  "updated_t": 1795538003.2327523
 }
