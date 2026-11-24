@@ -11,6 +11,9 @@
 - `specialists.svg`: the top admissible solutions (at most 12, every per-task winner included) x the dev tasks grouped
   by task kind; a cell = the solution's task error / the best admissible error on that task (1.0 = the winner, dotted).
 
+Solutions tagged `ablation` in meta.json are left out of all three views (an ablation study measures what a finished
+line's parts were worth; it is not search progress); the lineage title counts them (Zach, 2026-11-24).
+
 WHY only metrics out + provenance (Zach, 2026-11-24: "the blackbox viz is not related to the solution, only to the
 metrics out"): the views read ledger rows (objective, admissible, failed_gates, task_objectives, split, ruler, parent,
 change), meta.json's `created` for the creation order, the dataset's task kinds, and, for a row without
@@ -133,6 +136,19 @@ def dev_tasks(tasks_path: Path) -> list[tuple[str, str]]:
     return sorted(out, key=lambda pair: _natural(pair[0]))
 
 
+def ablation_ids(solutions_dir: Path) -> list[str]:
+    """Solutions whose meta.json carries the tag `ablation` (provenance only: never a solution.py)."""
+    out = []
+    folder = Path(solutions_dir)
+    for meta in sorted(folder.glob("*/meta.json")) if folder.exists() else []:
+        try:
+            if "ablation" in (json.loads(meta.read_text()).get("tags") or []):
+                out.append(meta.parent.name)
+        except (OSError, ValueError):
+            continue
+    return out
+
+
 def creation_order(solutions_dir: Path, scored: Sequence[str], rows: Sequence[Mapping[str, Any]]) -> list[str]:
     """Every solution oldest first, as the progress chart numbers them: meta.json `created`, then the id (naturally).
     A scored solution without a meta.json goes by its first ledger row's time."""
@@ -162,6 +178,7 @@ class Population:
     tasks: list[tuple[str, str]]  # dev (task_id, kind)
     task_objectives: dict[str, dict[str, float | None]] = field(default_factory=dict)  # backfilled where needed
     backfilled: list[str] = field(default_factory=list)
+    ablations: list[str] = field(default_factory=list)  # tagged `ablation`: left out of every view, counted
 
     def number(self, solution: str) -> int | None:
         return self.order.index(solution) + 1 if solution in self.order else None
@@ -206,9 +223,12 @@ def load(
     rows = read_rows(ledger_path)
     ruler = str(rows[-1].get("ruler", "v1")) if rows else "v1"  # the ruler the ledger is on now
     newest = newest_rows(rows)
-    dev = {solution: row for (solution, split, rule), row in newest.items() if split == "dev" and rule == ruler}
+    left_out = ablation_ids(solutions_dir)
+    dev = {solution: row for (solution, split, rule), row in newest.items()
+           if split == "dev" and rule == ruler and solution not in left_out}  # fmt: skip
     full_order = list(order) if order is not None else creation_order(solutions_dir, list(dev), rows)
-    population = Population(ruler=ruler, dev=dev, order=full_order, tasks=dev_tasks(tasks_path))
+    full_order = [s for s in full_order if s not in left_out]
+    population = Population(ruler=ruler, dev=dev, order=full_order, tasks=dev_tasks(tasks_path), ablations=left_out)
     for solution, row in dev.items():
         values = row.get("task_objectives")
         if isinstance(values, Mapping) and values:
@@ -497,7 +517,8 @@ def render_lineage(population: Population) -> str:
     admissible = sum(1 for s in population.dev if population.admissible(s))
     top = model["best"]
     title = (f"Lineage · {scored} solutions in {len(model['roots'])} trees · {admissible} admissible · best "
-             + (f"{top} {population.objective(top):.3f} mm" if top else "none yet") + " (dev, tool_track_rms_mm)")
+             + (f"{top} {population.objective(top):.3f} mm" if top else "none yet") + " (dev, tool_track_rms_mm)"
+             + (f" · {len(population.ablations)} ablation variants not shown" if population.ablations else ""))
     pad, gap_x, gap_y, header = 12.0, 14.0, 18.0, 74.0
     if not model["roots"]:
         parts = _svg_open(640, 120, title, font=HELVETICA)

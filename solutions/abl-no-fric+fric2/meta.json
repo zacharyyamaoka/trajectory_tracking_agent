@@ -1,0 +1,32 @@
+{
+  "id": "abl-no-fric+fric2",
+  "parent": "p5s-pass3",
+  "change": "− identified friction and − second friction pass together (ablation pair, frozen): are the two friction passes redundant?",
+  "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "session": "7cf66f6e"
+  },
+  "created": "2026-11-24T10:54:11-07:00",
+  "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:pair"
+  ],
+  "component": "fric+fric2",
+  "ablation": {
+    "study": "pass3-2026-11-24",
+    "kind": "pair",
+    "removal": "frozen",
+    "keeps": [
+      "bus",
+      "lead",
+      "chord",
+      "grav",
+      "stiff",
+      "vlag",
+      "reid"
+    ],
+    "base": "p5s-pass3"
+  }
+}

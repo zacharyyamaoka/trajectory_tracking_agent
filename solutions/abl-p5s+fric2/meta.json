@@ -1,0 +1,26 @@
+{
+  "id": "abl-p5s+fric2",
+  "parent": "p5s",
+  "change": "+ second friction pass alone on p5s (ablation, frozen: the weights p5s-pass3's lineage fitted, no refit)",
+  "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "session": "7cf66f6e"
+  },
+  "created": "2026-11-24T10:51:05-07:00",
+  "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:add-one-in"
+  ],
+  "component": "fric2",
+  "ablation": {
+    "study": "pass3-2026-11-24",
+    "kind": "add-one-in",
+    "removal": "frozen",
+    "keeps": [
+      "fric2"
+    ],
+    "base": "p5s"
+  }
+}

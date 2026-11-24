@@ -1,0 +1,33 @@
+{
+  "id": "abl-no-lead-refit",
+  "parent": "abl-no-lead",
+  "change": "identification pass on abl-no-lead's own dev runs (identify_pass.py): the refit removal of lead, where the frozen one is abl-no-lead",
+  "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "session": "7cf66f6e"
+  },
+  "created": "2026-11-24T10:54:33-07:00",
+  "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:leave-one-out"
+  ],
+  "component": "lead",
+  "ablation": {
+    "study": "pass3-2026-11-24",
+    "kind": "leave-one-out",
+    "removal": "refit",
+    "keeps": [
+      "bus",
+      "fric",
+      "chord",
+      "grav",
+      "fric2",
+      "stiff",
+      "vlag",
+      "reid"
+    ],
+    "base": "p5s-pass3"
+  }
+}

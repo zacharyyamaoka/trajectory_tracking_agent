@@ -1,0 +1,32 @@
+{
+  "id": "abl-no-bus+lead",
+  "parent": "p5s-pass3",
+  "change": "− lookahead = bus delay and − minus the board lead together (ablation pair, frozen): robot_controllers' calibrated lookahead as is",
+  "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "session": "7cf66f6e"
+  },
+  "created": "2026-11-24T10:54:16-07:00",
+  "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:pair"
+  ],
+  "component": "bus+lead",
+  "ablation": {
+    "study": "pass3-2026-11-24",
+    "kind": "pair",
+    "removal": "frozen",
+    "keeps": [
+      "fric",
+      "chord",
+      "grav",
+      "fric2",
+      "stiff",
+      "vlag",
+      "reid"
+    ],
+    "base": "p5s-pass3"
+  }
+}

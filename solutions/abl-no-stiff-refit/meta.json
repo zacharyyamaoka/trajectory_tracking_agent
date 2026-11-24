@@ -1,0 +1,33 @@
+{
+  "id": "abl-no-stiff-refit",
+  "parent": "p5s-pass3-g1",
+  "change": "identification pass on p5s-pass3-g1's own dev runs (identify_pass.py): the refit removal of stiff, where the frozen one is p5s-pass3-g1",
+  "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "session": "7cf66f6e"
+  },
+  "created": "2026-11-24T10:54:49-07:00",
+  "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:leave-one-out"
+  ],
+  "component": "stiff",
+  "ablation": {
+    "study": "pass3-2026-11-24",
+    "kind": "leave-one-out",
+    "removal": "refit",
+    "keeps": [
+      "bus",
+      "lead",
+      "fric",
+      "chord",
+      "grav",
+      "fric2",
+      "vlag",
+      "reid"
+    ],
+    "base": "p5s-pass3"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "id": "abl-path5+grav",
+  "parent": "abl-path4+fric",
+  "change": "+ gravity identification on abl-path4+fric (ablation path step 5: the surrogate's pick, predicted 0.058 mm; frozen weights)",
+  "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "session": "7cf66f6e"
+  },
+  "created": "2026-11-24T10:53:04-07:00",
+  "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:path"
+  ],
+  "component": "grav",
+  "ablation": {
+    "study": "pass3-2026-11-24",
+    "kind": "path",
+    "removal": "frozen",
+    "keeps": [
+      "bus",
+      "lead",
+      "fric",
+      "grav",
+      "stiff"
+    ],
+    "base": "p5s"
+  }
+}

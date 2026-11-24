@@ -1,0 +1,27 @@
+{
+  "id": "abl-path2+stiff",
+  "parent": "p5s-bus",
+  "change": "+ stiff gains (kp x4, kd x2) on p5s-bus (ablation path step 2: the surrogate's pick, predicted 0.288 mm; frozen weights)",
+  "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "session": "7cf66f6e"
+  },
+  "created": "2026-11-24T10:52:34-07:00",
+  "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:path"
+  ],
+  "component": "stiff",
+  "ablation": {
+    "study": "pass3-2026-11-24",
+    "kind": "path",
+    "removal": "frozen",
+    "keeps": [
+      "bus",
+      "stiff"
+    ],
+    "base": "p5s"
+  }
+}

@@ -8,6 +8,8 @@
   admissible but not a new best; a red hollow dot = not admissible (hover: how many gates fail, on how many tasks).
   A solution with no objective (it crashed) sits on the top edge as a red hollow dot.
 - the best solution's holdout score (reporting only) is a light diamond beside its dev dot, joined by a dashed line.
+- a solution tagged `ablation` in meta.json is left out (it measures what a finished line's parts were worth, it is not
+  a search step); the title counts them. WHY (Zach, 2026-11-24): ablation variants must not read as search progress.
 
 Hand-written SVG, no external fonts or scripts, explicit neutral greys so it reads on light and dark pages, < 60 KB.
 """
@@ -45,8 +47,19 @@ def _finite(value: Any) -> float | None:
     return number if math.isfinite(number) and number > 0.0 else None
 
 
+def is_ablation(meta: dict[str, Any]) -> bool:
+    """A solution made by an ablation study (meta.json tag `ablation`): never a search step."""
+    return "ablation" in (meta.get("tags") or [])
+
+
+def ablation_ids() -> list[str]:
+    from trajectory_tracking_agent import population
+
+    return [s for s in population.ids_in_creation_order() if is_ablation(population.meta(s))]
+
+
 def chart_points() -> tuple[list[dict[str, Any]], dict[str, Any] | None]:
-    """One point per scored solution in creation order, and the best one's holdout row (or None)."""
+    """One point per scored solution in creation order (ablation variants left out), and the best one's holdout row."""
     from trajectory_tracking_agent import ledger, population
 
     dev = ledger.latest("dev")
@@ -54,7 +67,10 @@ def chart_points() -> tuple[list[dict[str, Any]], dict[str, Any] | None]:
     points = []
     number = 0
     best_so_far = math.inf
+    skipped = set(ablation_ids())
     for solution in population.ids_in_creation_order():
+        if solution in skipped:
+            continue
         number += 1
         row = dev.get(solution)
         if row is None:
@@ -68,6 +84,9 @@ def chart_points() -> tuple[list[dict[str, Any]], dict[str, Any] | None]:
         points.append({"solution": solution, "x": number, "y": objective, "admissible": admissible, "new_best": new_best,
                        "best_so_far": best_so_far if math.isfinite(best_so_far) else None, "failed": failed})
     top = ledger.best()
+    if top and top["solution"] in skipped:  # an ablation variant is never the search's best on this chart
+        searched = [row for row in ledger.ranking() if row["solution"] not in skipped]
+        top = searched[0] if searched and searched[0].get("admissible") is True else None
     held = holdout.get(top["solution"]) if top else None
     pair = None
     if top and held and _finite(held.get("objective")) is not None:
@@ -101,17 +120,21 @@ def _label(value: float) -> str:
     return f"{value:g}" if value >= 0.01 else f"{value:.0e}"
 
 
-def render_svg(points: list[dict[str, Any]], pair: dict[str, Any] | None) -> str:
+def render_svg(points: list[dict[str, Any]], pair: dict[str, Any] | None, ablations: int = 0) -> str:
     plot_w, plot_h = WIDTH - LEFT - RIGHT, HEIGHT - TOP - BOTTOM
     values = [p["y"] for p in points if p["y"] is not None] + ([pair["holdout"]] if pair else [])
     admissible = [p for p in points if p["admissible"]]
     best = min((p["y"] for p in admissible), default=None)
     title = (f"Trajectory Tracking Agent · {len(points)} solutions · {len(admissible)} admissible · best "
              + (f"{best:.3f} mm" if best is not None else "none yet"))
+    left_out = f"+{ablations} ablation variant{'s' if ablations != 1 else ''} not shown" if ablations else ""
     parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}" '
              f'font-family="{FONT}" font-size="12" role="img" aria-label="{escape(title)}">',
-             f"<title>{escape(title)}</title>",
+             f"<title>{escape(title + (' · ' + left_out if left_out else ''))}</title>",
              f'<text x="{LEFT}" y="20" fill="{TEXT}" font-size="14" font-weight="600">{escape(title)}</text>']
+    if left_out:  # top right of the plot: a falling best-so-far line leaves that corner empty
+        parts.append(f'<text x="{WIDTH - RIGHT - 4}" y="{TOP + 14}" fill="{TEXT}" font-size="11" text-anchor="end">'
+                     f'{escape(left_out)} (meta.json tag "ablation")</text>')
     if not values:
         parts.append(f'<text x="{WIDTH / 2}" y="{HEIGHT / 2}" fill="{TEXT}" text-anchor="middle">No solutions scored yet: '
                      "tta evaluate &lt;id&gt;</text></svg>")
@@ -275,7 +298,7 @@ def render_png(points: list[dict[str, Any]], pair: dict[str, Any] | None, path: 
 def write_chart(svg_path: Path = SVG_PATH, png_path: Path | None = PNG_PATH) -> list[Path]:
     points, pair = chart_points()
     svg_path.parent.mkdir(parents=True, exist_ok=True)
-    svg_path.write_text(render_svg(points, pair))
+    svg_path.write_text(render_svg(points, pair, ablations=len(ablation_ids())))
     written = [svg_path]
     if png_path is not None:
         png = render_png(points, pair, png_path)

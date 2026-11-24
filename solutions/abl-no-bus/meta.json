@@ -1,0 +1,33 @@
+{
+  "id": "abl-no-bus",
+  "parent": "p5s-pass3",
+  "change": "− lookahead = bus delay: robot_controllers' calibrated lookahead instead (ablation, frozen: every other part and identified weight as p5s-pass3)",
+  "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "session": "7cf66f6e"
+  },
+  "created": "2026-11-24T10:50:02-07:00",
+  "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:leave-one-out"
+  ],
+  "component": "bus",
+  "ablation": {
+    "study": "pass3-2026-11-24",
+    "kind": "leave-one-out",
+    "removal": "frozen",
+    "keeps": [
+      "lead",
+      "fric",
+      "chord",
+      "grav",
+      "fric2",
+      "stiff",
+      "vlag",
+      "reid"
+    ],
+    "base": "p5s-pass3"
+  }
+}

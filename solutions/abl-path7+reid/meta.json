@@ -1,0 +1,32 @@
+{
+  "id": "abl-path7+reid",
+  "parent": "abl-path6+chord",
+  "change": "+ re-identification at stiff gains (passes 4+5) on abl-path6+chord (ablation path step 7: the surrogate's pick, predicted 0.044 mm; frozen weights)",
+  "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "session": "7cf66f6e"
+  },
+  "created": "2026-11-24T10:53:49-07:00",
+  "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:path"
+  ],
+  "component": "reid",
+  "ablation": {
+    "study": "pass3-2026-11-24",
+    "kind": "path",
+    "removal": "frozen",
+    "keeps": [
+      "bus",
+      "lead",
+      "fric",
+      "chord",
+      "grav",
+      "stiff",
+      "reid"
+    ],
+    "base": "p5s"
+  }
+}
