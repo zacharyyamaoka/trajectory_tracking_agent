@@ -9,7 +9,8 @@ accurately, inside the gates, by proposing better controllers. Read `OBJECTIVES.
 2. Pick one idea, or propose one. Write it as a new solution: `tta new <id> --parent <best or a niche winner> --change "…"`.
 3. `tta evaluate <id>` (dev only). It writes `solutions/<id>/scorecard.json`, appends `ledger.jsonl` and refreshes
    `PROGRESS.md` and `site/progress.svg`.
-4. Commit the solution folder, the ledger row and the progress files together (by pathspec), win or lose.
+4. Commit the solution folder, the ledger row and the progress files together (by pathspec), win or lose:
+   `git commit -- solutions/<id> ledger.jsonl PROGRESS.md status.json site/progress.svg site/views ideas.md`.
 5. Update `ideas.md`: cross off what you tried, add what the result suggests.
 
 ## Rules
