@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Trajectory Tracking Agent</title>
-<meta name="description" content="An agent that makes robots track a given trajectory more accurately. MuJoCo and the real Python pipeline run in your browser; click a score to see how it is computed.">
+<meta name="description" content="An agent that makes robots track a given trajectory more accurately. Saved runs play back, scored by the ruler when they ran; click a score to see how it is computed.">
 <link rel="stylesheet" href="assets/style.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 24 C 10 6, 20 26, 28 8' fill='none' stroke='%232c64d1' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='28' cy='8' r='3' fill='%232c64d1'/%3E%3C/svg%3E">
 </head>
@@ -27,14 +27,15 @@
   <section class="hero" id="run">
     <h1>Trajectory Tracking Agent</h1>
     <p class="verdict" id="verdict">Loading the population…</p>
-    <p class="sub">The trajectory and the robot are given; the agent searches over controllers. Everything below runs
-      in your browser: MuJoCo 3.11 (its official WebAssembly build) and CPython (Pyodide) executing the real Python
-      packages, the same code that scores the population.</p>
+    <p class="sub">The trajectory and the robot are given; the agent searches over controllers. Below, saved runs play
+      back: each was simulated (MuJoCo, robot_controllers' UR5e plant) and scored by the ruler when <code>tta evaluate</code>
+      ran it, and every number shown is the ruler's, from that run's record. Nothing is simulated or scored in your
+      browser. <span id="rule"></span></p>
 
     <div class="stage">
       <div class="viewer" id="viewer">
         <div class="overlay-note" id="overlay-note"></div>
-        <div class="boot" id="boot"><div class="spinner"></div><div id="boot-text">Starting Python and MuJoCo…</div></div>
+        <div class="boot" id="boot"><div class="spinner"></div><div id="boot-text">Loading the saved runs…</div></div>
         <div class="legend" id="legend">
           <span><i style="background: var(--accent)"></i>measured arm</span>
           <span><i style="background: var(--target)"></i>target (ghost)</span>
@@ -47,11 +48,8 @@
           <select id="solution"></select>
         </div>
         <div class="field">
-          <label for="task">Dev task</label>
+          <label for="task">Dev task <span id="task-count"></span></label>
           <select id="task"></select>
-        </div>
-        <div class="row">
-          <button class="primary" id="run-button" disabled>Run in browser</button>
         </div>
         <div class="transport">
           <button id="play" aria-label="Play or pause" disabled>▶</button>
@@ -66,18 +64,19 @@
 
   <section class="block" id="scored">
     <h2>How it's scored</h2>
-    <p class="lede">The run above, scored by the ruler's own code (<code>evaluate.run_task</code>) in your browser.
-      Click a score to see how it was computed: the 3D view and the plot switch to what that number reads.</p>
+    <p class="lede" id="scored-lede">The run above, scored by the ruler when <code>tta evaluate</code> ran it. Click a
+      score to see how it was computed: the 3D view and the plot switch to what that number reads.</p>
     <div class="cards" id="cards"></div>
     <div class="explain" id="explain">
-      <div class="how"><h3 id="explain-title">Run a solution to see its scores</h3><div id="explain-how"></div></div>
+      <div class="how"><h3 id="explain-title">Loading the saved run…</h3><div id="explain-how"></div></div>
       <div class="plot" id="explain-plot"></div>
     </div>
   </section>
 
   <section class="block" id="joints">
     <h2>Joints</h2>
-    <p class="lede">The six joints of the same run, target against measured. Click a plot to move the arm there.</p>
+    <p class="lede">The six joints of the same run, target against measured, at the record's 100 Hz samples. Click a plot
+      to move the arm there.</p>
     <div class="tabs" role="tablist" id="joint-tabs">
       <button role="tab" aria-selected="true" data-view="position">Position</button>
       <button role="tab" aria-selected="false" data-view="error">Tracking error</button>
@@ -105,7 +104,7 @@
   <section class="block" id="population">
     <h2>Population</h2>
     <p class="lede">Every solution the agent tried, ranked by the ruler: admissible ones (every gate on every dev task)
-      by tracking error, then the rest by gate pass rate. Click a row to run it above.</p>
+      by tracking error, then the rest by gate pass rate. Click a row to play it above. <span id="population-note"></span></p>
     <div id="leaderboard"></div>
     <div class="progress-img" id="progress" hidden><img src="progress.svg" alt="Tool tracking error of every solution tried, with the best so far as a step line"></div>
   </section>
@@ -119,7 +118,6 @@
         <li><a href="https://github.com/zacharyyamaoka/trajectory_tracking_agent">Repository</a></li>
         <li><a href="https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/main/OBJECTIVES.md">Objectives &amp; gates (ruler v1)</a></li>
         <li><a href="https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/main/REFERENCES.md">References and prior art</a></li>
-        <li><a href="runtime/parity.html">Runtime parity check</a></li>
       </ul>
     </div>
     <div>
@@ -127,15 +125,18 @@
       <ul>
         <li><a href="https://github.com/zacharyyamaoka/robot_msgs">robot_msgs</a>: the vocabulary</li>
         <li><a href="https://github.com/zacharyyamaoka/robot_controllers">robot_controllers</a>: plants, boards, controllers</li>
-        <li><a href="https://github.com/google-deepmind/mujoco">MuJoCo</a> (WebAssembly build) and <a href="https://pyodide.org">Pyodide</a></li>
+        <li><a href="https://github.com/google-deepmind/mujoco">MuJoCo</a>: the simulator the runs were made in</li>
+        <li><a href="https://threejs.org">three.js</a>: the 3D view</li>
         <li><a href="https://github.com/google-deepmind/mujoco_menagerie">MuJoCo Menagerie</a> UR5e (BSD-3, ROS-Industrial)</li>
       </ul>
     </div>
     <div>
       <h4>How this page runs</h4>
-      <p style="margin:0">A static page. A Web Worker loads CPython and MuJoCo, installs the packages from wheels built
-        from each repo's committed source, and runs them. The only code written for the browser is a thin
-        <a href="runtime/mujoco_shim.py"><code>mujoco</code> shim</a> over MuJoCo's own WebAssembly API.</p>
+      <p style="margin:0">A static page that plays back saved runs. <code>tta evaluate</code> saves a record of every run
+        it scores; <a href="https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/main/tools/build_site.py"><code>tools/build_site.py</code></a>
+        exports the shipped ones (<a href="https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/main/site/README.md">which, and why</a>)
+        with the arm's poses computed natively by the deployment's own forward kinematics. The page draws them and
+        computes no score.</p>
     </div>
   </div>
 </footer>

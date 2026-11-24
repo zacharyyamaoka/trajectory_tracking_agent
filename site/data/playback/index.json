@@ -1,0 +1,2979 @@
+{
+ "schema": "tta.playback_index/1",
+ "rule": {
+  "text": "Every scored solution not tagged `ablation` (from ledger.jsonl, its latest dev row) on the first dev task of each task kind; the best admissible solution and the best admissible generation-0 solution on all 42 dev tasks.",
+  "representative_tasks": [
+   "workspace-dev-000",
+   "workspace-dev-001",
+   "workspace-dev-002",
+   "workspace-dev-003",
+   "workspace-dev-016"
+  ],
+  "full": {
+   "best": "p5s-pass3",
+   "gen0_best": "p6s"
+  },
+  "excluded": {
+   "ablation": [
+    "abl-no-bus",
+    "abl-no-bus+lead",
+    "abl-no-bus-refit",
+    "abl-no-chord",
+    "abl-no-fric",
+    "abl-no-fric+fric2",
+    "abl-no-fric-refit",
+    "abl-no-fric2",
+    "abl-no-grav",
+    "abl-no-lead",
+    "abl-no-lead-refit",
+    "abl-no-stiff-refit",
+    "abl-no-vlag",
+    "abl-p5s+chord",
+    "abl-p5s+fric",
+    "abl-p5s+fric2",
+    "abl-p5s+grav",
+    "abl-p5s+lead",
+    "abl-p5s+reid",
+    "abl-p5s+stiff",
+    "abl-p5s+vlag",
+    "abl-path2+stiff",
+    "abl-path3+lead",
+    "abl-path4+fric",
+    "abl-path4+grav",
+    "abl-path5+fric2",
+    "abl-path5+grav",
+    "abl-path5+reid",
+    "abl-path6+chord",
+    "abl-path7+reid"
+   ]
+  },
+  "count": 244
+ },
+ "codec": {
+  "magic": "TTAPLAY1",
+  "steps": {
+   "t": 1e-06,
+   "q": 1e-07,
+   "qd": 1e-05,
+   "tau": 0.0001,
+   "tool": 1e-07,
+   "error_mm": 1e-05,
+   "geom_pos": 1e-05,
+   "geom_quat": 1e-05,
+   "lowest": 1e-05,
+   "flag": 1
+  },
+  "doc": "gzip(magic + uint32 LE header length + header JSON + arrays). Each array: integers, each column contiguous, first difference along time, narrowest signed int, bytes in planes (low first); value = (cumsum + the task file's integers of `base`) x step. `missing`: rows with no measurement."
+ },
+ "deployment": {
+  "joint_names": [
+   "shoulder_pan_joint",
+   "shoulder_lift_joint",
+   "elbow_joint",
+   "wrist_1_joint",
+   "wrist_2_joint",
+   "wrist_3_joint"
+  ],
+  "tau_cap": [
+   150.0,
+   150.0,
+   150.0,
+   28.0,
+   28.0,
+   28.0
+  ],
+  "q_min": [
+   -6.283185307179586,
+   -6.283185307179586,
+   -3.1415,
+   -6.283185307179586,
+   -6.283185307179586,
+   -6.283185307179586
+  ],
+  "q_max": [
+   6.283185307179586,
+   6.283185307179586,
+   3.1415,
+   6.283185307179586,
+   6.283185307179586,
+   6.283185307179586
+  ],
+  "qd_max": [
+   3.141592653589793,
+   3.141592653589793,
+   3.141592653589793,
+   3.141592653589793,
+   3.141592653589793,
+   3.141592653589793
+  ],
+  "floor_z": 0.0,
+  "saturation_fraction": 0.98,
+  "velocity_allowance": 1.05,
+  "hold_window_s": 0.1,
+  "plant_rate_hz": 4000.0,
+  "host_rate_hz": 50.0,
+  "record_rate_hz": 100.0,
+  "thresholds": {
+   "completed": [
+    "is",
+    1.0
+   ],
+   "stop_error_max_mm": [
+    "<=",
+    1.0
+   ],
+   "saturation_share_pct": [
+    "<=",
+    2.0
+   ],
+   "limit_violations": [
+    "<=",
+    0
+   ],
+   "floor_clearance": [
+    "<=",
+    0
+   ]
+  }
+ },
+ "geoms": {
+  "type": [
+   3,
+   3,
+   3,
+   3,
+   3,
+   3,
+   3
+  ],
+  "size": [
+   [
+    0.05,
+    0.0815,
+    0.0
+   ],
+   [
+    0.05,
+    0.069,
+    0.0
+   ],
+   [
+    0.05,
+    0.22236568979948323,
+    0.0
+   ],
+   [
+    0.04,
+    0.196,
+    0.0
+   ],
+   [
+    0.04,
+    0.0635,
+    0.0
+   ],
+   [
+    0.04,
+    0.05,
+    0.0
+   ],
+   [
+    0.04,
+    0.05,
+    0.0
+   ]
+  ],
+  "body": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "count": 7,
+  "bodies": 8
+ },
+ "point_names": [
+  "base",
+  "shoulder_link",
+  "upper_arm_link",
+  "forearm_link",
+  "wrist_1_link",
+  "wrist_2_link",
+  "wrist_3_link",
+  "tool"
+ ],
+ "tasks": [
+  {
+   "id": "workspace-dev-000",
+   "kind": "iso9283_path",
+   "duration_s": 4.07,
+   "samples": 408,
+   "file": "tasks/workspace-dev-000.bin.gz",
+   "bytes": 15883
+  },
+  {
+   "id": "workspace-dev-001",
+   "kind": "iso9283_cube",
+   "duration_s": 4.94,
+   "samples": 495,
+   "file": "tasks/workspace-dev-001.bin.gz",
+   "bytes": 10340
+  },
+  {
+   "id": "workspace-dev-002",
+   "kind": "a_to_b_line",
+   "duration_s": 2.6,
+   "samples": 261,
+   "file": "tasks/workspace-dev-002.bin.gz",
+   "bytes": 11982
+  },
+  {
+   "id": "workspace-dev-003",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.76,
+   "samples": 177,
+   "file": "tasks/workspace-dev-003.bin.gz",
+   "bytes": 8063
+  },
+  {
+   "id": "workspace-dev-004",
+   "kind": "a_to_b_line",
+   "duration_s": 1.85,
+   "samples": 186,
+   "file": "tasks/workspace-dev-004.bin.gz",
+   "bytes": 8587
+  },
+  {
+   "id": "workspace-dev-005",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.76,
+   "samples": 177,
+   "file": "tasks/workspace-dev-005.bin.gz",
+   "bytes": 8351
+  },
+  {
+   "id": "workspace-dev-006",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.79,
+   "samples": 180,
+   "file": "tasks/workspace-dev-006.bin.gz",
+   "bytes": 8320
+  },
+  {
+   "id": "workspace-dev-007",
+   "kind": "a_to_b_joint",
+   "duration_s": 2.06,
+   "samples": 207,
+   "file": "tasks/workspace-dev-007.bin.gz",
+   "bytes": 9908
+  },
+  {
+   "id": "workspace-dev-008",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.97,
+   "samples": 198,
+   "file": "tasks/workspace-dev-008.bin.gz",
+   "bytes": 9681
+  },
+  {
+   "id": "workspace-dev-009",
+   "kind": "a_to_b_line",
+   "duration_s": 2.21,
+   "samples": 222,
+   "file": "tasks/workspace-dev-009.bin.gz",
+   "bytes": 10203
+  },
+  {
+   "id": "workspace-dev-010",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.67,
+   "samples": 168,
+   "file": "tasks/workspace-dev-010.bin.gz",
+   "bytes": 7829
+  },
+  {
+   "id": "workspace-dev-011",
+   "kind": "a_to_b_joint",
+   "duration_s": 2.27,
+   "samples": 228,
+   "file": "tasks/workspace-dev-011.bin.gz",
+   "bytes": 10921
+  },
+  {
+   "id": "workspace-dev-012",
+   "kind": "a_to_b_line",
+   "duration_s": 1.97,
+   "samples": 198,
+   "file": "tasks/workspace-dev-012.bin.gz",
+   "bytes": 9326
+  },
+  {
+   "id": "workspace-dev-013",
+   "kind": "a_to_b_joint",
+   "duration_s": 2.0,
+   "samples": 201,
+   "file": "tasks/workspace-dev-013.bin.gz",
+   "bytes": 8933
+  },
+  {
+   "id": "workspace-dev-014",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.55,
+   "samples": 156,
+   "file": "tasks/workspace-dev-014.bin.gz",
+   "bytes": 6505
+  },
+  {
+   "id": "workspace-dev-015",
+   "kind": "a_to_b_joint",
+   "duration_s": 2.93,
+   "samples": 294,
+   "file": "tasks/workspace-dev-015.bin.gz",
+   "bytes": 13559
+  },
+  {
+   "id": "workspace-dev-016",
+   "kind": "via_points",
+   "duration_s": 2.39,
+   "samples": 240,
+   "file": "tasks/workspace-dev-016.bin.gz",
+   "bytes": 11550
+  },
+  {
+   "id": "workspace-dev-017",
+   "kind": "via_points",
+   "duration_s": 2.75,
+   "samples": 276,
+   "file": "tasks/workspace-dev-017.bin.gz",
+   "bytes": 12774
+  },
+  {
+   "id": "workspace-dev-018",
+   "kind": "a_to_b_line",
+   "duration_s": 2.96,
+   "samples": 297,
+   "file": "tasks/workspace-dev-018.bin.gz",
+   "bytes": 13909
+  },
+  {
+   "id": "workspace-dev-019",
+   "kind": "via_points",
+   "duration_s": 3.56,
+   "samples": 357,
+   "file": "tasks/workspace-dev-019.bin.gz",
+   "bytes": 18442
+  },
+  {
+   "id": "workspace-dev-020",
+   "kind": "a_to_b_line",
+   "duration_s": 2.39,
+   "samples": 240,
+   "file": "tasks/workspace-dev-020.bin.gz",
+   "bytes": 11238
+  },
+  {
+   "id": "workspace-dev-021",
+   "kind": "a_to_b_line",
+   "duration_s": 2.45,
+   "samples": 246,
+   "file": "tasks/workspace-dev-021.bin.gz",
+   "bytes": 11104
+  },
+  {
+   "id": "workspace-dev-022",
+   "kind": "a_to_b_joint",
+   "duration_s": 4.22,
+   "samples": 423,
+   "file": "tasks/workspace-dev-022.bin.gz",
+   "bytes": 16597
+  },
+  {
+   "id": "workspace-dev-023",
+   "kind": "via_points",
+   "duration_s": 2.3,
+   "samples": 231,
+   "file": "tasks/workspace-dev-023.bin.gz",
+   "bytes": 11707
+  },
+  {
+   "id": "workspace-dev-024",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.76,
+   "samples": 177,
+   "file": "tasks/workspace-dev-024.bin.gz",
+   "bytes": 8379
+  },
+  {
+   "id": "workspace-dev-025",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.94,
+   "samples": 195,
+   "file": "tasks/workspace-dev-025.bin.gz",
+   "bytes": 8588
+  },
+  {
+   "id": "workspace-dev-026",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.61,
+   "samples": 162,
+   "file": "tasks/workspace-dev-026.bin.gz",
+   "bytes": 7215
+  },
+  {
+   "id": "workspace-dev-027",
+   "kind": "a_to_b_joint",
+   "duration_s": 2.06,
+   "samples": 207,
+   "file": "tasks/workspace-dev-027.bin.gz",
+   "bytes": 9319
+  },
+  {
+   "id": "workspace-dev-028",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.76,
+   "samples": 177,
+   "file": "tasks/workspace-dev-028.bin.gz",
+   "bytes": 7994
+  },
+  {
+   "id": "workspace-dev-029",
+   "kind": "via_points",
+   "duration_s": 3.2,
+   "samples": 321,
+   "file": "tasks/workspace-dev-029.bin.gz",
+   "bytes": 16770
+  },
+  {
+   "id": "workspace-dev-030",
+   "kind": "a_to_b_line",
+   "duration_s": 2.39,
+   "samples": 240,
+   "file": "tasks/workspace-dev-030.bin.gz",
+   "bytes": 11546
+  },
+  {
+   "id": "workspace-dev-031",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.79,
+   "samples": 180,
+   "file": "tasks/workspace-dev-031.bin.gz",
+   "bytes": 8533
+  },
+  {
+   "id": "workspace-dev-032",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.55,
+   "samples": 156,
+   "file": "tasks/workspace-dev-032.bin.gz",
+   "bytes": 7099
+  },
+  {
+   "id": "workspace-dev-033",
+   "kind": "a_to_b_joint",
+   "duration_s": 2.93,
+   "samples": 294,
+   "file": "tasks/workspace-dev-033.bin.gz",
+   "bytes": 14125
+  },
+  {
+   "id": "workspace-dev-034",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.58,
+   "samples": 159,
+   "file": "tasks/workspace-dev-034.bin.gz",
+   "bytes": 7854
+  },
+  {
+   "id": "workspace-dev-035",
+   "kind": "via_points",
+   "duration_s": 2.42,
+   "samples": 243,
+   "file": "tasks/workspace-dev-035.bin.gz",
+   "bytes": 11092
+  },
+  {
+   "id": "workspace-dev-036",
+   "kind": "a_to_b_joint",
+   "duration_s": 2.09,
+   "samples": 210,
+   "file": "tasks/workspace-dev-036.bin.gz",
+   "bytes": 10209
+  },
+  {
+   "id": "workspace-dev-037",
+   "kind": "a_to_b_joint",
+   "duration_s": 2.06,
+   "samples": 207,
+   "file": "tasks/workspace-dev-037.bin.gz",
+   "bytes": 9599
+  },
+  {
+   "id": "workspace-dev-038",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.79,
+   "samples": 180,
+   "file": "tasks/workspace-dev-038.bin.gz",
+   "bytes": 8264
+  },
+  {
+   "id": "workspace-dev-039",
+   "kind": "via_points",
+   "duration_s": 2.6,
+   "samples": 261,
+   "file": "tasks/workspace-dev-039.bin.gz",
+   "bytes": 11545
+  },
+  {
+   "id": "workspace-dev-040",
+   "kind": "via_points",
+   "duration_s": 3.29,
+   "samples": 330,
+   "file": "tasks/workspace-dev-040.bin.gz",
+   "bytes": 17399
+  },
+  {
+   "id": "workspace-dev-041",
+   "kind": "a_to_b_joint",
+   "duration_s": 2.12,
+   "samples": 213,
+   "file": "tasks/workspace-dev-041.bin.gz",
+   "bytes": 10952
+  }
+ ],
+ "solutions": [
+  {
+   "id": "p5s-pass3",
+   "parent": "p5s-onefit",
+   "change": "identification pass 3 (identify_pass.py on p5s-onefit's dev runs), added into model.json",
+   "tags": [],
+   "objective": 0.031333594888818476,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:43:25-07:00",
+    "solution_sha256": "109624f5afac8fea5903576c5d62ab51307fd9802c8e50bbcc1923837de672d9",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s-pass3/workspace-dev-000.bin.gz",
+     "bytes": 23182,
+     "objective": 0.050734970764066065,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s-pass3/workspace-dev-001.bin.gz",
+     "bytes": 25269,
+     "objective": 0.048684558853953515,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s-pass3/workspace-dev-002.bin.gz",
+     "bytes": 15866,
+     "objective": 0.030477085296143423,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s-pass3/workspace-dev-003.bin.gz",
+     "bytes": 11353,
+     "objective": 0.016879716030849527,
+     "pass": true
+    },
+    "workspace-dev-004": {
+     "file": "runs/p5s-pass3/workspace-dev-004.bin.gz",
+     "bytes": 12082,
+     "objective": 0.026627493855613173,
+     "pass": true
+    },
+    "workspace-dev-005": {
+     "file": "runs/p5s-pass3/workspace-dev-005.bin.gz",
+     "bytes": 11155,
+     "objective": 0.02373390478563672,
+     "pass": true
+    },
+    "workspace-dev-006": {
+     "file": "runs/p5s-pass3/workspace-dev-006.bin.gz",
+     "bytes": 11306,
+     "objective": 0.02806910763465088,
+     "pass": true
+    },
+    "workspace-dev-007": {
+     "file": "runs/p5s-pass3/workspace-dev-007.bin.gz",
+     "bytes": 13103,
+     "objective": 0.03517481391853393,
+     "pass": true
+    },
+    "workspace-dev-008": {
+     "file": "runs/p5s-pass3/workspace-dev-008.bin.gz",
+     "bytes": 12920,
+     "objective": 0.05387646676182719,
+     "pass": true
+    },
+    "workspace-dev-009": {
+     "file": "runs/p5s-pass3/workspace-dev-009.bin.gz",
+     "bytes": 13747,
+     "objective": 0.05482179888013762,
+     "pass": true
+    },
+    "workspace-dev-010": {
+     "file": "runs/p5s-pass3/workspace-dev-010.bin.gz",
+     "bytes": 10838,
+     "objective": 0.04423499085483748,
+     "pass": true
+    },
+    "workspace-dev-011": {
+     "file": "runs/p5s-pass3/workspace-dev-011.bin.gz",
+     "bytes": 13810,
+     "objective": 0.038152539556561206,
+     "pass": true
+    },
+    "workspace-dev-012": {
+     "file": "runs/p5s-pass3/workspace-dev-012.bin.gz",
+     "bytes": 12263,
+     "objective": 0.02785871501079661,
+     "pass": true
+    },
+    "workspace-dev-013": {
+     "file": "runs/p5s-pass3/workspace-dev-013.bin.gz",
+     "bytes": 12497,
+     "objective": 0.026723540499971964,
+     "pass": true
+    },
+    "workspace-dev-014": {
+     "file": "runs/p5s-pass3/workspace-dev-014.bin.gz",
+     "bytes": 9786,
+     "objective": 0.021694261970665884,
+     "pass": true
+    },
+    "workspace-dev-015": {
+     "file": "runs/p5s-pass3/workspace-dev-015.bin.gz",
+     "bytes": 17786,
+     "objective": 0.0245364765750572,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s-pass3/workspace-dev-016.bin.gz",
+     "bytes": 14656,
+     "objective": 0.024755348998418455,
+     "pass": true
+    },
+    "workspace-dev-017": {
+     "file": "runs/p5s-pass3/workspace-dev-017.bin.gz",
+     "bytes": 16630,
+     "objective": 0.02903245412651295,
+     "pass": true
+    },
+    "workspace-dev-018": {
+     "file": "runs/p5s-pass3/workspace-dev-018.bin.gz",
+     "bytes": 17852,
+     "objective": 0.04056758661145817,
+     "pass": true
+    },
+    "workspace-dev-019": {
+     "file": "runs/p5s-pass3/workspace-dev-019.bin.gz",
+     "bytes": 22214,
+     "objective": 0.04679914146086635,
+     "pass": true
+    },
+    "workspace-dev-020": {
+     "file": "runs/p5s-pass3/workspace-dev-020.bin.gz",
+     "bytes": 15183,
+     "objective": 0.029312488390710618,
+     "pass": true
+    },
+    "workspace-dev-021": {
+     "file": "runs/p5s-pass3/workspace-dev-021.bin.gz",
+     "bytes": 15391,
+     "objective": 0.027993897987303763,
+     "pass": true
+    },
+    "workspace-dev-022": {
+     "file": "runs/p5s-pass3/workspace-dev-022.bin.gz",
+     "bytes": 22249,
+     "objective": 0.01380971873528203,
+     "pass": true
+    },
+    "workspace-dev-023": {
+     "file": "runs/p5s-pass3/workspace-dev-023.bin.gz",
+     "bytes": 15115,
+     "objective": 0.03504680458484487,
+     "pass": true
+    },
+    "workspace-dev-024": {
+     "file": "runs/p5s-pass3/workspace-dev-024.bin.gz",
+     "bytes": 11313,
+     "objective": 0.031028399028333705,
+     "pass": true
+    },
+    "workspace-dev-025": {
+     "file": "runs/p5s-pass3/workspace-dev-025.bin.gz",
+     "bytes": 12592,
+     "objective": 0.06005040571419467,
+     "pass": true
+    },
+    "workspace-dev-026": {
+     "file": "runs/p5s-pass3/workspace-dev-026.bin.gz",
+     "bytes": 10350,
+     "objective": 0.03998980952018681,
+     "pass": true
+    },
+    "workspace-dev-027": {
+     "file": "runs/p5s-pass3/workspace-dev-027.bin.gz",
+     "bytes": 12927,
+     "objective": 0.0332740745804019,
+     "pass": true
+    },
+    "workspace-dev-028": {
+     "file": "runs/p5s-pass3/workspace-dev-028.bin.gz",
+     "bytes": 11565,
+     "objective": 0.01759695651323993,
+     "pass": true
+    },
+    "workspace-dev-029": {
+     "file": "runs/p5s-pass3/workspace-dev-029.bin.gz",
+     "bytes": 20737,
+     "objective": 0.03940194535508596,
+     "pass": true
+    },
+    "workspace-dev-030": {
+     "file": "runs/p5s-pass3/workspace-dev-030.bin.gz",
+     "bytes": 14922,
+     "objective": 0.02619956351335847,
+     "pass": true
+    },
+    "workspace-dev-031": {
+     "file": "runs/p5s-pass3/workspace-dev-031.bin.gz",
+     "bytes": 11598,
+     "objective": 0.031638790749303244,
+     "pass": true
+    },
+    "workspace-dev-032": {
+     "file": "runs/p5s-pass3/workspace-dev-032.bin.gz",
+     "bytes": 9392,
+     "objective": 0.015075851295314682,
+     "pass": true
+    },
+    "workspace-dev-033": {
+     "file": "runs/p5s-pass3/workspace-dev-033.bin.gz",
+     "bytes": 17695,
+     "objective": 0.030355693409506317,
+     "pass": true
+    },
+    "workspace-dev-034": {
+     "file": "runs/p5s-pass3/workspace-dev-034.bin.gz",
+     "bytes": 10767,
+     "objective": 0.037389471260878264,
+     "pass": true
+    },
+    "workspace-dev-035": {
+     "file": "runs/p5s-pass3/workspace-dev-035.bin.gz",
+     "bytes": 14978,
+     "objective": 0.029067417585065137,
+     "pass": true
+    },
+    "workspace-dev-036": {
+     "file": "runs/p5s-pass3/workspace-dev-036.bin.gz",
+     "bytes": 12988,
+     "objective": 0.03174871821213985,
+     "pass": true
+    },
+    "workspace-dev-037": {
+     "file": "runs/p5s-pass3/workspace-dev-037.bin.gz",
+     "bytes": 12292,
+     "objective": 0.033708147636072376,
+     "pass": true
+    },
+    "workspace-dev-038": {
+     "file": "runs/p5s-pass3/workspace-dev-038.bin.gz",
+     "bytes": 10989,
+     "objective": 0.033229528439710436,
+     "pass": true
+    },
+    "workspace-dev-039": {
+     "file": "runs/p5s-pass3/workspace-dev-039.bin.gz",
+     "bytes": 15268,
+     "objective": 0.035256965377578706,
+     "pass": true
+    },
+    "workspace-dev-040": {
+     "file": "runs/p5s-pass3/workspace-dev-040.bin.gz",
+     "bytes": 21117,
+     "objective": 0.028531077563075474,
+     "pass": true
+    },
+    "workspace-dev-041": {
+     "file": "runs/p5s-pass3/workspace-dev-041.bin.gz",
+     "bytes": 12420,
+     "objective": 0.051023235163738134,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5s-onefit",
+   "parent": "p5s-pass2",
+   "change": "same controller with the four stacked fits merged into one model.json (one friction basis, one gravity basis; exact sum, no new data) and one additive-pass tool identify_pass.py",
+   "tags": [],
+   "objective": 0.03152831645980532,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:43:16-07:00",
+    "solution_sha256": "a497c37b38c420de1449c29af85d94697c122c0d1d1bf8a676d71abdc5a3f313",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s-onefit/workspace-dev-000.bin.gz",
+     "bytes": 23280,
+     "objective": 0.049779589536700544,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s-onefit/workspace-dev-001.bin.gz",
+     "bytes": 25501,
+     "objective": 0.04622490783354915,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s-onefit/workspace-dev-002.bin.gz",
+     "bytes": 15775,
+     "objective": 0.02981804625218479,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s-onefit/workspace-dev-003.bin.gz",
+     "bytes": 11383,
+     "objective": 0.01824154048787485,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s-onefit/workspace-dev-016.bin.gz",
+     "bytes": 14781,
+     "objective": 0.025152596070945818,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5s-pass2",
+   "parent": "p5s-vlag",
+   "change": "second joint-error identification pass at the current gains (kp x4, kd x2): gravity shapes + friction basis fitted jointly on p5s-vlag's dev runs, subtracted as one more additive term",
+   "tags": [],
+   "objective": 0.03152831645981026,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:43:20-07:00",
+    "solution_sha256": "c0470b8b2b7168389ea5287f67db283687d53b80af16b2b4d3c5b8447528b2a8",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s-pass2/workspace-dev-000.bin.gz",
+     "bytes": 23277,
+     "objective": 0.04977958953679508,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s-pass2/workspace-dev-001.bin.gz",
+     "bytes": 25502,
+     "objective": 0.046224907833597347,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s-pass2/workspace-dev-002.bin.gz",
+     "bytes": 15776,
+     "objective": 0.029818046252188007,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s-pass2/workspace-dev-003.bin.gz",
+     "bytes": 11382,
+     "objective": 0.01824154048785334,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s-pass2/workspace-dev-016.bin.gz",
+     "bytes": 14776,
+     "objective": 0.02515259607097407,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5s-kd15",
+   "parent": "p5s-pass2",
+   "change": "kd x1.5 instead of x2 at kp x4 (zeta 0.50 -> 0.37): less kd times the 2^14-count velocity estimate",
+   "tags": [],
+   "objective": 0.03453451724892771,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:42:55-07:00",
+    "solution_sha256": "c59648e04cd581db520d3337a8745169b9056ea338abc18ef4fcb2e6c2790fb0",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s-kd15/workspace-dev-000.bin.gz",
+     "bytes": 22728,
+     "objective": 0.05006632248889445,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s-kd15/workspace-dev-001.bin.gz",
+     "bytes": 25060,
+     "objective": 0.042190333745220666,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s-kd15/workspace-dev-002.bin.gz",
+     "bytes": 15716,
+     "objective": 0.032328436906517904,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s-kd15/workspace-dev-003.bin.gz",
+     "bytes": 11159,
+     "objective": 0.01779508892830437,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s-kd15/workspace-dev-016.bin.gz",
+     "bytes": 14565,
+     "objective": 0.02750217153627611,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5s-kd25",
+   "parent": "p5s-pass2",
+   "change": "kd x2.5 instead of x2 at kp x4 (zeta 0.50 -> 0.62): p5s-kd15 showed damping is worth more than the kd buzz it brings",
+   "tags": [],
+   "objective": 0.03480856256233693,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:42:59-07:00",
+    "solution_sha256": "8722ba6e0e931c92cfeb69743c1701bcfd4060a79e0cee5ad3ad275dc7d6f986",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s-kd25/workspace-dev-000.bin.gz",
+     "bytes": 23669,
+     "objective": 0.05896779681663529,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s-kd25/workspace-dev-001.bin.gz",
+     "bytes": 26011,
+     "objective": 0.05286855343006958,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s-kd25/workspace-dev-002.bin.gz",
+     "bytes": 16135,
+     "objective": 0.03225534220661761,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s-kd25/workspace-dev-003.bin.gz",
+     "bytes": 11581,
+     "objective": 0.02220646095441208,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s-kd25/workspace-dev-016.bin.gz",
+     "bytes": 15077,
+     "objective": 0.029420073320484227,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5s-vlag",
+   "parent": "p5s-kp4",
+   "change": "ff minus kd\u00b7tau_v\u00b7qdd per joint: the board's velocity estimate lags by encoder delay + 1/(2\u03c0\u00b7filter Hz) (1.3 ms), so its kd term pushes ahead while accelerating",
+   "tags": [],
+   "objective": 0.04339935280296428,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:43:37-07:00",
+    "solution_sha256": "60e34bf07c6f1f5d5ab4083b9057d2a61e833c024b05879da01ec155aa4b4f2f",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s-vlag/workspace-dev-000.bin.gz",
+     "bytes": 23192,
+     "objective": 0.06998129839345331,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s-vlag/workspace-dev-001.bin.gz",
+     "bytes": 25350,
+     "objective": 0.06980420831189917,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s-vlag/workspace-dev-002.bin.gz",
+     "bytes": 15885,
+     "objective": 0.04794016332567873,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s-vlag/workspace-dev-003.bin.gz",
+     "bytes": 11212,
+     "objective": 0.02660982829769356,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s-vlag/workspace-dev-016.bin.gz",
+     "bytes": 14780,
+     "objective": 0.03446235007156437,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5s-kp2-pass2",
+   "parent": "p5s-kp2",
+   "change": "middle rung (kp x2): second joint-error pass on p5s-kp2's dev runs, gravity shapes + friction basis + own-qdd term, subtracted (as p5s-fric2-pass2 did at x1)",
+   "tags": [],
+   "objective": 0.04474770530900803,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:43:08-07:00",
+    "solution_sha256": "1d382647543d7556054df0a0a05191aa3de220c414083f579e9345eb5bc1ff41",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s-kp2-pass2/workspace-dev-000.bin.gz",
+     "bytes": 22404,
+     "objective": 0.05503172920240947,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s-kp2-pass2/workspace-dev-001.bin.gz",
+     "bytes": 24090,
+     "objective": 0.056178374407700404,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s-kp2-pass2/workspace-dev-002.bin.gz",
+     "bytes": 15365,
+     "objective": 0.04264716770563969,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s-kp2-pass2/workspace-dev-003.bin.gz",
+     "bytes": 10491,
+     "objective": 0.026778935453979625,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s-kp2-pass2/workspace-dev-016.bin.gz",
+     "bytes": 14358,
+     "objective": 0.039393878329359165,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5s-kp4",
+   "parent": "p5s-kp2",
+   "change": "board kp x4, kd x2 (same damping ratio, bandwidth x2 = 12.6 Hz) instead of x2 / x1.41",
+   "tags": [],
+   "objective": 0.0462424988683071,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:43:12-07:00",
+    "solution_sha256": "5376e0bfe03a6744ef2dca64e9d4711496db26b1fbd6f801de822aace15732ab",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s-kp4/workspace-dev-000.bin.gz",
+     "bytes": 23116,
+     "objective": 0.06877794502528994,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s-kp4/workspace-dev-001.bin.gz",
+     "bytes": 25600,
+     "objective": 0.07507392090764235,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s-kp4/workspace-dev-002.bin.gz",
+     "bytes": 15925,
+     "objective": 0.047365733663257914,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s-kp4/workspace-dev-003.bin.gz",
+     "bytes": 11410,
+     "objective": 0.030014645960385857,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s-kp4/workspace-dev-016.bin.gz",
+     "bytes": 14838,
+     "objective": 0.037110172638892186,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5s-kp2",
+   "parent": "p5s-fric2",
+   "change": "board gains sent with every command: kp x2, kd x sqrt(2) (same damping ratio, bandwidth x1.41) instead of the boards' configured gains",
+   "tags": [],
+   "objective": 0.05574840480287774,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:43:03-07:00",
+    "solution_sha256": "84f4111496a3f09dceb47b38b0d3b86265f689d4c1708c1edf8e78b59e128588",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s-kp2/workspace-dev-000.bin.gz",
+     "bytes": 22562,
+     "objective": 0.07052036845589316,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s-kp2/workspace-dev-001.bin.gz",
+     "bytes": 23919,
+     "objective": 0.09210570527107312,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s-kp2/workspace-dev-002.bin.gz",
+     "bytes": 15594,
+     "objective": 0.06044335047781276,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s-kp2/workspace-dev-003.bin.gz",
+     "bytes": 10635,
+     "objective": 0.03520721206939556,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s-kp2/workspace-dev-016.bin.gz",
+     "bytes": 14374,
+     "objective": 0.04238127851957506,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5s-fric2-pass2",
+   "parent": "p5s-fric2",
+   "change": "niche (boards' configured gains): second joint-error pass on p5s-fric2's dev runs, gravity shapes + friction basis + own-qdd term fitted jointly, subtracted",
+   "tags": [],
+   "objective": 0.06990789515183797,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:42:46-07:00",
+    "solution_sha256": "e1cc1dde6360039aa2b67153efaa43e4b1509e7b3b67f55e4732e598153c3060",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s-fric2-pass2/workspace-dev-000.bin.gz",
+     "bytes": 21754,
+     "objective": 0.07588538689293452,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s-fric2-pass2/workspace-dev-001.bin.gz",
+     "bytes": 22310,
+     "objective": 0.08274824561852671,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s-fric2-pass2/workspace-dev-002.bin.gz",
+     "bytes": 15248,
+     "objective": 0.06346215885363327,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s-fric2-pass2/workspace-dev-003.bin.gz",
+     "bytes": 9918,
+     "objective": 0.030146073551991205,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s-fric2-pass2/workspace-dev-016.bin.gz",
+     "bytes": 14071,
+     "objective": 0.06563697012777671,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5s-fric2",
+   "parent": "p5s-grav",
+   "change": "friction correction in target qd (odd multi-scale tanh basis + qd), fitted from p5s-grav's dev joint errors (kp\u00b7e + kd\u00b7\u0117), subtracted from the ff",
+   "tags": [],
+   "objective": 0.07932236342728807,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:42:42-07:00",
+    "solution_sha256": "79a182d880749b9c6895825c14438b84e8958e3d1b1d5fa84e40b295159ae54f",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s-fric2/workspace-dev-000.bin.gz",
+     "bytes": 22043,
+     "objective": 0.0851980049616003,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s-fric2/workspace-dev-001.bin.gz",
+     "bytes": 22645,
+     "objective": 0.10340008920584318,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s-fric2/workspace-dev-002.bin.gz",
+     "bytes": 15584,
+     "objective": 0.07980153494048499,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s-fric2/workspace-dev-003.bin.gz",
+     "bytes": 10113,
+     "objective": 0.036061302654882166,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s-fric2/workspace-dev-016.bin.gz",
+     "bytes": 13942,
+     "objective": 0.06378249894444318,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5s-grav",
+   "parent": "p5s-chord",
+   "change": "ff minus a gravity-shaped torque error per joint, fitted from p5s-chord's dev joint errors (kp\u00b7e + kd\u00b7\u0117 on sin/cos of q2, q2+q3, q2+q3+q4, \u00d7 cos/sin q5)",
+   "tags": [],
+   "objective": 0.09669627630535432,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:42:51-07:00",
+    "solution_sha256": "69dac3c953749ea267575e7b09e74523db75ebac955c57e4336a78b288525e73",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s-grav/workspace-dev-000.bin.gz",
+     "bytes": 22844,
+     "objective": 0.11371383620186439,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s-grav/workspace-dev-001.bin.gz",
+     "bytes": 22798,
+     "objective": 0.12175464549101792,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s-grav/workspace-dev-002.bin.gz",
+     "bytes": 15609,
+     "objective": 0.10523844978054814,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s-grav/workspace-dev-003.bin.gz",
+     "bytes": 10210,
+     "objective": 0.07548951368821256,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s-grav/workspace-dev-016.bin.gz",
+     "bytes": 13923,
+     "objective": 0.06332470779959794,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5s-pass3-g1-nolag",
+   "parent": "p5s-pass3-g1",
+   "change": "transfer check, part 2: drop the kd\u00b71.3 ms\u00b7qdd term at the configured gains (is it the static prediction the 6 Hz loop never reaches that breaks the x1 transfer?)",
+   "tags": [],
+   "objective": 0.1405134786185784,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:43:33-07:00",
+    "solution_sha256": "401f76d90434903bf4d26dbb50987a1ed8e80e79e169286a27d1ec6b078e82e2",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s-pass3-g1-nolag/workspace-dev-000.bin.gz",
+     "bytes": 22689,
+     "objective": 0.18769069511957856,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s-pass3-g1-nolag/workspace-dev-001.bin.gz",
+     "bytes": 22725,
+     "objective": 0.13552762410101626,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s-pass3-g1-nolag/workspace-dev-002.bin.gz",
+     "bytes": 15795,
+     "objective": 0.14048424021349637,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s-pass3-g1-nolag/workspace-dev-003.bin.gz",
+     "bytes": 10599,
+     "objective": 0.0975484385251114,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s-pass3-g1-nolag/workspace-dev-016.bin.gz",
+     "bytes": 14243,
+     "objective": 0.11241638356097791,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5s-pass3-g1",
+   "parent": "p5s-pass3",
+   "change": "transfer check: the same identified model at the boards' configured gains (kp x1, kd x1) instead of x4 / x2",
+   "tags": [],
+   "objective": 0.15644781463753119,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:43:29-07:00",
+    "solution_sha256": "71a9c33b3237d3889c63ef7d8210107e1e9d689dee21431649b273a4ee6aa89f",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s-pass3-g1/workspace-dev-000.bin.gz",
+     "bytes": 22496,
+     "objective": 0.1930974746275447,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s-pass3-g1/workspace-dev-001.bin.gz",
+     "bytes": 22768,
+     "objective": 0.14810792809662823,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s-pass3-g1/workspace-dev-002.bin.gz",
+     "bytes": 15462,
+     "objective": 0.1362066585348494,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s-pass3-g1/workspace-dev-003.bin.gz",
+     "bytes": 10596,
+     "objective": 0.0968674658064719,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s-pass3-g1/workspace-dev-016.bin.gz",
+     "bytes": 14181,
+     "objective": 0.1342467160730023,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5s-chord",
+   "parent": "p5s-fric",
+   "change": "position sent = sample - a(s+T/2)\u00b7T\u00b2/12: the board's straight walk over a host period becomes the least-squares line of the curve, not its chord",
+   "tags": [],
+   "objective": 0.2439634251546184,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "c2970b21537f3383bf94b40390a2f284c99fc5f8",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:42:34-07:00",
+    "solution_sha256": "85643f7e67190cf43e346c60bac4abbb239746fda610b5b766fa09f94688504f",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s-chord/workspace-dev-000.bin.gz",
+     "bytes": 22123,
+     "objective": 0.3757188255761488,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s-chord/workspace-dev-001.bin.gz",
+     "bytes": 21598,
+     "objective": 0.37388790452649073,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s-chord/workspace-dev-002.bin.gz",
+     "bytes": 15579,
+     "objective": 0.39652344171560777,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s-chord/workspace-dev-003.bin.gz",
+     "bytes": 9978,
+     "objective": 0.1958023391295212,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s-chord/workspace-dev-016.bin.gz",
+     "bytes": 14089,
+     "objective": 0.1744855531565309,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5s-fric",
+   "parent": "p5s-bus-enc",
+   "change": "friction ff = per-joint Coulomb tanh(qd/vs) + viscous identified from p5s-bus-enc's dev run records, replacing the given model's Coulomb",
+   "tags": [],
+   "objective": 0.2454490022422628,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:42:38-07:00",
+    "solution_sha256": "fafa8c7dae58839322ad85035ddf44c9690fc44474e39680a5b555600903faa9",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s-fric/workspace-dev-000.bin.gz",
+     "bytes": 21778,
+     "objective": 0.3760802001482201,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s-fric/workspace-dev-001.bin.gz",
+     "bytes": 21904,
+     "objective": 0.38629708982330824,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s-fric/workspace-dev-002.bin.gz",
+     "bytes": 15572,
+     "objective": 0.3974160738415619,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s-fric/workspace-dev-003.bin.gz",
+     "bytes": 10047,
+     "objective": 0.19281725137710376,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s-fric/workspace-dev-016.bin.gz",
+     "bytes": 14240,
+     "objective": 0.1851430916497271,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5s-bus-enc",
+   "parent": "p5s-bus",
+   "change": "lookahead = bus delay minus the board's own lead (encoder delay + one board tick, 0.75 ms), from the deployment's board fields",
+   "tags": [],
+   "objective": 0.3933981564577292,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "c2970b21537f3383bf94b40390a2f284c99fc5f8",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:42:29-07:00",
+    "solution_sha256": "41c995f930b0144cd78e4ee6b4a6453cf6f3ed4bcac9cf8c43b1fb802afcc85c",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s-bus-enc/workspace-dev-000.bin.gz",
+     "bytes": 23266,
+     "objective": 0.5561403560748271,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s-bus-enc/workspace-dev-001.bin.gz",
+     "bytes": 23414,
+     "objective": 0.5064163692941256,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s-bus-enc/workspace-dev-002.bin.gz",
+     "bytes": 16209,
+     "objective": 0.4673388827714359,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s-bus-enc/workspace-dev-003.bin.gz",
+     "bytes": 10689,
+     "objective": 0.6071564458303759,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s-bus-enc/workspace-dev-016.bin.gz",
+     "bytes": 15453,
+     "objective": 0.2838260875648812,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5s-bus",
+   "parent": "p5s",
+   "change": "lookahead = the deployment's bus command delay per joint, not the friction-inflated calibration (Coulomb is already in the ff)",
+   "tags": [],
+   "objective": 0.595447162071153,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "c2970b21537f3383bf94b40390a2f284c99fc5f8",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:42:25-07:00",
+    "solution_sha256": "b72af27524747c1c73ccff950e6d0a1df2bff9d5dbdde56e1b1d04a5864fd2fb",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s-bus/workspace-dev-000.bin.gz",
+     "bytes": 23294,
+     "objective": 0.6056614424144676,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s-bus/workspace-dev-001.bin.gz",
+     "bytes": 23533,
+     "objective": 0.6043635628436097,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s-bus/workspace-dev-002.bin.gz",
+     "bytes": 16165,
+     "objective": 0.44188037563434096,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s-bus/workspace-dev-003.bin.gz",
+     "bytes": 10789,
+     "objective": 0.622232785429658,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s-bus/workspace-dev-016.bin.gz",
+     "bytes": 15639,
+     "objective": 0.5238037268260709,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p6s",
+   "parent": null,
+   "change": "model at the host on the measured state, board PD, calibrated lookahead, secant_mid_ff",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P6s",
+    "ff=rigid_body@host_measured",
+    "fb=board_gains@board",
+    "lookahead=calibrated",
+    "interp=secant_mid_ff"
+   ],
+   "objective": 0.8338457886531394,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:43:53-07:00",
+    "solution_sha256": "f909dc6fdac13e58d2bd80823c52aa765e9f4564bb73baa70ff9aa8f8eb510a1",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p6s/workspace-dev-000.bin.gz",
+     "bytes": 23640,
+     "objective": 0.9431544161572278,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p6s/workspace-dev-001.bin.gz",
+     "bytes": 25073,
+     "objective": 0.7214732843139957,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p6s/workspace-dev-002.bin.gz",
+     "bytes": 17281,
+     "objective": 0.895624366342733,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p6s/workspace-dev-003.bin.gz",
+     "bytes": 11533,
+     "objective": 0.34574073635894925,
+     "pass": true
+    },
+    "workspace-dev-004": {
+     "file": "runs/p6s/workspace-dev-004.bin.gz",
+     "bytes": 12290,
+     "objective": 0.6616763047609855,
+     "pass": true
+    },
+    "workspace-dev-005": {
+     "file": "runs/p6s/workspace-dev-005.bin.gz",
+     "bytes": 11838,
+     "objective": 0.7203303465291646,
+     "pass": true
+    },
+    "workspace-dev-006": {
+     "file": "runs/p6s/workspace-dev-006.bin.gz",
+     "bytes": 12016,
+     "objective": 1.4158826222445695,
+     "pass": true
+    },
+    "workspace-dev-007": {
+     "file": "runs/p6s/workspace-dev-007.bin.gz",
+     "bytes": 14021,
+     "objective": 1.0877922157679234,
+     "pass": true
+    },
+    "workspace-dev-008": {
+     "file": "runs/p6s/workspace-dev-008.bin.gz",
+     "bytes": 13042,
+     "objective": 1.1684589781473844,
+     "pass": true
+    },
+    "workspace-dev-009": {
+     "file": "runs/p6s/workspace-dev-009.bin.gz",
+     "bytes": 14744,
+     "objective": 1.0811956495365065,
+     "pass": true
+    },
+    "workspace-dev-010": {
+     "file": "runs/p6s/workspace-dev-010.bin.gz",
+     "bytes": 11406,
+     "objective": 0.9391694457661902,
+     "pass": true
+    },
+    "workspace-dev-011": {
+     "file": "runs/p6s/workspace-dev-011.bin.gz",
+     "bytes": 15094,
+     "objective": 1.3266410837616296,
+     "pass": true
+    },
+    "workspace-dev-012": {
+     "file": "runs/p6s/workspace-dev-012.bin.gz",
+     "bytes": 13173,
+     "objective": 0.8167524157935728,
+     "pass": true
+    },
+    "workspace-dev-013": {
+     "file": "runs/p6s/workspace-dev-013.bin.gz",
+     "bytes": 13084,
+     "objective": 0.415349692373459,
+     "pass": true
+    },
+    "workspace-dev-014": {
+     "file": "runs/p6s/workspace-dev-014.bin.gz",
+     "bytes": 10115,
+     "objective": 0.3266890480152377,
+     "pass": true
+    },
+    "workspace-dev-015": {
+     "file": "runs/p6s/workspace-dev-015.bin.gz",
+     "bytes": 18887,
+     "objective": 1.1764404261197758,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p6s/workspace-dev-016.bin.gz",
+     "bytes": 16223,
+     "objective": 0.8504475699287951,
+     "pass": true
+    },
+    "workspace-dev-017": {
+     "file": "runs/p6s/workspace-dev-017.bin.gz",
+     "bytes": 18581,
+     "objective": 0.6942922306587908,
+     "pass": true
+    },
+    "workspace-dev-018": {
+     "file": "runs/p6s/workspace-dev-018.bin.gz",
+     "bytes": 19410,
+     "objective": 1.0441283308014264,
+     "pass": true
+    },
+    "workspace-dev-019": {
+     "file": "runs/p6s/workspace-dev-019.bin.gz",
+     "bytes": 24325,
+     "objective": 0.7780859286963032,
+     "pass": true
+    },
+    "workspace-dev-020": {
+     "file": "runs/p6s/workspace-dev-020.bin.gz",
+     "bytes": 15947,
+     "objective": 1.015450686022317,
+     "pass": true
+    },
+    "workspace-dev-021": {
+     "file": "runs/p6s/workspace-dev-021.bin.gz",
+     "bytes": 15936,
+     "objective": 1.0737874846694482,
+     "pass": true
+    },
+    "workspace-dev-022": {
+     "file": "runs/p6s/workspace-dev-022.bin.gz",
+     "bytes": 25472,
+     "objective": 0.6840042048574085,
+     "pass": true
+    },
+    "workspace-dev-023": {
+     "file": "runs/p6s/workspace-dev-023.bin.gz",
+     "bytes": 16550,
+     "objective": 0.7802218990130602,
+     "pass": true
+    },
+    "workspace-dev-024": {
+     "file": "runs/p6s/workspace-dev-024.bin.gz",
+     "bytes": 12234,
+     "objective": 0.9748220068683682,
+     "pass": true
+    },
+    "workspace-dev-025": {
+     "file": "runs/p6s/workspace-dev-025.bin.gz",
+     "bytes": 13054,
+     "objective": 1.8500573651943102,
+     "pass": true
+    },
+    "workspace-dev-026": {
+     "file": "runs/p6s/workspace-dev-026.bin.gz",
+     "bytes": 11107,
+     "objective": 0.6551827686608517,
+     "pass": true
+    },
+    "workspace-dev-027": {
+     "file": "runs/p6s/workspace-dev-027.bin.gz",
+     "bytes": 13447,
+     "objective": 0.7866468967410689,
+     "pass": true
+    },
+    "workspace-dev-028": {
+     "file": "runs/p6s/workspace-dev-028.bin.gz",
+     "bytes": 11946,
+     "objective": 0.9133442262605209,
+     "pass": true
+    },
+    "workspace-dev-029": {
+     "file": "runs/p6s/workspace-dev-029.bin.gz",
+     "bytes": 22190,
+     "objective": 1.089657530575384,
+     "pass": true
+    },
+    "workspace-dev-030": {
+     "file": "runs/p6s/workspace-dev-030.bin.gz",
+     "bytes": 15928,
+     "objective": 0.707819860339247,
+     "pass": true
+    },
+    "workspace-dev-031": {
+     "file": "runs/p6s/workspace-dev-031.bin.gz",
+     "bytes": 12122,
+     "objective": 0.8172440073774837,
+     "pass": true
+    },
+    "workspace-dev-032": {
+     "file": "runs/p6s/workspace-dev-032.bin.gz",
+     "bytes": 10701,
+     "objective": 0.6699696082996084,
+     "pass": true
+    },
+    "workspace-dev-033": {
+     "file": "runs/p6s/workspace-dev-033.bin.gz",
+     "bytes": 18814,
+     "objective": 0.679494003031868,
+     "pass": true
+    },
+    "workspace-dev-034": {
+     "file": "runs/p6s/workspace-dev-034.bin.gz",
+     "bytes": 11218,
+     "objective": 0.6042245876607464,
+     "pass": true
+    },
+    "workspace-dev-035": {
+     "file": "runs/p6s/workspace-dev-035.bin.gz",
+     "bytes": 16402,
+     "objective": 0.6448697077116842,
+     "pass": true
+    },
+    "workspace-dev-036": {
+     "file": "runs/p6s/workspace-dev-036.bin.gz",
+     "bytes": 14158,
+     "objective": 1.375901966599779,
+     "pass": true
+    },
+    "workspace-dev-037": {
+     "file": "runs/p6s/workspace-dev-037.bin.gz",
+     "bytes": 13478,
+     "objective": 0.5050414773389369,
+     "pass": true
+    },
+    "workspace-dev-038": {
+     "file": "runs/p6s/workspace-dev-038.bin.gz",
+     "bytes": 11855,
+     "objective": 2.1342817260781604,
+     "pass": true
+    },
+    "workspace-dev-039": {
+     "file": "runs/p6s/workspace-dev-039.bin.gz",
+     "bytes": 17192,
+     "objective": 1.3400770947892124,
+     "pass": true
+    },
+    "workspace-dev-040": {
+     "file": "runs/p6s/workspace-dev-040.bin.gz",
+     "bytes": 23279,
+     "objective": 0.7091829485792227,
+     "pass": true
+    },
+    "workspace-dev-041": {
+     "file": "runs/p6s/workspace-dev-041.bin.gz",
+     "bytes": 14532,
+     "objective": 1.4108175828651608,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p4s",
+   "parent": null,
+   "change": "model at plan time, board PD, calibrated lookahead, secant_mid_ff",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P4s",
+    "ff=rigid_body@plan",
+    "fb=board_gains@board",
+    "lookahead=calibrated",
+    "interp=secant_mid_ff"
+   ],
+   "objective": 0.8476093273772445,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "195170fa5af267efd3f1fa833b51cbc0b6ea7797",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:42:08-07:00",
+    "solution_sha256": "c7bdc21d517d3978170b01b35687af190063b69a2787f8b6593c6faf5f1ebf23",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p4s/workspace-dev-000.bin.gz",
+     "bytes": 23048,
+     "objective": 0.9343809456186792,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p4s/workspace-dev-001.bin.gz",
+     "bytes": 24106,
+     "objective": 0.7256836853407839,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p4s/workspace-dev-002.bin.gz",
+     "bytes": 16510,
+     "objective": 0.9305058358256008,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p4s/workspace-dev-003.bin.gz",
+     "bytes": 10844,
+     "objective": 0.3450970015092426,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p4s/workspace-dev-016.bin.gz",
+     "bytes": 15128,
+     "objective": 0.8373699911555017,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p7s",
+   "parent": null,
+   "change": "model at plan time, computed-torque gains re-sent each tick, calibrated lookahead, secant_mid_ff",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P7s",
+    "ff=rigid_body@plan",
+    "fb=ctc@board_scheduled",
+    "lookahead=calibrated",
+    "interp=secant_mid_ff"
+   ],
+   "objective": 0.8874476069159363,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:44:06-07:00",
+    "solution_sha256": "a18150a2736d33520f6616dbc9ec2ce1470c37ea8f9b2b3b85159e6f744b8174",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p7s/workspace-dev-000.bin.gz",
+     "bytes": 23844,
+     "objective": 1.0934180392445063,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p7s/workspace-dev-001.bin.gz",
+     "bytes": 25641,
+     "objective": 0.8788069957238344,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p7s/workspace-dev-002.bin.gz",
+     "bytes": 16872,
+     "objective": 0.9486136458443428,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p7s/workspace-dev-003.bin.gz",
+     "bytes": 11502,
+     "objective": 0.5174471075764803,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p7s/workspace-dev-016.bin.gz",
+     "bytes": 15488,
+     "objective": 1.026183541168405,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p3s",
+   "parent": null,
+   "change": "model at plan time, board PD, the datasheet's lookahead, secant_mid_ff",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P3s",
+    "ff=rigid_body@plan",
+    "fb=board_gains@board",
+    "lookahead=nominal",
+    "interp=secant_mid_ff"
+   ],
+   "objective": 0.9260786656428619,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "195170fa5af267efd3f1fa833b51cbc0b6ea7797",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:41:58-07:00",
+    "solution_sha256": "0f110637fa3b57a23a0e74af83c53a5c4ffdb01eb9f49bd0057f395b1193a2a3",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p3s/workspace-dev-000.bin.gz",
+     "bytes": 22997,
+     "objective": 0.9565804848736856,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p3s/workspace-dev-001.bin.gz",
+     "bytes": 23491,
+     "objective": 0.7144547200243617,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p3s/workspace-dev-002.bin.gz",
+     "bytes": 16486,
+     "objective": 0.9303118349465904,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p3s/workspace-dev-003.bin.gz",
+     "bytes": 10799,
+     "objective": 0.4419076793376912,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p3s/workspace-dev-016.bin.gz",
+     "bytes": 15096,
+     "objective": 0.8583906542698235,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5s",
+   "parent": null,
+   "change": "model + Coulomb at plan time, board PD, calibrated lookahead, secant_mid_ff",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P5s",
+    "ff=rigid_body_coulomb@plan",
+    "fb=board_gains@board",
+    "lookahead=calibrated",
+    "interp=secant_mid_ff"
+   ],
+   "objective": 0.9735816680536202,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "c2970b21537f3383bf94b40390a2f284c99fc5f8",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:42:19-07:00",
+    "solution_sha256": "77e2dafe20767d5f8bc3b8f05267cddf263988372ab053e20e4f1018829ee346",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5s/workspace-dev-000.bin.gz",
+     "bytes": 23306,
+     "objective": 0.6197693545187449,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5s/workspace-dev-001.bin.gz",
+     "bytes": 23814,
+     "objective": 0.5488383712841485,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5s/workspace-dev-002.bin.gz",
+     "bytes": 16282,
+     "objective": 0.5533829303489847,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5s/workspace-dev-003.bin.gz",
+     "bytes": 10749,
+     "objective": 0.808920332518209,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5s/workspace-dev-016.bin.gz",
+     "bytes": 15837,
+     "objective": 0.8032968769790314,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p3",
+   "parent": null,
+   "change": "model at plan time, board PD, the datasheet's lookahead",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P3",
+    "ff=rigid_body@plan",
+    "fb=board_gains@board",
+    "lookahead=nominal",
+    "interp=tangent"
+   ],
+   "objective": 1.0510829620957596,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "195170fa5af267efd3f1fa833b51cbc0b6ea7797",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:41:54-07:00",
+    "solution_sha256": "5e61f311502d26ee9603f6e2ff428d7e7d7edfc9c1c46a1f12314321a61974db",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p3/workspace-dev-000.bin.gz",
+     "bytes": 24384,
+     "objective": 0.9931856971609752,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p3/workspace-dev-001.bin.gz",
+     "bytes": 23724,
+     "objective": 1.0803213742530193,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p3/workspace-dev-002.bin.gz",
+     "bytes": 16733,
+     "objective": 0.8732146747047227,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p3/workspace-dev-003.bin.gz",
+     "bytes": 10896,
+     "objective": 0.5276551371734268,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p3/workspace-dev-016.bin.gz",
+     "bytes": 15836,
+     "objective": 1.0867569009206721,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p4",
+   "parent": null,
+   "change": "model at plan time, board PD, calibrated lookahead",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P4",
+    "ff=rigid_body@plan",
+    "fb=board_gains@board",
+    "lookahead=calibrated",
+    "interp=tangent"
+   ],
+   "objective": 1.062253101310931,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "195170fa5af267efd3f1fa833b51cbc0b6ea7797",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:42:03-07:00",
+    "solution_sha256": "42c9822c51ffac618486de6e21f961200cfcdeec4b78ed03b4e8defa507d488e",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p4/workspace-dev-000.bin.gz",
+     "bytes": 24421,
+     "objective": 0.9772514935892599,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p4/workspace-dev-001.bin.gz",
+     "bytes": 23796,
+     "objective": 1.086812275408095,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p4/workspace-dev-002.bin.gz",
+     "bytes": 16741,
+     "objective": 0.9073006989828186,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p4/workspace-dev-003.bin.gz",
+     "bytes": 10837,
+     "objective": 0.47306790704015683,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p4/workspace-dev-016.bin.gz",
+     "bytes": 15815,
+     "objective": 1.0651246964348355,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p6",
+   "parent": null,
+   "change": "model at the host on the measured state, board PD, calibrated lookahead",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P6",
+    "ff=rigid_body@host_measured",
+    "fb=board_gains@board",
+    "lookahead=calibrated",
+    "interp=tangent"
+   ],
+   "objective": 1.0754153853716142,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:43:42-07:00",
+    "solution_sha256": "fcb116af298928cacf4cbe72eaca7f16a6fc0452a425cdface2aab0b2f9b0e8b",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p6/workspace-dev-000.bin.gz",
+     "bytes": 24861,
+     "objective": 0.9869779766297734,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p6/workspace-dev-001.bin.gz",
+     "bytes": 25403,
+     "objective": 1.101890192452123,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p6/workspace-dev-002.bin.gz",
+     "bytes": 17414,
+     "objective": 0.9023348439690047,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p6/workspace-dev-003.bin.gz",
+     "bytes": 11573,
+     "objective": 0.4671967414063752,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p6/workspace-dev-016.bin.gz",
+     "bytes": 16647,
+     "objective": 1.0779642438243717,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p5",
+   "parent": null,
+   "change": "model + Coulomb at plan time, board PD, calibrated lookahead",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P5",
+    "ff=rigid_body_coulomb@plan",
+    "fb=board_gains@board",
+    "lookahead=calibrated",
+    "interp=tangent"
+   ],
+   "objective": 1.0767888897067164,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "583b27d83518846c3c9547a3c2fc13a33a8b0e2a",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:42:14-07:00",
+    "solution_sha256": "6b151598410ee3ba71071ed16529d0af0cd9a713df7b7c4b0b1c245ffddb291f",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p5/workspace-dev-000.bin.gz",
+     "bytes": 24651,
+     "objective": 0.7647343918439585,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p5/workspace-dev-001.bin.gz",
+     "bytes": 24590,
+     "objective": 0.9889391935046662,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p5/workspace-dev-002.bin.gz",
+     "bytes": 16628,
+     "objective": 0.6230377687202642,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p5/workspace-dev-003.bin.gz",
+     "bytes": 10965,
+     "objective": 0.8402506226032829,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p5/workspace-dev-016.bin.gz",
+     "bytes": 16216,
+     "objective": 0.8795805462652985,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p7",
+   "parent": null,
+   "change": "model at plan time, computed-torque gains re-sent each tick, calibrated lookahead",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P7",
+    "ff=rigid_body@plan",
+    "fb=ctc@board_scheduled",
+    "lookahead=calibrated",
+    "interp=tangent"
+   ],
+   "objective": 1.1090133750526041,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:44:00-07:00",
+    "solution_sha256": "a21180730dfb2bd88064c2b1e4f334e3081eaf6ba19bb5a7b419257c3e068807",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p7/workspace-dev-000.bin.gz",
+     "bytes": 24913,
+     "objective": 1.1419204651114345,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p7/workspace-dev-001.bin.gz",
+     "bytes": 26316,
+     "objective": 1.468441255753317,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p7/workspace-dev-002.bin.gz",
+     "bytes": 17152,
+     "objective": 0.9588757192846143,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p7/workspace-dev-003.bin.gz",
+     "bytes": 11448,
+     "objective": 0.726727304112545,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p7/workspace-dev-016.bin.gz",
+     "bytes": 16269,
+     "objective": 1.3870997012477744,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p8",
+   "parent": null,
+   "change": "model at plan time, host spring + board damper",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P8",
+    "ff=rigid_body@plan",
+    "fb=pd@split",
+    "lookahead=none",
+    "interp=tangent"
+   ],
+   "objective": 1.2116089461204003,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:44:12-07:00",
+    "solution_sha256": "e37597cb3bdc90861dedb785bfc050da24b744f4e04a42c32738ac9be32a8549",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p8/workspace-dev-000.bin.gz",
+     "bytes": 25188,
+     "objective": 0.9859434068358894,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p8/workspace-dev-001.bin.gz",
+     "bytes": 25290,
+     "objective": 1.2394804458678281,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p8/workspace-dev-002.bin.gz",
+     "bytes": 17681,
+     "objective": 0.9549983020797795,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p8/workspace-dev-003.bin.gz",
+     "bytes": 11477,
+     "objective": 0.6218911162637141,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p8/workspace-dev-016.bin.gz",
+     "bytes": 17388,
+     "objective": 1.0581015509099845,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p2s",
+   "parent": null,
+   "change": "the trajectory's column (as built), board PD, secant_mid_ff",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P2s",
+    "ff=trajectory@trajectory",
+    "fb=board_gains@board",
+    "lookahead=none",
+    "interp=secant_mid_ff"
+   ],
+   "objective": 1.7817463896050758,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "3407d75ee54538985ec63dd504bccf80aeff447c",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:41:50-07:00",
+    "solution_sha256": "e7042140378cad23802db30c6455010fd3cb0ebef710c4ffc111a9b7db7eb8b3",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p2s/workspace-dev-000.bin.gz",
+     "bytes": 23457,
+     "objective": 1.2239241872511053,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p2s/workspace-dev-001.bin.gz",
+     "bytes": 24252,
+     "objective": 1.4419736025827763,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p2s/workspace-dev-002.bin.gz",
+     "bytes": 16731,
+     "objective": 1.2017209450271051,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p2s/workspace-dev-003.bin.gz",
+     "bytes": 11035,
+     "objective": 1.120666430823066,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p2s/workspace-dev-016.bin.gz",
+     "bytes": 15584,
+     "objective": 1.9765588265788543,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p2",
+   "parent": null,
+   "change": "the trajectory's column (as built), board PD",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P2",
+    "ff=trajectory@trajectory",
+    "fb=board_gains@board",
+    "lookahead=none",
+    "interp=tangent"
+   ],
+   "objective": 1.8202248379222885,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "3407d75ee54538985ec63dd504bccf80aeff447c",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:41:46-07:00",
+    "solution_sha256": "44c64803f8e08ca8d549e7938abc482b529c85ccab0dfb5d517aeab434a04471",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p2/workspace-dev-000.bin.gz",
+     "bytes": 24889,
+     "objective": 1.2671329953232282,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p2/workspace-dev-001.bin.gz",
+     "bytes": 24529,
+     "objective": 1.7081210143477112,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p2/workspace-dev-002.bin.gz",
+     "bytes": 17065,
+     "objective": 1.1237376247343795,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p2/workspace-dev-003.bin.gz",
+     "bytes": 11091,
+     "objective": 1.2107145870097955,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p2/workspace-dev-016.bin.gz",
+     "bytes": 16295,
+     "objective": 2.1606234288213173,
+     "pass": true
+    }
+   }
+  },
+  {
+   "id": "p1",
+   "parent": null,
+   "change": "no feed-forward, board PD, calibrated lookahead",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P1",
+    "ff=none@none",
+    "fb=board_gains@board",
+    "lookahead=calibrated",
+    "interp=tangent"
+   ],
+   "objective": 6.249808422116393,
+   "admissible": false,
+   "gate_pass_rate": 0.6095238095238096,
+   "scored": {
+    "commit": "3407d75ee54538985ec63dd504bccf80aeff447c",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:41:36-07:00",
+    "solution_sha256": "9c59016f97100918f80aab2c81d704184e22510342a69ea5667f796de37fc931",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p1/workspace-dev-000.bin.gz",
+     "bytes": 27259,
+     "objective": 6.735377883640055,
+     "pass": false
+    },
+    "workspace-dev-001": {
+     "file": "runs/p1/workspace-dev-001.bin.gz",
+     "bytes": 28411,
+     "objective": 7.62326527892649,
+     "pass": false
+    },
+    "workspace-dev-002": {
+     "file": "runs/p1/workspace-dev-002.bin.gz",
+     "bytes": 17964,
+     "objective": 5.707387664650594,
+     "pass": false
+    },
+    "workspace-dev-003": {
+     "file": "runs/p1/workspace-dev-003.bin.gz",
+     "bytes": 11459,
+     "objective": 2.380391156430645,
+     "pass": true
+    },
+    "workspace-dev-016": {
+     "file": "runs/p1/workspace-dev-016.bin.gz",
+     "bytes": 17925,
+     "objective": 3.210905019949728,
+     "pass": false
+    }
+   }
+  },
+  {
+   "id": "p9",
+   "parent": null,
+   "change": "model at the host on the measured state, computed torque on the host",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P9",
+    "ff=rigid_body@host_measured",
+    "fb=ctc@host",
+    "lookahead=none",
+    "interp=tangent"
+   ],
+   "objective": 3.670921208606007,
+   "admissible": false,
+   "gate_pass_rate": 0.5904761904761905,
+   "scored": {
+    "commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:44:17-07:00",
+    "solution_sha256": "215b583aa916c627a9858babf558e574fdefee665c01ad6d92362edacf9ce71c",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p9/workspace-dev-000.bin.gz",
+     "bytes": 36863,
+     "objective": 3.0357817214192377,
+     "pass": false
+    },
+    "workspace-dev-001": {
+     "file": "runs/p9/workspace-dev-001.bin.gz",
+     "bytes": 40103,
+     "objective": 3.3055956454148716,
+     "pass": false
+    },
+    "workspace-dev-002": {
+     "file": "runs/p9/workspace-dev-002.bin.gz",
+     "bytes": 24734,
+     "objective": 3.775077059442891,
+     "pass": false
+    },
+    "workspace-dev-003": {
+     "file": "runs/p9/workspace-dev-003.bin.gz",
+     "bytes": 18056,
+     "objective": 3.3465410333218553,
+     "pass": false
+    },
+    "workspace-dev-016": {
+     "file": "runs/p9/workspace-dev-016.bin.gz",
+     "bytes": 22971,
+     "objective": 1.8522465392384218,
+     "pass": false
+    }
+   }
+  },
+  {
+   "id": "p10",
+   "parent": null,
+   "change": "model at plan time, PD on the host",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P10",
+    "ff=rigid_body@plan",
+    "fb=pd@host",
+    "lookahead=none",
+    "interp=tangent"
+   ],
+   "objective": 3.721199921521916,
+   "admissible": false,
+   "gate_pass_rate": 0.5428571428571428,
+   "scored": {
+    "commit": "3407d75ee54538985ec63dd504bccf80aeff447c",
+    "dirty": false,
+    "evaluated": "2026-11-24T09:41:41-07:00",
+    "solution_sha256": "224c92ac90a988204ce3b7518fa3fc1ed81f3d3f386fe9748485210502d9c915",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "file": "runs/p10/workspace-dev-000.bin.gz",
+     "bytes": 36502,
+     "objective": 2.7702176838125236,
+     "pass": true
+    },
+    "workspace-dev-001": {
+     "file": "runs/p10/workspace-dev-001.bin.gz",
+     "bytes": 36082,
+     "objective": 2.8742350180669627,
+     "pass": true
+    },
+    "workspace-dev-002": {
+     "file": "runs/p10/workspace-dev-002.bin.gz",
+     "bytes": 25265,
+     "objective": 3.3234017267548825,
+     "pass": true
+    },
+    "workspace-dev-003": {
+     "file": "runs/p10/workspace-dev-003.bin.gz",
+     "bytes": 19792,
+     "objective": 3.196092804673701,
+     "pass": false
+    },
+    "workspace-dev-016": {
+     "file": "runs/p10/workspace-dev-016.bin.gz",
+     "bytes": 24824,
+     "objective": 2.604020163392847,
+     "pass": false
+    }
+   }
+  }
+ ],
+ "check_worst_mm": {
+  "tool_track_rms_mm": 1.015279042870798e-05,
+  "stop_error_max_mm": 6.987847481260134e-05
+ },
+ "bytes": 4704085
+}

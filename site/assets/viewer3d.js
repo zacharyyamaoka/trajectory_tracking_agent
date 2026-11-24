@@ -1,16 +1,16 @@
-// The 3D view: the UR5e drawn from MuJoCo's own geom poses, the measured arm solid and the target arm as a ghost.
+// The 3D view: the UR5e drawn from saved geom poses, the measured arm solid and the target arm as a ghost.
 //
 //   const viewer = await createViewer(container);
-//   viewer.setGeoms(render.geoms);                       // the model's capsules (type, size, body)
-//   viewer.setArm('target', frames, t); viewer.setArm('measured', frames, t);
+//   viewer.setGeoms(index.geoms);                        // the model's capsules (type, size, body)
+//   viewer.setArm('target', frames, t); viewer.setArm('measured', frames, t);   // frames: {pos, quat, tool} per sample
 //   viewer.setPaths({target: [[x, y, z], ...], measured: [...]});
 //   viewer.setTime(1.25);                                // every arm, path marker and overlay follows
 //   viewer.setOverlay({build(ctx) {...; return {update(t) {...}, dispose() {...}}}, note: '...'});
 //
-// Nothing here computes kinematics: every pose is a geom_xpos / geom_xmat row the Python side got from
-// mujoco.mj_kinematics. The geom-per-object drawing (MuJoCo is Z-up, so everything lives in a group rotated -90° about
-// x; each object's matrix is set from geom_xpos + row-major geom_xmat) follows robotdescription.com's gallery viewer
-// (github.com/zacharyyamaoka/robotdescription-website, site/gallery/mujoco.js, MIT), adapted.
+// Nothing here computes kinematics: every pose is a geom position + orientation that tools/build_site.py computed
+// natively (the deployment's model, mujoco.mj_kinematics) from the run record's joint angles. The geom-per-object
+// drawing (MuJoCo is Z-up, so everything lives in a group rotated -90° about x) follows robotdescription.com's gallery
+// viewer (github.com/zacharyyamaoka/robotdescription-website, site/gallery/mujoco.js, MIT), adapted.
 
 const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.186.1/+esm';
 const ORBIT_URL = 'https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/controls/OrbitControls.js/+esm';
@@ -142,26 +142,25 @@ export async function createViewer(container) {
     state.arms[name] = {objects, frames: null, times: []};
   }
 
-  const matrix = new THREE.Matrix4();
+  const position = new THREE.Vector3();
+  const rotation = new THREE.Quaternion();
+  const unit = new THREE.Vector3(1, 1, 1);
   function poseArm(name, t) {
     const arm = state.arms[name];
     if (!arm || !arm.frames) return;
     const k = frameIndex(arm.times, t);
     if (k < 0) return;
-    const pos = arm.frames.geom_xpos[k];
-    const rot = arm.frames.geom_xmat[k];
+    const pos = arm.frames.pos[k];
+    const quat = arm.frames.quat[k];
+    if (!pos || !quat) return; // a sample with no measurement: the arm stays where it was last seen
     arm.objects.forEach((object, g) => {
       if (!object) return;
-      const p = pos[g];
-      const m = rot[g];
-      matrix.set(m[0], m[1], m[2], p[0], m[3], m[4], m[5], p[1], m[6], m[7], m[8], p[2], 0, 0, 0, 1);
-      object.matrix.copy(matrix);
+      const q = quat[g]; // MuJoCo order: w, x, y, z
+      object.matrix.compose(position.set(pos[g][0], pos[g][1], pos[g][2]), rotation.set(q[1], q[2], q[3], q[0]).normalize(), unit);
     });
     const marker = state.markers[name];
-    if (marker) {
-      const tool = arm.frames.tool[k];
-      marker.position.set(tool[0], tool[1], tool[2]);
-    }
+    const tool = arm.frames.tool[k];
+    if (marker && tool) marker.position.set(tool[0], tool[1], tool[2]);
   }
 
   function line(points, color, {dashed = false, width = 1, opacity = 1} = {}) {
