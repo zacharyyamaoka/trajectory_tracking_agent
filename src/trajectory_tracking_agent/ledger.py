@@ -163,7 +163,15 @@ def _ideas() -> dict[str, Any]:
     """ideas.md's checkboxes: open (`- [ ]`), done (`- [x]`) and the first three open lines."""
     if not IDEAS_PATH.exists():
         return {"open": 0, "done_7d": 0, "top": []}
-    lines = [line.strip() for line in IDEAS_PATH.read_text().splitlines()]
+    # WHY only the "I'll try" list: "Suggestions for Zach" are his to pick, not the agent's queue (2026-11-24)
+    lines, section = [], None
+    for raw in IDEAS_PATH.read_text().splitlines():
+        line = raw.strip()
+        if line.startswith("## "):
+            section = line[3:].strip().lower()
+            continue
+        if section is None or section.startswith("i'll try") or section.startswith("i’ll try"):
+            lines.append(line)
     open_items = [line[6:].strip() for line in lines if line.startswith("- [ ]")]
     done = [line for line in lines if line.lower().startswith("- [x]")]
     # WHY done_7d is every crossed-off idea: ideas.md has no dates per item, and the repo is days old (2026-11-24)
@@ -214,7 +222,7 @@ def status_record(now_s: float | None = None, path: Path = LEDGER_PATH) -> dict[
         "status": previous.get("status", "idle"),
         "blocked_on": previous.get("blocked_on"),
         "todo": _ideas(),
-        "links": {"repo": str(REPO_ROOT), "report": "PROGRESS.md", "wandb": "Trajectory Tracking", "vault": None},
+        "links": {"repo": "https://github.com/zacharyyamaoka/trajectory_tracking_agent", "report": "PROGRESS.md", "wandb": "Trajectory Tracking", "vault": None},
         "updated_t": float(now_s if now_s is not None else time.time()),
     }
 

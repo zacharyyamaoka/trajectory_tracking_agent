@@ -23,19 +23,18 @@
   "status": "idle",
   "blocked_on": null,
   "todo": {
-    "open": 3,
+    "open": 2,
     "done_7d": 0,
     "top": [
       "Host Coulomb feed-forward on the best gen-0 layout. Expect: tool RMS down where the joints reverse (real_kp2's lever on BAM FB, never tried on the UR5e here).",
-      "Per-joint lookahead calibrated on dev tasks only, not on robot_controllers' calibration sweep. Expect: lag down, RMS down a little.",
-      "Ruler v2: add speeds 0.25 / 0.5 and the conveyor dataset, so a gain at full speed can't hide a loss at low speed."
+      "Per-joint lookahead calibrated on dev tasks only, not on robot_controllers' calibration sweep. Expect: lag down, RMS down a little."
     ]
   },
   "links": {
-    "repo": "/home/bam/trajectory_tracking_agent",
+    "repo": "https://github.com/zacharyyamaoka/trajectory_tracking_agent",
     "report": "PROGRESS.md",
     "wandb": "Trajectory Tracking",
     "vault": null
   },
-  "updated_t": 1795536642.3320348
+  "updated_t": 1795536742.5538366
 }
