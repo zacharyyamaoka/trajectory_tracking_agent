@@ -3,9 +3,10 @@
   "parent": "p5s-fric2",
   "change": "board gains sent with every command: kp x2, kd x sqrt(2) (same damping ratio, bandwidth x1.41) instead of the boards' configured gains",
   "proposed_by": {
-    "agent": null,
-    "model": null,
-    "session": null
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "session": "dispatched from 7cf66f6e",
+    "backfilled": "2026-11-24 by the dispatcher, from commit c843eb6 that added this solution (tta new had no proposer)"
   },
   "created": "2026-11-24T09:30:31-07:00",
   "tags": []

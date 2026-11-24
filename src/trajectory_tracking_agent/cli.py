@@ -122,6 +122,12 @@ def cmd_new(args: argparse.Namespace) -> int:
         "model": args.model or os.environ.get("TTA_MODEL"),
         "session": args.session or os.environ.get("TTA_SESSION"),
     }
+    # WHY required (2026-11-24): with these optional, 17 of 18 gen-1 solutions recorded no proposer; AI output must say
+    # which agent and model wrote it (Zach's provenance rule). Pass --agent/--model or set TTA_AGENT/TTA_MODEL.
+    missing = [key for key in ("agent", "model") if not proposed_by[key]]
+    if missing:
+        print(f"tta new: say who proposes it: --{' --'.join(missing)} (or TTA_AGENT / TTA_MODEL)", file=sys.stderr)
+        return 2
     folder = population.new(args.id, parent=args.parent, change=args.change, proposed_by=proposed_by, tags=args.tag)
     print(f"created {folder.relative_to(REPO_ROOT)} (parent {args.parent}); next: tta evaluate {args.id}")
     return 0

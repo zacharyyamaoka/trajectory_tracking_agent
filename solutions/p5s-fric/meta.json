@@ -3,9 +3,10 @@
   "parent": "p5s-bus-enc",
   "change": "friction ff = per-joint Coulomb tanh(qd/vs) + viscous identified from p5s-bus-enc's dev run records, replacing the given model's Coulomb",
   "proposed_by": {
-    "agent": null,
-    "model": null,
-    "session": null
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "session": "dispatched from 7cf66f6e",
+    "backfilled": "2026-11-24 by the dispatcher, from commit e13f398 that added this solution (tta new had no proposer)"
   },
   "created": "2026-11-24T09:21:56-07:00",
   "tags": []

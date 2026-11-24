@@ -3,9 +3,10 @@
   "parent": "p5s-kp2",
   "change": "middle rung (kp x2): second joint-error pass on p5s-kp2's dev runs, gravity shapes + friction basis + own-qdd term, subtracted (as p5s-fric2-pass2 did at x1)",
   "proposed_by": {
-    "agent": null,
-    "model": null,
-    "session": null
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "session": "dispatched from 7cf66f6e",
+    "backfilled": "2026-11-24 by the dispatcher, from commit 847ed3b that added this solution (tta new had no proposer)"
   },
   "created": "2026-11-24T09:38:47-07:00",
   "tags": []

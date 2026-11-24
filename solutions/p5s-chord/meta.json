@@ -3,9 +3,10 @@
   "parent": "p5s-fric",
   "change": "position sent = sample - a(s+T/2)\u00b7T\u00b2/12: the board's straight walk over a host period becomes the least-squares line of the curve, not its chord",
   "proposed_by": {
-    "agent": null,
-    "model": null,
-    "session": null
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "session": "dispatched from 7cf66f6e",
+    "backfilled": "2026-11-24 by the dispatcher, from commit 53abd71 that added this solution (tta new had no proposer)"
   },
   "created": "2026-11-24T09:24:18-07:00",
   "tags": []

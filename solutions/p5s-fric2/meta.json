@@ -3,9 +3,10 @@
   "parent": "p5s-grav",
   "change": "friction correction in target qd (odd multi-scale tanh basis + qd), fitted from p5s-grav's dev joint errors (kp\u00b7e + kd\u00b7\u0117), subtracted from the ff",
   "proposed_by": {
-    "agent": null,
-    "model": null,
-    "session": null
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "session": "dispatched from 7cf66f6e",
+    "backfilled": "2026-11-24 by the dispatcher, from commit b563d00 that added this solution (tta new had no proposer)"
   },
   "created": "2026-11-24T09:28:47-07:00",
   "tags": []

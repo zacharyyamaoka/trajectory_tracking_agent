@@ -3,9 +3,10 @@
   "parent": "p5s-pass2",
   "change": "same controller with the four stacked fits merged into one model.json (one friction basis, one gravity basis; exact sum, no new data) and one additive-pass tool identify_pass.py",
   "proposed_by": {
-    "agent": null,
-    "model": null,
-    "session": null
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "session": "dispatched from 7cf66f6e",
+    "backfilled": "2026-11-24 by the dispatcher, from commit 24c00a8 that added this solution (tta new had no proposer)"
   },
   "created": "2026-11-24T09:36:12-07:00",
   "tags": []
