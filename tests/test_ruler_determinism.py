@@ -28,3 +28,20 @@ def test_two_cold_runs_score_identically(solution_id: str) -> None:
     first, second = _cold_run(solution_id), _cold_run(solution_id)
     assert all(value is not None for value in first.values()), first
     assert first == second
+
+
+# The deployment's calibrated lookahead, pinned (robot_controllers f25f485, 2026-11-24). WHY pinned and not only
+# compared run-to-run: on an idle machine two noisy runs can agree, but the old calibration always added the tick's CPU
+# time, so it never lands on these exact values; a pinned value catches that even when the machine is quiet.
+CALIBRATED_LOOKAHEAD_S = (0.001, 0.0022500000000000003, 0.00425, 0.0085, 0.0105, 0.00775)
+
+
+def test_the_deployment_calibration_is_the_pinned_one() -> None:
+    from robot_controllers.bench import population
+
+    from trajectory_tracking_agent.ruler.deployment import deployment
+
+    dep = deployment("ur5e_alone")
+    population.scenario_calibration.cache_clear()
+    calibration = population.scenario_calibration(dep.arm, dep.bus, dep.host_rate_hz)
+    assert tuple(calibration["lookahead_s"]) == CALIBRATED_LOOKAHEAD_S
