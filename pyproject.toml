@@ -1,0 +1,30 @@
+[project]
+name = "trajectory-tracking-agent"
+version = "0.1.0"
+description = "An agent that makes robots track a given trajectory more accurately, with a scored population of every controller it tried."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+    "numpy>=1.26",
+    "robot-msgs>=0.3.0",
+    "robot-controllers[bench]",
+]
+
+[project.optional-dependencies]
+site = ["matplotlib>=3.8"]
+test = ["pytest>=8"]
+
+[project.scripts]
+tta = "trajectory_tracking_agent.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/trajectory_tracking_agent"]
+
+[tool.uv.sources]
+robot-msgs = { path = "../robot_msgs", editable = true }
+robot-controllers = { path = "../robot_controllers", editable = true }
