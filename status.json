@@ -5,18 +5,18 @@
   "remit": "make robots track a given trajectory more accurately, inside the gates (ruler v1, OBJECTIVES.md)",
   "kpi": {
     "name": "tool_track_rms_mm (best admissible, dev)",
-    "value": 0.2439634251546184,
+    "value": 0.09669627630535432,
     "unit": "mm",
     "direction": "down",
     "target": null,
-    "level": "17 of 20 admissible",
+    "level": "18 of 21 admissible",
     "level_name": "ruler v1 \u00b7 ur5e_alone \u00b7 workspace/v2 dev",
-    "next_gate": "an admissible solution below 0.244 mm",
+    "next_gate": "an admissible solution below 0.097 mm",
     "on_track": true
   },
   "counter_kpi": {
     "name": "holdout - dev of the best (mm; reporting only, never selected on)",
-    "value": 0.03905217675761444,
+    "value": 0.028919593661749843,
     "unit": "mm",
     "owner": "Trajectory Tracking Agent"
   },
@@ -24,11 +24,11 @@
   "blocked_on": null,
   "todo": {
     "open": 3,
-    "done_7d": 3,
+    "done_7d": 4,
     "top": [
       "Host Coulomb feed-forward on the best gen-0 layout. Expect: tool RMS down where the joints reverse (real_kp2's lever on BAM FB, never tried on the UR5e here).",
       "Per-joint lookahead calibrated on dev tasks only, not on robot_controllers' calibration sweep. Expect: lag down, RMS down a little.",
-      "Identify the gravity error (constant joint biases on lift/elbow/w1 at 0.01 deg) from the stops and slow samples. Expect: stop error down, tool RMS down a little."
+      "Identify the gravity error from the *joint errors* (kp\u00b7e is a clean torque-error signal; the board's tau carries \u00b110 N\u00b7m of quantisation buzz). Regressing kp\u00b7e on the given model's own gravity term explains most of elbow (0.45 \u2192 0.25 N\u00b7m) and w1 (0.094 \u2192 0.035) and part of lift (1.08 \u2192 0.90; with sin/cos of q2..q4 \u2192 0.48). Expect: lift/elbow/w1 biases gone, ~10-20 %."
     ]
   },
   "links": {
@@ -37,5 +37,5 @@
     "wandb": "Trajectory Tracking",
     "vault": null
   },
-  "updated_t": 1795537543.3636746
+  "updated_t": 1795537647.3488681
 }
