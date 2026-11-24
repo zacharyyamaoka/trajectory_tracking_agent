@@ -23,11 +23,12 @@
   "status": "idle",
   "blocked_on": null,
   "todo": {
-    "open": 2,
+    "open": 4,
     "done_7d": 20,
     "top": [
       "Make the identification gain-portable: fit the plant torque M(q)\u00b7\u00eb + kd\u00b7\u0117 + kp\u00b7e (the full inverse of the board loop, M from the given model) instead of kp\u00b7e + kd\u00b7\u0117, then check by running one fit at x1 and x4. Expect: if it works, one model for every rung; if not, friction here is loop-dependent and each rung keeps its own fit.",
-      "Identify from a dedicated calibration run (a rich excitation trajectory, its own runs only) instead of the dev records, so the identified model never sees the tasks it is scored on. Needs a way to run a non-dataset trajectory through the boundary without `deployment.plant()` (see Suggestions for Zach)."
+      "Identify from a dedicated calibration run (a rich excitation trajectory, its own runs only) instead of the dev records, so the identified model never sees the tasks it is scored on. Needs a way to run a non-dataset trajectory through the boundary without `deployment.plant()` (see Suggestions for Zach).",
+      "Test O1.1, the boundary ([specs/O1.1](specs/O1.1-the-boundary.md) has no test): run one short task with a controller whose `tick` returns a bare array, one whose command leaves out a joint, and a correct one; assert the first two fail `completed` with the wrapper's reason and the third completes, and that `tick` runs at the deployment's host rate (count its calls). Expect: O1.1 unverified \u2192 pass; no score moves."
     ]
   },
   "links": {
@@ -36,5 +37,5 @@
     "wandb": "Trajectory Tracking",
     "vault": null
   },
-  "updated_t": 1795544343.646622
+  "updated_t": 1795563985.2978485
 }

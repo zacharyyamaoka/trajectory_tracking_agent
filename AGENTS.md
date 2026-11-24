@@ -12,8 +12,9 @@ accurately, inside the gates, by proposing better controllers. Read `OBJECTIVES.
    `PROGRESS.md` and `site/progress.svg`.
 4. Rebuild the page's data and commit it with the solution, win or lose:
    `uv run --all-extras python tools/build_site.py build`, then `git add -- solutions/<id> site/data` (a new folder is
-   untracked) and `git commit -- solutions/<id> ledger.jsonl PROGRESS.md status.json site/progress.svg site/views site/data ideas.md`.
+   untracked) and `git commit -- solutions/<id> ledger.jsonl PROGRESS.md status.json site/progress.svg site/views site/data ideas.md specs feedback`.
    (`tests/test_site_*` fail until site/data matches the ledger; ablation-tagged solutions don't need the rebuild.)
+   `tta verify` must pass before the commit.
 5. Update `ideas.md`: cross off what you tried, add what the result suggests.
 
 ## Rules
@@ -26,6 +27,12 @@ accurately, inside the gates, by proposing better controllers. Read `OBJECTIVES.
 - **Keep the losers.** A discarded solution's scorecard tells the next agent what not to try.
 - **One change per solution**, named in `meta.json`'s `change`, so the lineage reads as a story.
 - **Sim only.** The real arm is a separate stage; nothing here opens a bus.
+- **Feedback is a file.** When you act on Zach's feedback, file `feedback/<date>-<slug>.md` (Observed / Desired / Why);
+  `words: exact` only for his verbatim words already public in this repo; your reading goes in a `> [!ai]` callout under
+  Why; never copy private notes.
+- **A spec changes with its tests.** When a test starts or stops proving a requirement, edit that `specs/<id>-*.md`
+  `tests:` in the same commit; never type a status (it is derived). Specs quote OBJECTIVES.md and never restate a
+  number; a new requirement is a ruler change (`docs/peps/`).
 - **State lives in files**, so any session can stop at any point (a rate limit, a crash) and the next one resumes
   from `ledger.jsonl` + `solutions/` + `ideas.md` without a takeover brief.
 

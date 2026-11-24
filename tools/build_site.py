@@ -721,8 +721,24 @@ def write_state() -> None:
     if not FOLD.exists():
         print(f"warning: {FOLD} not found: site/data/state.json not refreshed", file=sys.stderr)
         return
-    subprocess.run([sys.executable, str(FOLD), "--repo", str(REPO), "--ref", "HEAD", "--out", str(DATA / "state.json")],
-                   check=True, stdout=subprocess.DEVNULL)
+    with tempfile.TemporaryDirectory() as tmp:
+        cmd = [sys.executable, str(FOLD), "--repo", str(REPO), "--ref", "HEAD", "--out", str(DATA / "state.json")]
+        junit = test_run(Path(tmp) / "junit.xml")
+        if junit:
+            cmd += ["--junit", str(junit)]
+        subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL)
+
+
+def test_run(out: Path) -> Path | None:
+    """A junit XML of this tree's test run, for the Spec page's pass/fail per requirement (the fold never runs a test).
+    WHY: tests/test_site_* are left out: they check the very site/data this build is writing, so they are red mid-build
+    by construction; no spec cites them."""
+    run = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", f"--junitxml={out}",
+                          "--ignore-glob=tests/test_site_*"], cwd=REPO, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    if not out.exists():
+        print(f"warning: no test run (pytest exit {run.returncode}): the Spec page shows 'not run'", file=sys.stderr)
+        return None
+    return out
 
 
 def build() -> dict[str, Any]:
