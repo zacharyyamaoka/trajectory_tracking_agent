@@ -4,10 +4,11 @@
     admissible(verdicts_per_task)                   # every task passes every gate
     objective(task_objectives)                      # median over tasks; any NaN -> NaN
 
-`task_kpis` is keyed by gate name; each value is what that gate reads: `completed` a bool, `stop_error_max_mm` mm,
-`saturation_share_pct` %, `limit_violations` and `floor_clearance` sample counts (`floor_clearance_violations` is
-accepted for the latter, the name of the metric that counts them). A missing key, None, NaN, a non-number or a bool where
-a number belongs is a failed gate, never a pass (arm_motion_bench v3.11).
+`task_kpis` is one task's KPIs (diagnostics may ride along); each gate reads one key (`KPI_KEYS`): `completed` a bool,
+`stop_error_max_mm` mm, `saturation_share_pct` %, `limit_violations` a sample count, and the `floor_clearance` gate reads
+`floor_clearance_violations` (the count the metric returns; "floor_clearance" is the verdict's name, never read as a KPI,
+so a stale verdict can never pass a tool that went through the floor). A missing key, None, NaN, a non-number or a bool
+where a number belongs is a failed gate, never a pass (arm_motion_bench v3.11).
 """
 
 from __future__ import annotations
@@ -31,9 +32,16 @@ THRESHOLDS: dict[str, tuple[str, float]] = {
     "limit_violations": ("<=", LIMIT_VIOLATIONS_MAX),
     "floor_clearance": ("<=", FLOOR_CLEARANCE_VIOLATIONS_MAX),
 }
-_ALIASES = {"floor_clearance": ("floor_clearance", "floor_clearance_violations")}
+# the KPI key each gate reads (lane T's acceptance tests pin this mapping)
+KPI_KEYS: dict[str, str] = {
+    "completed": "completed",
+    "stop_error_max_mm": "stop_error_max_mm",
+    "saturation_share_pct": "saturation_share_pct",
+    "limit_violations": "limit_violations",
+    "floor_clearance": "floor_clearance_violations",
+}
 
-__all__ = ["GATES", "THRESHOLDS", "admissible", "gate_pass_rate", "gate_verdicts", "objective"]
+__all__ = ["GATES", "KPI_KEYS", "THRESHOLDS", "admissible", "gate_pass_rate", "gate_verdicts", "objective"]
 
 
 def _number(value: Any) -> float | None:
@@ -48,10 +56,7 @@ def _number(value: Any) -> float | None:
 
 
 def _read(task_kpis: Mapping[str, Any], gate: str) -> Any:
-    for key in _ALIASES.get(gate, (gate,)):
-        if key in task_kpis:
-            return task_kpis[key]
-    return None
+    return task_kpis.get(KPI_KEYS[gate])
 
 
 def _completed(value: Any) -> bool:
