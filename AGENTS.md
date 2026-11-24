@@ -10,6 +10,7 @@ accurately, inside the gates, by proposing better controllers. Read `OBJECTIVES.
 3. `tta evaluate <id>` (dev only). It writes `solutions/<id>/scorecard.json`, appends `ledger.jsonl` and refreshes
    `PROGRESS.md` and `site/progress.svg`.
 4. Commit the solution folder, the ledger row and the progress files together (by pathspec), win or lose:
+   `git add -- solutions/<id>` (a new folder is untracked), then
    `git commit -- solutions/<id> ledger.jsonl PROGRESS.md status.json site/progress.svg site/views ideas.md`.
 5. Update `ideas.md`: cross off what you tried, add what the result suggests.
 
@@ -25,3 +26,13 @@ accurately, inside the gates, by proposing better controllers. Read `OBJECTIVES.
 - **Sim only.** The real arm is a separate stage; nothing here opens a bus.
 - **State lives in files**, so any session can stop at any point (a rate limit, a crash) and the next one resumes
   from `ledger.jsonl` + `solutions/` + `ideas.md` without a takeover brief.
+
+## Lessons so far (generation 1, 2026-11-24)
+
+- **Identify at the gains you will run with.** A model fitted from joint errors learns the loop as well as the plant:
+  p5s-pass3's model run at the boards' normal gains scored 0.156 mm, worse than the line refitted at those gains (0.070).
+- **Scores repeat bit for bit**, so any gain is real; check it with two runs if you doubt it. Until robot_controllers
+  f25f485 the calibrated lookahead drifted with machine load by ~2 % and nothing flagged it.
+- **The twin has no compliance**, so stiffer board gains are cheap here and may not transfer to a real arm. Tag such
+  solutions `transfer-risk:stiffness` in meta.json and keep a line at the boards' normal gains beside them.
+

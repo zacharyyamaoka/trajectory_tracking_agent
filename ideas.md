@@ -30,6 +30,10 @@ never delete it.
 
 ## Suggestions for Zach
 
+- [ ] Ruler v2: a calibration dataset the agent may run freely for identification, separate from dev (today it identifies from dev runs, so dev is both its training data and its score; holdout still checks it).
+- [ ] Ruler v2: link and gearbox compliance in the twin, before stiffer gains count as a win.
+- [ ] Which gain line goes to a real arm first: normal gains (0.070 mm dev, same energy as p4s), kp x2 (0.045), kp x4 (0.031, +24 % energy). Recommendation: normal gains or x2.
+
 - [ ] Which gain rung should graduate to the real arm? Frontier, each rung identified at its own gains (dev mm): x1 `p5s-fric2-pass2` 0.070 (same energy as p4s, 12× better than p4s's 0.848) · x2 `p5s-kp2-pass2` 0.045 · x4 `p5s-pass3` 0.031 (energy +24 %, saturation 0.014 %). The twin cannot say how much stiffness the real UR5e/moteus loop tolerates; recommendation: x1 or x2.
 - [ ] Ruler or tooling: a sanctioned *calibration run* (an excitation trajectory a solution may run through the boundary before the tasks, without `deployment.plant()`), so identification stops being fitted on the dev tasks it is scored on. Today the only data are dev run records; holdout says it transfers (dev 0.031 / holdout 0.031) but the scheme reads as fitting on the test set.
 - [ ] `tests/test_site_static.py::test_leaderboard_numbers_are_the_scorecards` fails whenever an agent adds a solution (site/data is built by lane W's tool, not by `tta progress`). Either `tta progress` rebuilds site/data or the test reads the ledger.
