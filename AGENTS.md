@@ -6,7 +6,8 @@ accurately, inside the gates, by proposing better controllers. Read `OBJECTIVES.
 ## The loop
 
 1. Read `PROGRESS.md` (where the search stands), `ideas.md` (the queue) and `tta leaderboard`.
-2. Pick one idea, or propose one. Write it as a new solution: `tta new <id> --parent <best or a niche winner> --change "…"`.
+2. Pick one idea, or propose one. Write it as a new solution: `tta new <id> --parent <best or a niche winner> --change "…"
+   --agent "<your agent>" --model "<model id>" --session "<session id>"` (or set TTA_AGENT / TTA_MODEL / TTA_SESSION once).
 3. `tta evaluate <id>` (dev only). It writes `solutions/<id>/scorecard.json`, appends `ledger.jsonl` and refreshes
    `PROGRESS.md` and `site/progress.svg`.
 4. Rebuild the page's data and commit it with the solution, win or lose:
