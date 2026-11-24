@@ -1,0 +1,994 @@
+{
+"MjData": {
+"M": [],
+"act": [],
+"act_dot": [],
+"actuator_force": [],
+"actuator_length": [],
+"actuator_moment": [],
+"actuator_velocity": [],
+"body_awake": [],
+"body_awake_ind": [],
+"bvh_aabb_dyn": [
+6
+],
+"bvh_active": [],
+"cacc": [
+6
+],
+"cam_xmat": [
+9
+],
+"cam_xpos": [
+3
+],
+"cdof": [
+6
+],
+"cdof_dot": [
+6
+],
+"cfrc_ext": [
+6
+],
+"cfrc_int": [
+6
+],
+"cinert": [
+10
+],
+"crb": [
+10
+],
+"ctrl": [],
+"cvel": [
+6
+],
+"dof_awake_ind": [],
+"dof_island": [],
+"efc_AR": [],
+"efc_AR_colind": [],
+"efc_AR_rowadr": [],
+"efc_AR_rownnz": [],
+"efc_D": [],
+"efc_J": [],
+"efc_J_colind": [],
+"efc_J_rowadr": [],
+"efc_J_rownnz": [],
+"efc_J_rowsuper": [],
+"efc_KBIP": [
+4
+],
+"efc_R": [],
+"efc_Y": [],
+"efc_Y_colind": [],
+"efc_Y_rowadr": [],
+"efc_Y_rownnz": [],
+"efc_aref": [],
+"efc_b": [],
+"efc_diagA": [],
+"efc_force": [],
+"efc_frictionloss": [],
+"efc_id": [],
+"efc_island": [],
+"efc_margin": [],
+"efc_pos": [],
+"efc_state": [],
+"efc_type": [],
+"efc_vel": [],
+"efm_K_colind": [],
+"efm_K_rowadr": [],
+"efm_K_rownnz": [],
+"efm_K_val": [],
+"efm_L": [],
+"efm_L_colind": [],
+"efm_L_rowadr": [],
+"efm_L_rownnz": [],
+"efm_c": [],
+"efm_dofid": [],
+"energy": [],
+"eq_active": [],
+"flexedge_J": [],
+"flexedge_length": [],
+"flexedge_velocity": [],
+"flexelem_aabb": [
+6
+],
+"flexelem_krot": [],
+"flexvert_J": [
+2
+],
+"flexvert_length": [
+2
+],
+"flexvert_xpos": [
+3
+],
+"geom_xmat": [
+9
+],
+"geom_xpos": [
+3
+],
+"history": [],
+"iacc": [],
+"iacc_smooth": [],
+"iefc_D": [],
+"iefc_R": [],
+"iefc_aref": [],
+"iefc_force": [],
+"iefc_frictionloss": [],
+"iefc_id": [],
+"iefc_state": [],
+"iefc_type": [],
+"ifrc_constraint": [],
+"ifrc_smooth": [],
+"island_dofadr": [],
+"island_idofadr": [],
+"island_iefcadr": [],
+"island_itreeadr": [],
+"island_ne": [],
+"island_nefc": [],
+"island_nf": [],
+"island_ntree": [],
+"island_nv": [],
+"light_xdir": [
+3
+],
+"light_xpos": [
+3
+],
+"map_dof2idof": [],
+"map_efc2iefc": [],
+"map_idof2dof": [],
+"map_iefc2efc": [],
+"map_itree2tree": [],
+"mocap_pos": [
+3
+],
+"mocap_quat": [
+4
+],
+"moment_colind": [],
+"moment_rowadr": [],
+"moment_rownnz": [],
+"parent_awake_ind": [],
+"plugin": [],
+"plugin_data": [],
+"plugin_state": [],
+"qDeriv": [],
+"qH": [],
+"qHDiagInv": [],
+"qLD": [],
+"qLDiagInv": [],
+"qLU": [],
+"qacc": [],
+"qacc_smooth": [],
+"qacc_warmstart": [],
+"qfrc_actuator": [],
+"qfrc_adhesion": [],
+"qfrc_applied": [],
+"qfrc_bias": [],
+"qfrc_constraint": [],
+"qfrc_damper": [],
+"qfrc_fluid": [],
+"qfrc_gravcomp": [],
+"qfrc_inverse": [],
+"qfrc_passive": [],
+"qfrc_smooth": [],
+"qfrc_spring": [],
+"qpos": [],
+"qvel": [],
+"sensordata": [],
+"site_xmat": [
+9
+],
+"site_xpos": [
+3
+],
+"solver_fwdinv": [],
+"solver_niter": [],
+"solver_nnz": [],
+"subtree_angmom": [
+3
+],
+"subtree_com": [
+3
+],
+"subtree_linvel": [
+3
+],
+"ten_J": [],
+"ten_length": [],
+"ten_velocity": [],
+"ten_wrapadr": [],
+"ten_wrapnum": [],
+"tendon_efcadr": [],
+"tree_asleep": [],
+"tree_awake": [],
+"tree_island": [],
+"userdata": [],
+"wrap_obj": [
+2
+],
+"wrap_xpos": [
+6
+],
+"xanchor": [
+3
+],
+"xaxis": [
+3
+],
+"xfrc_applied": [
+6
+],
+"ximat": [
+9
+],
+"xipos": [
+3
+],
+"xmat": [
+9
+],
+"xpos": [
+3
+],
+"xquat": [
+4
+]
+},
+"MjModel": {
+"B_colind": [],
+"B_rowadr": [],
+"B_rownnz": [],
+"D_colind": [],
+"D_diag": [],
+"D_rowadr": [],
+"D_rownnz": [],
+"M_colind": [],
+"M_rowadr": [],
+"M_rownnz": [],
+"actuator_acc0": [],
+"actuator_actadr": [],
+"actuator_actearly": [],
+"actuator_actlimited": [],
+"actuator_actnum": [],
+"actuator_actrange": [
+2
+],
+"actuator_armature": [],
+"actuator_biasprm": [
+10
+],
+"actuator_biastype": [],
+"actuator_cranklength": [],
+"actuator_ctrladr": [],
+"actuator_ctrllimited": [],
+"actuator_ctrlnum": [],
+"actuator_ctrlrange": [
+2
+],
+"actuator_ctrlspec": [],
+"actuator_damping": [],
+"actuator_dampingpoly": [
+2
+],
+"actuator_delay": [],
+"actuator_dynprm": [
+10
+],
+"actuator_dyntype": [],
+"actuator_forcelimited": [],
+"actuator_forcerange": [
+2
+],
+"actuator_gainprm": [
+10
+],
+"actuator_gaintype": [],
+"actuator_gear": [
+6
+],
+"actuator_group": [],
+"actuator_history": [
+2
+],
+"actuator_historyadr": [],
+"actuator_length0": [],
+"actuator_lengthrange": [
+2
+],
+"actuator_outadr": [],
+"actuator_outnum": [],
+"actuator_plugin": [],
+"actuator_trnid": [
+2
+],
+"actuator_trntype": [],
+"actuator_user": [
+0
+],
+"body_bvhadr": [],
+"body_bvhnum": [],
+"body_conaffinity": [],
+"body_contype": [],
+"body_dofadr": [],
+"body_dofnum": [],
+"body_geomadr": [],
+"body_geomnum": [],
+"body_gravcomp": [],
+"body_inertia": [
+3
+],
+"body_invweight0": [
+2
+],
+"body_ipos": [
+3
+],
+"body_iquat": [
+4
+],
+"body_jntadr": [],
+"body_jntnum": [],
+"body_margin": [],
+"body_mass": [],
+"body_mocapid": [],
+"body_parentid": [],
+"body_plugin": [],
+"body_pos": [
+3
+],
+"body_quat": [
+4
+],
+"body_rootid": [],
+"body_sameframe": [],
+"body_simple": [],
+"body_subtreemass": [],
+"body_treeid": [],
+"body_user": [
+0
+],
+"body_weldid": [],
+"bvh_aabb": [
+6
+],
+"bvh_child": [
+2
+],
+"bvh_depth": [],
+"bvh_nodeid": [],
+"cam_bodyid": [],
+"cam_fovy": [],
+"cam_intrinsic": [
+4
+],
+"cam_ipd": [],
+"cam_mat0": [
+9
+],
+"cam_mode": [],
+"cam_output": [],
+"cam_pos": [
+3
+],
+"cam_pos0": [
+3
+],
+"cam_poscom0": [
+3
+],
+"cam_projection": [],
+"cam_quat": [
+4
+],
+"cam_resolution": [
+2
+],
+"cam_sensorsize": [
+2
+],
+"cam_targetbodyid": [],
+"cam_user": [
+0
+],
+"dof_M0": [],
+"dof_Madr": [],
+"dof_armature": [],
+"dof_bodyid": [],
+"dof_damping": [],
+"dof_dampingpoly": [
+2
+],
+"dof_frictionloss": [],
+"dof_invweight0": [],
+"dof_jntid": [],
+"dof_length": [],
+"dof_parentid": [],
+"dof_simplenum": [],
+"dof_solimp": [
+5
+],
+"dof_solref": [
+2
+],
+"dof_treeid": [],
+"efm0_L": [],
+"efm0_L_colind": [],
+"efm0_L_rowadr": [],
+"efm0_L_rownnz": [],
+"efm0_dofid": [],
+"eq_active0": [],
+"eq_data": [
+11
+],
+"eq_obj1id": [],
+"eq_obj2id": [],
+"eq_objtype": [],
+"eq_solimp": [
+5
+],
+"eq_solref": [
+2
+],
+"eq_type": [],
+"exclude_signature": [],
+"flex_activelayers": [],
+"flex_bending": [],
+"flex_bendingadr": [],
+"flex_bvhadr": [],
+"flex_bvhnum": [],
+"flex_cellnum": [
+3
+],
+"flex_centered": [],
+"flex_conaffinity": [],
+"flex_condim": [],
+"flex_contype": [],
+"flex_damping": [],
+"flex_dim": [],
+"flex_edge": [
+2
+],
+"flex_edgeadr": [],
+"flex_edgedamping": [],
+"flex_edgeequality": [],
+"flex_edgeflap": [
+2
+],
+"flex_edgenum": [],
+"flex_edgestiffness": [],
+"flex_elem": [],
+"flex_elemadr": [],
+"flex_elemdataadr": [],
+"flex_elemedge": [],
+"flex_elemedgeadr": [],
+"flex_elemlayer": [],
+"flex_elemnum": [],
+"flex_elemtexcoord": [],
+"flex_evpair": [
+2
+],
+"flex_evpairadr": [],
+"flex_evpairnum": [],
+"flex_flatskin": [],
+"flex_friction": [
+3
+],
+"flex_gap": [],
+"flex_group": [],
+"flex_internal": [],
+"flex_interp": [],
+"flex_margin": [],
+"flex_matid": [],
+"flex_node": [
+3
+],
+"flex_node0": [
+3
+],
+"flex_nodeadr": [],
+"flex_nodebodyid": [],
+"flex_nodenum": [],
+"flex_passive": [],
+"flex_priority": [],
+"flex_radius": [],
+"flex_rgba": [
+4
+],
+"flex_rigid": [],
+"flex_selfcollide": [],
+"flex_shell": [],
+"flex_shelldataadr": [],
+"flex_shellnum": [],
+"flex_size": [
+3
+],
+"flex_solimp": [
+5
+],
+"flex_solmix": [],
+"flex_solref": [
+2
+],
+"flex_stiffness": [],
+"flex_stiffnessadr": [],
+"flex_texcoord": [
+2
+],
+"flex_texcoordadr": [],
+"flex_vert": [
+3
+],
+"flex_vert0": [
+3
+],
+"flex_vertadr": [],
+"flex_vertbodyid": [],
+"flex_vertedge": [
+2
+],
+"flex_vertedgeadr": [],
+"flex_vertedgenum": [],
+"flex_vertmetric": [
+4
+],
+"flex_vertnum": [],
+"flexedge_J_colind": [],
+"flexedge_J_rowadr": [],
+"flexedge_J_rownnz": [],
+"flexedge_invweight0": [],
+"flexedge_length0": [],
+"flexedge_rigid": [],
+"flexvert_J_colind": [
+2
+],
+"flexvert_J_rowadr": [
+2
+],
+"flexvert_J_rownnz": [
+2
+],
+"geom_aabb": [
+6
+],
+"geom_adhesion": [],
+"geom_bodyid": [],
+"geom_conaffinity": [],
+"geom_condim": [],
+"geom_contype": [],
+"geom_dataid": [],
+"geom_fluid": [
+12
+],
+"geom_friction": [
+3
+],
+"geom_gap": [],
+"geom_group": [],
+"geom_margin": [],
+"geom_matid": [],
+"geom_plugin": [],
+"geom_pos": [
+3
+],
+"geom_priority": [],
+"geom_quat": [
+4
+],
+"geom_rbound": [],
+"geom_rgba": [
+4
+],
+"geom_sameframe": [],
+"geom_size": [
+3
+],
+"geom_solimp": [
+5
+],
+"geom_solmix": [],
+"geom_solref": [
+2
+],
+"geom_surfacevel": [
+6
+],
+"geom_type": [],
+"geom_user": [
+0
+],
+"hfield_adr": [],
+"hfield_data": [],
+"hfield_ncol": [],
+"hfield_nrow": [],
+"hfield_pathadr": [],
+"hfield_size": [
+4
+],
+"jnt_actfrclimited": [],
+"jnt_actfrcrange": [
+2
+],
+"jnt_actgravcomp": [],
+"jnt_actuatorid": [],
+"jnt_axis": [
+3
+],
+"jnt_bodyid": [],
+"jnt_dofadr": [],
+"jnt_group": [],
+"jnt_limited": [],
+"jnt_margin": [],
+"jnt_pos": [
+3
+],
+"jnt_qposadr": [],
+"jnt_range": [
+2
+],
+"jnt_solimp": [
+5
+],
+"jnt_solref": [
+2
+],
+"jnt_stiffness": [],
+"jnt_stiffnesspoly": [
+2
+],
+"jnt_type": [],
+"jnt_user": [
+0
+],
+"key_act": [
+0
+],
+"key_ctrl": [
+0
+],
+"key_mpos": [
+0
+],
+"key_mquat": [
+0
+],
+"key_time": [],
+"light_active": [],
+"light_ambient": [
+3
+],
+"light_attenuation": [
+3
+],
+"light_bodyid": [],
+"light_bulbradius": [],
+"light_castshadow": [],
+"light_cutoff": [],
+"light_diffuse": [
+3
+],
+"light_dir": [
+3
+],
+"light_dir0": [
+3
+],
+"light_exponent": [],
+"light_intensity": [],
+"light_mode": [],
+"light_pos": [
+3
+],
+"light_pos0": [
+3
+],
+"light_poscom0": [
+3
+],
+"light_range": [],
+"light_specular": [
+3
+],
+"light_targetbodyid": [],
+"light_texid": [],
+"light_type": [],
+"mapD2M": [],
+"mapM2D": [],
+"mapM2M": [],
+"mat_emission": [],
+"mat_metallic": [],
+"mat_reflectance": [],
+"mat_rgba": [
+4
+],
+"mat_roughness": [],
+"mat_shininess": [],
+"mat_specular": [],
+"mat_texid": [
+10
+],
+"mat_texrepeat": [
+2
+],
+"mat_texuniform": [],
+"mesh_bvhadr": [],
+"mesh_bvhnum": [],
+"mesh_face": [
+3
+],
+"mesh_faceadr": [],
+"mesh_facenormal": [
+3
+],
+"mesh_facenum": [],
+"mesh_facetexcoord": [
+3
+],
+"mesh_graph": [],
+"mesh_graphadr": [],
+"mesh_normal": [
+3
+],
+"mesh_normaladr": [],
+"mesh_normalnum": [],
+"mesh_octadr": [],
+"mesh_octnum": [],
+"mesh_pathadr": [],
+"mesh_polyadr": [],
+"mesh_polymap": [],
+"mesh_polymapadr": [],
+"mesh_polymapnum": [],
+"mesh_polynormal": [
+3
+],
+"mesh_polynum": [],
+"mesh_polyvert": [],
+"mesh_polyvertadr": [],
+"mesh_polyvertnum": [],
+"mesh_pos": [
+3
+],
+"mesh_quat": [
+4
+],
+"mesh_scale": [
+3
+],
+"mesh_texcoord": [
+2
+],
+"mesh_texcoordadr": [],
+"mesh_texcoordnum": [],
+"mesh_vert": [
+3
+],
+"mesh_vertadr": [],
+"mesh_vertnum": [],
+"name_actuatoradr": [],
+"name_bodyadr": [],
+"name_camadr": [],
+"name_eqadr": [],
+"name_excludeadr": [],
+"name_flexadr": [],
+"name_geomadr": [],
+"name_hfieldadr": [],
+"name_jntadr": [],
+"name_keyadr": [],
+"name_lightadr": [],
+"name_matadr": [],
+"name_meshadr": [],
+"name_numericadr": [],
+"name_pairadr": [],
+"name_pluginadr": [],
+"name_sensoradr": [],
+"name_siteadr": [],
+"name_skinadr": [],
+"name_tendonadr": [],
+"name_texadr": [],
+"name_textadr": [],
+"name_tupleadr": [],
+"names_map": [],
+"numeric_adr": [],
+"numeric_data": [],
+"numeric_size": [],
+"oct_aabb": [
+6
+],
+"oct_child": [
+8
+],
+"oct_coeff": [
+8
+],
+"oct_depth": [],
+"pair_adhesion": [],
+"pair_dim": [],
+"pair_friction": [
+5
+],
+"pair_gap": [],
+"pair_geom1": [],
+"pair_geom2": [],
+"pair_margin": [],
+"pair_signature": [],
+"pair_solimp": [
+5
+],
+"pair_solref": [
+2
+],
+"pair_solreffriction": [
+2
+],
+"plugin": [],
+"plugin_attr": [],
+"plugin_attradr": [],
+"plugin_stateadr": [],
+"plugin_statenum": [],
+"qpos0": [],
+"qpos_spring": [],
+"sensor_adr": [],
+"sensor_cutoff": [],
+"sensor_datatype": [],
+"sensor_delay": [],
+"sensor_dim": [],
+"sensor_history": [
+2
+],
+"sensor_historyadr": [],
+"sensor_interval": [
+2
+],
+"sensor_intprm": [
+3
+],
+"sensor_needstage": [],
+"sensor_noise": [],
+"sensor_objid": [],
+"sensor_objtype": [],
+"sensor_plugin": [],
+"sensor_refid": [],
+"sensor_reftype": [],
+"sensor_type": [],
+"sensor_user": [
+0
+],
+"site_bodyid": [],
+"site_group": [],
+"site_matid": [],
+"site_pos": [
+3
+],
+"site_quat": [
+4
+],
+"site_rgba": [
+4
+],
+"site_sameframe": [],
+"site_size": [
+3
+],
+"site_type": [],
+"site_user": [
+0
+],
+"skin_boneadr": [],
+"skin_bonebindpos": [
+3
+],
+"skin_bonebindquat": [
+4
+],
+"skin_bonebodyid": [],
+"skin_bonenum": [],
+"skin_bonevertadr": [],
+"skin_bonevertid": [],
+"skin_bonevertnum": [],
+"skin_bonevertweight": [],
+"skin_face": [
+3
+],
+"skin_faceadr": [],
+"skin_facenum": [],
+"skin_group": [],
+"skin_inflate": [],
+"skin_matid": [],
+"skin_pathadr": [],
+"skin_rgba": [
+4
+],
+"skin_texcoord": [
+2
+],
+"skin_texcoordadr": [],
+"skin_vert": [
+3
+],
+"skin_vertadr": [],
+"skin_vertnum": [],
+"ten_J_colind": [],
+"ten_J_rowadr": [],
+"ten_J_rownnz": [],
+"tendon_actfrclimited": [],
+"tendon_actfrcrange": [
+2
+],
+"tendon_actuatorid": [],
+"tendon_adr": [],
+"tendon_armature": [],
+"tendon_damping": [],
+"tendon_dampingpoly": [
+2
+],
+"tendon_frictionloss": [],
+"tendon_group": [],
+"tendon_invweight0": [],
+"tendon_length0": [],
+"tendon_lengthspring": [
+2
+],
+"tendon_limited": [],
+"tendon_margin": [],
+"tendon_matid": [],
+"tendon_num": [],
+"tendon_range": [
+2
+],
+"tendon_rgba": [
+4
+],
+"tendon_solimp_fri": [
+5
+],
+"tendon_solimp_lim": [
+5
+],
+"tendon_solref_fri": [
+2
+],
+"tendon_solref_lim": [
+2
+],
+"tendon_stiffness": [],
+"tendon_stiffnesspoly": [
+2
+],
+"tendon_treeid": [
+2
+],
+"tendon_treenum": [],
+"tendon_user": [
+0
+],
+"tendon_width": [],
+"tex_adr": [],
+"tex_colorspace": [],
+"tex_data": [],
+"tex_height": [],
+"tex_nchannel": [],
+"tex_pathadr": [],
+"tex_type": [],
+"tex_width": [],
+"text_adr": [],
+"text_size": [],
+"tree_bodyadr": [],
+"tree_bodynum": [],
+"tree_dofadr": [],
+"tree_dofnum": [],
+"tree_sleep_policy": [],
+"tuple_adr": [],
+"tuple_objid": [],
+"tuple_objprm": [],
+"tuple_objtype": [],
+"tuple_size": [],
+"wrap_objid": [],
+"wrap_prm": [],
+"wrap_type": []
+},
+"mujoco": "3.11.0"
+}

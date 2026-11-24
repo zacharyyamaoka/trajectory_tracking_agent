@@ -1,0 +1,25 @@
+{
+  "id": "p3",
+  "parent": null,
+  "change": "model at plan time, board PD, the datasheet's lookahead",
+  "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "session": null
+  },
+  "created": "2026-11-20T13:03:00-07:00",
+  "tags": [
+    "gen-0",
+    "robot_controllers:P3",
+    "ff=rigid_body@plan",
+    "fb=board_gains@board",
+    "lookahead=nominal",
+    "interp=tangent"
+  ],
+  "source": {
+    "robot_controllers_config": "P3",
+    "created_commit": "8a77523ed6a0e71117973327115dbf7bd9a7d8a2",
+    "created_commit_subject": "layouts: lookahead swept at 0 and the bus delay (+la=5.5ms names), recommend ranks the median duty over the swept rungs (contract 3.8.2-3)",
+    "created_rule": "the robot_controllers commit where this config's last ingredient entered (its layout, lookahead mode and interpolation; git log), so the progress chart reads as the population's history"
+  }
+}

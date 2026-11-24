@@ -1,0 +1,355 @@
+{
+ "pyodide": "314.0.8",
+ "pyodide_url": "https://cdn.jsdelivr.net/pyodide/v314.0.8/full/",
+ "mujoco_wasm": "3.11.0",
+ "mujoco_url": "https://cdn.jsdelivr.net/npm/@mujoco/mujoco@3.11.0/mujoco.js",
+ "three": "0.186.1",
+ "wheels": [
+  {
+   "dist": "dataclass-values",
+   "file": "dataclass_values-0.1.0-py3-none-any.whl",
+   "sha256": "98faeb88a13c555d5e10ce5e17a9e5d6821483d1088d69ae72490269393e3ec7",
+   "bytes": 9415,
+   "source": "https://files.pythonhosted.org/packages/32/d5/0269abcf68c59a3a9a032f52e84b5c88b3d50fb76b9aaf73783b7eb4fca8/dataclass_values-0.1.0-py3-none-any.whl",
+   "commit": null
+  },
+  {
+   "dist": "robot-msgs",
+   "file": "robot_msgs-0.3.1-py3-none-any.whl",
+   "sha256": "aa49c10d549709a6019740a03159bc3414ba19d50f5e38debd42d7af0a9fa034",
+   "bytes": 206695,
+   "source": "https://github.com/zacharyyamaoka/robot_msgs/tree/cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb",
+   "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb"
+  },
+  {
+   "dist": "robot-controllers",
+   "file": "robot_controllers-0.1.0-py3-none-any.whl",
+   "sha256": "64eadffa95ddd753b13f80b3d07eaa51c229f8824bbb95553521436858faafa5",
+   "bytes": 368616,
+   "source": "https://github.com/zacharyyamaoka/robot_controllers/tree/20daa37c212abea829b7606a26902717fe26d122",
+   "commit": "20daa37c212abea829b7606a26902717fe26d122"
+  },
+  {
+   "dist": "trajectory-tracking-agent",
+   "file": "trajectory_tracking_agent-0.1.0-py3-none-any.whl",
+   "sha256": "8b22b1171d3bc3eb6cf11e79c142d25ce1342d8585c0d9c965b035495ff4ad37",
+   "bytes": 38739,
+   "source": "this repo",
+   "commit": "1b8794680a0ffe69d10f4bc0b9f4bd8af18e6359"
+  }
+ ],
+ "repo_files": [
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tasks.jsonl",
+   "bytes": 106350
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/station.json",
+   "bytes": 12182
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-000.npz",
+   "bytes": 113962
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-001.npz",
+   "bytes": 136758
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-002.npz",
+   "bytes": 74710
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-003.npz",
+   "bytes": 53202
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-004.npz",
+   "bytes": 55510
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-005.npz",
+   "bytes": 53202
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-006.npz",
+   "bytes": 53970
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-007.npz",
+   "bytes": 60882
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-008.npz",
+   "bytes": 58578
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-009.npz",
+   "bytes": 64726
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-010.npz",
+   "bytes": 50898
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-011.npz",
+   "bytes": 66258
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-012.npz",
+   "bytes": 58582
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-013.npz",
+   "bytes": 59346
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-014.npz",
+   "bytes": 47826
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-015.npz",
+   "bytes": 83154
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-016.npz",
+   "bytes": 69286
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-017.npz",
+   "bytes": 78502
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-018.npz",
+   "bytes": 83926
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-019.npz",
+   "bytes": 99238
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-020.npz",
+   "bytes": 69334
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-021.npz",
+   "bytes": 70870
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-022.npz",
+   "bytes": 116178
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-023.npz",
+   "bytes": 66982
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-024.npz",
+   "bytes": 53202
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-025.npz",
+   "bytes": 57810
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-026.npz",
+   "bytes": 49362
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-027.npz",
+   "bytes": 60882
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-028.npz",
+   "bytes": 53202
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-029.npz",
+   "bytes": 90022
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-030.npz",
+   "bytes": 69334
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-031.npz",
+   "bytes": 53970
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-032.npz",
+   "bytes": 47826
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-033.npz",
+   "bytes": 83154
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-034.npz",
+   "bytes": 48594
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-035.npz",
+   "bytes": 70054
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-036.npz",
+   "bytes": 61650
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-037.npz",
+   "bytes": 60882
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-038.npz",
+   "bytes": 53970
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-039.npz",
+   "bytes": 74662
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-040.npz",
+   "bytes": 92326
+  },
+  {
+   "path": "datasets/ur5e_alone/workspace/v2/tapes/workspace-dev-041.npz",
+   "bytes": 62418
+  },
+  {
+   "path": "solutions/p1/solution.py",
+   "bytes": 1698
+  },
+  {
+   "path": "solutions/p1/meta.json",
+   "bytes": 888
+  },
+  {
+   "path": "solutions/p10/solution.py",
+   "bytes": 1687
+  },
+  {
+   "path": "solutions/p10/meta.json",
+   "bytes": 914
+  },
+  {
+   "path": "solutions/p2/solution.py",
+   "bytes": 1695
+  },
+  {
+   "path": "solutions/p2/meta.json",
+   "bytes": 874
+  },
+  {
+   "path": "solutions/p2s/solution.py",
+   "bytes": 1712
+  },
+  {
+   "path": "solutions/p2s/meta.json",
+   "bytes": 923
+  },
+  {
+   "path": "solutions/p3/solution.py",
+   "bytes": 1706
+  },
+  {
+   "path": "solutions/p3/meta.json",
+   "bytes": 932
+  },
+  {
+   "path": "solutions/p3s/solution.py",
+   "bytes": 1723
+  },
+  {
+   "path": "solutions/p3s/meta.json",
+   "bytes": 931
+  },
+  {
+   "path": "solutions/p4/solution.py",
+   "bytes": 1701
+  },
+  {
+   "path": "solutions/p4/meta.json",
+   "bytes": 897
+  },
+  {
+   "path": "solutions/p4s/solution.py",
+   "bytes": 1718
+  },
+  {
+   "path": "solutions/p4s/meta.json",
+   "bytes": 921
+  },
+  {
+   "path": "solutions/p5/solution.py",
+   "bytes": 1711
+  },
+  {
+   "path": "solutions/p5/meta.json",
+   "bytes": 915
+  },
+  {
+   "path": "solutions/p5s/solution.py",
+   "bytes": 1728
+  },
+  {
+   "path": "solutions/p5s/meta.json",
+   "bytes": 939
+  },
+  {
+   "path": "solutions/p5s-bus/solution.py",
+   "bytes": 2094
+  },
+  {
+   "path": "solutions/p5s-bus/meta.json",
+   "bytes": 405
+  },
+  {
+   "path": "solutions/p6/solution.py",
+   "bytes": 1722
+  },
+  {
+   "path": "solutions/p6/meta.json",
+   "bytes": 927
+  },
+  {
+   "path": "solutions/p6s/solution.py",
+   "bytes": 1739
+  },
+  {
+   "path": "solutions/p6s/meta.json",
+   "bytes": 951
+  },
+  {
+   "path": "solutions/p7/solution.py",
+   "bytes": 1732
+  },
+  {
+   "path": "solutions/p7/meta.json",
+   "bytes": 930
+  },
+  {
+   "path": "solutions/p7s/solution.py",
+   "bytes": 1749
+  },
+  {
+   "path": "solutions/p7s/meta.json",
+   "bytes": 954
+  },
+  {
+   "path": "solutions/p8/solution.py",
+   "bytes": 1697
+  },
+  {
+   "path": "solutions/p8/meta.json",
+   "bytes": 924
+  },
+  {
+   "path": "solutions/p9/solution.py",
+   "bytes": 1719
+  },
+  {
+   "path": "solutions/p9/meta.json",
+   "bytes": 955
+  }
+ ]
+}

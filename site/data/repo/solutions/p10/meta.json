@@ -1,0 +1,25 @@
+{
+  "id": "p10",
+  "parent": null,
+  "change": "model at plan time, PD on the host",
+  "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "session": null
+  },
+  "created": "2026-11-20T12:47:21-07:00",
+  "tags": [
+    "gen-0",
+    "robot_controllers:P10",
+    "ff=rigid_body@plan",
+    "fb=pd@host",
+    "lookahead=none",
+    "interp=tangent"
+  ],
+  "source": {
+    "robot_controllers_config": "P10",
+    "created_commit": "406ca489e23cde857937815166b4145316f38ed0",
+    "created_commit_subject": "layouts: the sweep (every valid FF@placement x FB@placement on R1 R2 R4 R6 R8 R9 R9), layout_spec, recommend, robot-controllers layouts (amendment 3.6)",
+    "created_rule": "the robot_controllers commit where this config's last ingredient entered (its layout, lookahead mode and interpolation; git log), so the progress chart reads as the population's history"
+  }
+}
