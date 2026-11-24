@@ -12,7 +12,7 @@ import pytest
 
 from trajectory_tracking_agent.evaluate import run_task
 
-KEYS = ("tool_track_rms_mm", "stop_error_max_mm", "saturation_share_pct")
+KEYS = ("stop_error_max_mm", "saturation_share_pct")  # the objective (tool_track_rms_mm) is the row's own key
 
 
 def _cold_run(solution_id: str) -> dict:
