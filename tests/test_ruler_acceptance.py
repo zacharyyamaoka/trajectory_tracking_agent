@@ -4,7 +4,7 @@ These are the ruler's ruler. Lane E implements ``src/trajectory_tracking_agent/r
 against them and may not edit this file or ``ruler_fixtures.py``; a test lane E believes is wrong goes back to the
 dispatcher. Until lane E lands, collection fails on the import below: that is expected (committed red).
 
-Run: ``cd /home/bam/trajectory_tracking_agent && uv run pytest tests/test_ruler_acceptance.py -q``
+Run: ``uv run --all-extras pytest tests/test_ruler_acceptance.py -q``
 
 Every input is synthetic and hand-computable (numpy only: no MuJoCo, no robot_controllers, no dataset); the expected value
 of each test is derived in the comment beside it. Units: SI in (m, s, rad, rad/s, N*m), the unit in the name out (mm, %).
@@ -783,7 +783,7 @@ A test suite that passes a wrong ruler measures nothing, so each test was proven
 reference ruler (142 / 142 pass) and 64 mutants of it, each one plausible mistake, in the gitignored
 outputs/lane_t_mutants/ (make_mutants.py builds them; run_one.py injects a variant as trajectory_tracking_agent.ruler
 through sys.modules and runs this file; run_mutants.py prints the table). Re-run:
-    cd /home/bam/trajectory_tracking_agent && uv run python outputs/lane_t_mutants/run_mutants.py
+    uv run --all-extras python outputs/lane_t_mutants/run_mutants.py
 Run 2026-11-24: 64 / 64 killed.
 
 The five named in the brief, with the reasoning and then what actually went red:

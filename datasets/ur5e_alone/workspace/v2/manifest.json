@@ -149,11 +149,11 @@
         6.283185307179586,
         6.283185307179586
       ],
-      "jerk_source": "stated: UR publishes no joint jerk limit; 10 x the stated 6.0 rad/s^2 (a 0.1 s jerk ramp), the BAM rigs' own bam_ruckig rule (bam_ws src/dev/bam_fivebar/bam_fivebar/tapes.py JERK_TIME_S 0.1, JOINT_MOVE_JERK_RAD_S3 20 at 2.0 rad/s^2; src/dev/bam_ur_wrist/bam_ur_wrist/tapes.py JERK_PER_ACCELERATION 10)"
+      "jerk_source": "stated: UR publishes no joint jerk limit; 10 x the stated 6.0 rad/s^2 (a 0.1 s jerk ramp), the BAM rigs' own bam_ruckig rule (a 0.1 s jerk ramp; jerk = 10 x acceleration; private source)"
     }
   },
   "generator": {
-    "repo": "/home/bam/arm_motion_bench/.claude/worktrees/ur5e-alone",
+    "repo": "arm_motion_bench (private; path redacted for publication)",
     "git_sha": "68330786a0f4facada43df0a2cfda268e24d2c82",
     "dirty": false,
     "dirty_scope": [
@@ -165,7 +165,7 @@
     ]
   },
   "robot_trajectories": {
-    "repo": "/home/bam/robot_trajectories",
+    "repo": "https://github.com/zacharyyamaoka/robot_trajectories",
     "git_sha": "2253845da6acf05a649e496aa29f56328d79003e",
     "dirty": true,
     "dirty_scope": "whole tree",

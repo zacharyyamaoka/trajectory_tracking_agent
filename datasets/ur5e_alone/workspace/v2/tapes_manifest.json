@@ -19,7 +19,7 @@
     "regenerated": "2026-11-24: `python -m arm_motion_bench verify datasets/ur5e_alone/workspace/v2 --no-restore` in arm_motion_bench's venv (bam_ruckig sha256 f68b0442...caa) regenerated every tape bit for bit (OK, 9 s); the copied files are those bytes"
   },
   "files": {
-    "manifest.json": "0551347819f5f987d436bfa5e83a08125602ab354864722e6218e09394881f58",
+    "manifest.json": "8fd42ffe61733fcf85b08fe152172caf280bac9d204b8594acea401fd6ed5b77",
     "tasks.jsonl": "e15b8a582014c3d5642fa67f54d549161d80be918428cabc7585710b4ee77e50",
     "station.json": "defd6e45a7b6ca1f553ce74e69fc6e3c419c3f2a8e49e3bc7b97803b600a4f4e",
     "rejections.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -77,5 +77,9 @@
     "tapes/workspace-holdout-009.npz": "10a31b293ee96f2a53a554cc89d81bf3a546c0f6487f36297b5a63bee686eb4b",
     "tapes/workspace-holdout-010.npz": "e8ee183a6f2af79cd207d62efc00098733b440c33a609a5b7c5566a5f5c8280e",
     "tapes/workspace-holdout-011.npz": "46da1d631b914136dff8504ba8fa0cd986a2a3ecc80ec8253e2ab952f6163c72"
+  },
+  "manifest_redaction": {
+    "why": "published repo: local paths and a private repo's file names removed from manifest.json (2026-11-24); every hash it records is unchanged",
+    "upstream_manifest_sha256": "0551347819f5f987d436bfa5e83a08125602ab354864722e6218e09394881f58"
   }
 }
