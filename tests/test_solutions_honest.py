@@ -11,7 +11,9 @@ from pathlib import Path
 
 import pytest
 
-SOLUTIONS = sorted(p for p in (Path(__file__).resolve().parents[1] / "solutions").glob("*/solution.py"))
+# WHY every .py, not only solution.py (2026-11-24): gen-1 solutions identify models with helper scripts beside
+# solution.py (identify_pass.py, merge_stack.py); a route to the truth there is the same leak.
+SOLUTIONS = sorted(p for p in (Path(__file__).resolve().parents[1] / "solutions").glob("*/*.py"))
 
 # WHY these: each one hands a solution the plant's truth or a model better than the deployment gives (2026-11-24).
 FORBIDDEN = {
@@ -28,9 +30,9 @@ def test_there_are_solutions() -> None:
     assert SOLUTIONS, "no solutions/*/solution.py found"
 
 
-@pytest.mark.parametrize("path", SOLUTIONS, ids=lambda p: p.parent.name)
+@pytest.mark.parametrize("path", SOLUTIONS, ids=lambda p: f"{p.parent.name}/{p.name}")
 @pytest.mark.parametrize("what", sorted(FORBIDDEN))
 def test_solution_does_not_use(path: Path, what: str) -> None:
     source = path.read_text()
     hits = [m.group(0) for m in re.finditer(FORBIDDEN[what], source)]
-    assert not hits, f"{path.parent.name}/solution.py uses {what}: {hits}"
+    assert not hits, f"{path.parent.name}/{path.name} uses {what}: {hits}"
