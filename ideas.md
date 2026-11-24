@@ -20,7 +20,7 @@ never delete it.
 - [x] ~~Niche at the boards' configured gains: the same second pass on p5s-fric2~~ → `p5s-fric2-pass2` 0.070 mm dev, admissible (−12 %): the best candidate that does not lean on stiffer gains.
 - [x] ~~Less board damping at kp ×4 (kd ×1.5)~~ → `p5s-kd15` 0.035 mm, worse than p5s-pass2 (0.032): the buzz it removes is cheaper than the damping it loses.
 - [x] ~~More board damping (kd ×2.5)~~ → `p5s-kd25` 0.035 mm, worse, saturation share 1.3 % (gate 2 %). kd ×2 is the local optimum at kp ×4.
-- [ ] Fold the four identification passes into one script and one fit, re-run on the best's own runs, so a solution carries one model instead of a stack (friction, gravity, friction2, pass2). Expect: no score change; much easier to read and to move to a real arm.
+- [x] ~~Fold the four identification passes into one model~~ → `p5s-onefit`: one model.json (exact merge, commands equal within 1.4e-14) and `identify_pass.py`, one command per further pass.
 
 ## Suggestions for Zach
 
