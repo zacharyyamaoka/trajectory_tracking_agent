@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" viewBox="0 0 760 360" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" role="img" aria-label="Trajectory Tracking Agent · 28 solutions · 25 admissible · best 0.032 mm">
-<title>Trajectory Tracking Agent · 28 solutions · 25 admissible · best 0.032 mm</title>
-<text x="64" y="20" fill="#8c8c8c" font-size="14" font-weight="600">Trajectory Tracking Agent · 28 solutions · 25 admissible · best 0.032 mm</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" viewBox="0 0 760 360" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" role="img" aria-label="Trajectory Tracking Agent · 29 solutions · 26 admissible · best 0.032 mm">
+<title>Trajectory Tracking Agent · 29 solutions · 26 admissible · best 0.032 mm</title>
+<text x="64" y="20" fill="#8c8c8c" font-size="14" font-weight="600">Trajectory Tracking Agent · 29 solutions · 26 admissible · best 0.032 mm</text>
 <g stroke="#8c8c8c" stroke-opacity="0.25" stroke-width="1">
 <line x1="64" x2="736" y1="277.6" y2="277.6"/>
 <line x1="64" x2="736" y1="247.3" y2="247.3"/>
@@ -21,68 +21,70 @@
 </g>
 <g stroke="#8c8c8c" stroke-width="1"><line x1="64" x2="64" y1="58" y2="308"/><line x1="64" x2="736" y1="308" y2="308"/></g>
 <g fill="#8c8c8c" text-anchor="middle">
-<text x="76.0" y="324">1</text>
-<text x="124.0" y="324">3</text>
-<text x="172.0" y="324">5</text>
-<text x="220.0" y="324">7</text>
-<text x="268.0" y="324">9</text>
-<text x="316.0" y="324">11</text>
-<text x="364.0" y="324">13</text>
-<text x="412.0" y="324">15</text>
-<text x="460.0" y="324">17</text>
-<text x="508.0" y="324">19</text>
-<text x="556.0" y="324">21</text>
-<text x="604.0" y="324">23</text>
-<text x="652.0" y="324">25</text>
-<text x="700.0" y="324">27</text>
+<text x="75.6" y="324">1</text>
+<text x="121.9" y="324">3</text>
+<text x="168.3" y="324">5</text>
+<text x="214.6" y="324">7</text>
+<text x="261.0" y="324">9</text>
+<text x="307.3" y="324">11</text>
+<text x="353.7" y="324">13</text>
+<text x="400.0" y="324">15</text>
+<text x="446.3" y="324">17</text>
+<text x="492.7" y="324">19</text>
+<text x="539.0" y="324">21</text>
+<text x="585.4" y="324">23</text>
+<text x="631.7" y="324">25</text>
+<text x="678.1" y="324">27</text>
+<text x="724.4" y="324">29</text>
 </g>
 <text x="400.0" y="350" fill="#8c8c8c" text-anchor="middle">solution number (creation order)</text>
 <text transform="translate(16 183.0) rotate(-90)" fill="#8c8c8c" text-anchor="middle">tool_track_rms_mm (dev, mm, log)</text>
-<path d="M76.0,120.2H100.0V138.0H172.0V144.2H220.0V149.8H292.0V153.6H460.0V169.1H484.0V187.3H508.0V207.9H532.0V208.2H556.0V248.7H580.0V257.4H604.0V272.8H628.0V281.0H652.0V283.8H676.0V297.8H736.0" fill="none" stroke="#f28c28" stroke-width="2"/>
-<g><title>p5s-pass2: dev 0.032 mm, holdout 0.030 mm (reporting only)</title><line x1="676.0" y1="297.8" x2="686.0" y2="299.9" stroke="#6aa9e9" stroke-width="1.2" stroke-dasharray="3 2"/><path d="M686.0,294.9l5,5l-5,5l-5,-5z" fill="#6aa9e9" fill-opacity="0.7"/></g>
-<circle cx="76.0" cy="120.2" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#1 p2: 1.820 mm, new best</title></circle>
-<text x="76.0" y="111.2" fill="#8c8c8c" text-anchor="middle" font-size="11">p2</text>
-<circle cx="100.0" cy="138.0" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#2 p8: 1.212 mm, new best</title></circle>
-<text x="100.0" y="129.0" fill="#8c8c8c" text-anchor="middle" font-size="11">p8</text>
-<circle cx="124.0" cy="89.4" r="4.5" fill="none" stroke="#d62728" stroke-width="1.6"><title>#3 p9: 3.671 mm, not admissible: 4 gates failed (completed on 25 tasks, stop_error_max_mm on 11 tasks, saturation_share_pct on 17 tasks, limit_violations on 33 tasks)</title></circle>
-<circle cx="148.0" cy="88.8" r="4.5" fill="none" stroke="#d62728" stroke-width="1.6"><title>#4 p10: 3.721 mm, not admissible: 4 gates failed (completed on 28 tasks, stop_error_max_mm on 17 tasks, saturation_share_pct on 19 tasks, limit_violations on 32 tasks)</title></circle>
-<circle cx="172.0" cy="144.2" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#5 p3: 1.051 mm, new best</title></circle>
-<text x="172.0" y="135.2" fill="#8c8c8c" text-anchor="middle" font-size="11">p3</text>
-<circle cx="196.0" cy="121.1" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#6 p2s: 1.782 mm, admissible</title></circle>
-<circle cx="220.0" cy="149.8" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#7 p3s: 0.926 mm, new best</title></circle>
-<text x="220.0" y="140.8" fill="#8c8c8c" text-anchor="middle" font-size="11">p3s</text>
-<circle cx="244.0" cy="66.1" r="4.5" fill="none" stroke="#d62728" stroke-width="1.6"><title>#8 p1: 6.258 mm, not admissible: 2 gates failed (completed on 41 tasks, stop_error_max_mm on 41 tasks)</title></circle>
-<circle cx="268.0" cy="146.0" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#9 p4: 1.009 mm, admissible</title></circle>
-<circle cx="292.0" cy="153.6" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#10 p4s: 0.848 mm, new best</title></circle>
-<text x="292.0" y="144.6" fill="#8c8c8c" text-anchor="middle" font-size="11">p4s</text>
-<circle cx="316.0" cy="140.4" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#11 p5: 1.147 mm, admissible</title></circle>
-<circle cx="340.0" cy="147.6" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#12 p5s: 0.974 mm, admissible</title></circle>
-<circle cx="364.0" cy="145.3" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#13 p6: 1.026 mm, admissible</title></circle>
-<circle cx="388.0" cy="152.6" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#14 p6s: 0.868 mm, admissible</title></circle>
-<circle cx="412.0" cy="142.1" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#15 p7: 1.104 mm, admissible</title></circle>
-<circle cx="436.0" cy="150.8" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#16 p7s: 0.904 mm, admissible</title></circle>
-<circle cx="460.0" cy="169.1" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#17 p5s-bus: 0.595 mm, new best</title></circle>
-<text x="460.0" y="160.1" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-bus</text>
-<circle cx="484.0" cy="187.3" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#18 p5s-bus-enc: 0.393 mm, new best</title></circle>
-<text x="484.0" y="178.3" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-bus-enc</text>
-<circle cx="508.0" cy="207.9" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#19 p5s-fric: 0.245 mm, new best</title></circle>
-<text x="508.0" y="198.9" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-fric</text>
-<circle cx="532.0" cy="208.2" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#20 p5s-chord: 0.244 mm, new best</title></circle>
-<text x="532.0" y="199.2" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-chord</text>
-<circle cx="556.0" cy="248.7" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#21 p5s-grav: 0.097 mm, new best</title></circle>
-<text x="556.0" y="239.7" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-grav</text>
-<circle cx="580.0" cy="257.4" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#22 p5s-fric2: 0.079 mm, new best</title></circle>
-<text x="580.0" y="248.4" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-fric2</text>
-<circle cx="604.0" cy="272.8" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#23 p5s-kp2: 0.056 mm, new best</title></circle>
-<text x="604.0" y="263.8" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-kp2</text>
-<circle cx="628.0" cy="281.0" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#24 p5s-kp4: 0.046 mm, new best</title></circle>
-<text x="628.0" y="272.0" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-kp4</text>
-<circle cx="652.0" cy="283.8" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#25 p5s-vlag: 0.043 mm, new best</title></circle>
-<text x="652.0" y="274.8" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-vlag</text>
-<circle cx="676.0" cy="297.8" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#26 p5s-pass2: 0.032 mm, new best</title></circle>
-<text x="676.0" y="288.8" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-pass2</text>
-<circle cx="700.0" cy="262.9" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#27 p5s-fric2-pass2: 0.070 mm, admissible</title></circle>
-<circle cx="724.0" cy="293.8" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#28 p5s-kd15: 0.035 mm, admissible</title></circle>
+<path d="M75.6,120.2H98.8V138.0H168.3V144.2H214.6V149.8H284.1V153.6H446.3V169.1H469.5V187.3H492.7V207.9H515.9V208.2H539.0V248.7H562.2V257.4H585.4V272.8H608.6V281.0H631.7V283.8H654.9V297.8H736.0" fill="none" stroke="#f28c28" stroke-width="2"/>
+<g><title>p5s-pass2: dev 0.032 mm, holdout 0.030 mm (reporting only)</title><line x1="654.9" y1="297.8" x2="664.9" y2="299.9" stroke="#6aa9e9" stroke-width="1.2" stroke-dasharray="3 2"/><path d="M664.9,294.9l5,5l-5,5l-5,-5z" fill="#6aa9e9" fill-opacity="0.7"/></g>
+<circle cx="75.6" cy="120.2" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#1 p2: 1.820 mm, new best</title></circle>
+<text x="75.6" y="111.2" fill="#8c8c8c" text-anchor="middle" font-size="11">p2</text>
+<circle cx="98.8" cy="138.0" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#2 p8: 1.212 mm, new best</title></circle>
+<text x="98.8" y="129.0" fill="#8c8c8c" text-anchor="middle" font-size="11">p8</text>
+<circle cx="121.9" cy="89.4" r="4.5" fill="none" stroke="#d62728" stroke-width="1.6"><title>#3 p9: 3.671 mm, not admissible: 4 gates failed (completed on 25 tasks, stop_error_max_mm on 11 tasks, saturation_share_pct on 17 tasks, limit_violations on 33 tasks)</title></circle>
+<circle cx="145.1" cy="88.8" r="4.5" fill="none" stroke="#d62728" stroke-width="1.6"><title>#4 p10: 3.721 mm, not admissible: 4 gates failed (completed on 28 tasks, stop_error_max_mm on 17 tasks, saturation_share_pct on 19 tasks, limit_violations on 32 tasks)</title></circle>
+<circle cx="168.3" cy="144.2" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#5 p3: 1.051 mm, new best</title></circle>
+<text x="168.3" y="135.2" fill="#8c8c8c" text-anchor="middle" font-size="11">p3</text>
+<circle cx="191.4" cy="121.1" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#6 p2s: 1.782 mm, admissible</title></circle>
+<circle cx="214.6" cy="149.8" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#7 p3s: 0.926 mm, new best</title></circle>
+<text x="214.6" y="140.8" fill="#8c8c8c" text-anchor="middle" font-size="11">p3s</text>
+<circle cx="237.8" cy="66.1" r="4.5" fill="none" stroke="#d62728" stroke-width="1.6"><title>#8 p1: 6.258 mm, not admissible: 2 gates failed (completed on 41 tasks, stop_error_max_mm on 41 tasks)</title></circle>
+<circle cx="261.0" cy="146.0" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#9 p4: 1.009 mm, admissible</title></circle>
+<circle cx="284.1" cy="153.6" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#10 p4s: 0.848 mm, new best</title></circle>
+<text x="284.1" y="144.6" fill="#8c8c8c" text-anchor="middle" font-size="11">p4s</text>
+<circle cx="307.3" cy="140.4" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#11 p5: 1.147 mm, admissible</title></circle>
+<circle cx="330.5" cy="147.6" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#12 p5s: 0.974 mm, admissible</title></circle>
+<circle cx="353.7" cy="145.3" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#13 p6: 1.026 mm, admissible</title></circle>
+<circle cx="376.8" cy="152.6" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#14 p6s: 0.868 mm, admissible</title></circle>
+<circle cx="400.0" cy="142.1" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#15 p7: 1.104 mm, admissible</title></circle>
+<circle cx="423.2" cy="150.8" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#16 p7s: 0.904 mm, admissible</title></circle>
+<circle cx="446.3" cy="169.1" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#17 p5s-bus: 0.595 mm, new best</title></circle>
+<text x="446.3" y="160.1" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-bus</text>
+<circle cx="469.5" cy="187.3" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#18 p5s-bus-enc: 0.393 mm, new best</title></circle>
+<text x="469.5" y="178.3" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-bus-enc</text>
+<circle cx="492.7" cy="207.9" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#19 p5s-fric: 0.245 mm, new best</title></circle>
+<text x="492.7" y="198.9" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-fric</text>
+<circle cx="515.9" cy="208.2" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#20 p5s-chord: 0.244 mm, new best</title></circle>
+<text x="515.9" y="199.2" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-chord</text>
+<circle cx="539.0" cy="248.7" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#21 p5s-grav: 0.097 mm, new best</title></circle>
+<text x="539.0" y="239.7" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-grav</text>
+<circle cx="562.2" cy="257.4" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#22 p5s-fric2: 0.079 mm, new best</title></circle>
+<text x="562.2" y="248.4" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-fric2</text>
+<circle cx="585.4" cy="272.8" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#23 p5s-kp2: 0.056 mm, new best</title></circle>
+<text x="585.4" y="263.8" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-kp2</text>
+<circle cx="608.6" cy="281.0" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#24 p5s-kp4: 0.046 mm, new best</title></circle>
+<text x="608.6" y="272.0" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-kp4</text>
+<circle cx="631.7" cy="283.8" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#25 p5s-vlag: 0.043 mm, new best</title></circle>
+<text x="631.7" y="274.8" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-vlag</text>
+<circle cx="654.9" cy="297.8" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#26 p5s-pass2: 0.032 mm, new best</title></circle>
+<text x="654.9" y="288.8" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-pass2</text>
+<circle cx="678.1" cy="262.9" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#27 p5s-fric2-pass2: 0.070 mm, admissible</title></circle>
+<circle cx="701.2" cy="293.8" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#28 p5s-kd15: 0.035 mm, admissible</title></circle>
+<circle cx="724.4" cy="293.5" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#29 p5s-kd25: 0.035 mm, admissible</title></circle>
 <line x1="64" x2="80" y1="36" y2="36" stroke="#f28c28" stroke-width="2"/>
 <text x="84" y="40" fill="#8c8c8c" font-size="11">best so far</text>
 <circle cx="174" cy="36" r="4.5" fill="#2ca02c"/>
