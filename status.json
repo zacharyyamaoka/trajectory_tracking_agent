@@ -5,18 +5,18 @@
   "remit": "make robots track a given trajectory more accurately, inside the gates (ruler v1, OBJECTIVES.md)",
   "kpi": {
     "name": "tool_track_rms_mm (best admissible, dev)",
-    "value": 0.09669627630535432,
+    "value": 0.07932236342728807,
     "unit": "mm",
     "direction": "down",
     "target": null,
-    "level": "18 of 21 admissible",
+    "level": "19 of 22 admissible",
     "level_name": "ruler v1 \u00b7 ur5e_alone \u00b7 workspace/v2 dev",
-    "next_gate": "an admissible solution below 0.097 mm",
+    "next_gate": "an admissible solution below 0.079 mm",
     "on_track": true
   },
   "counter_kpi": {
     "name": "holdout - dev of the best (mm; reporting only, never selected on)",
-    "value": 0.028919593661749843,
+    "value": 0.022268155383056876,
     "unit": "mm",
     "owner": "Trajectory Tracking Agent"
   },
@@ -24,11 +24,11 @@
   "blocked_on": null,
   "todo": {
     "open": 3,
-    "done_7d": 4,
+    "done_7d": 5,
     "top": [
       "Host Coulomb feed-forward on the best gen-0 layout. Expect: tool RMS down where the joints reverse (real_kp2's lever on BAM FB, never tried on the UR5e here).",
       "Per-joint lookahead calibrated on dev tasks only, not on robot_controllers' calibration sweep. Expect: lag down, RMS down a little.",
-      "Identify the gravity error from the *joint errors* (kp\u00b7e is a clean torque-error signal; the board's tau carries \u00b110 N\u00b7m of quantisation buzz). Regressing kp\u00b7e on the given model's own gravity term explains most of elbow (0.45 \u2192 0.25 N\u00b7m) and w1 (0.094 \u2192 0.035) and part of lift (1.08 \u2192 0.90; with sin/cos of q2..q4 \u2192 0.48). Expect: lift/elbow/w1 biases gone, ~10-20 %."
+      "Same joint-error identification for the inertia and velocity terms (pan, lift, w1 still lead +0.001 deg per rad/s\u00b2; pan +0.0025 deg per rad/s). Expect: a few %, the encoder floor is near (one count = 0.022 deg)."
     ]
   },
   "links": {
@@ -37,5 +37,5 @@
     "wandb": "Trajectory Tracking",
     "vault": null
   },
-  "updated_t": 1795537647.3488681
+  "updated_t": 1795537750.0053358
 }

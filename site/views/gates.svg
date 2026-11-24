@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="663" height="556" viewBox="0 0 663 556" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#8c8c8c" role="img" aria-label="Gates on dev · 21 solutions · 18 admissible · 42 dev tasks">
-<title>Gates on dev · 21 solutions · 18 admissible · 42 dev tasks</title>
-<text x="12.0" y="20.0" font-size="13.5" font-weight="600">Gates on dev · 21 solutions · 18 admissible · 42 dev tasks</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="663" height="574" viewBox="0 0 663 574" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#8c8c8c" role="img" aria-label="Gates on dev · 22 solutions · 19 admissible · 42 dev tasks">
+<title>Gates on dev · 22 solutions · 19 admissible · 42 dev tasks</title>
+<text x="12.0" y="20.0" font-size="13.5" font-weight="600">Gates on dev · 22 solutions · 19 admissible · 42 dev tasks</text>
 <text x="12.0" y="37.0" font-size="10">cell = dev tasks failing that gate (of 42; blank = none, ? = no count, which fails closed) · bar = tool_track_rms_mm, newest dev row each</text>
 <g transform="translate(160.0 120.0) rotate(-45)"><title>completed</title><text x="0" y="0">completed</text></g>
 <g transform="translate(206.0 120.0) rotate(-45)"><title>stop_error_max_mm</title><text x="0" y="0">stop error ≤ 1 mm</text></g>
@@ -9,17 +9,17 @@
 <g transform="translate(344.0 120.0) rotate(-45)"><title>floor_clearance</title><text x="0" y="0">above the floor</text></g>
 <text x="127.0" y="120.0" font-size="10.5" text-anchor="end">solution</text>
 <text x="381.0" y="104.0" font-size="10.5">objective (dev mm)</text>
-<line x1="381.0" x2="381.0" y1="124.0" y2="506.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
+<line x1="381.0" x2="381.0" y1="124.0" y2="524.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
 <text x="381.0" y="120.0" font-size="9.5" text-anchor="middle">0</text>
-<line x1="428.5" x2="428.5" y1="124.0" y2="506.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
+<line x1="428.5" x2="428.5" y1="124.0" y2="524.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
 <text x="428.5" y="120.0" font-size="9.5" text-anchor="middle">0.5</text>
-<line x1="476.0" x2="476.0" y1="124.0" y2="506.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
+<line x1="476.0" x2="476.0" y1="124.0" y2="524.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
 <text x="476.0" y="120.0" font-size="9.5" text-anchor="middle">1</text>
-<line x1="523.5" x2="523.5" y1="124.0" y2="506.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
+<line x1="523.5" x2="523.5" y1="124.0" y2="524.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
 <text x="523.5" y="120.0" font-size="9.5" text-anchor="middle">1.5</text>
-<line x1="571.0" x2="571.0" y1="124.0" y2="506.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
+<line x1="571.0" x2="571.0" y1="124.0" y2="524.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
 <text x="571.0" y="120.0" font-size="9.5" text-anchor="middle">2</text>
-<line x1="390.2" x2="390.2" y1="124.0" y2="506.0" stroke="#f28c28" stroke-width="1.2" stroke-dasharray="3 2"><title>best p5s-grav 0.097 mm</title></line>
+<line x1="388.5" x2="388.5" y1="124.0" y2="524.0" stroke="#f28c28" stroke-width="1.2" stroke-dasharray="3 2"><title>best p5s-fric2 0.079 mm</title></line>
 <rect x="12.0" y="128" width="639" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="141.0" font-size="9.5" text-anchor="end">#1</text>
 <text x="127.0" y="141.0" text-anchor="end">p2</text>
@@ -102,12 +102,15 @@
 <rect x="381" y="474" width="23.2" height="10" rx="2" fill="#2a78d6"><title>p5s-chord: 0.244 mm, admissible</title></rect><text x="409.2" y="483.0" font-size="10">0.244</text>
 <rect x="12.0" y="488" width="639" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="501.0" font-size="9.5" text-anchor="end">#21</text>
-<text x="127.0" y="501.0" text-anchor="end" font-weight="600">p5s-grav</text>
-<rect x="381" y="492" width="9.2" height="10" rx="2" fill="#2a78d6"><title>p5s-grav: 0.097 mm, admissible</title></rect><text x="395.2" y="501.0" font-size="10" font-weight="600">0.097</text>
-<path d="M135 130h42v14h-42zM181 130h42v14h-42zM227 130h42v14h-42zM273 130h42v14h-42zM319 130h42v14h-42zM135 148h42v14h-42zM181 148h42v14h-42zM227 148h42v14h-42zM273 148h42v14h-42zM319 148h42v14h-42zM319 166h42v14h-42zM319 184h42v14h-42zM135 202h42v14h-42zM181 202h42v14h-42zM227 202h42v14h-42zM273 202h42v14h-42zM319 202h42v14h-42zM135 220h42v14h-42zM181 220h42v14h-42zM227 220h42v14h-42zM273 220h42v14h-42zM319 220h42v14h-42zM135 238h42v14h-42zM181 238h42v14h-42zM227 238h42v14h-42zM273 238h42v14h-42zM319 238h42v14h-42zM227 256h42v14h-42zM273 256h42v14h-42zM319 256h42v14h-42zM135 274h42v14h-42zM181 274h42v14h-42zM227 274h42v14h-42zM273 274h42v14h-42zM319 274h42v14h-42zM135 292h42v14h-42zM181 292h42v14h-42zM227 292h42v14h-42zM273 292h42v14h-42zM319 292h42v14h-42zM135 310h42v14h-42zM181 310h42v14h-42zM227 310h42v14h-42zM273 310h42v14h-42zM319 310h42v14h-42zM135 328h42v14h-42zM181 328h42v14h-42zM227 328h42v14h-42zM273 328h42v14h-42zM319 328h42v14h-42zM135 346h42v14h-42zM181 346h42v14h-42zM227 346h42v14h-42zM273 346h42v14h-42zM319 346h42v14h-42zM135 364h42v14h-42zM181 364h42v14h-42zM227 364h42v14h-42zM273 364h42v14h-42zM319 364h42v14h-42zM135 382h42v14h-42zM181 382h42v14h-42zM227 382h42v14h-42zM273 382h42v14h-42zM319 382h42v14h-42zM135 400h42v14h-42zM181 400h42v14h-42zM227 400h42v14h-42zM273 400h42v14h-42zM319 400h42v14h-42zM135 418h42v14h-42zM181 418h42v14h-42zM227 418h42v14h-42zM273 418h42v14h-42zM319 418h42v14h-42zM135 436h42v14h-42zM181 436h42v14h-42zM227 436h42v14h-42zM273 436h42v14h-42zM319 436h42v14h-42zM135 454h42v14h-42zM181 454h42v14h-42zM227 454h42v14h-42zM273 454h42v14h-42zM319 454h42v14h-42zM135 472h42v14h-42zM181 472h42v14h-42zM227 472h42v14h-42zM273 472h42v14h-42zM319 472h42v14h-42zM135 490h42v14h-42zM181 490h42v14h-42zM227 490h42v14h-42zM273 490h42v14h-42zM319 490h42v14h-42z" fill="none" stroke="#8c8c8c" stroke-opacity="0.3"/>
-<rect x="381" y="519.0" width="14" height="10" rx="2" fill="#2a78d6"/>
-<text x="399.0" y="528.0" font-size="10">admissible</text>
-<rect x="461" y="519.0" width="14" height="10" rx="2" fill="none" stroke="#d62728" stroke-width="1.4"/>
-<text x="479.0" y="528.0" font-size="10">not admissible</text>
-<text x="12.0" y="544.0" font-size="10"># = creation order (the progress chart's x axis) · dashed orange = the best · › = past the axis</text>
+<text x="127.0" y="501.0" text-anchor="end">p5s-grav</text>
+<rect x="381" y="492" width="9.2" height="10" rx="2" fill="#2a78d6"><title>p5s-grav: 0.097 mm, admissible</title></rect><text x="395.2" y="501.0" font-size="10">0.097</text>
+<text x="40.0" y="519.0" font-size="9.5" text-anchor="end">#22</text>
+<text x="127.0" y="519.0" text-anchor="end" font-weight="600">p5s-fric2</text>
+<rect x="381" y="510" width="7.5" height="10" rx="2" fill="#2a78d6"><title>p5s-fric2: 0.079 mm, admissible</title></rect><text x="393.5" y="519.0" font-size="10" font-weight="600">0.079</text>
+<path d="M135 130h42v14h-42zM181 130h42v14h-42zM227 130h42v14h-42zM273 130h42v14h-42zM319 130h42v14h-42zM135 148h42v14h-42zM181 148h42v14h-42zM227 148h42v14h-42zM273 148h42v14h-42zM319 148h42v14h-42zM319 166h42v14h-42zM319 184h42v14h-42zM135 202h42v14h-42zM181 202h42v14h-42zM227 202h42v14h-42zM273 202h42v14h-42zM319 202h42v14h-42zM135 220h42v14h-42zM181 220h42v14h-42zM227 220h42v14h-42zM273 220h42v14h-42zM319 220h42v14h-42zM135 238h42v14h-42zM181 238h42v14h-42zM227 238h42v14h-42zM273 238h42v14h-42zM319 238h42v14h-42zM227 256h42v14h-42zM273 256h42v14h-42zM319 256h42v14h-42zM135 274h42v14h-42zM181 274h42v14h-42zM227 274h42v14h-42zM273 274h42v14h-42zM319 274h42v14h-42zM135 292h42v14h-42zM181 292h42v14h-42zM227 292h42v14h-42zM273 292h42v14h-42zM319 292h42v14h-42zM135 310h42v14h-42zM181 310h42v14h-42zM227 310h42v14h-42zM273 310h42v14h-42zM319 310h42v14h-42zM135 328h42v14h-42zM181 328h42v14h-42zM227 328h42v14h-42zM273 328h42v14h-42zM319 328h42v14h-42zM135 346h42v14h-42zM181 346h42v14h-42zM227 346h42v14h-42zM273 346h42v14h-42zM319 346h42v14h-42zM135 364h42v14h-42zM181 364h42v14h-42zM227 364h42v14h-42zM273 364h42v14h-42zM319 364h42v14h-42zM135 382h42v14h-42zM181 382h42v14h-42zM227 382h42v14h-42zM273 382h42v14h-42zM319 382h42v14h-42zM135 400h42v14h-42zM181 400h42v14h-42zM227 400h42v14h-42zM273 400h42v14h-42zM319 400h42v14h-42zM135 418h42v14h-42zM181 418h42v14h-42zM227 418h42v14h-42zM273 418h42v14h-42zM319 418h42v14h-42zM135 436h42v14h-42zM181 436h42v14h-42zM227 436h42v14h-42zM273 436h42v14h-42zM319 436h42v14h-42zM135 454h42v14h-42zM181 454h42v14h-42zM227 454h42v14h-42zM273 454h42v14h-42zM319 454h42v14h-42zM135 472h42v14h-42zM181 472h42v14h-42zM227 472h42v14h-42zM273 472h42v14h-42zM319 472h42v14h-42zM135 490h42v14h-42zM181 490h42v14h-42zM227 490h42v14h-42zM273 490h42v14h-42zM319 490h42v14h-42zM135 508h42v14h-42zM181 508h42v14h-42zM227 508h42v14h-42zM273 508h42v14h-42zM319 508h42v14h-42z" fill="none" stroke="#8c8c8c" stroke-opacity="0.3"/>
+<rect x="381" y="537.0" width="14" height="10" rx="2" fill="#2a78d6"/>
+<text x="399.0" y="546.0" font-size="10">admissible</text>
+<rect x="461" y="537.0" width="14" height="10" rx="2" fill="none" stroke="#d62728" stroke-width="1.4"/>
+<text x="479.0" y="546.0" font-size="10">not admissible</text>
+<text x="12.0" y="562.0" font-size="10"># = creation order (the progress chart's x axis) · dashed orange = the best · › = past the axis</text>
 </svg>
