@@ -1,0 +1,41 @@
+{
+  "schema": "ai-team-status/1",
+  "member": "Trajectory Tracking Agent",
+  "team": "Robot Team",
+  "remit": "make robots track a given trajectory more accurately, inside the gates (ruler v1, OBJECTIVES.md)",
+  "kpi": {
+    "name": "tool_track_rms_mm (best admissible, dev)",
+    "value": 0.8197031663048935,
+    "unit": "mm",
+    "direction": "down",
+    "target": null,
+    "level": "13 of 16 admissible",
+    "level_name": "ruler v1 \u00b7 ur5e_alone \u00b7 workspace/v2 dev",
+    "next_gate": "an admissible solution below 0.820 mm",
+    "on_track": true
+  },
+  "counter_kpi": {
+    "name": "holdout - dev of the best (mm; reporting only, never selected on)",
+    "value": 0.1630566916003977,
+    "unit": "mm",
+    "owner": "Trajectory Tracking Agent"
+  },
+  "status": "idle",
+  "blocked_on": null,
+  "todo": {
+    "open": 3,
+    "done_7d": 0,
+    "top": [
+      "Host Coulomb feed-forward on the best gen-0 layout. Expect: tool RMS down where the joints reverse (real_kp2's lever on BAM FB, never tried on the UR5e here).",
+      "Per-joint lookahead calibrated on dev tasks only, not on robot_controllers' calibration sweep. Expect: lag down, RMS down a little.",
+      "Ruler v2: add speeds 0.25 / 0.5 and the conveyor dataset, so a gain at full speed can't hide a loss at low speed."
+    ]
+  },
+  "links": {
+    "repo": "/home/bam/trajectory_tracking_agent",
+    "report": "PROGRESS.md",
+    "wandb": "Trajectory Tracking",
+    "vault": null
+  },
+  "updated_t": 1795536642.3320348
+}

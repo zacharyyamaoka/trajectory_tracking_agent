@@ -1,0 +1,628 @@
+{
+ "ruler": "v1",
+ "solution": "p5",
+ "split": "holdout",
+ "objective": 1.4012740634426186,
+ "objective_name": "tool_track_rms_mm (median over tasks)",
+ "admissible": true,
+ "gate_pass_rate": 1.0,
+ "gates": {
+  "completed": {
+   "op": "is",
+   "threshold": 1.0,
+   "failed_tasks": []
+  },
+  "stop_error_max_mm": {
+   "op": "<=",
+   "threshold": 1.0,
+   "failed_tasks": []
+  },
+  "saturation_share_pct": {
+   "op": "<=",
+   "threshold": 2.0,
+   "failed_tasks": []
+  },
+  "limit_violations": {
+   "op": "<=",
+   "threshold": 0,
+   "failed_tasks": []
+  },
+  "floor_clearance": {
+   "op": "<=",
+   "threshold": 0,
+   "failed_tasks": []
+  }
+ },
+ "failed_gates": {
+  "completed": 0,
+  "stop_error_max_mm": 0,
+  "saturation_share_pct": 0,
+  "limit_violations": 0,
+  "floor_clearance": 0
+ },
+ "diagnostics": {
+  "tool_track_max_mm": 3.9718400360618173,
+  "joint_track_rms_deg": 0.5042631178169461,
+  "tool_lag_ms": -3.947153421027407,
+  "stop_error_mm": 0.32532571564433854,
+  "saturation_share_pct": 0.0,
+  "energy_j": 602.6561339654842,
+  "tool_jerk_rms_m_s3": 12.778087874823564,
+  "host_compute_ms_p95": 0.1209978,
+  "wall_time_s": 9.69258306309348,
+  "aggregation": "tool_track_max_mm, saturation_share_pct: worst task; energy_j, wall_time_s: sum over tasks; host_compute_ms_p95: over every tick of every task; the rest: median over tasks"
+ },
+ "tasks": [
+  {
+   "task": "workspace-holdout-000",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.85,
+   "objective": 1.691802797080456,
+   "kpis": {
+    "stop_error_max_mm": 0.2020173652893744,
+    "saturation_share_pct": 0.0,
+    "limit_violations": 0,
+    "floor_clearance_violations": 0,
+    "completed": true
+   },
+   "diagnostics": {
+    "tool_track_max_mm": 2.6683467622605765,
+    "joint_track_rms_deg": 0.5431946752136477,
+    "tool_lag_ms": -5.236516195473592,
+    "stop_error_mm": 0.2020173652893744,
+    "saturation_share_pct": 0.0,
+    "energy_j": 15.01873271174014,
+    "tool_jerk_rms_m_s3": 9.891784937490247,
+    "host_compute_ms_p95": 0.12790185000000004,
+    "settle_error_max_mm": 0.20566783940602984,
+    "stops": 1,
+    "moving_samples": 134,
+    "ticks": 94,
+    "watchdog_entries": 0
+   },
+   "verdicts": {
+    "completed": true,
+    "stop_error_max_mm": true,
+    "saturation_share_pct": true,
+    "limit_violations": true,
+    "floor_clearance": true
+   },
+   "notes": [],
+   "wall_time_s": 1.715681854984723
+  },
+  {
+   "task": "workspace-holdout-001",
+   "kind": "via_points",
+   "duration_s": 2.87,
+   "objective": 1.252905941837715,
+   "kpis": {
+    "stop_error_max_mm": 0.4164145848398128,
+    "saturation_share_pct": 0.0,
+    "limit_violations": 0,
+    "floor_clearance_violations": 0,
+    "completed": true
+   },
+   "diagnostics": {
+    "tool_track_max_mm": 2.8748444636796924,
+    "joint_track_rms_deg": 0.5598788996377172,
+    "tool_lag_ms": -4.644258214558539,
+    "stop_error_mm": 0.4164145848398128,
+    "saturation_share_pct": 0.0,
+    "energy_j": 54.01354865577378,
+    "tool_jerk_rms_m_s3": 27.172079963571054,
+    "host_compute_ms_p95": 0.1368788,
+    "settle_error_max_mm": 0.4333211857162521,
+    "stops": 1,
+    "moving_samples": 236,
+    "ticks": 145,
+    "watchdog_entries": 0
+   },
+   "verdicts": {
+    "completed": true,
+    "stop_error_max_mm": true,
+    "saturation_share_pct": true,
+    "limit_violations": true,
+    "floor_clearance": true
+   },
+   "notes": [],
+   "wall_time_s": 1.851664595946204
+  },
+  {
+   "task": "workspace-holdout-002",
+   "kind": "a_to_b_line",
+   "duration_s": 2.66,
+   "objective": 0.9500119393760228,
+   "kpis": {
+    "stop_error_max_mm": 0.14790166772060398,
+    "saturation_share_pct": 0.0,
+    "limit_violations": 0,
+    "floor_clearance_violations": 0,
+    "completed": true
+   },
+   "diagnostics": {
+    "tool_track_max_mm": 1.5533443519434575,
+    "joint_track_rms_deg": 0.4070831180342211,
+    "tool_lag_ms": -4.428283401482431,
+    "stop_error_mm": 0.14790166772060398,
+    "saturation_share_pct": 0.0,
+    "energy_j": 22.014616439904813,
+    "tool_jerk_rms_m_s3": 4.239813329819819,
+    "host_compute_ms_p95": 0.11515294999999998,
+    "settle_error_max_mm": 0.14971458427685447,
+    "stops": 1,
+    "moving_samples": 215,
+    "ticks": 134,
+    "watchdog_entries": 0
+   },
+   "verdicts": {
+    "completed": true,
+    "stop_error_max_mm": true,
+    "saturation_share_pct": true,
+    "limit_violations": true,
+    "floor_clearance": true
+   },
+   "notes": [],
+   "wall_time_s": 1.6225860520498827
+  },
+  {
+   "task": "workspace-holdout-003",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.91,
+   "objective": 1.4583412194388776,
+   "kpis": {
+    "stop_error_max_mm": 0.42211091526968625,
+    "saturation_share_pct": 0.0,
+    "limit_violations": 0,
+    "floor_clearance_violations": 0,
+    "completed": true
+   },
+   "diagnostics": {
+    "tool_track_max_mm": 2.8085544841705996,
+    "joint_track_rms_deg": 0.6657416634461435,
+    "tool_lag_ms": -4.113011535600803,
+    "stop_error_mm": 0.42211091526968625,
+    "saturation_share_pct": 0.0,
+    "energy_j": 64.62692358815349,
+    "tool_jerk_rms_m_s3": 15.631341750524408,
+    "host_compute_ms_p95": 0.11964179999999999,
+    "settle_error_max_mm": 0.42586091125492076,
+    "stops": 1,
+    "moving_samples": 140,
+    "ticks": 97,
+    "watchdog_entries": 0
+   },
+   "verdicts": {
+    "completed": true,
+    "stop_error_max_mm": true,
+    "saturation_share_pct": true,
+    "limit_violations": true,
+    "floor_clearance": true
+   },
+   "notes": [],
+   "wall_time_s": 2.066571720992215
+  },
+  {
+   "task": "workspace-holdout-004",
+   "kind": "via_points",
+   "duration_s": 2.69,
+   "objective": 1.5109036818611532,
+   "kpis": {
+    "stop_error_max_mm": 0.31595458367821594,
+    "saturation_share_pct": 0.0,
+    "limit_violations": 0,
+    "floor_clearance_violations": 0,
+    "completed": true
+   },
+   "diagnostics": {
+    "tool_track_max_mm": 3.2365336686793995,
+    "joint_track_rms_deg": 0.4516944653293574,
+    "tool_lag_ms": -2.3464851983807,
+    "stop_error_mm": 0.31595458367821594,
+    "saturation_share_pct": 0.0,
+    "energy_j": 68.21152840523035,
+    "tool_jerk_rms_m_s3": 38.33614932563803,
+    "host_compute_ms_p95": 0.12444425,
+    "settle_error_max_mm": 0.3334154895852758,
+    "stops": 1,
+    "moving_samples": 219,
+    "ticks": 136,
+    "watchdog_entries": 0
+   },
+   "verdicts": {
+    "completed": true,
+    "stop_error_max_mm": true,
+    "saturation_share_pct": true,
+    "limit_violations": true,
+    "floor_clearance": true
+   },
+   "notes": [],
+   "wall_time_s": 0.33550687198294327
+  },
+  {
+   "task": "workspace-holdout-005",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.79,
+   "objective": 0.7637562907063976,
+   "kpis": {
+    "stop_error_max_mm": 0.4110971362286475,
+    "saturation_share_pct": 0.0,
+    "limit_violations": 0,
+    "floor_clearance_violations": 0,
+    "completed": true
+   },
+   "diagnostics": {
+    "tool_track_max_mm": 1.2882503232626896,
+    "joint_track_rms_deg": 0.4490014277924736,
+    "tool_lag_ms": -3.781295306454011,
+    "stop_error_mm": 0.4110971362286475,
+    "saturation_share_pct": 0.0,
+    "energy_j": 13.365390440012455,
+    "tool_jerk_rms_m_s3": 7.647843481118416,
+    "host_compute_ms_p95": 0.1249,
+    "settle_error_max_mm": 0.42800954968978894,
+    "stops": 1,
+    "moving_samples": 128,
+    "ticks": 91,
+    "watchdog_entries": 0
+   },
+   "verdicts": {
+    "completed": true,
+    "stop_error_max_mm": true,
+    "saturation_share_pct": true,
+    "limit_violations": true,
+    "floor_clearance": true
+   },
+   "notes": [],
+   "wall_time_s": 0.23311117303092033
+  },
+  {
+   "task": "workspace-holdout-006",
+   "kind": "a_to_b_line",
+   "duration_s": 2.93,
+   "objective": 1.0934778971172923,
+   "kpis": {
+    "stop_error_max_mm": 0.33469684761046115,
+    "saturation_share_pct": 0.0,
+    "limit_violations": 0,
+    "floor_clearance_violations": 0,
+    "completed": true
+   },
+   "diagnostics": {
+    "tool_track_max_mm": 2.223510084107467,
+    "joint_track_rms_deg": 0.4314877385101758,
+    "tool_lag_ms": -4.931049853353988,
+    "stop_error_mm": 0.33469684761046115,
+    "saturation_share_pct": 0.0,
+    "energy_j": 40.99255017207644,
+    "tool_jerk_rms_m_s3": 4.117821919163991,
+    "host_compute_ms_p95": 0.11804860000000002,
+    "settle_error_max_mm": 0.33741536874353895,
+    "stops": 1,
+    "moving_samples": 242,
+    "ticks": 148,
+    "watchdog_entries": 0
+   },
+   "verdicts": {
+    "completed": true,
+    "stop_error_max_mm": true,
+    "saturation_share_pct": true,
+    "limit_violations": true,
+    "floor_clearance": true
+   },
+   "notes": [],
+   "wall_time_s": 0.3810593149974011
+  },
+  {
+   "task": "workspace-holdout-007",
+   "kind": "via_points",
+   "duration_s": 2.81,
+   "objective": 1.5609323600177487,
+   "kpis": {
+    "stop_error_max_mm": 0.2557196293422242,
+    "saturation_share_pct": 0.0,
+    "limit_violations": 0,
+    "floor_clearance_violations": 0,
+    "completed": true
+   },
+   "diagnostics": {
+    "tool_track_max_mm": 3.08202911857724,
+    "joint_track_rms_deg": 0.6519789548451848,
+    "tool_lag_ms": -4.162481236173969,
+    "stop_error_mm": 0.2557196293422242,
+    "saturation_share_pct": 0.0,
+    "energy_j": 59.99163102546843,
+    "tool_jerk_rms_m_s3": 30.065865961396298,
+    "host_compute_ms_p95": 0.1098584,
+    "settle_error_max_mm": 0.27149338872649115,
+    "stops": 1,
+    "moving_samples": 230,
+    "ticks": 142,
+    "watchdog_entries": 0
+   },
+   "verdicts": {
+    "completed": true,
+    "stop_error_max_mm": true,
+    "saturation_share_pct": true,
+    "limit_violations": true,
+    "floor_clearance": true
+   },
+   "notes": [],
+   "wall_time_s": 0.3306778410333209
+  },
+  {
+   "task": "workspace-holdout-008",
+   "kind": "a_to_b_joint",
+   "duration_s": 3.53,
+   "objective": 0.7222155338118704,
+   "kpis": {
+    "stop_error_max_mm": 0.35842498056179234,
+    "saturation_share_pct": 0.0,
+    "limit_violations": 0,
+    "floor_clearance_violations": 0,
+    "completed": true
+   },
+   "diagnostics": {
+    "tool_track_max_mm": 1.3091900380601138,
+    "joint_track_rms_deg": 0.46533156042024443,
+    "tool_lag_ms": -2.0663323990883864,
+    "stop_error_mm": 0.35842498056179234,
+    "saturation_share_pct": 0.0,
+    "energy_j": 100.96384292512641,
+    "tool_jerk_rms_m_s3": 10.145242172961504,
+    "host_compute_ms_p95": 0.11789150000000001,
+    "settle_error_max_mm": 0.36239683312352333,
+    "stops": 1,
+    "moving_samples": 302,
+    "ticks": 178,
+    "watchdog_entries": 0
+   },
+   "verdicts": {
+    "completed": true,
+    "stop_error_max_mm": true,
+    "saturation_share_pct": true,
+    "limit_violations": true,
+    "floor_clearance": true
+   },
+   "notes": [],
+   "wall_time_s": 0.430709661974106
+  },
+  {
+   "task": "workspace-holdout-009",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.85,
+   "objective": 1.5046914005520036,
+   "kpis": {
+    "stop_error_max_mm": 0.17018877857195808,
+    "saturation_share_pct": 0.0,
+    "limit_violations": 0,
+    "floor_clearance_violations": 0,
+    "completed": true
+   },
+   "diagnostics": {
+    "tool_track_max_mm": 2.9771090749769926,
+    "joint_track_rms_deg": 0.5714053754073235,
+    "tool_lag_ms": -3.3695354203665544,
+    "stop_error_mm": 0.17018877857195808,
+    "saturation_share_pct": 0.0,
+    "energy_j": 72.35565852557356,
+    "tool_jerk_rms_m_s3": 13.345910707210544,
+    "host_compute_ms_p95": 0.12150055,
+    "settle_error_max_mm": 0.18286294380076068,
+    "stops": 1,
+    "moving_samples": 134,
+    "ticks": 94,
+    "watchdog_entries": 0
+   },
+   "verdicts": {
+    "completed": true,
+    "stop_error_max_mm": true,
+    "saturation_share_pct": true,
+    "limit_violations": true,
+    "floor_clearance": true
+   },
+   "notes": [],
+   "wall_time_s": 0.25482864602236077
+  },
+  {
+   "task": "workspace-holdout-010",
+   "kind": "a_to_b_joint",
+   "duration_s": 1.73,
+   "objective": 1.3442069074463594,
+   "kpis": {
+    "stop_error_max_mm": 0.1996007249624476,
+    "saturation_share_pct": 0.0,
+    "limit_violations": 0,
+    "floor_clearance_violations": 0,
+    "completed": true
+   },
+   "diagnostics": {
+    "tool_track_max_mm": 1.7198136429044895,
+    "joint_track_rms_deg": 0.4419316701122091,
+    "tool_lag_ms": -3.0099176566742853,
+    "stop_error_mm": 0.1996007249624476,
+    "saturation_share_pct": 0.0,
+    "energy_j": 29.782447460213767,
+    "tool_jerk_rms_m_s3": 12.210265042436584,
+    "host_compute_ms_p95": 0.12310114999999999,
+    "settle_error_max_mm": 0.2219880832563679,
+    "stops": 1,
+    "moving_samples": 122,
+    "ticks": 88,
+    "watchdog_entries": 0
+   },
+   "verdicts": {
+    "completed": true,
+    "stop_error_max_mm": true,
+    "saturation_share_pct": true,
+    "limit_violations": true,
+    "floor_clearance": true
+   },
+   "notes": [],
+   "wall_time_s": 0.20905451802536845
+  },
+  {
+   "task": "workspace-holdout-011",
+   "kind": "a_to_b_joint",
+   "duration_s": 2.18,
+   "objective": 2.4443005029337512,
+   "kpis": {
+    "stop_error_max_mm": 0.4962320173598,
+    "saturation_share_pct": 0.0,
+    "limit_violations": 0,
+    "floor_clearance_violations": 0,
+    "completed": true
+   },
+   "diagnostics": {
+    "tool_track_max_mm": 3.9718400360618173,
+    "joint_track_rms_deg": 0.7482753757701802,
+    "tool_lag_ms": -3.6049846701890385,
+    "stop_error_mm": 0.4962320173598,
+    "saturation_share_pct": 0.0,
+    "energy_j": 61.31926361621055,
+    "tool_jerk_rms_m_s3": 18.10846125280516,
+    "host_compute_ms_p95": 0.11739605,
+    "settle_error_max_mm": 0.5070123103083731,
+    "stops": 1,
+    "moving_samples": 167,
+    "ticks": 110,
+    "watchdog_entries": 0
+   },
+   "verdicts": {
+    "completed": true,
+    "stop_error_max_mm": true,
+    "saturation_share_pct": true,
+    "limit_violations": true,
+    "floor_clearance": true
+   },
+   "notes": [],
+   "wall_time_s": 0.2611308120540343
+  }
+ ],
+ "deployment": {
+  "name": "ur5e_alone",
+  "ruler": "v1",
+  "title": "UR5e (MuJoCo Menagerie, the robot_controllers truth plant) alone on the floor, moteus boards, 50 Hz host",
+  "arm": "ur5e",
+  "joint_names": [
+   "shoulder_pan_joint",
+   "shoulder_lift_joint",
+   "elbow_joint",
+   "wrist_1_joint",
+   "wrist_2_joint",
+   "wrist_3_joint"
+  ],
+  "host_rate_hz": 50.0,
+  "bus": {
+   "command_delay_ms": [
+    1.25,
+    2.5,
+    3.75,
+    5.0,
+    6.25,
+    7.5
+   ],
+   "reply_delay_ms": 1.5,
+   "jitter_ms": 0.0,
+   "source": "datasheet:mjbots (fdcanusb ~800 Hz, one device)"
+  },
+  "board": {
+   "kp_nm_rad": [
+    3186.5333837148714,
+    4373.630046472209,
+    1816.7966773054259,
+    158.19288206657058,
+    131.4060643084,
+    126.22966476304926
+   ],
+   "kd_nm_s_rad": [
+    79.66333459287178,
+    109.34075116180523,
+    45.41991693263565,
+    3.9548220516642645,
+    3.28515160771,
+    3.1557416190762315
+   ],
+   "torque_cap_nm": [
+    150.0,
+    150.0,
+    150.0,
+    28.0,
+    28.0,
+    28.0
+   ],
+   "rate_hz": 4000.0,
+   "encoder_delay_s": 0.0005,
+   "velocity_filter_hz": 200.0,
+   "encoder_counts_per_rev": 16384,
+   "watchdog_s": 0.25
+  },
+  "torque_cap_nm": [
+   150.0,
+   150.0,
+   150.0,
+   28.0,
+   28.0,
+   28.0
+  ],
+  "position_min_rad": [
+   -6.283185307179586,
+   -6.283185307179586,
+   -3.1415,
+   -6.283185307179586,
+   -6.283185307179586,
+   -6.283185307179586
+  ],
+  "position_max_rad": [
+   6.283185307179586,
+   6.283185307179586,
+   3.1415,
+   6.283185307179586,
+   6.283185307179586,
+   6.283185307179586
+  ],
+  "velocity_max_rad_s": [
+   3.141592653589793,
+   3.141592653589793,
+   3.141592653589793,
+   3.141592653589793,
+   3.141592653589793,
+   3.141592653589793
+  ],
+  "send_time": "the host's wake time (include_compute=False: the tick's CPU time is reported as host_compute_ms_p95, never added to the bus)",
+  "floor_z_m": 0.0,
+  "tool_site": "tool",
+  "tool_offset_m": 0.1,
+  "gravity_m_s2": [
+   0.0,
+   0.0,
+   -9.81
+  ],
+  "plant": "robot_controllers.bench.ur5e.Ur5ePlant (UR5E_TRUTH: armature, frictionloss, damping)"
+ },
+ "dataset": {
+  "name": "ur5e_alone/workspace/v2",
+  "split": "holdout",
+  "tasks": 12,
+  "speed": 1.0
+ },
+ "code": {
+  "solution_sha256": "6b151598410ee3ba71071ed16529d0af0cd9a713df7b7c4b0b1c245ffddb291f",
+  "repo_commit": "768c477f181091622282b88b435f47de4ac29234",
+  "repo_dirty": false,
+  "robot_controllers": {
+   "version": "0.1.0",
+   "commit": "20daa37c212abea829b7606a26902717fe26d122",
+   "dirty": false,
+   "repo": "robot_controllers"
+  },
+  "robot_msgs": {
+   "version": "0.3.1",
+   "commit": "cf3709ba2e1eb14e95d4422f2c46c668f4bb31fb",
+   "dirty": false,
+   "repo": "robot_msgs"
+  }
+ },
+ "evaluated": "2026-11-24T09:10:19-07:00",
+ "wall_time_s": 3.1510151399997994,
+ "workers": 4
+}
