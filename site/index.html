@@ -13,6 +13,7 @@
   <div class="wrap">
     <a class="brand" href="#">Trajectory Tracking Agent</a>
     <nav>
+      <a href="#progress">Progress</a>
       <a href="#run">Run</a>
       <a href="#scored">How it's scored</a>
       <a href="#joints">Joints</a>
@@ -31,6 +32,12 @@
       back: each was simulated (MuJoCo, robot_controllers' UR5e plant) and scored by the ruler when <code>tta evaluate</code>
       ran it, and every number shown is the ruler's, from that run's record. Nothing is simulated or scored in your
       browser. <span id="rule"></span></p>
+
+    <div class="headliner" id="progress">
+      <!-- WHY first (Zach, 2026-11-24): "this chart as the headline, we just want to see it's basically progressing"; Ticker v1 -->
+      <bb-headliner state-src="data/state.json"
+        links='{"solution":"https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/main/solutions/{id}"}'></bb-headliner>
+    </div>
 
     <div class="stage">
       <div class="viewer" id="viewer">
@@ -141,6 +148,7 @@
   </div>
 </footer>
 
+<script type="module" src="vendor/bb-headliner.js"></script>
 <script type="module" src="assets/app.js"></script>
 </body>
 </html>

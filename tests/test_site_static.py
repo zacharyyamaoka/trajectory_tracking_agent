@@ -94,7 +94,9 @@ def test_no_live_runtime_is_shipped_or_loaded():
             for m in runtime.finditer(p.read_text())]
     assert not hits, hits
     scripts = re.findall(r"<script[^>]*src=[\"']([^\"']+)", (SITE / "index.html").read_text())
-    assert scripts == ["assets/app.js"], scripts
+    # WHY the headliner is allowed (2026-11-24): Zach picked the Ticker v1 as the page's headline; it is a static chart
+    # module (uPlot) reading data/state.json, not a runtime. Anything else, or any Pyodide / MuJoCo load, still fails.
+    assert scripts == ["vendor/bb-headliner.js", "assets/app.js"], scripts
 
 
 def test_leaderboard_numbers_are_the_scorecards():

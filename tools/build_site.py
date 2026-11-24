@@ -29,6 +29,7 @@ import argparse
 import gzip
 import json
 import math
+import os
 import re
 import shutil
 import signal
@@ -709,6 +710,21 @@ def site_bytes() -> int:
     return sum(path.stat().st_size for path in SITE.rglob("*") if path.is_file())
 
 
+# WHY the viewer's fold (2026-11-24): the headliner (bb-headliner, Zach's Ticker v1 pick) reads a bb-state/1 state.json.
+# The fold lives in the blackbox_agent viewer (it imports that repo's idea parser), so it is called where it lives
+# until the template ships as a package; BB_FOLD overrides the path. Without it the committed state.json stays and
+# tests/test_site_headliner.py catches it going stale.
+FOLD = Path(os.environ.get("BB_FOLD", Path.home() / "blackbox_agent" / "viewer" / "tools" / "fold_state.py"))
+
+
+def write_state() -> None:
+    if not FOLD.exists():
+        print(f"warning: {FOLD} not found: site/data/state.json not refreshed", file=sys.stderr)
+        return
+    subprocess.run([sys.executable, str(FOLD), "--repo", str(REPO), "--ref", "HEAD", "--out", str(DATA / "state.json")],
+                   check=True, stdout=subprocess.DEVNULL)
+
+
 def build() -> dict[str, Any]:
     before = site_bytes()
     # the live runtime this page used to load (Pyodide + MuJoCo WASM, its wheels and the repo mirror): git keeps it
@@ -719,6 +735,7 @@ def build() -> dict[str, Any]:
     mirror_sources(index)
     DATA.mkdir(parents=True, exist_ok=True)
     (DATA / "page.json").write_text(json.dumps(page_data(), indent=1, allow_nan=False) + "\n")
+    write_state()
     after = site_bytes()
     summary = {"pairs": index["rule"]["count"], "solutions": len(index["solutions"]), "tasks": len(index["tasks"]),
                "playback_bytes": index["bytes"], "site_bytes_before": before, "site_bytes_after": after,

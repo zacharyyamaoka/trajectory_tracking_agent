@@ -1,0 +1,2973 @@
+{
+ "schema": "bb-state/1",
+ "box": "Trajectory Tracking Agent",
+ "ref": "9ead945",
+ "read_at": "2026-11-24T11:33:19-07:00",
+ "ref_date": "2026-11-24T11:33:19-07:00",
+ "about": {
+  "repo": "trajectory_tracking_agent",
+  "url": "https://github.com/zacharyyamaoka/trajectory_tracking_agent",
+  "site": null,
+  "remit": "make robots track a given trajectory more accurately, inside the gates (ruler v1, OBJECTIVES.md)"
+ },
+ "objective": {
+  "name": "tool_track_rms_mm",
+  "label": "tool_track_rms_mm",
+  "unit": "mm",
+  "direction": "lower",
+  "ruler": "v1",
+  "frozen": "2026-11-24",
+  "target": null
+ },
+ "kpis": [
+  {
+   "id": "best",
+   "label": "Best objective",
+   "value": 0.031333594888818476,
+   "unit": "mm",
+   "decimals": 3,
+   "better": "lower",
+   "spark": [
+    1.8202248379222885,
+    1.2116089461204003,
+    1.2116089461204003,
+    1.2116089461204003,
+    1.0510829620957596,
+    1.0510829620957596,
+    0.9260786656428619,
+    0.9260786656428619,
+    0.9260786656428619,
+    0.8476093273772445,
+    0.8476093273772445,
+    0.8476093273772445,
+    0.8476093273772445,
+    0.8338457886531394,
+    0.8338457886531394,
+    0.8338457886531394,
+    0.595447162071153,
+    0.3933981564577292,
+    0.2454490022422628,
+    0.2439634251546184,
+    0.09669627630535432,
+    0.07932236342728807,
+    0.05574840480287774,
+    0.0462424988683071,
+    0.04339935280296428,
+    0.03152831645981026,
+    0.03152831645981026,
+    0.03152831645981026,
+    0.03152831645981026,
+    0.03152831645981026,
+    0.031333594888818476,
+    0.031333594888818476,
+    0.031333594888818476,
+    0.031333594888818476
+   ],
+   "from": "tool_track_rms_mm, best admissible over 34 iterations",
+   "delta": "−98 % since iteration 1",
+   "tone": "good",
+   "source": "ledger.jsonl + solutions/*/meta.json"
+  },
+  {
+   "id": "admissible",
+   "label": "Admissible share",
+   "value": 91.2,
+   "unit": "%",
+   "decimals": 1,
+   "better": "higher",
+   "spark": [
+    100.0,
+    100.0,
+    66.7,
+    50.0,
+    60.0,
+    66.7,
+    71.4,
+    62.5,
+    66.7,
+    70.0,
+    72.7,
+    75.0,
+    76.9,
+    78.6,
+    80.0,
+    81.2,
+    82.4,
+    83.3,
+    84.2,
+    85.0,
+    85.7,
+    86.4,
+    87.0,
+    87.5,
+    88.0,
+    88.5,
+    88.9,
+    89.3,
+    89.7,
+    90.0,
+    90.3,
+    90.6,
+    90.9,
+    91.2
+   ],
+   "from": "31 of 34 iterations pass every gate",
+   "delta": null,
+   "tone": "neutral",
+   "source": "ledger.jsonl (admissible)"
+  },
+  {
+   "id": "ideas",
+   "label": "Open ideas",
+   "value": 2,
+   "unit": "",
+   "decimals": 0,
+   "better": "higher",
+   "spark": [
+    3,
+    2,
+    2,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    2,
+    3,
+    3,
+    3,
+    4,
+    2,
+    2,
+    2,
+    2
+   ],
+   "from": "ideas.md “I'll try”, over its 24 committed versions",
+   "delta": null,
+   "tone": "bad",
+   "source": "ideas.md (git history)"
+  },
+  {
+   "id": "counter_kpi",
+   "label": "holdout - dev of the best (mm; reporting only, never selected on)",
+   "value": -0.0006686573781421526,
+   "unit": "mm",
+   "decimals": null,
+   "better": null,
+   "spark": [],
+   "from": "status.json counter_kpi (reporting only)",
+   "delta": null,
+   "tone": "neutral",
+   "source": "status.json"
+  }
+ ],
+ "iterations": [
+  {
+   "n": 1,
+   "id": "p2",
+   "parent": null,
+   "verdict": "kept",
+   "objective": 1.8202248379222885,
+   "best_so_far": 1.8202248379222885,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:01:24-07:00",
+   "created": "2026-11-12T01:39:29-07:00",
+   "change": "the trajectory's column (as built), board PD",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P2",
+    "ff=trajectory@trajectory",
+    "fb=board_gains@board",
+    "lookahead=none",
+    "interp=tangent"
+   ],
+   "gen": 0,
+   "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 2.236545427027056,
+   "commit": {
+    "sha": "c2851fcfde80b446a7f1a39c203ee4acbec8ab1f",
+    "date": "2026-11-12T01:39:29-07:00",
+    "subject": "controllers: time-driven JTC, tape feeder, joint impedance on board / host / host spring",
+    "where": "upstream (meta.json source)"
+   },
+   "best_holder": "p2"
+  },
+  {
+   "n": 2,
+   "id": "p8",
+   "parent": null,
+   "verdict": "kept",
+   "objective": 1.2116089461204003,
+   "best_so_far": 1.2116089461204003,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:01:29-07:00",
+   "created": "2026-11-20T12:47:21-07:00",
+   "change": "model at plan time, host spring + board damper",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P8",
+    "ff=rigid_body@plan",
+    "fb=pd@split",
+    "lookahead=none",
+    "interp=tangent"
+   ],
+   "gen": 0,
+   "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 1.2170263437766973,
+   "commit": {
+    "sha": "406ca489e23cde857937815166b4145316f38ed0",
+    "date": "2026-11-20T12:47:21-07:00",
+    "subject": "layouts: the sweep (every valid FF@placement x FB@placement on R1 R2 R4 R6 R8 R9 R9), layout_spec, recommend, robot-controllers layouts (amendment 3.6)",
+    "where": "upstream (meta.json source)"
+   },
+   "best_holder": "p8"
+  },
+  {
+   "n": 3,
+   "id": "p9",
+   "parent": null,
+   "verdict": "failed",
+   "objective": 3.670921208606007,
+   "best_so_far": 1.2116089461204003,
+   "admissible": false,
+   "evaluated": "2026-11-24T09:01:33-07:00",
+   "created": "2026-11-20T12:47:21-07:00",
+   "change": "model at the host on the measured state, computed torque on the host",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P9",
+    "ff=rigid_body@host_measured",
+    "fb=ctc@host",
+    "lookahead=none",
+    "interp=tangent"
+   ],
+   "gen": 0,
+   "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "backfilled": false
+   },
+   "failed_gates": {
+    "completed": 25,
+    "stop_error_max_mm": 11,
+    "saturation_share_pct": 17,
+    "limit_violations": 33
+   },
+   "gate_pass_rate": 0.5904761904761905,
+   "holdout": null,
+   "commit": {
+    "sha": "406ca489e23cde857937815166b4145316f38ed0",
+    "date": "2026-11-20T12:47:21-07:00",
+    "subject": "layouts: the sweep (every valid FF@placement x FB@placement on R1 R2 R4 R6 R8 R9 R9), layout_spec, recommend, robot-controllers layouts (amendment 3.6)",
+    "where": "upstream (meta.json source)"
+   },
+   "best_holder": "p8"
+  },
+  {
+   "n": 4,
+   "id": "p10",
+   "parent": null,
+   "verdict": "failed",
+   "objective": 3.721199921521916,
+   "best_so_far": 1.2116089461204003,
+   "admissible": false,
+   "evaluated": "2026-11-24T09:01:38-07:00",
+   "created": "2026-11-20T12:47:21-07:00",
+   "change": "model at plan time, PD on the host",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P10",
+    "ff=rigid_body@plan",
+    "fb=pd@host",
+    "lookahead=none",
+    "interp=tangent"
+   ],
+   "gen": 0,
+   "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "backfilled": false
+   },
+   "failed_gates": {
+    "completed": 28,
+    "stop_error_max_mm": 17,
+    "saturation_share_pct": 19,
+    "limit_violations": 32
+   },
+   "gate_pass_rate": 0.5428571428571428,
+   "holdout": null,
+   "commit": {
+    "sha": "406ca489e23cde857937815166b4145316f38ed0",
+    "date": "2026-11-20T12:47:21-07:00",
+    "subject": "layouts: the sweep (every valid FF@placement x FB@placement on R1 R2 R4 R6 R8 R9 R9), layout_spec, recommend, robot-controllers layouts (amendment 3.6)",
+    "where": "upstream (meta.json source)"
+   },
+   "best_holder": "p8"
+  },
+  {
+   "n": 5,
+   "id": "p3",
+   "parent": null,
+   "verdict": "kept",
+   "objective": 1.0510829620957596,
+   "best_so_far": 1.0510829620957596,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:01:42-07:00",
+   "created": "2026-11-20T13:03:00-07:00",
+   "change": "model at plan time, board PD, the datasheet's lookahead",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P3",
+    "ff=rigid_body@plan",
+    "fb=board_gains@board",
+    "lookahead=nominal",
+    "interp=tangent"
+   ],
+   "gen": 0,
+   "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.981022401108623,
+   "commit": {
+    "sha": "8a77523ed6a0e71117973327115dbf7bd9a7d8a2",
+    "date": "2026-11-20T13:03:00-07:00",
+    "subject": "layouts: lookahead swept at 0 and the bus delay (+la=5.5ms names), recommend ranks the median duty over the swept rungs (contract 3.8.2-3)",
+    "where": "upstream (meta.json source)"
+   },
+   "best_holder": "p3"
+  },
+  {
+   "n": 6,
+   "id": "p2s",
+   "parent": null,
+   "verdict": "discarded",
+   "objective": 1.7817463896050758,
+   "best_so_far": 1.0510829620957596,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:01:46-07:00",
+   "created": "2026-11-20T18:02:47-07:00",
+   "change": "the trajectory's column (as built), board PD, secant_mid_ff",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P2s",
+    "ff=trajectory@trajectory",
+    "fb=board_gains@board",
+    "lookahead=none",
+    "interp=secant_mid_ff"
+   ],
+   "gen": 0,
+   "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 2.0950633354873323,
+   "commit": {
+    "sha": "98762b09e4288a3d14975c01f7db2ad5ecad8dfa",
+    "date": "2026-11-20T18:02:47-07:00",
+    "subject": "layout: secant and secant_mid_ff interpolation, per-joint lookahead, LayoutConfig.control_period_s (contract 4.1)",
+    "where": "upstream (meta.json source)"
+   },
+   "best_holder": "p3"
+  },
+  {
+   "n": 7,
+   "id": "p3s",
+   "parent": null,
+   "verdict": "kept",
+   "objective": 0.9260786656428619,
+   "best_so_far": 0.9260786656428619,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:01:50-07:00",
+   "created": "2026-11-20T18:02:47-07:00",
+   "change": "model at plan time, board PD, the datasheet's lookahead, secant_mid_ff",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P3s",
+    "ff=rigid_body@plan",
+    "fb=board_gains@board",
+    "lookahead=nominal",
+    "interp=secant_mid_ff"
+   ],
+   "gen": 0,
+   "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.9834761604145755,
+   "commit": {
+    "sha": "98762b09e4288a3d14975c01f7db2ad5ecad8dfa",
+    "date": "2026-11-20T18:02:47-07:00",
+    "subject": "layout: secant and secant_mid_ff interpolation, per-joint lookahead, LayoutConfig.control_period_s (contract 4.1)",
+    "where": "upstream (meta.json source)"
+   },
+   "best_holder": "p3s"
+  },
+  {
+   "n": 8,
+   "id": "p1",
+   "parent": null,
+   "verdict": "failed",
+   "objective": 6.249808422116393,
+   "best_so_far": 0.9260786656428619,
+   "admissible": false,
+   "evaluated": "2026-11-24T09:01:56-07:00",
+   "created": "2026-11-20T18:08:36-07:00",
+   "change": "no feed-forward, board PD, calibrated lookahead",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P1",
+    "ff=none@none",
+    "fb=board_gains@board",
+    "lookahead=calibrated",
+    "interp=tangent"
+   ],
+   "gen": 0,
+   "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "backfilled": false
+   },
+   "failed_gates": {
+    "completed": 41,
+    "stop_error_max_mm": 41
+   },
+   "gate_pass_rate": 0.6095238095238096,
+   "holdout": null,
+   "commit": {
+    "sha": "4a924f8a7c52748aa850570e6ce645e5634be249",
+    "date": "2026-11-20T18:08:36-07:00",
+    "subject": "metrics: lag estimate, one-run lookahead calibration, tracking_lag_ms and the sync metrics (contract 4.3)",
+    "where": "upstream (meta.json source)"
+   },
+   "best_holder": "p3s"
+  },
+  {
+   "n": 9,
+   "id": "p4",
+   "parent": null,
+   "verdict": "discarded",
+   "objective": 1.062253101310931,
+   "best_so_far": 0.9260786656428619,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:02:02-07:00",
+   "created": "2026-11-20T18:08:36-07:00",
+   "change": "model at plan time, board PD, calibrated lookahead",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P4",
+    "ff=rigid_body@plan",
+    "fb=board_gains@board",
+    "lookahead=calibrated",
+    "interp=tangent"
+   ],
+   "gen": 0,
+   "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 1.1661593188118293,
+   "commit": {
+    "sha": "4a924f8a7c52748aa850570e6ce645e5634be249",
+    "date": "2026-11-20T18:08:36-07:00",
+    "subject": "metrics: lag estimate, one-run lookahead calibration, tracking_lag_ms and the sync metrics (contract 4.3)",
+    "where": "upstream (meta.json source)"
+   },
+   "best_holder": "p3s"
+  },
+  {
+   "n": 10,
+   "id": "p4s",
+   "parent": null,
+   "verdict": "kept",
+   "objective": 0.8476093273772445,
+   "best_so_far": 0.8476093273772445,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:02:09-07:00",
+   "created": "2026-11-20T18:08:36-07:00",
+   "change": "model at plan time, board PD, calibrated lookahead, secant_mid_ff",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P4s",
+    "ff=rigid_body@plan",
+    "fb=board_gains@board",
+    "lookahead=calibrated",
+    "interp=secant_mid_ff"
+   ],
+   "gen": 0,
+   "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.973407822453337,
+   "commit": {
+    "sha": "4a924f8a7c52748aa850570e6ce645e5634be249",
+    "date": "2026-11-20T18:08:36-07:00",
+    "subject": "metrics: lag estimate, one-run lookahead calibration, tracking_lag_ms and the sync metrics (contract 4.3)",
+    "where": "upstream (meta.json source)"
+   },
+   "best_holder": "p4s"
+  },
+  {
+   "n": 11,
+   "id": "p5",
+   "parent": null,
+   "verdict": "discarded",
+   "objective": 1.0767888897067164,
+   "best_so_far": 0.8476093273772445,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:02:16-07:00",
+   "created": "2026-11-20T18:08:36-07:00",
+   "change": "model + Coulomb at plan time, board PD, calibrated lookahead",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P5",
+    "ff=rigid_body_coulomb@plan",
+    "fb=board_gains@board",
+    "lookahead=calibrated",
+    "interp=tangent"
+   ],
+   "gen": 0,
+   "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 1.368285989298753,
+   "commit": {
+    "sha": "4a924f8a7c52748aa850570e6ce645e5634be249",
+    "date": "2026-11-20T18:08:36-07:00",
+    "subject": "metrics: lag estimate, one-run lookahead calibration, tracking_lag_ms and the sync metrics (contract 4.3)",
+    "where": "upstream (meta.json source)"
+   },
+   "best_holder": "p4s"
+  },
+  {
+   "n": 12,
+   "id": "p5s",
+   "parent": null,
+   "verdict": "discarded",
+   "objective": 0.9735816680536202,
+   "best_so_far": 0.8476093273772445,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:02:21-07:00",
+   "created": "2026-11-20T18:08:36-07:00",
+   "change": "model + Coulomb at plan time, board PD, calibrated lookahead, secant_mid_ff",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P5s",
+    "ff=rigid_body_coulomb@plan",
+    "fb=board_gains@board",
+    "lookahead=calibrated",
+    "interp=secant_mid_ff"
+   ],
+   "gen": 0,
+   "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 1.1387655493445359,
+   "commit": {
+    "sha": "4a924f8a7c52748aa850570e6ce645e5634be249",
+    "date": "2026-11-20T18:08:36-07:00",
+    "subject": "metrics: lag estimate, one-run lookahead calibration, tracking_lag_ms and the sync metrics (contract 4.3)",
+    "where": "upstream (meta.json source)"
+   },
+   "best_holder": "p4s"
+  },
+  {
+   "n": 13,
+   "id": "p6",
+   "parent": null,
+   "verdict": "discarded",
+   "objective": 1.0754153853716142,
+   "best_so_far": 0.8476093273772445,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:02:27-07:00",
+   "created": "2026-11-20T18:08:36-07:00",
+   "change": "model at the host on the measured state, board PD, calibrated lookahead",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P6",
+    "ff=rigid_body@host_measured",
+    "fb=board_gains@board",
+    "lookahead=calibrated",
+    "interp=tangent"
+   ],
+   "gen": 0,
+   "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 1.1903944419563417,
+   "commit": {
+    "sha": "4a924f8a7c52748aa850570e6ce645e5634be249",
+    "date": "2026-11-20T18:08:36-07:00",
+    "subject": "metrics: lag estimate, one-run lookahead calibration, tracking_lag_ms and the sync metrics (contract 4.3)",
+    "where": "upstream (meta.json source)"
+   },
+   "best_holder": "p4s"
+  },
+  {
+   "n": 14,
+   "id": "p6s",
+   "parent": null,
+   "verdict": "kept",
+   "objective": 0.8338457886531394,
+   "best_so_far": 0.8338457886531394,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:02:33-07:00",
+   "created": "2026-11-20T18:08:36-07:00",
+   "change": "model at the host on the measured state, board PD, calibrated lookahead, secant_mid_ff",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P6s",
+    "ff=rigid_body@host_measured",
+    "fb=board_gains@board",
+    "lookahead=calibrated",
+    "interp=secant_mid_ff"
+   ],
+   "gen": 0,
+   "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.9596998999625554,
+   "commit": {
+    "sha": "4a924f8a7c52748aa850570e6ce645e5634be249",
+    "date": "2026-11-20T18:08:36-07:00",
+    "subject": "metrics: lag estimate, one-run lookahead calibration, tracking_lag_ms and the sync metrics (contract 4.3)",
+    "where": "upstream (meta.json source)"
+   },
+   "best_holder": "p6s"
+  },
+  {
+   "n": 15,
+   "id": "p7",
+   "parent": null,
+   "verdict": "discarded",
+   "objective": 1.1090133750526041,
+   "best_so_far": 0.8338457886531394,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:02:40-07:00",
+   "created": "2026-11-20T18:08:36-07:00",
+   "change": "model at plan time, computed-torque gains re-sent each tick, calibrated lookahead",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P7",
+    "ff=rigid_body@plan",
+    "fb=ctc@board_scheduled",
+    "lookahead=calibrated",
+    "interp=tangent"
+   ],
+   "gen": 0,
+   "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 1.2784860765841897,
+   "commit": {
+    "sha": "4a924f8a7c52748aa850570e6ce645e5634be249",
+    "date": "2026-11-20T18:08:36-07:00",
+    "subject": "metrics: lag estimate, one-run lookahead calibration, tracking_lag_ms and the sync metrics (contract 4.3)",
+    "where": "upstream (meta.json source)"
+   },
+   "best_holder": "p6s"
+  },
+  {
+   "n": 16,
+   "id": "p7s",
+   "parent": null,
+   "verdict": "discarded",
+   "objective": 0.8874476069159363,
+   "best_so_far": 0.8338457886531394,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:02:46-07:00",
+   "created": "2026-11-20T18:08:36-07:00",
+   "change": "model at plan time, computed-torque gains re-sent each tick, calibrated lookahead, secant_mid_ff",
+   "tags": [
+    "gen-0",
+    "robot_controllers:P7s",
+    "ff=rigid_body@plan",
+    "fb=ctc@board_scheduled",
+    "lookahead=calibrated",
+    "interp=secant_mid_ff"
+   ],
+   "gen": 0,
+   "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.923310110297491,
+   "commit": {
+    "sha": "4a924f8a7c52748aa850570e6ce645e5634be249",
+    "date": "2026-11-20T18:08:36-07:00",
+    "subject": "metrics: lag estimate, one-run lookahead calibration, tracking_lag_ms and the sync metrics (contract 4.3)",
+    "where": "upstream (meta.json source)"
+   },
+   "best_holder": "p6s"
+  },
+  {
+   "n": 17,
+   "id": "p5s-bus",
+   "parent": "p5s",
+   "verdict": "kept",
+   "objective": 0.595447162071153,
+   "best_so_far": 0.595447162071153,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:18:26-07:00",
+   "created": "2026-11-24T09:18:12-07:00",
+   "change": "lookahead = the deployment's bus command delay per joint, not the friction-inflated calibration (Coulomb is already in the ff)",
+   "tags": [],
+   "gen": 1,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.533983912179262,
+   "commit": {
+    "sha": "7fd1b193fb81fbc9212c7eea603571dbfafbb5dc",
+    "date": "2026-11-24T09:18:43-07:00",
+    "subject": "p5s-bus: lookahead = the bus's command delay (Coulomb already in the ff) -> 0.595 mm dev, admissible yes",
+    "where": "this repo"
+   },
+   "best_holder": "p5s-bus"
+  },
+  {
+   "n": 18,
+   "id": "p5s-bus-enc",
+   "parent": "p5s-bus",
+   "verdict": "kept",
+   "objective": 0.3933981564577292,
+   "best_so_far": 0.3933981564577292,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:20:09-07:00",
+   "created": "2026-11-24T09:20:03-07:00",
+   "change": "lookahead = bus delay minus the board's own lead (encoder delay + one board tick, 0.75 ms), from the deployment's board fields",
+   "tags": [],
+   "gen": 2,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "backfilled": true
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.33210474202747353,
+   "commit": {
+    "sha": "68ae5ee2f2ac5304d7f076f8e727fdfa4f8e6848",
+    "date": "2026-11-24T09:20:39-07:00",
+    "subject": "p5s-bus-enc: lookahead = bus delay minus the board's own 0.75 ms lead -> 0.393 mm dev, admissible yes",
+    "where": "this repo"
+   },
+   "best_holder": "p5s-bus-enc"
+  },
+  {
+   "n": 19,
+   "id": "p5s-fric",
+   "parent": "p5s-bus-enc",
+   "verdict": "kept",
+   "objective": 0.2454490022422628,
+   "best_so_far": 0.2454490022422628,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:22:38-07:00",
+   "created": "2026-11-24T09:21:56-07:00",
+   "change": "friction ff = per-joint Coulomb tanh(qd/vs) + viscous identified from p5s-bus-enc's dev run records, replacing the given model's Coulomb",
+   "tags": [],
+   "gen": 3,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "backfilled": true
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.2778446267755931,
+   "commit": {
+    "sha": "e13f39869c63c9b96ecfc48c8d508600cdd973bd",
+    "date": "2026-11-24T09:22:54-07:00",
+    "subject": "p5s-fric: friction ff identified from dev run records (Fc tanh(qd/vs) + b qd per joint) -> 0.245 mm dev, admissible yes",
+    "where": "this repo"
+   },
+   "best_holder": "p5s-fric"
+  },
+  {
+   "n": 20,
+   "id": "p5s-chord",
+   "parent": "p5s-fric",
+   "verdict": "kept",
+   "objective": 0.2439634251546184,
+   "best_so_far": 0.2439634251546184,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:24:24-07:00",
+   "created": "2026-11-24T09:24:18-07:00",
+   "change": "position sent = sample - a(s+T/2)·T²/12: the board's straight walk over a host period becomes the least-squares line of the curve, not its chord",
+   "tags": [],
+   "gen": 4,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "backfilled": true
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.28301560191223285,
+   "commit": {
+    "sha": "53abd716c85344c28087bf18bc16457c8c974047",
+    "date": "2026-11-24T09:25:59-07:00",
+    "subject": "p5s-chord: position target moved to the least-squares line (-a T^2/12) -> 0.244 mm dev, admissible yes; re-ran p4s/p5s after robot_controllers f25f485 (deterministic calibration)",
+    "where": "this repo"
+   },
+   "best_holder": "p5s-chord"
+  },
+  {
+   "n": 21,
+   "id": "p5s-grav",
+   "parent": "p5s-chord",
+   "verdict": "kept",
+   "objective": 0.09669627630535432,
+   "best_so_far": 0.09669627630535432,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:27:12-07:00",
+   "created": "2026-11-24T09:26:51-07:00",
+   "change": "ff minus a gravity-shaped torque error per joint, fitted from p5s-chord's dev joint errors (kp·e + kd·ė on sin/cos of q2, q2+q3, q2+q3+q4, × cos/sin q5)",
+   "tags": [],
+   "gen": 5,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "backfilled": true
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.12561586996710417,
+   "commit": {
+    "sha": "00981030eb07e94fb0c63167491afffb98847724",
+    "date": "2026-11-24T09:27:39-07:00",
+    "subject": "p5s-grav: gravity error identified from dev joint errors (kp e + kd edot on trig shapes of q) -> 0.097 mm dev, admissible yes",
+    "where": "this repo"
+   },
+   "best_holder": "p5s-grav"
+  },
+  {
+   "n": 22,
+   "id": "p5s-fric2",
+   "parent": "p5s-grav",
+   "verdict": "kept",
+   "objective": 0.07932236342728807,
+   "best_so_far": 0.07932236342728807,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:29:03-07:00",
+   "created": "2026-11-24T09:28:47-07:00",
+   "change": "friction correction in target qd (odd multi-scale tanh basis + qd), fitted from p5s-grav's dev joint errors (kp·e + kd·ė), subtracted from the ff",
+   "tags": [],
+   "gen": 6,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "backfilled": true
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.10159051881034495,
+   "commit": {
+    "sha": "b563d00953ae24188465ee4f2f10ed83bc5c65e1",
+    "date": "2026-11-24T09:29:18-07:00",
+    "subject": "p5s-fric2: second friction pass vs target qd, fitted from dev joint errors -> 0.079 mm dev, admissible yes",
+    "where": "this repo"
+   },
+   "best_holder": "p5s-fric2"
+  },
+  {
+   "n": 23,
+   "id": "p5s-kp2",
+   "parent": "p5s-fric2",
+   "verdict": "kept",
+   "objective": 0.05574840480287774,
+   "best_so_far": 0.05574840480287774,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:30:35-07:00",
+   "created": "2026-11-24T09:30:31-07:00",
+   "change": "board gains sent with every command: kp x2, kd x sqrt(2) (same damping ratio, bandwidth x1.41) instead of the boards' configured gains",
+   "tags": [],
+   "gen": 7,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "backfilled": true
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.06533584251052184,
+   "commit": {
+    "sha": "c843eb64019ca599673a7d7413148e15b69cb52e",
+    "date": "2026-11-24T09:30:53-07:00",
+    "subject": "p5s-kp2: board kp x2, kd x sqrt2 sent each command -> 0.056 mm dev, admissible yes",
+    "where": "this repo"
+   },
+   "best_holder": "p5s-kp2"
+  },
+  {
+   "n": 24,
+   "id": "p5s-kp4",
+   "parent": "p5s-kp2",
+   "verdict": "kept",
+   "objective": 0.0462424988683071,
+   "best_so_far": 0.0462424988683071,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:31:11-07:00",
+   "created": "2026-11-24T09:31:06-07:00",
+   "change": "board kp x4, kd x2 (same damping ratio, bandwidth x2 = 12.6 Hz) instead of x2 / x1.41",
+   "tags": [],
+   "gen": 8,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "backfilled": true
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.04869294739648374,
+   "commit": {
+    "sha": "d7fff56bb9c7742a6ba45c9a9602eb8d6f3a0cd5",
+    "date": "2026-11-24T09:31:26-07:00",
+    "subject": "p5s-kp4: board kp x4, kd x2 -> 0.046 mm dev, admissible yes",
+    "where": "this repo"
+   },
+   "best_holder": "p5s-kp4"
+  },
+  {
+   "n": 25,
+   "id": "p5s-vlag",
+   "parent": "p5s-kp4",
+   "verdict": "kept",
+   "objective": 0.04339935280296428,
+   "best_so_far": 0.04339935280296428,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:32:20-07:00",
+   "created": "2026-11-24T09:32:07-07:00",
+   "change": "ff minus kd·tau_v·qdd per joint: the board's velocity estimate lags by encoder delay + 1/(2π·filter Hz) (1.3 ms), so its kd term pushes ahead while accelerating",
+   "tags": [],
+   "gen": 9,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "backfilled": true
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.04612464464422895,
+   "commit": {
+    "sha": "8dc48882f8a3151a050aa51514b5e711e54952a9",
+    "date": "2026-11-24T09:32:37-07:00",
+    "subject": "p5s-vlag: ff minus kd x 1.3 ms x qdd (board velocity-estimate lag) -> 0.043 mm dev, admissible yes",
+    "where": "this repo"
+   },
+   "best_holder": "p5s-vlag"
+  },
+  {
+   "n": 26,
+   "id": "p5s-pass2",
+   "parent": "p5s-vlag",
+   "verdict": "kept",
+   "objective": 0.03152831645981026,
+   "best_so_far": 0.03152831645981026,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:33:17-07:00",
+   "created": "2026-11-24T09:32:54-07:00",
+   "change": "second joint-error identification pass at the current gains (kp x4, kd x2): gravity shapes + friction basis fitted jointly on p5s-vlag's dev runs, subtracted as one more additive term",
+   "tags": [],
+   "gen": 10,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "backfilled": true
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.03003874444279928,
+   "commit": {
+    "sha": "fa426487b85571f1739b11bc7276016c49881a70",
+    "date": "2026-11-24T09:33:32-07:00",
+    "subject": "p5s-pass2: second joint-error identification pass at kp x4 / kd x2 -> 0.032 mm dev, admissible yes",
+    "where": "this repo"
+   },
+   "best_holder": "p5s-pass2"
+  },
+  {
+   "n": 27,
+   "id": "p5s-fric2-pass2",
+   "parent": "p5s-fric2",
+   "verdict": "discarded",
+   "objective": 0.06990789515183797,
+   "best_so_far": 0.03152831645981026,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:34:42-07:00",
+   "created": "2026-11-24T09:34:25-07:00",
+   "change": "niche (boards' configured gains): second joint-error pass on p5s-fric2's dev runs, gravity shapes + friction basis + own-qdd term fitted jointly, subtracted",
+   "tags": [],
+   "gen": 7,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "backfilled": true
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.07352475226894398,
+   "commit": {
+    "sha": "e1f0f7f2de182823fc9ad768de066e052dcba6aa",
+    "date": "2026-11-24T09:34:53-07:00",
+    "subject": "p5s-fric2-pass2: niche at configured gains, second joint-error pass -> 0.070 mm dev, admissible yes",
+    "where": "this repo"
+   },
+   "best_holder": "p5s-pass2"
+  },
+  {
+   "n": 28,
+   "id": "p5s-kd15",
+   "parent": "p5s-pass2",
+   "verdict": "discarded",
+   "objective": 0.03453451724892771,
+   "best_so_far": 0.03152831645981026,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:35:12-07:00",
+   "created": "2026-11-24T09:35:09-07:00",
+   "change": "kd x1.5 instead of x2 at kp x4 (zeta 0.50 -> 0.37): less kd times the 2^14-count velocity estimate",
+   "tags": [],
+   "gen": 11,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "backfilled": true
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.03135916919960483,
+   "commit": {
+    "sha": "6ac0eb3b0192cc2fb519c1a4fa89b74912225574",
+    "date": "2026-11-24T09:35:27-07:00",
+    "subject": "p5s-kd15: kd x1.5 at kp x4 -> 0.035 mm dev, admissible yes (loser)",
+    "where": "this repo"
+   },
+   "best_holder": "p5s-pass2"
+  },
+  {
+   "n": 29,
+   "id": "p5s-kd25",
+   "parent": "p5s-pass2",
+   "verdict": "discarded",
+   "objective": 0.03480856256233693,
+   "best_so_far": 0.03152831645981026,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:35:30-07:00",
+   "created": "2026-11-24T09:35:27-07:00",
+   "change": "kd x2.5 instead of x2 at kp x4 (zeta 0.50 -> 0.62): p5s-kd15 showed damping is worth more than the kd buzz it brings",
+   "tags": [],
+   "gen": 11,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "backfilled": true
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.03537789394321242,
+   "commit": {
+    "sha": "75b972bb2d7db5e0121701b96c661c32e2cf887d",
+    "date": "2026-11-24T09:35:49-07:00",
+    "subject": "p5s-kd25: kd x2.5 at kp x4 -> 0.035 mm dev, admissible yes (loser)",
+    "where": "this repo"
+   },
+   "best_holder": "p5s-pass2"
+  },
+  {
+   "n": 30,
+   "id": "p5s-onefit",
+   "parent": "p5s-pass2",
+   "verdict": "discarded",
+   "objective": 0.03152831645980532,
+   "best_so_far": 0.03152831645981026,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:37:13-07:00",
+   "created": "2026-11-24T09:36:12-07:00",
+   "change": "same controller with the four stacked fits merged into one model.json (one friction basis, one gravity basis; exact sum, no new data) and one additive-pass tool identify_pass.py",
+   "tags": [],
+   "gen": 11,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "backfilled": true
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.030038744442623586,
+   "commit": {
+    "sha": "24c00a8697592eecd783c09438117913f919addf",
+    "date": "2026-11-24T09:37:29-07:00",
+    "subject": "p5s-onefit: the four stacked fits merged into one model.json + one-command identify_pass.py -> 0.032 mm dev (equal to p5s-pass2), admissible yes",
+    "where": "this repo"
+   },
+   "best_holder": "p5s-pass2"
+  },
+  {
+   "n": 31,
+   "id": "p5s-pass3",
+   "parent": "p5s-onefit",
+   "verdict": "kept",
+   "objective": 0.031333594888818476,
+   "best_so_far": 0.031333594888818476,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:37:42-07:00",
+   "created": "2026-11-24T09:37:38-07:00",
+   "change": "identification pass 3 (identify_pass.py on p5s-onefit's dev runs), added into model.json",
+   "tags": [],
+   "gen": 12,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "backfilled": true
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.030664937510676324,
+   "commit": {
+    "sha": "5f105aca8b254aa64e29214a746ce7cc9b001633",
+    "date": "2026-11-24T09:37:56-07:00",
+    "subject": "p5s-pass3: identification pass 3 via identify_pass.py -> 0.031 mm dev, admissible yes (converged: better on 20/42)",
+    "where": "this repo"
+   },
+   "best_holder": "p5s-pass3"
+  },
+  {
+   "n": 32,
+   "id": "p5s-pass3-g1",
+   "parent": "p5s-pass3",
+   "verdict": "discarded",
+   "objective": 0.15644781463753119,
+   "best_so_far": 0.031333594888818476,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:38:16-07:00",
+   "created": "2026-11-24T09:38:13-07:00",
+   "change": "transfer check: the same identified model at the boards' configured gains (kp x1, kd x1) instead of x4 / x2",
+   "tags": [],
+   "gen": 13,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "backfilled": true
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.1748618213968685,
+   "commit": {
+    "sha": "157c9827b2ad401f18f57b714f012a95e9e8dacc",
+    "date": "2026-11-24T09:38:29-07:00",
+    "subject": "p5s-pass3-g1: transfer check, stiff-line model at configured gains -> 0.156 mm dev, admissible yes (loser: identified passes are gain-specific)",
+    "where": "this repo"
+   },
+   "best_holder": "p5s-pass3"
+  },
+  {
+   "n": 33,
+   "id": "p5s-kp2-pass2",
+   "parent": "p5s-kp2",
+   "verdict": "discarded",
+   "objective": 0.04474770530900803,
+   "best_so_far": 0.031333594888818476,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:38:51-07:00",
+   "created": "2026-11-24T09:38:47-07:00",
+   "change": "middle rung (kp x2): second joint-error pass on p5s-kp2's dev runs, gravity shapes + friction basis + own-qdd term, subtracted (as p5s-fric2-pass2 did at x1)",
+   "tags": [],
+   "gen": 8,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "backfilled": true
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.047204674834381406,
+   "commit": {
+    "sha": "847ed3b831840e344f2480ca1cf0fa4213debf3c",
+    "date": "2026-11-24T09:39:00-07:00",
+    "subject": "p5s-kp2-pass2: middle rung kp x2 with its own joint-error pass -> 0.045 mm dev, admissible yes",
+    "where": "this repo"
+   },
+   "best_holder": "p5s-pass3"
+  },
+  {
+   "n": 34,
+   "id": "p5s-pass3-g1-nolag",
+   "parent": "p5s-pass3-g1",
+   "verdict": "discarded",
+   "objective": 0.1405134786185784,
+   "best_so_far": 0.031333594888818476,
+   "admissible": true,
+   "evaluated": "2026-11-24T09:40:00-07:00",
+   "created": "2026-11-24T09:39:56-07:00",
+   "change": "transfer check, part 2: drop the kd·1.3 ms·qdd term at the configured gains (is it the static prediction the 6 Hz loop never reaches that breaks the x1 transfer?)",
+   "tags": [],
+   "gen": 14,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "backfilled": true
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": 0.16888321926927247,
+   "commit": {
+    "sha": "bbbfd3d3f23677fdac6c06332a1e6d8af43be1f6",
+    "date": "2026-11-24T09:40:26-07:00",
+    "subject": "p5s-pass3-g1-nolag: transfer check part 2, no velocity-lag term at x1 -> 0.141 mm dev, admissible yes (loser: friction is loop-dependent)",
+    "where": "this repo"
+   },
+   "best_holder": "p5s-pass3"
+  }
+ ],
+ "ablations": [
+  {
+   "n": null,
+   "id": "abl-no-bus",
+   "parent": "p5s-pass3",
+   "verdict": "ablation",
+   "objective": 0.6357816643105727,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:50:08-07:00",
+   "created": "2026-11-24T10:50:02-07:00",
+   "change": "− lookahead = bus delay: robot_controllers' calibrated lookahead instead (ablation, frozen: every other part and identified weight as p5s-pass3)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:leave-one-out"
+   ],
+   "gen": 13,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-no-lead",
+   "parent": "p5s-pass3",
+   "verdict": "ablation",
+   "objective": 0.2848559558424629,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:50:14-07:00",
+   "created": "2026-11-24T10:50:10-07:00",
+   "change": "− minus the board lead: the full bus delay as lookahead (ablation, frozen: every other part and identified weight as p5s-pass3)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:leave-one-out"
+   ],
+   "gen": 13,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-no-fric",
+   "parent": "p5s-pass3",
+   "verdict": "ablation",
+   "objective": 0.0928164944865189,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:50:20-07:00",
+   "created": "2026-11-24T10:50:16-07:00",
+   "change": "− identified friction: the given model's Coulomb instead (pass 1 out of model.json) (ablation, frozen: every other part and identified weight as p5s-pass3)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:leave-one-out"
+   ],
+   "gen": 13,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-no-chord",
+   "parent": "p5s-pass3",
+   "verdict": "ablation",
+   "objective": 0.045464263146366854,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:50:26-07:00",
+   "created": "2026-11-24T10:50:22-07:00",
+   "change": "− chord correction: the plain sample sent (ablation, frozen: every other part and identified weight as p5s-pass3)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:leave-one-out"
+   ],
+   "gen": 13,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-no-grav",
+   "parent": "p5s-pass3",
+   "verdict": "ablation",
+   "objective": 0.06347373346086191,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:50:31-07:00",
+   "created": "2026-11-24T10:50:27-07:00",
+   "change": "− gravity identification: pass 2 out of model.json (ablation, frozen: every other part and identified weight as p5s-pass3)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:leave-one-out"
+   ],
+   "gen": 13,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-no-fric2",
+   "parent": "p5s-pass3",
+   "verdict": "ablation",
+   "objective": 0.03553195519583433,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:50:36-07:00",
+   "created": "2026-11-24T10:50:32-07:00",
+   "change": "− second friction pass: pass 3 out of model.json (ablation, frozen: every other part and identified weight as p5s-pass3)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:leave-one-out"
+   ],
+   "gen": 13,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-no-vlag",
+   "parent": "p5s-pass3",
+   "verdict": "ablation",
+   "objective": 0.035021109160105784,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:50:40-07:00",
+   "created": "2026-11-24T10:50:37-07:00",
+   "change": "− velocity-lag term: no kd·1.3 ms·qdd term (ablation, frozen: every other part and identified weight as p5s-pass3)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:leave-one-out"
+   ],
+   "gen": 13,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-p5s+lead",
+   "parent": "p5s",
+   "verdict": "ablation",
+   "objective": 0.8507681607242448,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:50:46-07:00",
+   "created": "2026-11-24T10:50:42-07:00",
+   "change": "+ minus the board lead alone on p5s (ablation, frozen: the weights p5s-pass3's lineage fitted, no refit)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:add-one-in"
+   ],
+   "gen": 1,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-p5s+fric",
+   "parent": "p5s",
+   "verdict": "ablation",
+   "objective": 0.841183006983785,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:50:52-07:00",
+   "created": "2026-11-24T10:50:47-07:00",
+   "change": "+ identified friction alone on p5s (ablation, frozen: the weights p5s-pass3's lineage fitted, no refit)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:add-one-in"
+   ],
+   "gen": 1,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-p5s+chord",
+   "parent": "p5s",
+   "verdict": "ablation",
+   "objective": 0.9647126388700848,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:50:58-07:00",
+   "created": "2026-11-24T10:50:53-07:00",
+   "change": "+ chord correction alone on p5s (ablation, frozen: the weights p5s-pass3's lineage fitted, no refit)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:add-one-in"
+   ],
+   "gen": 1,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-p5s+grav",
+   "parent": "p5s",
+   "verdict": "ablation",
+   "objective": 0.9164716109548126,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:51:03-07:00",
+   "created": "2026-11-24T10:50:59-07:00",
+   "change": "+ gravity identification alone on p5s (ablation, frozen: the weights p5s-pass3's lineage fitted, no refit)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:add-one-in"
+   ],
+   "gen": 1,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-p5s+fric2",
+   "parent": "p5s",
+   "verdict": "ablation",
+   "objective": 0.9523010033053098,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:51:10-07:00",
+   "created": "2026-11-24T10:51:05-07:00",
+   "change": "+ second friction pass alone on p5s (ablation, frozen: the weights p5s-pass3's lineage fitted, no refit)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:add-one-in"
+   ],
+   "gen": 1,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-p5s+stiff",
+   "parent": "p5s",
+   "verdict": "ablation",
+   "objective": 0.7890526404832153,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:51:16-07:00",
+   "created": "2026-11-24T10:51:11-07:00",
+   "change": "+ stiff gains (kp x4, kd x2) alone on p5s (ablation, frozen: the weights p5s-pass3's lineage fitted, no refit)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:add-one-in"
+   ],
+   "gen": 1,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-p5s+vlag",
+   "parent": "p5s",
+   "verdict": "ablation",
+   "objective": 0.9648650687476074,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:51:22-07:00",
+   "created": "2026-11-24T10:51:17-07:00",
+   "change": "+ velocity-lag term alone on p5s (ablation, frozen: the weights p5s-pass3's lineage fitted, no refit)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:add-one-in"
+   ],
+   "gen": 1,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-p5s+reid",
+   "parent": "p5s",
+   "verdict": "ablation",
+   "objective": 0.93715331889898,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:51:30-07:00",
+   "created": "2026-11-24T10:51:24-07:00",
+   "change": "+ re-identification at stiff gains (passes 4+5) alone on p5s (ablation, frozen: the weights p5s-pass3's lineage fitted, no refit)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:add-one-in"
+   ],
+   "gen": 1,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-path2+stiff",
+   "parent": "p5s-bus",
+   "verdict": "ablation",
+   "objective": 0.3387214210365398,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:52:39-07:00",
+   "created": "2026-11-24T10:52:34-07:00",
+   "change": "+ stiff gains (kp x4, kd x2) on p5s-bus (ablation path step 2: the surrogate's pick, predicted 0.288 mm; frozen weights)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:path"
+   ],
+   "gen": 2,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-path3+lead",
+   "parent": "abl-path2+stiff",
+   "verdict": "ablation",
+   "objective": 0.12999148252463832,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:52:47-07:00",
+   "created": "2026-11-24T10:52:41-07:00",
+   "change": "+ minus the board lead on abl-path2+stiff (ablation path step 3: the surrogate's pick, predicted 0.171 mm; frozen weights)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:path"
+   ],
+   "gen": 3,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-path4+grav",
+   "parent": "abl-path3+lead",
+   "verdict": "ablation",
+   "objective": 0.12784824069912648,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:52:54-07:00",
+   "created": "2026-11-24T10:52:49-07:00",
+   "change": "+ gravity identification on abl-path3+lead (ablation path step 4: the surrogate's pick, predicted 0.084 mm; frozen weights)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:path"
+   ],
+   "gen": 4,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-path4+fric",
+   "parent": "abl-path3+lead",
+   "verdict": "ablation",
+   "objective": 0.0892770496278795,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:53:01-07:00",
+   "created": "2026-11-24T10:52:57-07:00",
+   "change": "+ identified friction on abl-path3+lead (ablation path step 4: the surrogate's pick, predicted 0.095 mm; frozen weights)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:path"
+   ],
+   "gen": 4,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-path5+grav",
+   "parent": "abl-path4+fric",
+   "verdict": "ablation",
+   "objective": 0.0775873536903573,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:53:08-07:00",
+   "created": "2026-11-24T10:53:04-07:00",
+   "change": "+ gravity identification on abl-path4+fric (ablation path step 5: the surrogate's pick, predicted 0.058 mm; frozen weights)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:path"
+   ],
+   "gen": 5,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-path5+fric2",
+   "parent": "abl-path4+fric",
+   "verdict": "ablation",
+   "objective": 0.0831665997137801,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:53:14-07:00",
+   "created": "2026-11-24T10:53:10-07:00",
+   "change": "+ second friction pass on abl-path4+fric (ablation path step 5: the surrogate's pick, predicted 0.074 mm; frozen weights)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:path"
+   ],
+   "gen": 5,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-path5+reid",
+   "parent": "abl-path4+fric",
+   "verdict": "ablation",
+   "objective": 0.08437491240054407,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:53:21-07:00",
+   "created": "2026-11-24T10:53:17-07:00",
+   "change": "+ re-identification at stiff gains (passes 4+5) on abl-path4+fric (ablation path step 5: the surrogate's pick, predicted 0.075 mm; frozen weights)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:path"
+   ],
+   "gen": 5,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-path6+chord",
+   "parent": "abl-path5+grav",
+   "verdict": "ablation",
+   "objective": 0.052676537870256036,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:53:28-07:00",
+   "created": "2026-11-24T10:53:23-07:00",
+   "change": "+ chord correction on abl-path5+grav (ablation path step 6: the surrogate's pick, predicted 0.048 mm; frozen weights)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:path"
+   ],
+   "gen": 6,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-path7+reid",
+   "parent": "abl-path6+chord",
+   "verdict": "ablation",
+   "objective": 0.03624516146735325,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:53:52-07:00",
+   "created": "2026-11-24T10:53:49-07:00",
+   "change": "+ re-identification at stiff gains (passes 4+5) on abl-path6+chord (ablation path step 7: the surrogate's pick, predicted 0.044 mm; frozen weights)",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:path"
+   ],
+   "gen": 7,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-no-fric+fric2",
+   "parent": "p5s-pass3",
+   "verdict": "ablation",
+   "objective": 0.09353449793376259,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:54:15-07:00",
+   "created": "2026-11-24T10:54:11-07:00",
+   "change": "− identified friction and − second friction pass together (ablation pair, frozen): are the two friction passes redundant?",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:pair"
+   ],
+   "gen": 13,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-no-bus+lead",
+   "parent": "p5s-pass3",
+   "verdict": "ablation",
+   "objective": 0.746961349326231,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:54:22-07:00",
+   "created": "2026-11-24T10:54:16-07:00",
+   "change": "− lookahead = bus delay and − minus the board lead together (ablation pair, frozen): robot_controllers' calibrated lookahead as is",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:pair"
+   ],
+   "gen": 13,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-no-bus-refit",
+   "parent": "abl-no-bus",
+   "verdict": "ablation",
+   "objective": 0.03381710448212074,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:54:31-07:00",
+   "created": "2026-11-24T10:54:23-07:00",
+   "change": "identification pass on abl-no-bus's own dev runs (identify_pass.py): the refit removal of bus, where the frozen one is abl-no-bus",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:leave-one-out"
+   ],
+   "gen": 14,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-no-lead-refit",
+   "parent": "abl-no-lead",
+   "verdict": "ablation",
+   "objective": 0.031658981037730904,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:54:39-07:00",
+   "created": "2026-11-24T10:54:33-07:00",
+   "change": "identification pass on abl-no-lead's own dev runs (identify_pass.py): the refit removal of lead, where the frozen one is abl-no-lead",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:leave-one-out"
+   ],
+   "gen": 14,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-no-fric-refit",
+   "parent": "abl-no-fric",
+   "verdict": "ablation",
+   "objective": 0.03155558502170034,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:54:47-07:00",
+   "created": "2026-11-24T10:54:41-07:00",
+   "change": "identification pass on abl-no-fric's own dev runs (identify_pass.py): the refit removal of fric, where the frozen one is abl-no-fric",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:leave-one-out"
+   ],
+   "gen": 14,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  },
+  {
+   "n": null,
+   "id": "abl-no-stiff-refit",
+   "parent": "p5s-pass3-g1",
+   "verdict": "ablation",
+   "objective": 0.08269109389188392,
+   "best_so_far": null,
+   "admissible": true,
+   "evaluated": "2026-11-24T10:54:55-07:00",
+   "created": "2026-11-24T10:54:49-07:00",
+   "change": "identification pass on p5s-pass3-g1's own dev runs (identify_pass.py): the refit removal of stiff, where the frozen one is p5s-pass3-g1",
+   "tags": [
+    "ablation",
+    "study:pass3-2026-11-24",
+    "ablation:leave-one-out"
+   ],
+   "gen": 14,
+   "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "backfilled": false
+   },
+   "failed_gates": {},
+   "gate_pass_rate": 1.0,
+   "holdout": null,
+   "commit": {
+    "sha": "79b2625e3f09f53af6678b63921bb7d2a06aeb95",
+    "date": "2026-11-24T10:55:27-07:00",
+    "subject": "Ablation study pass3-2026-11-24: 30 variants of p5s-pass3's nine components (leave-one-out, add-one-in, the greedy path, pairs, refits), tagged ablation and left off the progress chart and population views",
+    "where": "this repo"
+   },
+   "best_holder": null,
+   "after": 34
+  }
+ ],
+ "unscored": [],
+ "needs": [
+  {
+   "ask": "Ruler v2: a calibration dataset the agent may run freely for identification, separate from dev",
+   "text": "Ruler v2: a calibration dataset the agent may run freely for identification, separate from dev (today it identifies from dev runs, so dev is both its training data and its score; holdout still checks it).",
+   "source": "ideas.md:33",
+   "section": "Suggestions for Zach",
+   "kind": "ruler"
+  },
+  {
+   "ask": "Ruler v2: link and gearbox compliance in the twin, before stiffer gains count as a win",
+   "text": "Ruler v2: link and gearbox compliance in the twin, before stiffer gains count as a win.",
+   "source": "ideas.md:34",
+   "section": "Suggestions for Zach",
+   "kind": "ruler"
+  },
+  {
+   "ask": "Which gain rung should graduate to the real arm?",
+   "text": "Which gain rung should graduate to the real arm? Frontier, each rung identified at its own gains (dev mm): x1 `p5s-fric2-pass2` 0.070 (same energy as p4s, 12× better than p4s's 0.848) · x2 `p5s-kp2-pass2` 0.045 · x4 `p5s-pass3` 0.031 (energy +24 %, saturation 0.014 %). The twin cannot say how much stiffness the real UR5e/moteus loop tolerates; recommendation: x1 or x2.",
+   "source": "ideas.md:37",
+   "section": "Suggestions for Zach",
+   "kind": "decision"
+  },
+  {
+   "ask": "Ruler or tooling: a sanctioned *calibration run*, so identification stops being fitted on the dev tasks it is scored on",
+   "text": "Ruler or tooling: a sanctioned *calibration run* (an excitation trajectory a solution may run through the boundary before the tasks, without `deployment.plant()`), so identification stops being fitted on the dev tasks it is scored on. Today the only data are dev run records; holdout says it transfers (dev 0.031 / holdout 0.031) but the scheme reads as fitting on the test set.",
+   "source": "ideas.md:38",
+   "section": "Suggestions for Zach",
+   "kind": "ruler"
+  },
+  {
+   "ask": "Ruler v2: the twin has no link/gearbox compliance or structural resonance, so board stiffness costs nothing here but the kd-noise energy",
+   "text": "Ruler v2: the twin has no link/gearbox compliance or structural resonance, so board stiffness costs nothing here but the kd-noise energy (+8.6 % at kp ×2). Without a gain-related gate (a resonance mode in the plant, an energy or torque-ripple gate, or a cap on sent stiffness), the search will drift to the stiffest gains the saturation gate allows. `p5s-kp2` and anything stiffer should be read with that in mind.",
+   "source": "ideas.md:40",
+   "section": "Suggestions for Zach",
+   "kind": "ruler"
+  },
+  {
+   "ask": "Ruler v2: add speeds 0.25 / 0.5 and the conveyor dataset, so a gain at full speed can't hide a loss at low speed",
+   "text": "Ruler v2: add speeds 0.25 / 0.5 and the conveyor dataset, so a gain at full speed can't hide a loss at low speed.",
+   "source": "ideas.md:41",
+   "section": "Suggestions for Zach",
+   "kind": "ruler"
+  }
+ ],
+ "ideas": [
+  {
+   "id": "L8",
+   "line": 8,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "Host Coulomb feed-forward on the best gen-0 layout",
+   "text": "~~Host Coulomb feed-forward on the best gen-0 layout. Expect: tool RMS down where the joints reverse (real_kp2's lever on BAM FB, never tried on the UR5e here).~~ → done at plan time instead of the host (the plan knows the target velocity): `p5s-bus` (given Coulomb, once the lookahead stopped double-counting it) then `p5s-fric` / `p5s-fric2` (identified curves).",
+   "expect": "tool RMS down where the joints reverse (real_kp2's lever on BAM FB, never tried on the UR5e here)",
+   "solutions": [
+    "p5s-bus",
+    "p5s-fric",
+    "p5s-fric2"
+   ]
+  },
+  {
+   "id": "L9",
+   "line": 9,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "Per-joint lookahead calibrated on dev tasks only, not on robot_controllers' calibration sweep",
+   "text": "~~Per-joint lookahead calibrated on dev tasks only, not on robot_controllers' calibration sweep. Expect: lag down, RMS down a little.~~ → derived instead of fitted: bus command delay − (encoder delay + one board tick), `p5s-bus-enc`; the dev regression's qd coefficient is ~0 on every joint after it, so there is nothing left to calibrate.",
+   "expect": "lag down, RMS down a little",
+   "solutions": [
+    "p5s-bus-enc"
+   ]
+  },
+  {
+   "id": "L10",
+   "line": 10,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "Coulomb ff with the bus's own lookahead, not the calibration's",
+   "text": "~~Coulomb ff with the bus's own lookahead, not the calibration's~~ → `p5s-bus` 0.595 mm dev (holdout 0.534), admissible. The calibration folds friction lag into the wrists' lookahead (+3.75/+4.5 ms); p5s then compensated friction twice. With Coulomb in the ff, lookahead = bus delay.",
+   "expect": null,
+   "solutions": [
+    "p5s-bus"
+   ]
+  },
+  {
+   "id": "L11",
+   "line": 11,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "Take the board's own lead out of the lookahead",
+   "text": "~~Take the board's own lead out of the lookahead~~ → `p5s-bus-enc` 0.393 mm dev (holdout 0.332), admissible. The board walks its setpoint one tick (0.25 ms) before using it and closes on a 0.5 ms-old position, so its PD balances 0.75 ms ahead; every joint led by 0.042-0.046 deg per rad/s, now ~0.",
+   "expect": null,
+   "solutions": [
+    "p5s-bus-enc"
+   ]
+  },
+  {
+   "id": "L12",
+   "line": 12,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "Identify per-joint Coulomb + viscous from dev run records",
+   "text": "~~Identify per-joint Coulomb + viscous from dev run records~~ → `p5s-fric` 0.245 mm dev (holdout 0.278), admissible. wrist_2's friction is soft (vs 0.2 rad/s), wrist_3 has ~none; the given Coulomb over-pushed both. w2 error 0.121 → 0.015 deg.",
+   "expect": null,
+   "solutions": [
+    "p5s-fric"
+   ]
+  },
+  {
+   "id": "L13",
+   "line": 13,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "Move the position target off the chord (−a·T²/12)",
+   "text": "~~Move the position target off the chord (−a·T²/12)~~ → `p5s-chord` 0.244 mm dev (holdout 0.283), admissible. qdd coefficient −0.0019 deg per rad/s² on every joint as predicted; tool median only −0.6 % (mean −2.5 %).",
+   "expect": null,
+   "solutions": [
+    "p5s-chord"
+   ]
+  },
+  {
+   "id": "L14",
+   "line": 14,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "Identify the gravity error from the *joint errors*",
+   "text": "~~Identify the gravity error from the *joint errors*~~ → `p5s-grav` 0.097 mm dev (holdout 0.126), admissible, better on 41/42 tasks. (kp·e is a clean torque-error signal; the board's tau carries ±10 N·m of quantisation buzz). Regressing kp·e on the given model's own gravity term explains most of elbow (0.45 → 0.25 N·m) and w1 (0.094 → 0.035) and part of lift (1.08 → 0.90; with sin/cos of q2..q4 → 0.48). Expect: lift/elbow/w1 biases gone, ~10-20 %. Got −60 %.",
+   "expect": "lift/elbow/w1 biases gone, ~10-20 %",
+   "solutions": [
+    "p5s-grav"
+   ]
+  },
+  {
+   "id": "L15",
+   "line": 15,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "Second friction pass against the target velocity, from joint errors",
+   "text": "~~Second friction pass against the target velocity, from joint errors~~ → `p5s-fric2` 0.079 mm dev (holdout 0.102), admissible, better on 39/42.",
+   "expect": null,
+   "solutions": [
+    "p5s-fric2"
+   ]
+  },
+  {
+   "id": "L16",
+   "line": 16,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "Stiffer board gains (kp ×2, kd ×√2) on top of the identified models",
+   "text": "~~Stiffer board gains (kp ×2, kd ×√2) on top of the identified models~~ → `p5s-kp2` 0.056 mm dev, admissible, better on 41/42; energy +8.6 %. Transfer risk: see Suggestions for Zach.",
+   "expect": null,
+   "solutions": [
+    "p5s-kp2"
+   ]
+  },
+  {
+   "id": "L17",
+   "line": 17,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "kp ×4, kd ×2",
+   "text": "~~kp ×4, kd ×2~~ → `p5s-kp4` 0.046 mm dev, admissible, −17 % (diminishing); saturation share 0.038 %, energy +24 % over configured gains. Not going stiffer: more gain mostly buys twin-only accuracy.",
+   "expect": null,
+   "solutions": [
+    "p5s-kp4"
+   ]
+  },
+  {
+   "id": "L18",
+   "line": 18,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "Same joint-error identification for the inertia terms",
+   "text": "~~Same joint-error identification for the inertia terms~~ → the uniform qdd lead was the board's velocity-estimate lag, not inertia: `p5s-vlag` (ff −= kd·1.3 ms·qdd) 0.043 mm dev, admissible, −6 %.",
+   "expect": null,
+   "solutions": [
+    "p5s-vlag"
+   ]
+  },
+  {
+   "id": "L19",
+   "line": 19,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "Re-identify friction + gravity from joint errors at the current (kp ×4) gains, as an additive pass",
+   "text": "~~Re-identify friction + gravity from joint errors at the current (kp ×4) gains, as an additive pass~~ → `p5s-pass2` 0.032 mm dev (holdout 0.030), admissible, −27 % (expected ~5 %). Every joint-error regression coefficient is now ~0.",
+   "expect": "~5 %",
+   "solutions": [
+    "p5s-pass2"
+   ]
+  },
+  {
+   "id": "L20",
+   "line": 20,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "Niche at the boards' configured gains",
+   "text": "~~Niche at the boards' configured gains: the same second pass on p5s-fric2~~ → `p5s-fric2-pass2` 0.070 mm dev, admissible (−12 %): the best candidate that does not lean on stiffer gains.",
+   "expect": null,
+   "solutions": [
+    "p5s-fric2-pass2"
+   ]
+  },
+  {
+   "id": "L21",
+   "line": 21,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "Less board damping at kp ×4 (kd ×1.5)",
+   "text": "~~Less board damping at kp ×4 (kd ×1.5)~~ → `p5s-kd15` 0.035 mm, worse than p5s-pass2 (0.032): the buzz it removes is cheaper than the damping it loses.",
+   "expect": null,
+   "solutions": [
+    "p5s-kd15"
+   ]
+  },
+  {
+   "id": "L22",
+   "line": 22,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "More board damping (kd ×2.5)",
+   "text": "~~More board damping (kd ×2.5)~~ → `p5s-kd25` 0.035 mm, worse, saturation share 1.3 % (gate 2 %). kd ×2 is the local optimum at kp ×4.",
+   "expect": null,
+   "solutions": [
+    "p5s-kd25"
+   ]
+  },
+  {
+   "id": "L23",
+   "line": 23,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "Fold the four identification passes into one model",
+   "text": "~~Fold the four identification passes into one model~~ → `p5s-onefit`: one model.json (exact merge, commands equal within 1.4e-14) and `identify_pass.py`, one command per further pass.",
+   "expect": null,
+   "solutions": [
+    "p5s-onefit",
+    "identify_pass.py"
+   ]
+  },
+  {
+   "id": "L24",
+   "line": 24,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "Pass 3 with identify_pass.py",
+   "text": "~~Pass 3 with identify_pass.py~~ → `p5s-pass3` 0.0313 mm dev (−0.7 %, better on 20/42; holdout 0.0307 vs 0.0302): converged. Further passes are noise; the joint error is a fifth of an encoder count.",
+   "expect": null,
+   "solutions": [
+    "p5s-pass3"
+   ]
+  },
+  {
+   "id": "L25",
+   "line": 25,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "Transfer check: the stiff line's identified model at the configured gains",
+   "text": "~~Transfer check: the stiff line's identified model at the configured gains~~ → `p5s-pass3-g1` 0.156 mm, worse than the x1-fitted `p5s-fric2-pass2` (0.070) on 42/42 tasks. Joint-error identification learns the closed loop as well as the plant: refit at the gains you run.",
+   "expect": null,
+   "solutions": [
+    "p5s-pass3-g1",
+    "p5s-fric2-pass2"
+   ]
+  },
+  {
+   "id": "L26",
+   "line": 26,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "…and without the kd·1.3 ms·qdd term",
+   "text": "~~…and without the kd·1.3 ms·qdd term~~ → `p5s-pass3-g1-nolag` 0.141 mm: that term is a tenth of the loss; the rest is friction, which in this twin depends on the loop around it.",
+   "expect": null,
+   "solutions": [
+    "p5s-pass3-g1-nolag"
+   ]
+  },
+  {
+   "id": "L27",
+   "line": 27,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": true,
+   "title": "Make the identification gain-portable",
+   "text": "Make the identification gain-portable: fit the plant torque M(q)·ë + kd·ė + kp·e (the full inverse of the board loop, M from the given model) instead of kp·e + kd·ė, then check by running one fit at x1 and x4. Expect: if it works, one model for every rung; if not, friction here is loop-dependent and each rung keeps its own fit.",
+   "expect": "if it works, one model for every rung; if not, friction here is loop-dependent and each rung keeps its own fit",
+   "solutions": []
+  },
+  {
+   "id": "L28",
+   "line": 28,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": false,
+   "title": "Middle rung: the same pass at kp ×2",
+   "text": "~~Middle rung: the same pass at kp ×2~~ → `p5s-kp2-pass2` 0.045 mm. Frontier fitted at each gain: x1 0.070 · x2 0.045 · x4 0.031 mm.",
+   "expect": null,
+   "solutions": [
+    "p5s-kp2-pass2"
+   ]
+  },
+  {
+   "id": "L29",
+   "line": 29,
+   "lane": "agent",
+   "section": "I'll try",
+   "open": true,
+   "title": "Identify from a dedicated calibration run instead of the dev records, so the identified model never sees the tasks it is scored on",
+   "text": "Identify from a dedicated calibration run (a rich excitation trajectory, its own runs only) instead of the dev records, so the identified model never sees the tasks it is scored on. Needs a way to run a non-dataset trajectory through the boundary without `deployment.plant()` (see Suggestions for Zach).",
+   "expect": null,
+   "solutions": []
+  },
+  {
+   "id": "L33",
+   "line": 33,
+   "lane": "human",
+   "section": "Suggestions for Zach",
+   "open": true,
+   "title": "Ruler v2: a calibration dataset the agent may run freely for identification, separate from dev",
+   "text": "Ruler v2: a calibration dataset the agent may run freely for identification, separate from dev (today it identifies from dev runs, so dev is both its training data and its score; holdout still checks it).",
+   "expect": null,
+   "solutions": []
+  },
+  {
+   "id": "L34",
+   "line": 34,
+   "lane": "human",
+   "section": "Suggestions for Zach",
+   "open": true,
+   "title": "Ruler v2: link and gearbox compliance in the twin, before stiffer gains count as a win",
+   "text": "Ruler v2: link and gearbox compliance in the twin, before stiffer gains count as a win.",
+   "expect": null,
+   "solutions": []
+  },
+  {
+   "id": "L35",
+   "line": 35,
+   "lane": "human",
+   "section": "Suggestions for Zach",
+   "open": false,
+   "title": "Which gain line goes to a real arm first",
+   "text": "Which gain line goes to a real arm first. **Default taken (dispatcher, 2026-11-24): `p5s-kp2-pass2` (kp x2, 0.045 mm dev) is the real-arm candidate, with `p5s-fric2-pass2` (the boards' normal gains, 0.070 mm, same energy as p4s) as the fallback; kp x4 (`p5s-pass3`, 0.031 mm, +24 % energy) stays sim-only until the twin has compliance.** Flying it is a hardware step for Zach; change the pick by editing this line.",
+   "expect": null,
+   "solutions": []
+  },
+  {
+   "id": "L37",
+   "line": 37,
+   "lane": "human",
+   "section": "Suggestions for Zach",
+   "open": true,
+   "title": "Which gain rung should graduate to the real arm?",
+   "text": "Which gain rung should graduate to the real arm? Frontier, each rung identified at its own gains (dev mm): x1 `p5s-fric2-pass2` 0.070 (same energy as p4s, 12× better than p4s's 0.848) · x2 `p5s-kp2-pass2` 0.045 · x4 `p5s-pass3` 0.031 (energy +24 %, saturation 0.014 %). The twin cannot say how much stiffness the real UR5e/moteus loop tolerates; recommendation: x1 or x2.",
+   "expect": null,
+   "solutions": []
+  },
+  {
+   "id": "L38",
+   "line": 38,
+   "lane": "human",
+   "section": "Suggestions for Zach",
+   "open": true,
+   "title": "Ruler or tooling: a sanctioned *calibration run*, so identification stops being fitted on the dev tasks it is scored on",
+   "text": "Ruler or tooling: a sanctioned *calibration run* (an excitation trajectory a solution may run through the boundary before the tasks, without `deployment.plant()`), so identification stops being fitted on the dev tasks it is scored on. Today the only data are dev run records; holdout says it transfers (dev 0.031 / holdout 0.031) but the scheme reads as fitting on the test set.",
+   "expect": null,
+   "solutions": []
+  },
+  {
+   "id": "L39",
+   "line": 39,
+   "lane": "human",
+   "section": "Suggestions for Zach",
+   "open": false,
+   "title": "`tests/test_site_static.py::test_leaderboard_numbers_are_the_scorecards` fails whenever an agent adds a solution",
+   "text": "~~`tests/test_site_static.py::test_leaderboard_numbers_are_the_scorecards` fails whenever an agent adds a solution (site/data is built by lane W's tool, not by `tta progress`). Either `tta progress` rebuilds site/data or the test reads the ledger.~~ → resolved 2026-11-24: the page plays back saved runs (d693415) and AGENTS.md step 4 rebuilds site/data with each solution (be07c90); 948 tests pass at f806e8a.",
+   "expect": null,
+   "solutions": []
+  },
+  {
+   "id": "L40",
+   "line": 40,
+   "lane": "human",
+   "section": "Suggestions for Zach",
+   "open": true,
+   "title": "Ruler v2: the twin has no link/gearbox compliance or structural resonance, so board stiffness costs nothing here but the kd-noise energy",
+   "text": "Ruler v2: the twin has no link/gearbox compliance or structural resonance, so board stiffness costs nothing here but the kd-noise energy (+8.6 % at kp ×2). Without a gain-related gate (a resonance mode in the plant, an energy or torque-ripple gate, or a cap on sent stiffness), the search will drift to the stiffest gains the saturation gate allows. `p5s-kp2` and anything stiffer should be read with that in mind.",
+   "expect": null,
+   "solutions": []
+  },
+  {
+   "id": "L41",
+   "line": 41,
+   "lane": "human",
+   "section": "Suggestions for Zach",
+   "open": true,
+   "title": "Ruler v2: add speeds 0.25 / 0.5 and the conveyor dataset, so a gain at full speed can't hide a loss at low speed",
+   "text": "Ruler v2: add speeds 0.25 / 0.5 and the conveyor dataset, so a gain at full speed can't hide a loss at low speed.",
+   "expect": null,
+   "solutions": []
+  }
+ ],
+ "gates": [
+  {
+   "id": "completed",
+   "pass_when": "no exception, no NaN command, the run reaches the trajectory's end and settles",
+   "why": "a crash is not a score",
+   "op": "is",
+   "threshold": 1.0,
+   "of": "p5s-pass3",
+   "passed": true,
+   "failed_tasks": 0,
+   "tasks": 42,
+   "worst": null,
+   "worst_task": null,
+   "margin": null,
+   "unit": null,
+   "source": "solutions/p5s-pass3/scorecard.json",
+   "why_null": "pass/fail gate: no margin"
+  },
+  {
+   "id": "stop_error_max_mm",
+   "pass_when": "≤ 1.0 mm: target vs mean tool position over each stop's last 0.1 s (a stop = target at rest ≥ 0.2 s)",
+   "why": "Zach's standing 1 mm tool gate (2026-11-11)",
+   "op": "<=",
+   "threshold": 1.0,
+   "of": "p5s-pass3",
+   "passed": true,
+   "failed_tasks": 0,
+   "tasks": 42,
+   "worst": 0.19684904022025976,
+   "worst_task": "workspace-dev-039",
+   "margin": 0.8031509597797403,
+   "unit": "mm",
+   "source": "solutions/p5s-pass3/scorecard.json"
+  },
+  {
+   "id": "saturation_share_pct",
+   "pass_when": "≤ 2 %: share of samples where any joint torque is ≥ 98 % of its cap",
+   "why": "speed bought with saturation doesn't transfer",
+   "op": "<=",
+   "threshold": 2.0,
+   "of": "p5s-pass3",
+   "passed": true,
+   "failed_tasks": 0,
+   "tasks": 42,
+   "worst": 0.014043957587248088,
+   "worst_task": "workspace-dev-019",
+   "margin": 1.9859560424127518,
+   "unit": "%",
+   "source": "solutions/p5s-pass3/scorecard.json"
+  },
+  {
+   "id": "limit_violations",
+   "pass_when": "0 samples outside a position limit or above 1.05 × a velocity limit",
+   "why": null,
+   "op": "<=",
+   "threshold": 0,
+   "of": "p5s-pass3",
+   "passed": true,
+   "failed_tasks": 0,
+   "tasks": 42,
+   "worst": 0,
+   "worst_task": "workspace-dev-041",
+   "margin": 0,
+   "unit": null,
+   "source": "solutions/p5s-pass3/scorecard.json"
+  },
+  {
+   "id": "floor_clearance",
+   "pass_when": "0 samples with the tool point or any link origin below the floor plane",
+   "why": "the bare plant has no contacts, so collision with the scene is checked geometrically",
+   "op": "<=",
+   "threshold": 0,
+   "of": "p5s-pass3",
+   "passed": true,
+   "failed_tasks": 0,
+   "tasks": 42,
+   "worst": 0,
+   "worst_task": "workspace-dev-041",
+   "margin": 0,
+   "unit": null,
+   "source": "solutions/p5s-pass3/scorecard.json"
+  }
+ ],
+ "feedback": [],
+ "audits": [],
+ "agents": {
+  "registered": 0,
+  "backfilled": 3,
+  "proposers": [
+   {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "solutions": 16
+   },
+   {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "solutions": 18
+   },
+   {
+    "agent": "Claude Code (Trajectory Tracking Agent, ablation lane X)",
+    "model": "claude-opus-5-5",
+    "solutions": 30
+   }
+  ]
+ },
+ "activity": {
+  "rows": 250,
+  "backfilled": true
+ },
+ "reports": 8,
+ "report_files": [
+  {
+   "path": "PROGRESS.md",
+   "kind": "digest",
+   "title": "Progress",
+   "date": "2026-11-24T11:19:24-07:00",
+   "sha": "f806e8a"
+  },
+  {
+   "path": "ablations/pass3-2026-11-24.md",
+   "kind": "ablation study",
+   "title": "Ablation study pass3-2026-11-24",
+   "date": "2026-11-24T11:17:52-07:00",
+   "sha": "a5d5982"
+  },
+  {
+   "path": "site/progress.svg",
+   "kind": "chart",
+   "title": "Progress",
+   "date": "2026-11-24T11:13:19-07:00",
+   "sha": "e5eb552"
+  },
+  {
+   "path": "site/index.html",
+   "kind": "landing page",
+   "title": "The landing page",
+   "date": "2026-11-24T10:57:19-07:00",
+   "sha": "d693415"
+  },
+  {
+   "path": "site/views/lineage.svg",
+   "kind": "chart",
+   "title": "Lineage",
+   "date": "2026-11-24T10:55:27-07:00",
+   "sha": "79b2625"
+  },
+  {
+   "path": "site/views/gates.svg",
+   "kind": "chart",
+   "title": "Gates",
+   "date": "2026-11-24T09:46:08-07:00",
+   "sha": "1943422"
+  },
+  {
+   "path": "site/views/specialists.svg",
+   "kind": "chart",
+   "title": "Specialists",
+   "date": "2026-11-24T09:40:26-07:00",
+   "sha": "bbbfd3d"
+  },
+  {
+   "path": "site/proposals/index.html",
+   "kind": "proposal round",
+   "title": "Proposal round",
+   "date": "2026-11-24T09:27:32-07:00",
+   "sha": "5e7d9ec"
+  }
+ ],
+ "source": {
+  "fold": "viewer/tools/fold_state.py",
+  "repo": "trajectory_tracking_agent",
+  "ref": "9ead94502391ae6e8582de1e580399462a439368",
+  "read": [
+   "OBJECTIVES.md",
+   "README.md",
+   "ideas.md",
+   "ledger.jsonl",
+   "solutions/abl-no-bus+lead/meta.json",
+   "solutions/abl-no-bus-refit/meta.json",
+   "solutions/abl-no-bus/meta.json",
+   "solutions/abl-no-chord/meta.json",
+   "solutions/abl-no-fric+fric2/meta.json",
+   "solutions/abl-no-fric-refit/meta.json",
+   "solutions/abl-no-fric/meta.json",
+   "solutions/abl-no-fric2/meta.json",
+   "solutions/abl-no-grav/meta.json",
+   "solutions/abl-no-lead-refit/meta.json",
+   "solutions/abl-no-lead/meta.json",
+   "solutions/abl-no-stiff-refit/meta.json",
+   "solutions/abl-no-vlag/meta.json",
+   "solutions/abl-p5s+chord/meta.json",
+   "solutions/abl-p5s+fric/meta.json",
+   "solutions/abl-p5s+fric2/meta.json",
+   "solutions/abl-p5s+grav/meta.json",
+   "solutions/abl-p5s+lead/meta.json",
+   "solutions/abl-p5s+reid/meta.json",
+   "solutions/abl-p5s+stiff/meta.json",
+   "solutions/abl-p5s+vlag/meta.json",
+   "solutions/abl-path2+stiff/meta.json",
+   "solutions/abl-path3+lead/meta.json",
+   "solutions/abl-path4+fric/meta.json",
+   "solutions/abl-path4+grav/meta.json",
+   "solutions/abl-path5+fric2/meta.json",
+   "solutions/abl-path5+grav/meta.json",
+   "solutions/abl-path5+reid/meta.json",
+   "solutions/abl-path6+chord/meta.json",
+   "solutions/abl-path7+reid/meta.json",
+   "solutions/p1/meta.json",
+   "solutions/p10/meta.json",
+   "solutions/p2/meta.json",
+   "solutions/p2s/meta.json",
+   "solutions/p3/meta.json",
+   "solutions/p3s/meta.json",
+   "solutions/p4/meta.json",
+   "solutions/p4s/meta.json",
+   "solutions/p5/meta.json",
+   "solutions/p5s-bus-enc/meta.json",
+   "solutions/p5s-bus/meta.json",
+   "solutions/p5s-chord/meta.json",
+   "solutions/p5s-fric/meta.json",
+   "solutions/p5s-fric2-pass2/meta.json",
+   "solutions/p5s-fric2/meta.json",
+   "solutions/p5s-grav/meta.json",
+   "solutions/p5s-kd15/meta.json",
+   "solutions/p5s-kd25/meta.json",
+   "solutions/p5s-kp2-pass2/meta.json",
+   "solutions/p5s-kp2/meta.json",
+   "solutions/p5s-kp4/meta.json",
+   "solutions/p5s-onefit/meta.json",
+   "solutions/p5s-pass2/meta.json",
+   "solutions/p5s-pass3-g1-nolag/meta.json",
+   "solutions/p5s-pass3-g1/meta.json",
+   "solutions/p5s-pass3/meta.json",
+   "solutions/p5s-pass3/scorecard.json",
+   "solutions/p5s-vlag/meta.json",
+   "solutions/p5s/meta.json",
+   "solutions/p6/meta.json",
+   "solutions/p6s/meta.json",
+   "solutions/p7/meta.json",
+   "solutions/p7s/meta.json",
+   "solutions/p8/meta.json",
+   "solutions/p9/meta.json",
+   "status.json"
+  ]
+ }
+}
