@@ -74,7 +74,7 @@ def test_gen0_population_is_robot_controllers_population():
     from robot_controllers.bench.population import POPULATION
 
     ids = population.ids_in_creation_order()
-    assert sorted(ids) == sorted(cid.lower() for cid in POPULATION) or set(cid.lower() for cid in POPULATION) <= set(ids)
+    assert {cid.lower() for cid in POPULATION} <= set(ids)  # later generations may add more
     for cid in POPULATION:
         meta = population.meta(cid.lower())
         assert meta["parent"] is None and meta["proposed_by"]["agent"] == "robot_controllers population (hand-written)"

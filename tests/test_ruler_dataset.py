@@ -86,6 +86,9 @@ def test_deployment_is_objectives_section_2():
     dep = deployment("ur5e_alone")
     assert dep.host_rate_hz == 50.0
     assert dep.bus.source.startswith("datasheet") and len(dep.bus.per_joint(6)) == 6
+    timing = dep.timing
+    assert timing.rate_hz == 50.0 and timing.jitter_s == 0.0 and timing.stalls == ()
+    assert timing.include_compute is False  # bit-identical repeats (Deployment.timing's WHY)
     assert dep.board == ur5e_board_config() and dep.torque_cap_nm == (150.0,) * 3 + (28.0,) * 3
     assert dep.torque_cap_nm == UR5E_TRUTH.torque_cap_nm
     assert dep.floor_z_m == 0.0 and dep.gravity_m_s2 == (0.0, 0.0, -9.81)

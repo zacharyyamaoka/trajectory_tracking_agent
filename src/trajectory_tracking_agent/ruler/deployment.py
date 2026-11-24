@@ -66,10 +66,20 @@ class Deployment:
 
     @property
     def timing(self) -> Any:
-        """The robot_controllers HostTiming the bus implies at the host rate (no wake jitter, no stalls)."""
+        """The robot_controllers HostTiming the bus implies at the host rate: no wake jitter, no stalls, and each command
+        sent at its wake time (`include_compute=False`).
+
+        WHY the send time leaves out the tick's CPU time (lane E, 2026-11-24, measured): with robot_controllers' default
+        (send = wake + the tick's measured CPU time) a tick of 0.1-0.3 ms latches on one 0.25 ms board tick or the next at
+        random, so the score depends on host load: p6s (feed-forward at the host, mj_inverse every tick) scored 0.832 and
+        0.823 mm on two identical single-worker dev runs (one task 6.7 % apart), the size of the gap between the top two
+        solutions. Without it two runs are bit-identical. It also keeps OBJECTIVES §4's word: `host_compute_ms_p95` is a
+        diagnostic, "reported, never optimized", so the tick's cost must not leak into the objective as noise. A slow
+        tick is still bounded by the 10x wall-time box and shows in `host_compute_ms_p95`.
+        """
         from robot_controllers.bench.types import HostTiming
 
-        return HostTiming.from_bus(self.bus, self.host_rate_hz)
+        return HostTiming.from_bus(self.bus, self.host_rate_hz, include_compute=False)
 
     def tool_position(self, q: Any) -> np.ndarray:
         """The tool point (m, world = base frame) for joint angles q: (6,) -> (3,), (N, 6) -> (N, 3)."""
@@ -109,6 +119,8 @@ class Deployment:
             "position_min_rad": list(self.position_min_rad),
             "position_max_rad": list(self.position_max_rad),
             "velocity_max_rad_s": list(self.velocity_max_rad_s),
+            "send_time": "the host's wake time (include_compute=False: the tick's CPU time is reported as "
+            "host_compute_ms_p95, never added to the bus)",
             "floor_z_m": self.floor_z_m,
             "tool_site": self.tool_site,
             "tool_offset_m": self.tool_offset_m,

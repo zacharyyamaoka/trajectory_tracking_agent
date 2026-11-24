@@ -25,7 +25,7 @@ SVG_PATH = REPO_ROOT / "site" / "progress.svg"
 PNG_PATH = REPO_ROOT / "outputs" / "progress.png"
 
 WIDTH, HEIGHT = 760, 360
-LEFT, RIGHT, TOP, BOTTOM = 64, 24, 46, 52
+LEFT, RIGHT, TOP, BOTTOM = 64, 24, 58, 52
 AXIS = "#8c8c8c"  # mid grey: readable on white and on GitHub's dark background
 GRID = "#8c8c8c"
 TEXT = "#8c8c8c"
@@ -179,8 +179,7 @@ def render_svg(points: list[dict[str, Any]], pair: dict[str, Any] | None) -> str
                      f"(reporting only)</title>"
                      f'<line x1="{x_of(pair["x"]):.1f}" y1="{y_of(pair["dev"]):.1f}" x2="{x:.1f}" y2="{y_of(pair["holdout"]):.1f}" '
                      f'stroke="{HOLDOUT}" stroke-width="1.2" stroke-dasharray="3 2"/>'
-                     f'<path d="M{x:.1f},{y_of(pair["holdout"]) - 5:.1f}l5,5l-5,5l-5,-5z" fill="{HOLDOUT}" fill-opacity="0.55"/>'
-                     f'<text x="{x + 8:.1f}" y="{y_of(pair["holdout"]) + 4:.1f}" fill="{HOLDOUT}">holdout</text></g>')
+                     f'<path d="M{x:.1f},{y_of(pair["holdout"]) - 5:.1f}l5,5l-5,5l-5,-5z" fill="{HOLDOUT}" fill-opacity="0.7"/></g>')
 
     # the dots
     for p in points:
@@ -206,10 +205,10 @@ def render_svg(points: list[dict[str, Any]], pair: dict[str, Any] | None) -> str
                          f"{escape(p['solution'])}</text>")
 
     # legend
-    legend_y = 34
+    legend_y = 40
     items = [("line", ORANGE, "best so far"), ("dot", GREEN, "new best"), ("dot", GREY, "admissible"),
-             ("ring", RED, "not admissible"), ("diamond", HOLDOUT, "best on holdout")]
-    x = WIDTH - RIGHT - 470
+             ("ring", RED, "not admissible"), ("diamond", HOLDOUT, "the best on holdout (reporting only)")]
+    x = LEFT
     for kind, colour, text in items:
         if kind == "line":
             parts.append(f'<line x1="{x}" x2="{x + 16}" y1="{legend_y - 4}" y2="{legend_y - 4}" stroke="{colour}" stroke-width="2"/>')
@@ -220,7 +219,7 @@ def render_svg(points: list[dict[str, Any]], pair: dict[str, Any] | None) -> str
         else:
             parts.append(f'<path d="M{x + 8},{legend_y - 9}l5,5l-5,5l-5,-5z" fill="{colour}" fill-opacity="0.55"/>')
         parts.append(f'<text x="{x + 20}" y="{legend_y}" fill="{TEXT}" font-size="11">{text}</text>')
-        x += 20 + 7 * len(text) + 14
+        x += 20 + 6 * len(text) + 16
     parts.append("</svg>")
     return "\n".join(parts) + "\n"
 

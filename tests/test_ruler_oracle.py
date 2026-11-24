@@ -64,7 +64,7 @@ def _oracle_episode(task, deployment):
         id=f"oracle/{task.id}", title="oracle", box=JOINT_TRAJECTORY, family="free_space", description="oracle",
         duration_s=float(trajectory.t[-1]) + 0.02, inputs=Script(),
         scene=Scene(start_q=tuple(float(v) for v in trajectory.positions[0])),
-        timing=HostTiming.from_bus(datasheet_bus(6), 50.0), plant="ur5e",
+        timing=HostTiming.from_bus(datasheet_bus(6), 50.0, include_compute=False), plant="ur5e",
     )  # fmt: skip
     return run_episode(Spec(), rung, seed=0, plant_factory=Ur5ePlant)
 

@@ -61,11 +61,12 @@ def test_run_task_scores_a_real_solution():
 
 
 def test_run_task_is_repeatable():
-    first = evaluate_module.run_task("p4s", SHORT_TASK)
-    second = evaluate_module.run_task("p4s", SHORT_TASK)
-    # WHY a tolerance: each send time carries the tick's measured CPU time (HostTiming.include_compute), so a cold
-    # first tick can latch one 0.25 ms board tick later; warm repeats are identical
-    assert second["objective"] == pytest.approx(first["objective"], rel=2e-3)
+    # WHY exact: the deployment sends each command at its wake time (Deployment.timing, include_compute=False), so the
+    # tick's CPU time, which varies with host load, never moves a latch; p6s (mj_inverse every tick) is the hard case
+    first = evaluate_module.run_task("p6s", SHORT_TASK)
+    second = evaluate_module.run_task("p6s", SHORT_TASK)
+    assert second["objective"] == first["objective"]
+    assert second["kpis"] == first["kpis"]
 
 
 def test_measured_tool_is_fk_of_the_plants_joints_on_the_targets_grid():

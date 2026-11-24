@@ -6,8 +6,9 @@
 One task (`run_task`):
 
 1. The solution's controller is `build(task.trajectory, deployment)`; robot_controllers' host loop (`run_episode`) runs it
-   on a fresh `Ur5ePlant` behind the deployment's boards, at 50 Hz over the datasheet bus, from the trajectory's first
-   point, for the trajectory's duration plus one host period. The controller is wrapped: each `tick` is timed (thread
+   on a fresh `Ur5ePlant` behind the deployment's boards, at 50 Hz over the datasheet bus (each command sent at its wake
+   time: `Deployment.timing` says why), from the trajectory's first point, for the trajectory's duration plus one host
+   period. Seed 0, no jitter: two runs of one solution are bit-identical. The controller is wrapped: each `tick` is timed (thread
    CPU, the solution's own `host_compute`), its command checked (a ServoCommand, every field that drives torque finite:
    a NaN `position` is robot_msgs' "no position target" and is allowed), and the task's wall-time box (10 x the
    trajectory's duration, CONTRACT §4) is checked before each tick; a breach raises inside the tick, which the host loop
@@ -391,7 +392,7 @@ def _lag_ms(t: np.ndarray, target_q: np.ndarray, q: np.ndarray, joint_names: Seq
 # ── the run record: what a viewer reads (solution-agnostic) ─────────────────────────────────────────────────
 
 
-def _rounded(array: Any, digits: int = 9) -> Any:
+def _rounded(array: Any, digits: int = 7) -> Any:
     values = np.asarray(array, dtype=float)
     return _clean(np.round(values, digits))
 
