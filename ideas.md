@@ -21,6 +21,8 @@ never delete it.
 - [x] ~~Less board damping at kp ×4 (kd ×1.5)~~ → `p5s-kd15` 0.035 mm, worse than p5s-pass2 (0.032): the buzz it removes is cheaper than the damping it loses.
 - [x] ~~More board damping (kd ×2.5)~~ → `p5s-kd25` 0.035 mm, worse, saturation share 1.3 % (gate 2 %). kd ×2 is the local optimum at kp ×4.
 - [x] ~~Fold the four identification passes into one model~~ → `p5s-onefit`: one model.json (exact merge, commands equal within 1.4e-14) and `identify_pass.py`, one command per further pass.
+- [x] ~~Pass 3 with identify_pass.py~~ → `p5s-pass3` 0.0313 mm dev (−0.7 %, better on 20/42; holdout 0.0307 vs 0.0302): converged. Further passes are noise; the joint error is a fifth of an encoder count.
+- [ ] Identify from a dedicated calibration run (a rich excitation trajectory, its own runs only) instead of the dev records, so the identified model never sees the tasks it is scored on. Needs a way to run a non-dataset trajectory through the boundary without `deployment.plant()` (see Suggestions for Zach).
 
 ## Suggestions for Zach
 

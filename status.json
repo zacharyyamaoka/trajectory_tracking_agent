@@ -5,30 +5,29 @@
   "remit": "make robots track a given trajectory more accurately, inside the gates (ruler v1, OBJECTIVES.md)",
   "kpi": {
     "name": "tool_track_rms_mm (best admissible, dev)",
-    "value": 0.03152831645980532,
+    "value": 0.031333594888818476,
     "unit": "mm",
     "direction": "down",
     "target": null,
-    "level": "27 of 30 admissible",
+    "level": "28 of 31 admissible",
     "level_name": "ruler v1 \u00b7 ur5e_alone \u00b7 workspace/v2 dev",
-    "next_gate": "an admissible solution below 0.032 mm",
+    "next_gate": "an admissible solution below 0.031 mm",
     "on_track": true
   },
   "counter_kpi": {
     "name": "holdout - dev of the best (mm; reporting only, never selected on)",
-    "value": -0.0014895720171817332,
+    "value": -0.0006686573781421526,
     "unit": "mm",
     "owner": "Trajectory Tracking Agent"
   },
   "status": "idle",
   "blocked_on": null,
   "todo": {
-    "open": 3,
-    "done_7d": 13,
+    "open": 2,
+    "done_7d": 14,
     "top": [
       "Host Coulomb feed-forward on the best gen-0 layout. Expect: tool RMS down where the joints reverse (real_kp2's lever on BAM FB, never tried on the UR5e here).",
-      "Per-joint lookahead calibrated on dev tasks only, not on robot_controllers' calibration sweep. Expect: lag down, RMS down a little.",
-      "Fold the four identification passes into one script and one fit, re-run on the best's own runs, so a solution carries one model instead of a stack (friction, gravity, friction2, pass2). Expect: no score change; much easier to read and to move to a real arm."
+      "Per-joint lookahead calibrated on dev tasks only, not on robot_controllers' calibration sweep. Expect: lag down, RMS down a little."
     ]
   },
   "links": {
@@ -37,5 +36,5 @@
     "wandb": "Trajectory Tracking",
     "vault": null
   },
-  "updated_t": 1795538248.8252165
+  "updated_t": 1795538270.3185937
 }
