@@ -48,8 +48,8 @@
   "saturation_share_pct": 0.017420085358418255,
   "energy_j": 748.3580431626233,
   "tool_jerk_rms_m_s3": 12.269483911957572,
-  "host_compute_ms_p95": 0.18073420000000004,
-  "wall_time_s": 2.5018843281432055,
+  "host_compute_ms_p95": 0.15880420000000003,
+  "wall_time_s": 2.441564700973686,
   "aggregation": "tool_track_max_mm, saturation_share_pct: worst task; energy_j, wall_time_s: sum over tasks; host_compute_ms_p95: over every tick of every task; the rest: median over tasks"
  },
  "tasks": [
@@ -73,7 +73,7 @@
     "saturation_share_pct": 0.0,
     "energy_j": 18.42586382162795,
     "tool_jerk_rms_m_s3": 9.759128319849275,
-    "host_compute_ms_p95": 0.16259324999999997,
+    "host_compute_ms_p95": 0.13202469999999997,
     "settle_error_max_mm": 0.11269269872512978,
     "stops": 1,
     "moving_samples": 134,
@@ -88,7 +88,7 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.184965746011585
+   "wall_time_s": 0.18044871499296278
   },
   {
    "task": "workspace-holdout-001",
@@ -110,7 +110,7 @@
     "saturation_share_pct": 0.017420085358418255,
     "energy_j": 59.89933625997328,
     "tool_jerk_rms_m_s3": 23.571464593961856,
-    "host_compute_ms_p95": 0.1251448,
+    "host_compute_ms_p95": 0.15840339999999997,
     "settle_error_max_mm": 0.08478187398449195,
     "stops": 1,
     "moving_samples": 236,
@@ -125,7 +125,7 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.2542700620251708
+   "wall_time_s": 0.2561855120002292
   },
   {
    "task": "workspace-holdout-002",
@@ -147,7 +147,7 @@
     "saturation_share_pct": 0.0,
     "energy_j": 31.18393129528424,
     "tool_jerk_rms_m_s3": 3.47249730779554,
-    "host_compute_ms_p95": 0.17955655,
+    "host_compute_ms_p95": 0.14416584999999998,
     "settle_error_max_mm": 0.0598543472899454,
     "stops": 1,
     "moving_samples": 215,
@@ -162,7 +162,7 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.2550004670047201
+   "wall_time_s": 0.24184556998079643
   },
   {
    "task": "workspace-holdout-003",
@@ -184,7 +184,7 @@
     "saturation_share_pct": 0.013087292239235703,
     "energy_j": 71.39192629054482,
     "tool_jerk_rms_m_s3": 14.51412129893621,
-    "host_compute_ms_p95": 0.14301499999999986,
+    "host_compute_ms_p95": 0.13764259999999998,
     "settle_error_max_mm": 0.10250213444046927,
     "stops": 1,
     "moving_samples": 140,
@@ -199,7 +199,7 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.18713460996514186
+   "wall_time_s": 0.18418311700224876
   },
   {
    "task": "workspace-holdout-004",
@@ -221,7 +221,7 @@
     "saturation_share_pct": 0.0,
     "energy_j": 91.7737287241691,
     "tool_jerk_rms_m_s3": 34.25626403674765,
-    "host_compute_ms_p95": 0.18673325000000002,
+    "host_compute_ms_p95": 0.141466,
     "settle_error_max_mm": 0.04584102234000072,
     "stops": 1,
     "moving_samples": 219,
@@ -236,7 +236,7 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.22066087601706386
+   "wall_time_s": 0.21304728602990508
   },
   {
    "task": "workspace-holdout-005",
@@ -258,7 +258,7 @@
     "saturation_share_pct": 0.0,
     "energy_j": 18.774036721426825,
     "tool_jerk_rms_m_s3": 6.871189399307009,
-    "host_compute_ms_p95": 0.196985,
+    "host_compute_ms_p95": 0.176412,
     "settle_error_max_mm": 0.09410035080101177,
     "stops": 1,
     "moving_samples": 128,
@@ -273,7 +273,7 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.15062892105197534
+   "wall_time_s": 0.15358392399502918
   },
   {
    "task": "workspace-holdout-006",
@@ -295,7 +295,7 @@
     "saturation_share_pct": 0.0,
     "energy_j": 49.22616424259812,
     "tool_jerk_rms_m_s3": 2.9457695892035978,
-    "host_compute_ms_p95": 0.16945370000000004,
+    "host_compute_ms_p95": 0.18930940000000016,
     "settle_error_max_mm": 0.059663653923052236,
     "stops": 1,
     "moving_samples": 242,
@@ -310,7 +310,7 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.238492825999856
+   "wall_time_s": 0.24009949498577043
   },
   {
    "task": "workspace-holdout-007",
@@ -332,7 +332,7 @@
     "saturation_share_pct": 0.0,
     "energy_j": 81.90884101887738,
     "tool_jerk_rms_m_s3": 28.657959109063718,
-    "host_compute_ms_p95": 0.20721740000000002,
+    "host_compute_ms_p95": 0.17373295,
     "settle_error_max_mm": 0.040728097344065316,
     "stops": 1,
     "moving_samples": 230,
@@ -347,7 +347,7 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.2361018190276809
+   "wall_time_s": 0.22748979600146413
   },
   {
    "task": "workspace-holdout-008",
@@ -369,7 +369,7 @@
     "saturation_share_pct": 0.0,
     "energy_j": 127.3196074645795,
     "tool_jerk_rms_m_s3": 9.912083534002273,
-    "host_compute_ms_p95": 0.19826480000000002,
+    "host_compute_ms_p95": 0.14973355000000005,
     "settle_error_max_mm": 0.023736059804851144,
     "stops": 1,
     "moving_samples": 302,
@@ -384,7 +384,7 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.303712681052275
+   "wall_time_s": 0.27961905201664194
   },
   {
    "task": "workspace-holdout-009",
@@ -406,7 +406,7 @@
     "saturation_share_pct": 0.0,
     "energy_j": 83.13730832163041,
     "tool_jerk_rms_m_s3": 12.581862364699305,
-    "host_compute_ms_p95": 0.16102779999999994,
+    "host_compute_ms_p95": 0.13619604999999999,
     "settle_error_max_mm": 0.0856986976248217,
     "stops": 1,
     "moving_samples": 134,
@@ -421,7 +421,7 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.16091061901533976
+   "wall_time_s": 0.1472813889849931
   },
   {
    "task": "workspace-holdout-010",
@@ -443,7 +443,7 @@
     "saturation_share_pct": 0.0,
     "energy_j": 41.406634663319494,
     "tool_jerk_rms_m_s3": 11.95710545921584,
-    "host_compute_ms_p95": 0.14845159999999996,
+    "host_compute_ms_p95": 0.20433815000000002,
     "settle_error_max_mm": 0.08047819358446741,
     "stops": 1,
     "moving_samples": 122,
@@ -458,7 +458,7 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.13857678096974269
+   "wall_time_s": 0.14727081899764016
   },
   {
    "task": "workspace-holdout-011",
@@ -480,7 +480,7 @@
     "saturation_share_pct": 0.0,
     "energy_j": 73.9106643385922,
     "tool_jerk_rms_m_s3": 17.645692716559925,
-    "host_compute_ms_p95": 0.13574705,
+    "host_compute_ms_p95": 0.13870200000000002,
     "settle_error_max_mm": 0.05872733166083293,
     "stops": 1,
     "moving_samples": 167,
@@ -495,7 +495,7 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.1714289200026542
+   "wall_time_s": 0.17051002598600462
   }
  ],
  "deployment": {
@@ -607,7 +607,7 @@
  },
  "code": {
   "solution_sha256": "a497c37b38c420de1449c29af85d94697c122c0d1d1bf8a676d71abdc5a3f313",
-  "repo_commit": "75b972bb2d7db5e0121701b96c661c32e2cf887d",
+  "repo_commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
   "repo_dirty": false,
   "robot_controllers": {
    "version": "0.1.0",
@@ -622,7 +622,7 @@
    "repo": "robot_msgs"
   }
  },
- "evaluated": "2026-11-24T09:37:27-07:00",
- "wall_time_s": 1.1624334839871153,
+ "evaluated": "2026-11-24T09:45:19-07:00",
+ "wall_time_s": 1.1204912549583241,
  "workers": 4
 }

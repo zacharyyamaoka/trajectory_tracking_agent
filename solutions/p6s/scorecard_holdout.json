@@ -2,7 +2,7 @@
  "ruler": "v1",
  "solution": "p6s",
  "split": "holdout",
- "objective": 0.9277909506000614,
+ "objective": 0.9596998999625554,
  "objective_name": "tool_track_rms_mm (median over tasks)",
  "admissible": true,
  "gate_pass_rate": 1.0,
@@ -41,15 +41,15 @@
   "floor_clearance": 0
  },
  "diagnostics": {
-  "tool_track_max_mm": 2.9982884289836,
-  "joint_track_rms_deg": 0.26229713798946125,
-  "tool_lag_ms": -1.0208881873156979,
-  "stop_error_mm": 0.3300620607022059,
+  "tool_track_max_mm": 2.695953398428555,
+  "joint_track_rms_deg": 0.24538494791147267,
+  "tool_lag_ms": -0.7730032069610832,
+  "stop_error_mm": 0.350983265565032,
   "saturation_share_pct": 0.0,
-  "energy_j": 599.4144381802502,
-  "tool_jerk_rms_m_s3": 12.889321107671838,
-  "host_compute_ms_p95": 0.27098920000000004,
-  "wall_time_s": 8.83274783095112,
+  "energy_j": 599.2111896350531,
+  "tool_jerk_rms_m_s3": 12.943076322103478,
+  "host_compute_ms_p95": 0.19313940000000007,
+  "wall_time_s": 7.855032136081718,
   "aggregation": "tool_track_max_mm, saturation_share_pct: worst task; energy_j, wall_time_s: sum over tasks; host_compute_ms_p95: over every tick of every task; the rest: median over tasks"
  },
  "tasks": [
@@ -57,24 +57,24 @@
    "task": "workspace-holdout-000",
    "kind": "a_to_b_joint",
    "duration_s": 1.85,
-   "objective": 0.8868554506432994,
+   "objective": 0.8969512764749218,
    "kpis": {
-    "stop_error_max_mm": 0.33003291746598057,
+    "stop_error_max_mm": 0.25019861555139866,
     "saturation_share_pct": 0.0,
     "limit_violations": 0,
     "floor_clearance_violations": 0,
     "completed": true
    },
    "diagnostics": {
-    "tool_track_max_mm": 1.6030858206754501,
-    "joint_track_rms_deg": 0.29932510313955535,
-    "tool_lag_ms": -1.845812475790456,
-    "stop_error_mm": 0.33003291746598057,
+    "tool_track_max_mm": 1.6071520652293476,
+    "joint_track_rms_deg": 0.27871204564095997,
+    "tool_lag_ms": -1.6347404245953614,
+    "stop_error_mm": 0.25019861555139866,
     "saturation_share_pct": 0.0,
-    "energy_j": 14.940115080201394,
-    "tool_jerk_rms_m_s3": 10.29680493689317,
-    "host_compute_ms_p95": 0.26598349999999993,
-    "settle_error_max_mm": 0.34548737022603104,
+    "energy_j": 14.948280287759331,
+    "tool_jerk_rms_m_s3": 10.273833920164153,
+    "host_compute_ms_p95": 0.20847684999999994,
+    "settle_error_max_mm": 0.2754287465338386,
     "stops": 1,
     "moving_samples": 134,
     "ticks": 94,
@@ -88,30 +88,30 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 1.390511732955929
+   "wall_time_s": 1.523311768018175
   },
   {
    "task": "workspace-holdout-001",
    "kind": "via_points",
    "duration_s": 2.87,
-   "objective": 1.027801305168334,
+   "objective": 1.0583481511953123,
    "kpis": {
-    "stop_error_max_mm": 0.4108063116758799,
+    "stop_error_max_mm": 0.4245871375598164,
     "saturation_share_pct": 0.0,
     "limit_violations": 0,
     "floor_clearance_violations": 0,
     "completed": true
    },
    "diagnostics": {
-    "tool_track_max_mm": 1.9457929782606826,
-    "joint_track_rms_deg": 0.3134122780979469,
-    "tool_lag_ms": -1.3145657968327176,
-    "stop_error_mm": 0.4108063116758799,
+    "tool_track_max_mm": 2.099520297105117,
+    "joint_track_rms_deg": 0.2903680199697837,
+    "tool_lag_ms": -1.0717624041887142,
+    "stop_error_mm": 0.4245871375598164,
     "saturation_share_pct": 0.0,
-    "energy_j": 53.6355105546811,
-    "tool_jerk_rms_m_s3": 23.853104289735597,
-    "host_compute_ms_p95": 0.25018799999999985,
-    "settle_error_max_mm": 0.42402856429867364,
+    "energy_j": 53.63091578687307,
+    "tool_jerk_rms_m_s3": 23.478788693763853,
+    "host_compute_ms_p95": 0.15041859999999993,
+    "settle_error_max_mm": 0.4436855257947052,
     "stops": 1,
     "moving_samples": 236,
     "ticks": 145,
@@ -125,30 +125,30 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 1.6061052239965647
+   "wall_time_s": 1.813442318001762
   },
   {
    "task": "workspace-holdout-002",
    "kind": "a_to_b_line",
    "duration_s": 2.66,
-   "objective": 0.6944368629152858,
+   "objective": 0.7288779948206946,
    "kpis": {
-    "stop_error_max_mm": 0.2414761512762224,
+    "stop_error_max_mm": 0.24115945713275747,
     "saturation_share_pct": 0.0,
     "limit_violations": 0,
     "floor_clearance_violations": 0,
     "completed": true
    },
    "diagnostics": {
-    "tool_track_max_mm": 1.1384980567348484,
-    "joint_track_rms_deg": 0.17561597931063208,
-    "tool_lag_ms": 0.2924519190467626,
-    "stop_error_mm": 0.2414761512762224,
+    "tool_track_max_mm": 1.1199629351620801,
+    "joint_track_rms_deg": 0.1723170768565737,
+    "tool_lag_ms": 0.5726047183390759,
+    "stop_error_mm": 0.24115945713275747,
     "saturation_share_pct": 0.0,
-    "energy_j": 21.917978374263118,
-    "tool_jerk_rms_m_s3": 4.0177374612096255,
-    "host_compute_ms_p95": 0.26976540000000004,
-    "settle_error_max_mm": 0.25271580487409395,
+    "energy_j": 21.92560800272262,
+    "tool_jerk_rms_m_s3": 3.9541128094868085,
+    "host_compute_ms_p95": 0.19249609999999998,
+    "settle_error_max_mm": 0.24229507808788334,
     "stops": 1,
     "moving_samples": 215,
     "ticks": 134,
@@ -162,30 +162,30 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 1.526714941021055
+   "wall_time_s": 1.2072720819851384
   },
   {
    "task": "workspace-holdout-003",
    "kind": "a_to_b_joint",
    "duration_s": 1.91,
-   "objective": 1.290641066663813,
+   "objective": 1.1529901002137495,
    "kpis": {
-    "stop_error_max_mm": 0.3223700786435312,
+    "stop_error_max_mm": 0.3433498474932218,
     "saturation_share_pct": 0.0,
     "limit_violations": 0,
     "floor_clearance_violations": 0,
     "completed": true
    },
    "diagnostics": {
-    "tool_track_max_mm": 1.840601664651692,
-    "joint_track_rms_deg": 0.3640628432346423,
-    "tool_lag_ms": -1.764832474649896,
-    "stop_error_mm": 0.3223700786435312,
+    "tool_track_max_mm": 1.4945728953624526,
+    "joint_track_rms_deg": 0.33771522900676665,
+    "tool_lag_ms": -1.5067421038221425,
+    "stop_error_mm": 0.3433498474932218,
     "saturation_share_pct": 0.0,
-    "energy_j": 64.41904025713642,
-    "tool_jerk_rms_m_s3": 14.908900737884538,
-    "host_compute_ms_p95": 0.22305740000000002,
-    "settle_error_max_mm": 0.34828547214512473,
+    "energy_j": 64.42478059857912,
+    "tool_jerk_rms_m_s3": 14.994157877854496,
+    "host_compute_ms_p95": 0.14699020000000002,
+    "settle_error_max_mm": 0.3648516848804762,
     "stops": 1,
     "moving_samples": 140,
     "ticks": 97,
@@ -199,30 +199,30 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 1.702599078998901
+   "wall_time_s": 1.7578670900547877
   },
   {
    "task": "workspace-holdout-004",
    "kind": "via_points",
    "duration_s": 2.69,
-   "objective": 0.878922153190103,
+   "objective": 0.9625846831320413,
    "kpis": {
-    "stop_error_max_mm": 0.33464178261509686,
+    "stop_error_max_mm": 0.3515950652194014,
     "saturation_share_pct": 0.0,
     "limit_violations": 0,
     "floor_clearance_violations": 0,
     "completed": true
    },
    "diagnostics": {
-    "tool_track_max_mm": 1.8727961032258769,
-    "joint_track_rms_deg": 0.21209674736556644,
-    "tool_lag_ms": 0.016623189094755093,
-    "stop_error_mm": 0.33464178261509686,
+    "tool_track_max_mm": 1.9851547616869565,
+    "joint_track_rms_deg": 0.21205785018198536,
+    "tool_lag_ms": 0.26410830273825847,
+    "stop_error_mm": 0.3515950652194014,
     "saturation_share_pct": 0.0,
-    "energy_j": 67.54062483173458,
-    "tool_jerk_rms_m_s3": 36.248589194461246,
-    "host_compute_ms_p95": 0.23724475000000003,
-    "settle_error_max_mm": 0.3588400865379112,
+    "energy_j": 67.37899163894548,
+    "tool_jerk_rms_m_s3": 36.02267148859295,
+    "host_compute_ms_p95": 0.17004475000000002,
+    "settle_error_max_mm": 0.37099039669660294,
     "stops": 1,
     "moving_samples": 219,
     "ticks": 136,
@@ -236,30 +236,30 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.33066762099042535
+   "wall_time_s": 0.20724845601944253
   },
   {
    "task": "workspace-holdout-005",
    "kind": "a_to_b_joint",
    "duration_s": 1.79,
-   "objective": 0.7620315319071632,
+   "objective": 0.7726873363781926,
    "kpis": {
-    "stop_error_max_mm": 0.5442254942793152,
+    "stop_error_max_mm": 0.5440426859914285,
     "saturation_share_pct": 0.0,
     "limit_violations": 0,
     "floor_clearance_violations": 0,
     "completed": true
    },
    "diagnostics": {
-    "tool_track_max_mm": 1.1037656906825293,
-    "joint_track_rms_deg": 0.140576661492352,
-    "tool_lag_ms": -0.1485879275490888,
-    "stop_error_mm": 0.5442254942793152,
+    "tool_track_max_mm": 1.0989168755625898,
+    "joint_track_rms_deg": 0.14287007655205483,
+    "tool_lag_ms": 0.08873401067318941,
+    "stop_error_mm": 0.5440426859914285,
     "saturation_share_pct": 0.0,
-    "energy_j": 13.274670606468863,
-    "tool_jerk_rms_m_s3": 7.705518057471654,
-    "host_compute_ms_p95": 0.256973,
-    "settle_error_max_mm": 0.5558298393523725,
+    "energy_j": 13.27742756461784,
+    "tool_jerk_rms_m_s3": 8.140920030106807,
+    "host_compute_ms_p95": 0.21184300000000003,
+    "settle_error_max_mm": 0.5672792529104708,
     "stops": 1,
     "moving_samples": 128,
     "ticks": 91,
@@ -273,30 +273,30 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.21846283500781283
+   "wall_time_s": 0.15549736097455025
   },
   {
    "task": "workspace-holdout-006",
    "kind": "a_to_b_line",
    "duration_s": 2.93,
-   "objective": 1.216850633903217,
+   "objective": 1.2445557273913954,
    "kpis": {
-    "stop_error_max_mm": 0.2539178154005501,
+    "stop_error_max_mm": 0.35822634331173747,
     "saturation_share_pct": 0.0,
     "limit_violations": 0,
     "floor_clearance_violations": 0,
     "completed": true
    },
    "diagnostics": {
-    "tool_track_max_mm": 2.699403690117967,
-    "joint_track_rms_deg": 0.21041409637111433,
-    "tool_lag_ms": -0.9367675922531654,
-    "stop_error_mm": 0.2539178154005501,
+    "tool_track_max_mm": 2.6928426374055543,
+    "joint_track_rms_deg": 0.20255804678966466,
+    "tool_lag_ms": -0.6957002772312827,
+    "stop_error_mm": 0.35822634331173747,
     "saturation_share_pct": 0.0,
-    "energy_j": 40.755732080894745,
-    "tool_jerk_rms_m_s3": 4.471760603399966,
-    "host_compute_ms_p95": 0.25523415,
-    "settle_error_max_mm": 0.2705100215153459,
+    "energy_j": 40.757675027131924,
+    "tool_jerk_rms_m_s3": 4.2259846013775,
+    "host_compute_ms_p95": 0.19749915,
+    "settle_error_max_mm": 0.36089944799748597,
     "stops": 1,
     "moving_samples": 242,
     "ticks": 148,
@@ -310,30 +310,30 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.43666011199820787
+   "wall_time_s": 0.23302653298014775
   },
   {
    "task": "workspace-holdout-007",
    "kind": "via_points",
    "duration_s": 2.81,
-   "objective": 0.9687264505568235,
+   "objective": 0.9714764351421161,
    "kpis": {
-    "stop_error_max_mm": 0.3300912039384313,
+    "stop_error_max_mm": 0.35037146591066254,
     "saturation_share_pct": 0.0,
     "limit_violations": 0,
     "floor_clearance_violations": 0,
     "completed": true
    },
    "diagnostics": {
-    "tool_track_max_mm": 1.9176786526675615,
-    "joint_track_rms_deg": 0.361244035306543,
-    "tool_lag_ms": -1.754805910006354,
-    "stop_error_mm": 0.3300912039384313,
+    "tool_track_max_mm": 1.9823755735651547,
+    "joint_track_rms_deg": 0.3354178565138147,
+    "tool_lag_ms": -1.4856160195574797,
+    "stop_error_mm": 0.35037146591066254,
     "saturation_share_pct": 0.0,
-    "energy_j": 59.436052662886205,
-    "tool_jerk_rms_m_s3": 29.25558177643113,
-    "host_compute_ms_p95": 0.2682211,
-    "settle_error_max_mm": 0.3543736458494218,
+    "energy_j": 59.41174830732119,
+    "tool_jerk_rms_m_s3": 29.38304377582779,
+    "host_compute_ms_p95": 0.2083175999999999,
+    "settle_error_max_mm": 0.3690125983289789,
     "stops": 1,
     "moving_samples": 230,
     "ticks": 142,
@@ -347,30 +347,30 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.3898325120098889
+   "wall_time_s": 0.22594298602780327
   },
   {
    "task": "workspace-holdout-008",
    "kind": "a_to_b_joint",
    "duration_s": 3.53,
-   "objective": 0.46165985249704533,
+   "objective": 0.4672385924015529,
    "kpis": {
-    "stop_error_max_mm": 0.3673835907885977,
+    "stop_error_max_mm": 0.3647397071505759,
     "saturation_share_pct": 0.0,
     "limit_violations": 0,
     "floor_clearance_violations": 0,
     "completed": true
    },
    "diagnostics": {
-    "tool_track_max_mm": 0.931924258433099,
-    "joint_track_rms_deg": 0.19992094088427897,
-    "tool_lag_ms": -0.179740576457292,
-    "stop_error_mm": 0.3673835907885977,
+    "tool_track_max_mm": 0.934181721046592,
+    "joint_track_rms_deg": 0.20555202533727807,
+    "tool_lag_ms": 0.07531972088924059,
+    "stop_error_mm": 0.3647397071505759,
     "saturation_share_pct": 0.0,
-    "energy_j": 100.64979448215374,
-    "tool_jerk_rms_m_s3": 10.136285925931945,
-    "host_compute_ms_p95": 0.28279865000000004,
-    "settle_error_max_mm": 0.3836299094632506,
+    "energy_j": 100.63263648651585,
+    "tool_jerk_rms_m_s3": 10.200282724450537,
+    "host_compute_ms_p95": 0.16444135000000001,
+    "settle_error_max_mm": 0.3713767605218337,
     "stops": 1,
     "moving_samples": 302,
     "ticks": 178,
@@ -384,30 +384,30 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.46280570700764656
+   "wall_time_s": 0.2746443069772795
   },
   {
    "task": "workspace-holdout-009",
    "kind": "a_to_b_joint",
    "duration_s": 1.85,
-   "objective": 1.0054330523455144,
+   "objective": 0.9568151167930697,
    "kpis": {
-    "stop_error_max_mm": 0.1559221551920778,
+    "stop_error_max_mm": 0.17058874368287105,
     "saturation_share_pct": 0.0,
     "limit_violations": 0,
     "floor_clearance_violations": 0,
     "completed": true
    },
    "diagnostics": {
-    "tool_track_max_mm": 1.7724888012923539,
-    "joint_track_rms_deg": 0.32472147153016234,
-    "tool_lag_ms": -1.1050087823782304,
-    "stop_error_mm": 0.1559221551920778,
+    "tool_track_max_mm": 1.871597573070743,
+    "joint_track_rms_deg": 0.3007359885384872,
+    "tool_lag_ms": -0.8503061366908836,
+    "stop_error_mm": 0.17058874368287105,
     "saturation_share_pct": 0.0,
-    "energy_j": 72.19808536857686,
-    "tool_jerk_rms_m_s3": 13.563656244323724,
-    "host_compute_ms_p95": 0.2637737,
-    "settle_error_max_mm": 0.16342204528986748,
+    "energy_j": 72.14822821819241,
+    "tool_jerk_rms_m_s3": 13.703216276616278,
+    "host_compute_ms_p95": 0.20156174999999998,
+    "settle_error_max_mm": 0.18358563158532676,
     "stops": 1,
     "moving_samples": 134,
     "ticks": 94,
@@ -421,30 +421,30 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.24359055497916415
+   "wall_time_s": 0.1523149740532972
   },
   {
    "task": "workspace-holdout-010",
    "kind": "a_to_b_joint",
    "duration_s": 1.73,
-   "objective": 0.5592571904300222,
+   "objective": 0.5512380696914445,
    "kpis": {
-    "stop_error_max_mm": 0.2763414757571918,
+    "stop_error_max_mm": 0.23608494104240052,
     "saturation_share_pct": 0.0,
     "limit_violations": 0,
     "floor_clearance_violations": 0,
     "completed": true
    },
    "diagnostics": {
-    "tool_track_max_mm": 0.8798106918530059,
-    "joint_track_rms_deg": 0.22526917283936712,
-    "tool_lag_ms": -0.5710896815984701,
-    "stop_error_mm": 0.2763414757571918,
+    "tool_track_max_mm": 0.8338545700274692,
+    "joint_track_rms_deg": 0.20769511818616435,
+    "tool_lag_ms": -0.33831285359800645,
+    "stop_error_mm": 0.23608494104240052,
     "saturation_share_pct": 0.0,
-    "energy_j": 29.47959733754481,
-    "tool_jerk_rms_m_s3": 12.214985971019953,
-    "host_compute_ms_p95": 0.29052595000000003,
-    "settle_error_max_mm": 0.2881414239264282,
+    "energy_j": 29.48554444303928,
+    "tool_jerk_rms_m_s3": 12.182936367590678,
+    "host_compute_ms_p95": 0.14823359999999985,
+    "settle_error_max_mm": 0.23961092464258701,
     "stops": 1,
     "moving_samples": 122,
     "ticks": 88,
@@ -458,30 +458,30 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.24477559997467324
+   "wall_time_s": 0.13450100598856807
   },
   {
    "task": "workspace-holdout-011",
    "kind": "a_to_b_joint",
    "duration_s": 2.18,
-   "objective": 1.8708246825598775,
+   "objective": 1.7229150254959718,
    "kpis": {
-    "stop_error_max_mm": 0.3725220506798768,
+    "stop_error_max_mm": 0.38220193967465743,
     "saturation_share_pct": 0.0,
     "limit_violations": 0,
     "floor_clearance_violations": 0,
     "completed": true
    },
    "diagnostics": {
-    "tool_track_max_mm": 2.9982884289836,
-    "joint_track_rms_deg": 0.43329587571853045,
-    "tool_lag_ms": -1.3338191926975784,
-    "stop_error_mm": 0.3725220506798768,
+    "tool_track_max_mm": 2.695953398428555,
+    "joint_track_rms_deg": 0.40244886286346404,
+    "tool_lag_ms": -1.0842403497727622,
+    "stop_error_mm": 0.38220193967465743,
     "saturation_share_pct": 0.0,
-    "energy_j": 61.16723654370833,
-    "tool_jerk_rms_m_s3": 17.710536133083878,
-    "host_compute_ms_p95": 0.24690645000000003,
-    "settle_error_max_mm": 0.37783933661028407,
+    "energy_j": 61.18935327335492,
+    "tool_jerk_rms_m_s3": 17.91444999629326,
+    "host_compute_ms_p95": 0.1581835,
+    "settle_error_max_mm": 0.3929232763052491,
     "stops": 1,
     "moving_samples": 167,
     "ticks": 110,
@@ -495,7 +495,7 @@
     "floor_clearance": true
    },
    "notes": [],
-   "wall_time_s": 0.28002191201085225
+   "wall_time_s": 0.16996325500076637
   }
  ],
  "deployment": {
@@ -607,11 +607,11 @@
  },
  "code": {
   "solution_sha256": "f909dc6fdac13e58d2bd80823c52aa765e9f4564bb73baa70ff9aa8f8eb510a1",
-  "repo_commit": "768c477f181091622282b88b435f47de4ac29234",
+  "repo_commit": "2e534e1e8d61063425f5c8ce056e097aa959ef35",
   "repo_dirty": false,
   "robot_controllers": {
    "version": "0.1.0",
-   "commit": "20daa37c212abea829b7606a26902717fe26d122",
+   "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be",
    "dirty": false,
    "repo": "robot_controllers"
   },
@@ -622,7 +622,7 @@
    "repo": "robot_msgs"
   }
  },
- "evaluated": "2026-11-24T09:10:31-07:00",
- "wall_time_s": 2.9184423169936053,
+ "evaluated": "2026-11-24T09:45:45-07:00",
+ "wall_time_s": 2.5330777580384165,
  "workers": 4
 }

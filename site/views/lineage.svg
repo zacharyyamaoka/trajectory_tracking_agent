@@ -94,20 +94,20 @@
 <g transform="translate(488.0 74.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
 
 <g class="node inadmissible">
-<a xlink:title="#8 p1 · 6.258 mm · not admissible: completed 41 tasks, stop_error_max_mm 41 tasks · change: no feed&#45;forward, board PD, calibrated lookahead">
+<a xlink:title="#8 p1 · 6.250 mm · not admissible: completed 41 tasks, stop_error_max_mm 41 tasks · change: no feed&#45;forward, board PD, calibrated lookahead">
 <rect fill="#9ec5f4" fill-opacity="0.35" stroke="#d62728" stroke-width="1.6" x="0" y="-27" width="60" height="27" rx="5"/>
 <text x="22" y="-16.2" font-weight="bold" fill="#8c8c8c">p1</text>
-<text x="4" y="-6" font-size="10" fill="#8c8c8c">6.258 ✗CS</text>
+<text x="4" y="-6" font-size="10" fill="#8c8c8c">6.250 ✗CS</text>
 </a>
 </g>
 </g></g>
 <g transform="translate(570.0 74.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
 
 <g class="node">
-<a xlink:title="#9 p4 · 1.009 mm · admissible · change: model at plan time, board PD, calibrated lookahead">
-<rect fill="#82b4ef" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
+<a xlink:title="#9 p4 · 1.062 mm · admissible · change: model at plan time, board PD, calibrated lookahead">
+<rect fill="#84b5f0" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
 <text x="10" y="-16.2" font-weight="bold" fill="#111111">p4</text>
-<text x="4" y="-6" font-size="10" fill="#111111">1.009</text>
+<text x="4" y="-6" font-size="10" fill="#111111">1.062</text>
 </a>
 </g>
 </g></g>
@@ -124,10 +124,10 @@
 <g transform="translate(686.0 74.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
 
 <g class="node">
-<a xlink:title="#11 p5 · 1.147 mm · admissible · change: model + Coulomb at plan time, board PD, calibrated lookahead">
-<rect fill="#88b7f0" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
+<a xlink:title="#11 p5 · 1.077 mm · admissible · change: model + Coulomb at plan time, board PD, calibrated lookahead">
+<rect fill="#85b5f0" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
 <text x="10" y="-16.2" font-weight="bold" fill="#111111">p5</text>
-<text x="4" y="-6" font-size="10" fill="#111111">1.147</text>
+<text x="4" y="-6" font-size="10" fill="#111111">1.077</text>
 </a>
 </g>
 </g></g>
@@ -396,40 +396,40 @@
 <g transform="translate(319.0 127.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
 
 <g class="node">
-<a xlink:title="#13 p6 · 1.026 mm · admissible · change: model at the host on the measured state, board PD, calibrated lookahead">
-<rect fill="#82b4ef" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
+<a xlink:title="#13 p6 · 1.075 mm · admissible · change: model at the host on the measured state, board PD, calibrated lookahead">
+<rect fill="#85b5f0" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
 <text x="10" y="-16.2" font-weight="bold" fill="#111111">p6</text>
-<text x="4" y="-6" font-size="10" fill="#111111">1.026</text>
+<text x="4" y="-6" font-size="10" fill="#111111">1.075</text>
 </a>
 </g>
 </g></g>
 <g transform="translate(377.0 127.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
 
 <g class="node">
-<a xlink:title="#14 p6s · 0.868 mm · admissible · change: model at the host on the measured state, board PD, calibrated lookahead, secant_mid_ff">
-<rect fill="#7aafee" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
+<a xlink:title="#14 p6s · 0.834 mm · admissible · change: model at the host on the measured state, board PD, calibrated lookahead, secant_mid_ff">
+<rect fill="#78aeee" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
 <text x="7" y="-16.2" font-weight="bold" fill="#111111">p6s</text>
-<text x="4" y="-6" font-size="10" fill="#111111">0.868</text>
+<text x="4" y="-6" font-size="10" fill="#111111">0.834</text>
 </a>
 </g>
 </g></g>
 <g transform="translate(435.0 127.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
 
 <g class="node">
-<a xlink:title="#15 p7 · 1.104 mm · admissible · change: model at plan time, computed&#45;torque gains re&#45;sent each tick, calibrated lookahead">
+<a xlink:title="#15 p7 · 1.109 mm · admissible · change: model at plan time, computed&#45;torque gains re&#45;sent each tick, calibrated lookahead">
 <rect fill="#86b6f0" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
 <text x="10" y="-16.2" font-weight="bold" fill="#111111">p7</text>
-<text x="4" y="-6" font-size="10" fill="#111111">1.104</text>
+<text x="4" y="-6" font-size="10" fill="#111111">1.109</text>
 </a>
 </g>
 </g></g>
 <g transform="translate(493.0 127.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
 
 <g class="node">
-<a xlink:title="#16 p7s · 0.904 mm · admissible · change: model at plan time, computed&#45;torque gains re&#45;sent each tick, calibrated lookahead, secant_mid_ff">
-<rect fill="#7cb0ee" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
+<a xlink:title="#16 p7s · 0.887 mm · admissible · change: model at plan time, computed&#45;torque gains re&#45;sent each tick, calibrated lookahead, secant_mid_ff">
+<rect fill="#7bb0ee" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
 <text x="7" y="-16.2" font-weight="bold" fill="#111111">p7s</text>
-<text x="4" y="-6" font-size="10" fill="#111111">0.904</text>
+<text x="4" y="-6" font-size="10" fill="#111111">0.887</text>
 </a>
 </g>
 </g></g>

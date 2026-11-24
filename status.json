@@ -23,11 +23,10 @@
   "status": "idle",
   "blocked_on": null,
   "todo": {
-    "open": 3,
-    "done_7d": 17,
+    "open": 2,
+    "done_7d": 20,
     "top": [
-      "Host Coulomb feed-forward on the best gen-0 layout. Expect: tool RMS down where the joints reverse (real_kp2's lever on BAM FB, never tried on the UR5e here).",
-      "Per-joint lookahead calibrated on dev tasks only, not on robot_controllers' calibration sweep. Expect: lag down, RMS down a little.",
+      "Make the identification gain-portable: fit the plant torque M(q)\u00b7\u00eb + kd\u00b7\u0117 + kp\u00b7e (the full inverse of the board loop, M from the given model) instead of kp\u00b7e + kd\u00b7\u0117, then check by running one fit at x1 and x4. Expect: if it works, one model for every rung; if not, friction here is loop-dependent and each rung keeps its own fit.",
       "Identify from a dedicated calibration run (a rich excitation trajectory, its own runs only) instead of the dev records, so the identified model never sees the tasks it is scored on. Needs a way to run a non-dataset trajectory through the boundary without `deployment.plant()` (see Suggestions for Zach)."
     ]
   },
@@ -37,5 +36,5 @@
     "wandb": "Trajectory Tracking",
     "vault": null
   },
-  "updated_t": 1795538400.50129
+  "updated_t": 1795538760.471751
 }
