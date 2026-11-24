@@ -14,7 +14,7 @@ and keeps a scored population of every solution it tried.
 | [`ideas.md`](ideas.md) | The experiment queue |
 | [`REFERENCES.md`](REFERENCES.md) | Prior art, the packages it builds on, related repos |
 | [`solutions/`](solutions/) | The population: one folder per solution, with its lineage and scorecard |
-| [`site/`](site/) | The landing page: the real pipeline running in your browser |
+| [`site/`](site/) | The landing page: saved runs played back, scored by the ruler at evaluation time |
 
 ```bash
 uv run tta evaluate p7s --split dev

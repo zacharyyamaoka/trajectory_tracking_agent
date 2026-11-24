@@ -9,9 +9,10 @@ accurately, inside the gates, by proposing better controllers. Read `OBJECTIVES.
 2. Pick one idea, or propose one. Write it as a new solution: `tta new <id> --parent <best or a niche winner> --change "…"`.
 3. `tta evaluate <id>` (dev only). It writes `solutions/<id>/scorecard.json`, appends `ledger.jsonl` and refreshes
    `PROGRESS.md` and `site/progress.svg`.
-4. Commit the solution folder, the ledger row and the progress files together (by pathspec), win or lose:
-   `git add -- solutions/<id>` (a new folder is untracked), then
-   `git commit -- solutions/<id> ledger.jsonl PROGRESS.md status.json site/progress.svg site/views ideas.md`.
+4. Rebuild the page's data and commit it with the solution, win or lose:
+   `uv run --all-extras python tools/build_site.py build`, then `git add -- solutions/<id> site/data` (a new folder is
+   untracked) and `git commit -- solutions/<id> ledger.jsonl PROGRESS.md status.json site/progress.svg site/views site/data ideas.md`.
+   (`tests/test_site_*` fail until site/data matches the ledger; ablation-tagged solutions don't need the rebuild.)
 5. Update `ideas.md`: cross off what you tried, add what the result suggests.
 
 ## Rules
