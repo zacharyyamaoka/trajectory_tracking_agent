@@ -17,6 +17,7 @@ never delete it.
 - [x] ~~kp ×4, kd ×2~~ → `p5s-kp4` 0.046 mm dev, admissible, −17 % (diminishing); saturation share 0.038 %, energy +24 % over configured gains. Not going stiffer: more gain mostly buys twin-only accuracy.
 - [x] ~~Same joint-error identification for the inertia terms~~ → the uniform qdd lead was the board's velocity-estimate lag, not inertia: `p5s-vlag` (ff −= kd·1.3 ms·qdd) 0.043 mm dev, admissible, −6 %.
 - [x] ~~Re-identify friction + gravity from joint errors at the current (kp ×4) gains, as an additive pass~~ → `p5s-pass2` 0.032 mm dev (holdout 0.030), admissible, −27 % (expected ~5 %). Every joint-error regression coefficient is now ~0.
+- [x] ~~Niche at the boards' configured gains: the same second pass on p5s-fric2~~ → `p5s-fric2-pass2` 0.070 mm dev, admissible (−12 %): the best candidate that does not lean on stiffer gains.
 - [ ] Fold the four identification passes into one script and one fit, re-run on the best's own runs, so a solution carries one model instead of a stack (friction, gravity, friction2, pass2). Expect: no score change; much easier to read and to move to a real arm.
 
 ## Suggestions for Zach

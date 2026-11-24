@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="960" height="704" viewBox="0 0 960 704" font-family="Helvetica, Arial, 'Liberation Sans', 'Nimbus Sans', sans-serif" font-size="11" fill="#8c8c8c" role="img" aria-label="Lineage · 26 solutions in 16 trees · 23 admissible · best p5s-pass2 0.032 mm (dev, tool_track_rms_mm)">
-<title>Lineage · 26 solutions in 16 trees · 23 admissible · best p5s-pass2 0.032 mm (dev, tool_track_rms_mm)</title>
-<text x="12.0" y="20.0" font-size="13.5" font-weight="600">Lineage · 26 solutions in 16 trees · 23 admissible · best p5s-pass2 0.032 mm (dev, tool_track_rms_mm)</text>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="960" height="704" viewBox="0 0 960 704" font-family="Helvetica, Arial, 'Liberation Sans', 'Nimbus Sans', sans-serif" font-size="11" fill="#8c8c8c" role="img" aria-label="Lineage · 27 solutions in 16 trees · 24 admissible · best p5s-pass2 0.032 mm (dev, tool_track_rms_mm)">
+<title>Lineage · 27 solutions in 16 trees · 24 admissible · best p5s-pass2 0.032 mm (dev, tool_track_rms_mm)</title>
+<text x="12.0" y="20.0" font-size="13.5" font-weight="600">Lineage · 27 solutions in 16 trees · 24 admissible · best p5s-pass2 0.032 mm (dev, tool_track_rms_mm)</text>
 <text x="12.0" y="44.0" font-size="10.5">dev mm</text>
 <rect x="58.0" y="32.0" width="42" height="16" rx="3" fill="#184f95"/>
 <text x="79.0" y="44.0" fill="#ffffff" font-size="10" text-anchor="middle">0.0315</text>
@@ -135,153 +135,167 @@
 
 <g class="node path">
 <a xlink:title="#12 p5s · 0.974 mm · admissible · change: model + Coulomb at plan time, board PD, calibrated lookahead, secant_mid_ff">
-<rect fill="#80b2ef" stroke="#f28c28" stroke-width="2" x="23.5" y="-557" width="36" height="27" rx="5"/>
-<text x="30.5" y="-546.2" font-weight="bold" fill="#111111">p5s</text>
-<text x="27.5" y="-536" font-size="10" fill="#111111">0.974</text>
+<rect fill="#80b2ef" stroke="#f28c28" stroke-width="2" x="80.5" y="-557" width="36" height="27" rx="5"/>
+<text x="87.5" y="-546.2" font-weight="bold" fill="#111111">p5s</text>
+<text x="84.5" y="-536" font-size="10" fill="#111111">0.974</text>
 </a>
 </g>
 
 <g class="node path">
 <a xlink:title="#17 p5s&#45;bus · 0.595 mm · admissible · parent p5s · change: lookahead = the deployment&#39;s bus command delay per joint, not the friction&#45;inflated calibration (Coulomb is already in the ff)">
-<rect fill="#68a4eb" stroke="#f28c28" stroke-width="2" x="13" y="-504" width="57" height="27" rx="5"/>
-<text x="17" y="-493.2" font-weight="bold" fill="#111111">p5s&#45;bus</text>
-<text x="27.5" y="-483" font-size="10" fill="#111111">0.595</text>
+<rect fill="#68a4eb" stroke="#f28c28" stroke-width="2" x="70" y="-504" width="57" height="27" rx="5"/>
+<text x="74" y="-493.2" font-weight="bold" fill="#111111">p5s&#45;bus</text>
+<text x="84.5" y="-483" font-size="10" fill="#111111">0.595</text>
 </a>
 </g>
 
 <g class="edge path">
-<path fill="none" stroke="#f28c28" stroke-width="3" d="M41.5,-529.89C41.5,-523.81 41.5,-516.4 41.5,-509.71"/>
-<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="43.25,-509.32 41.5,-504.32 39.75,-509.32 43.25,-509.32"/>
-<text text-anchor="middle" x="59" y="-514.8" font-size="9" fill="#2ca02c">−0.378</text>
+<path fill="none" stroke="#f28c28" stroke-width="3" d="M98.5,-529.89C98.5,-523.81 98.5,-516.4 98.5,-509.71"/>
+<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="100.25,-509.32 98.5,-504.32 96.75,-509.32 100.25,-509.32"/>
+<text text-anchor="middle" x="116" y="-514.8" font-size="9" fill="#2ca02c">−0.378</text>
 </g>
 
 <g class="node path">
 <a xlink:title="#18 p5s&#45;bus&#45;enc · 0.393 mm · admissible · parent p5s&#45;bus · change: lookahead = bus delay minus the board&#39;s own lead (encoder delay + one board tick, 0.75 ms), from the deployment&#39;s board fields">
-<rect fill="#5297e8" stroke="#f28c28" stroke-width="2" x="0" y="-451" width="83" height="27" rx="5"/>
-<text x="4" y="-440.2" font-weight="bold" fill="#111111">p5s&#45;bus&#45;enc</text>
-<text x="27.5" y="-430" font-size="10" fill="#111111">0.393</text>
+<rect fill="#5297e8" stroke="#f28c28" stroke-width="2" x="57" y="-451" width="83" height="27" rx="5"/>
+<text x="61" y="-440.2" font-weight="bold" fill="#111111">p5s&#45;bus&#45;enc</text>
+<text x="84.5" y="-430" font-size="10" fill="#111111">0.393</text>
 </a>
 </g>
 
 <g class="edge path">
-<path fill="none" stroke="#f28c28" stroke-width="3" d="M41.5,-476.89C41.5,-470.81 41.5,-463.4 41.5,-456.71"/>
-<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="43.25,-456.32 41.5,-451.32 39.75,-456.32 43.25,-456.32"/>
-<text text-anchor="middle" x="59" y="-461.8" font-size="9" fill="#2ca02c">−0.202</text>
+<path fill="none" stroke="#f28c28" stroke-width="3" d="M98.5,-476.89C98.5,-470.81 98.5,-463.4 98.5,-456.71"/>
+<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="100.25,-456.32 98.5,-451.32 96.75,-456.32 100.25,-456.32"/>
+<text text-anchor="middle" x="116" y="-461.8" font-size="9" fill="#2ca02c">−0.202</text>
 </g>
 
 <g class="node path">
 <a xlink:title="#19 p5s&#45;fric · 0.245 mm · admissible · parent p5s&#45;bus&#45;enc · change: friction ff = per&#45;joint Coulomb tanh(qd/vs) + viscous identified from p5s&#45;bus&#45;enc&#39;s dev run records, replacing the given model&#39;s Coulomb">
-<rect fill="#3a88e5" stroke="#f28c28" stroke-width="2" x="14" y="-398" width="55" height="27" rx="5"/>
-<text x="18" y="-387.2" font-weight="bold" fill="#111111">p5s&#45;fric</text>
-<text x="27.5" y="-377" font-size="10" fill="#111111">0.245</text>
+<rect fill="#3a88e5" stroke="#f28c28" stroke-width="2" x="71" y="-398" width="55" height="27" rx="5"/>
+<text x="75" y="-387.2" font-weight="bold" fill="#111111">p5s&#45;fric</text>
+<text x="84.5" y="-377" font-size="10" fill="#111111">0.245</text>
 </a>
 </g>
 
 <g class="edge path">
-<path fill="none" stroke="#f28c28" stroke-width="3" d="M41.5,-423.89C41.5,-417.81 41.5,-410.4 41.5,-403.71"/>
-<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="43.25,-403.32 41.5,-398.32 39.75,-403.32 43.25,-403.32"/>
-<text text-anchor="middle" x="59" y="-408.8" font-size="9" fill="#2ca02c">−0.148</text>
+<path fill="none" stroke="#f28c28" stroke-width="3" d="M98.5,-423.89C98.5,-417.81 98.5,-410.4 98.5,-403.71"/>
+<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="100.25,-403.32 98.5,-398.32 96.75,-403.32 100.25,-403.32"/>
+<text text-anchor="middle" x="116" y="-408.8" font-size="9" fill="#2ca02c">−0.148</text>
 </g>
 
 <g class="node path">
 <a xlink:title="#20 p5s&#45;chord · 0.244 mm · admissible · parent p5s&#45;fric · change: position sent = sample &#45; a(s+T/2)·T²/12: the board&#39;s straight walk over a host period becomes the least&#45;squares line of the curve, not its …">
-<rect fill="#3a88e5" stroke="#f28c28" stroke-width="2" x="7" y="-345" width="69" height="27" rx="5"/>
-<text x="11" y="-334.2" font-weight="bold" fill="#111111">p5s&#45;chord</text>
-<text x="27.5" y="-324" font-size="10" fill="#111111">0.244</text>
+<rect fill="#3a88e5" stroke="#f28c28" stroke-width="2" x="64" y="-345" width="69" height="27" rx="5"/>
+<text x="68" y="-334.2" font-weight="bold" fill="#111111">p5s&#45;chord</text>
+<text x="84.5" y="-324" font-size="10" fill="#111111">0.244</text>
 </a>
 </g>
 
 <g class="edge path">
-<path fill="none" stroke="#f28c28" stroke-width="3" d="M41.5,-370.89C41.5,-364.81 41.5,-357.4 41.5,-350.71"/>
-<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="43.25,-350.32 41.5,-345.32 39.75,-350.32 43.25,-350.32"/>
-<text text-anchor="middle" x="59" y="-355.8" font-size="9" fill="#2ca02c">−0.001</text>
+<path fill="none" stroke="#f28c28" stroke-width="3" d="M98.5,-370.89C98.5,-364.81 98.5,-357.4 98.5,-350.71"/>
+<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="100.25,-350.32 98.5,-345.32 96.75,-350.32 100.25,-350.32"/>
+<text text-anchor="middle" x="116" y="-355.8" font-size="9" fill="#2ca02c">−0.001</text>
 </g>
 
 <g class="node path">
 <a xlink:title="#21 p5s&#45;grav · 0.097 mm · admissible · parent p5s&#45;chord · change: ff minus a gravity&#45;shaped torque error per joint, fitted from p5s&#45;chord&#39;s dev joint errors (kp·e + kd·ė on sin/cos of q2, q2+q3, q2+q3+q4, …">
-<rect fill="#276dc3" stroke="#f28c28" stroke-width="2" x="10" y="-292" width="63" height="27" rx="5"/>
-<text x="14" y="-281.2" font-weight="bold" fill="#ffffff">p5s&#45;grav</text>
-<text x="27.5" y="-271" font-size="10" fill="#ffffff">0.097</text>
+<rect fill="#276dc3" stroke="#f28c28" stroke-width="2" x="67" y="-292" width="63" height="27" rx="5"/>
+<text x="71" y="-281.2" font-weight="bold" fill="#ffffff">p5s&#45;grav</text>
+<text x="84.5" y="-271" font-size="10" fill="#ffffff">0.097</text>
 </a>
 </g>
 
 <g class="edge path">
-<path fill="none" stroke="#f28c28" stroke-width="3" d="M41.5,-317.89C41.5,-311.81 41.5,-304.4 41.5,-297.71"/>
-<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="43.25,-297.32 41.5,-292.32 39.75,-297.32 43.25,-297.32"/>
-<text text-anchor="middle" x="59" y="-302.8" font-size="9" fill="#2ca02c">−0.147</text>
+<path fill="none" stroke="#f28c28" stroke-width="3" d="M98.5,-317.89C98.5,-311.81 98.5,-304.4 98.5,-297.71"/>
+<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="100.25,-297.32 98.5,-292.32 96.75,-297.32 100.25,-297.32"/>
+<text text-anchor="middle" x="116" y="-302.8" font-size="9" fill="#2ca02c">−0.147</text>
 </g>
 
 <g class="node path">
 <a xlink:title="#22 p5s&#45;fric2 · 0.079 mm · admissible · parent p5s&#45;grav · change: friction correction in target qd (odd multi&#45;scale tanh basis + qd), fitted from p5s&#45;grav&#39;s dev joint errors (kp·e + kd·ė), subtracted from …">
-<rect fill="#2468bb" stroke="#f28c28" stroke-width="2" x="10" y="-239" width="63" height="27" rx="5"/>
-<text x="14" y="-228.2" font-weight="bold" fill="#ffffff">p5s&#45;fric2</text>
-<text x="27.5" y="-218" font-size="10" fill="#ffffff">0.079</text>
+<rect fill="#2468bb" stroke="#f28c28" stroke-width="2" x="67" y="-239" width="63" height="27" rx="5"/>
+<text x="71" y="-228.2" font-weight="bold" fill="#ffffff">p5s&#45;fric2</text>
+<text x="84.5" y="-218" font-size="10" fill="#ffffff">0.079</text>
 </a>
 </g>
 
 <g class="edge path">
-<path fill="none" stroke="#f28c28" stroke-width="3" d="M41.5,-264.89C41.5,-258.81 41.5,-251.4 41.5,-244.71"/>
-<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="43.25,-244.32 41.5,-239.32 39.75,-244.32 43.25,-244.32"/>
-<text text-anchor="middle" x="59" y="-249.8" font-size="9" fill="#2ca02c">−0.017</text>
+<path fill="none" stroke="#f28c28" stroke-width="3" d="M98.5,-264.89C98.5,-258.81 98.5,-251.4 98.5,-244.71"/>
+<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="100.25,-244.32 98.5,-239.32 96.75,-244.32 100.25,-244.32"/>
+<text text-anchor="middle" x="116" y="-249.8" font-size="9" fill="#2ca02c">−0.017</text>
 </g>
 
 <g class="node path">
 <a xlink:title="#23 p5s&#45;kp2 · 0.056 mm · admissible · parent p5s&#45;fric2 · change: board gains sent with every command: kp x2, kd x sqrt(2) (same damping ratio, bandwidth x1.41) instead of the boards&#39; configured gains">
-<rect fill="#1f5ead" stroke="#f28c28" stroke-width="2" x="13" y="-186" width="57" height="27" rx="5"/>
-<text x="17" y="-175.2" font-weight="bold" fill="#ffffff">p5s&#45;kp2</text>
-<text x="27.5" y="-165" font-size="10" fill="#ffffff">0.056</text>
+<rect fill="#1f5ead" stroke="#f28c28" stroke-width="2" x="7" y="-186" width="57" height="27" rx="5"/>
+<text x="11" y="-175.2" font-weight="bold" fill="#ffffff">p5s&#45;kp2</text>
+<text x="21.5" y="-165" font-size="10" fill="#ffffff">0.056</text>
 </a>
 </g>
 
 <g class="edge path">
-<path fill="none" stroke="#f28c28" stroke-width="3" d="M41.5,-211.89C41.5,-205.81 41.5,-198.4 41.5,-191.71"/>
-<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="43.25,-191.32 41.5,-186.32 39.75,-191.32 43.25,-191.32"/>
-<text text-anchor="middle" x="59" y="-196.8" font-size="9" fill="#2ca02c">−0.024</text>
+<path fill="none" stroke="#f28c28" stroke-width="3" d="M81.54,-211.84C78.19,-209.28 74.71,-206.58 71.5,-204 65.8,-199.42 59.7,-194.33 54.17,-189.64"/>
+<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="55.01,-188.06 50.06,-186.14 52.73,-190.72 55.01,-188.06"/>
+<text text-anchor="middle" x="89" y="-196.8" font-size="9" fill="#2ca02c">−0.024</text>
+</g>
+
+<g class="node">
+<a xlink:title="#27 p5s&#45;fric2&#45;pass2 · 0.070 mm · admissible · parent p5s&#45;fric2 · change: niche (boards&#39; configured gains): second joint&#45;error pass on p5s&#45;fric2&#39;s dev runs, gravity shapes + friction basis + own&#45;qdd term fitted jo…">
+<rect fill="#2264b6" stroke="#8c8c8c" x="71" y="-186" width="103" height="27" rx="5"/>
+<text x="75" y="-175.2" font-weight="bold" fill="#ffffff">p5s&#45;fric2&#45;pass2</text>
+<text x="108.5" y="-165" font-size="10" fill="#ffffff">0.070</text>
+</a>
+</g>
+
+<g class="edge">
+<path fill="none" stroke="#2ca02c" d="M104.43,-211.89C107.41,-205.57 111.06,-197.8 114.3,-190.92"/>
+<polygon fill="#2ca02c" stroke="#2ca02c" points="115.92,-191.59 116.47,-186.32 112.76,-190.09 115.92,-191.59"/>
+<text text-anchor="middle" x="130" y="-196.8" font-size="9" fill="#2ca02c">−0.009</text>
 </g>
 
 <g class="node path">
 <a xlink:title="#24 p5s&#45;kp4 · 0.046 mm · admissible · parent p5s&#45;kp2 · change: board kp x4, kd x2 (same damping ratio, bandwidth x2 = 12.6 Hz) instead of x2 / x1.41">
-<rect fill="#1d59a5" stroke="#f28c28" stroke-width="2" x="13" y="-133" width="57" height="27" rx="5"/>
-<text x="17" y="-122.2" font-weight="bold" fill="#ffffff">p5s&#45;kp4</text>
-<text x="27.5" y="-112" font-size="10" fill="#ffffff">0.046</text>
+<rect fill="#1d59a5" stroke="#f28c28" stroke-width="2" x="7" y="-133" width="57" height="27" rx="5"/>
+<text x="11" y="-122.2" font-weight="bold" fill="#ffffff">p5s&#45;kp4</text>
+<text x="21.5" y="-112" font-size="10" fill="#ffffff">0.046</text>
 </a>
 </g>
 
 <g class="edge path">
-<path fill="none" stroke="#f28c28" stroke-width="3" d="M41.5,-158.89C41.5,-152.81 41.5,-145.4 41.5,-138.71"/>
-<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="43.25,-138.32 41.5,-133.32 39.75,-138.32 43.25,-138.32"/>
-<text text-anchor="middle" x="59" y="-143.8" font-size="9" fill="#2ca02c">−0.010</text>
+<path fill="none" stroke="#f28c28" stroke-width="3" d="M35.5,-158.89C35.5,-152.81 35.5,-145.4 35.5,-138.71"/>
+<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="37.25,-138.32 35.5,-133.32 33.75,-138.32 37.25,-138.32"/>
+<text text-anchor="middle" x="53" y="-143.8" font-size="9" fill="#2ca02c">−0.010</text>
 </g>
 
 <g class="node path">
 <a xlink:title="#25 p5s&#45;vlag · 0.043 mm · admissible · parent p5s&#45;kp4 · change: ff minus kd·tau_v·qdd per joint: the board&#39;s velocity estimate lags by encoder delay + 1/(2π·filter Hz) (1.3 ms), so its kd term pushes ahe…">
-<rect fill="#1c58a2" stroke="#f28c28" stroke-width="2" x="11" y="-80" width="61" height="27" rx="5"/>
-<text x="15" y="-69.2" font-weight="bold" fill="#ffffff">p5s&#45;vlag</text>
-<text x="27.5" y="-59" font-size="10" fill="#ffffff">0.043</text>
+<rect fill="#1c58a2" stroke="#f28c28" stroke-width="2" x="5" y="-80" width="61" height="27" rx="5"/>
+<text x="9" y="-69.2" font-weight="bold" fill="#ffffff">p5s&#45;vlag</text>
+<text x="21.5" y="-59" font-size="10" fill="#ffffff">0.043</text>
 </a>
 </g>
 
 <g class="edge path">
-<path fill="none" stroke="#f28c28" stroke-width="3" d="M41.5,-105.89C41.5,-99.81 41.5,-92.4 41.5,-85.71"/>
-<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="43.25,-85.32 41.5,-80.32 39.75,-85.32 43.25,-85.32"/>
-<text text-anchor="middle" x="59" y="-90.8" font-size="9" fill="#2ca02c">−0.003</text>
+<path fill="none" stroke="#f28c28" stroke-width="3" d="M35.5,-105.89C35.5,-99.81 35.5,-92.4 35.5,-85.71"/>
+<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="37.25,-85.32 35.5,-80.32 33.75,-85.32 37.25,-85.32"/>
+<text text-anchor="middle" x="53" y="-90.8" font-size="9" fill="#2ca02c">−0.003</text>
 </g>
 
 <g class="node best path">
 <a xlink:title="#26 p5s&#45;pass2 · 0.032 mm · admissible · parent p5s&#45;vlag · change: second joint&#45;error identification pass at the current gains (kp x4, kd x2): gravity shapes + friction basis fitted jointly on p5s&#45;vlag&#39;s de…">
-<rect fill="#184f95" stroke="#f28c28" stroke-width="3" x="6" y="-27" width="71" height="27" rx="5"/>
-<text x="10" y="-16.2" font-weight="bold" fill="#ffffff">p5s&#45;pass2</text>
-<text x="27.5" y="-6" font-size="10" fill="#ffffff">0.032</text>
+<rect fill="#184f95" stroke="#f28c28" stroke-width="3" x="0" y="-27" width="71" height="27" rx="5"/>
+<text x="4" y="-16.2" font-weight="bold" fill="#ffffff">p5s&#45;pass2</text>
+<text x="21.5" y="-6" font-size="10" fill="#ffffff">0.032</text>
 </a>
 </g>
 
 <g class="edge path">
-<path fill="none" stroke="#f28c28" stroke-width="3" d="M41.5,-52.89C41.5,-46.81 41.5,-39.4 41.5,-32.71"/>
-<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="43.25,-32.32 41.5,-27.32 39.75,-32.32 43.25,-32.32"/>
-<text text-anchor="middle" x="59" y="-37.8" font-size="9" fill="#2ca02c">−0.012</text>
+<path fill="none" stroke="#f28c28" stroke-width="3" d="M35.5,-52.89C35.5,-46.81 35.5,-39.4 35.5,-32.71"/>
+<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="37.25,-32.32 35.5,-27.32 33.75,-32.32 37.25,-32.32"/>
+<text text-anchor="middle" x="53" y="-37.8" font-size="9" fill="#2ca02c">−0.012</text>
 </g>
 </g></g>
-<g transform="translate(849.0 74.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+<g transform="translate(12.0 657.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
 
 <g class="node">
 <a xlink:title="#13 p6 · 1.026 mm · admissible · change: model at the host on the measured state, board PD, calibrated lookahead">
@@ -291,7 +305,7 @@
 </a>
 </g>
 </g></g>
-<g transform="translate(12.0 657.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+<g transform="translate(70.0 657.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
 
 <g class="node">
 <a xlink:title="#14 p6s · 0.868 mm · admissible · change: model at the host on the measured state, board PD, calibrated lookahead, secant_mid_ff">
@@ -301,7 +315,7 @@
 </a>
 </g>
 </g></g>
-<g transform="translate(70.0 657.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+<g transform="translate(128.0 657.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
 
 <g class="node">
 <a xlink:title="#15 p7 · 1.104 mm · admissible · change: model at plan time, computed&#45;torque gains re&#45;sent each tick, calibrated lookahead">
@@ -311,7 +325,7 @@
 </a>
 </g>
 </g></g>
-<g transform="translate(128.0 657.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+<g transform="translate(186.0 657.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
 
 <g class="node">
 <a xlink:title="#16 p7s · 0.904 mm · admissible · change: model at plan time, computed&#45;torque gains re&#45;sent each tick, calibrated lookahead, secant_mid_ff">
