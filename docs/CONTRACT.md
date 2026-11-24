@@ -45,7 +45,8 @@ solutions/<id>/
 
 `{"t": ISO-8601, "solution": id, "parent": id|null, "split": "dev"|"holdout", "ruler": "v1", "objective": float|null,
 "admissible": bool, "gate_pass_rate": float, "failed_gates": {gate: count}, "diagnostics": {...},
-"wall_time_s": float, "repo_commit": sha, "proposed_by": {...}}`
+"wall_time_s": float, "repo_commit": sha, "proposed_by": {...}, "change": "the solution's one-line change",
+"task_objectives": {task_id: tool_track_rms_mm | null}}` (per-task values: the solution's output signature, used by the specialists and diversity views without reading any solution code)
 
 The ledger is the local truth; W&B (project "Trajectory Tracking") is a replayable copy of summary scalars only.
 `PROGRESS.md` and `site/progress.svg` are regenerated from it by `tta progress`.
