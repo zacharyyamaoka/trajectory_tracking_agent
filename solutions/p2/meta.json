@@ -1,0 +1,25 @@
+{
+  "id": "p2",
+  "parent": null,
+  "change": "the trajectory's column (as built), board PD",
+  "proposed_by": {
+    "agent": "robot_controllers population (hand-written)",
+    "model": null,
+    "session": null
+  },
+  "created": "2026-11-12T01:39:29-07:00",
+  "tags": [
+    "gen-0",
+    "robot_controllers:P2",
+    "ff=trajectory@trajectory",
+    "fb=board_gains@board",
+    "lookahead=none",
+    "interp=tangent"
+  ],
+  "source": {
+    "robot_controllers_config": "P2",
+    "created_commit": "c2851fcfde80b446a7f1a39c203ee4acbec8ab1f",
+    "created_commit_subject": "controllers: time-driven JTC, tape feeder, joint impedance on board / host / host spring",
+    "created_rule": "the robot_controllers commit where this config's last ingredient entered (its layout, lookahead mode and interpolation; git log), so the progress chart reads as the population's history"
+  }
+}
