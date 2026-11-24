@@ -24,18 +24,18 @@
   {
    "dist": "robot-controllers",
    "file": "robot_controllers-0.1.0-py3-none-any.whl",
-   "sha256": "64eadffa95ddd753b13f80b3d07eaa51c229f8824bbb95553521436858faafa5",
-   "bytes": 368616,
-   "source": "https://github.com/zacharyyamaoka/robot_controllers/tree/20daa37c212abea829b7606a26902717fe26d122",
-   "commit": "20daa37c212abea829b7606a26902717fe26d122"
+   "sha256": "7fc0c31ab116b8cc7f7f70eb8aac34bc5d87265014bda66820b3b6ac23b039ac",
+   "bytes": 368916,
+   "source": "https://github.com/zacharyyamaoka/robot_controllers/tree/f25f4854255a3e2d6c91749c8ecbf58f2eace6be",
+   "commit": "f25f4854255a3e2d6c91749c8ecbf58f2eace6be"
   },
   {
    "dist": "trajectory-tracking-agent",
    "file": "trajectory_tracking_agent-0.1.0-py3-none-any.whl",
-   "sha256": "8b22b1171d3bc3eb6cf11e79c142d25ce1342d8585c0d9c965b035495ff4ad37",
-   "bytes": 38739,
+   "sha256": "5b38cd806ab30d613ae2a7de09aec34791f17f571861dca5aee62d986962e196",
+   "bytes": 39447,
    "source": "this repo",
-   "commit": "1b8794680a0ffe69d10f4bc0b9f4bd8af18e6359"
+   "commit": "19434223758af0003c438dba97026efd7e0c70a0"
   }
  ],
  "repo_files": [
@@ -216,140 +216,612 @@
    "bytes": 62418
   },
   {
-   "path": "solutions/p1/solution.py",
-   "bytes": 1698
-  },
-  {
    "path": "solutions/p1/meta.json",
    "bytes": 888
   },
   {
-   "path": "solutions/p10/solution.py",
-   "bytes": 1687
+   "path": "solutions/p1/solution.py",
+   "bytes": 1698
   },
   {
    "path": "solutions/p10/meta.json",
    "bytes": 914
   },
   {
-   "path": "solutions/p2/solution.py",
-   "bytes": 1695
+   "path": "solutions/p10/solution.py",
+   "bytes": 1687
   },
   {
    "path": "solutions/p2/meta.json",
    "bytes": 874
   },
   {
-   "path": "solutions/p2s/solution.py",
-   "bytes": 1712
+   "path": "solutions/p2/solution.py",
+   "bytes": 1695
   },
   {
    "path": "solutions/p2s/meta.json",
    "bytes": 923
   },
   {
-   "path": "solutions/p3/solution.py",
-   "bytes": 1706
+   "path": "solutions/p2s/solution.py",
+   "bytes": 1712
   },
   {
    "path": "solutions/p3/meta.json",
    "bytes": 932
   },
   {
-   "path": "solutions/p3s/solution.py",
-   "bytes": 1723
+   "path": "solutions/p3/solution.py",
+   "bytes": 1706
   },
   {
    "path": "solutions/p3s/meta.json",
    "bytes": 931
   },
   {
-   "path": "solutions/p4/solution.py",
-   "bytes": 1701
+   "path": "solutions/p3s/solution.py",
+   "bytes": 1723
   },
   {
    "path": "solutions/p4/meta.json",
    "bytes": 897
   },
   {
-   "path": "solutions/p4s/solution.py",
-   "bytes": 1718
+   "path": "solutions/p4/solution.py",
+   "bytes": 1701
   },
   {
    "path": "solutions/p4s/meta.json",
    "bytes": 921
   },
   {
-   "path": "solutions/p5/solution.py",
-   "bytes": 1711
+   "path": "solutions/p4s/solution.py",
+   "bytes": 1718
   },
   {
    "path": "solutions/p5/meta.json",
    "bytes": 915
   },
   {
-   "path": "solutions/p5s/solution.py",
-   "bytes": 1728
+   "path": "solutions/p5/solution.py",
+   "bytes": 1711
   },
   {
    "path": "solutions/p5s/meta.json",
    "bytes": 939
   },
   {
-   "path": "solutions/p5s-bus/solution.py",
-   "bytes": 2094
+   "path": "solutions/p5s/solution.py",
+   "bytes": 1728
   },
   {
    "path": "solutions/p5s-bus/meta.json",
    "bytes": 405
   },
   {
-   "path": "solutions/p6/solution.py",
-   "bytes": 1722
+   "path": "solutions/p5s-bus/solution.py",
+   "bytes": 2094
+  },
+  {
+   "path": "solutions/p5s-bus-enc/meta.json",
+   "bytes": 329
+  },
+  {
+   "path": "solutions/p5s-bus-enc/solution.py",
+   "bytes": 2753
+  },
+  {
+   "path": "solutions/p5s-chord/identified.json",
+   "bytes": 2256
+  },
+  {
+   "path": "solutions/p5s-chord/identify.py",
+   "bytes": 4260
+  },
+  {
+   "path": "solutions/p5s-chord/meta.json",
+   "bytes": 356
+  },
+  {
+   "path": "solutions/p5s-chord/solution.py",
+   "bytes": 6033
+  },
+  {
+   "path": "solutions/p5s-fric/identified.json",
+   "bytes": 2256
+  },
+  {
+   "path": "solutions/p5s-fric/identify.py",
+   "bytes": 4260
+  },
+  {
+   "path": "solutions/p5s-fric/meta.json",
+   "bytes": 340
+  },
+  {
+   "path": "solutions/p5s-fric/solution.py",
+   "bytes": 3819
+  },
+  {
+   "path": "solutions/p5s-fric2/friction2.json",
+   "bytes": 2343
+  },
+  {
+   "path": "solutions/p5s-fric2/gravity.json",
+   "bytes": 3277
+  },
+  {
+   "path": "solutions/p5s-fric2/identified.json",
+   "bytes": 2256
+  },
+  {
+   "path": "solutions/p5s-fric2/identify.py",
+   "bytes": 4260
+  },
+  {
+   "path": "solutions/p5s-fric2/identify_friction2.py",
+   "bytes": 3307
+  },
+  {
+   "path": "solutions/p5s-fric2/identify_gravity.py",
+   "bytes": 4077
+  },
+  {
+   "path": "solutions/p5s-fric2/meta.json",
+   "bytes": 362
+  },
+  {
+   "path": "solutions/p5s-fric2/solution.py",
+   "bytes": 9789
+  },
+  {
+   "path": "solutions/p5s-fric2-pass2/friction2.json",
+   "bytes": 2343
+  },
+  {
+   "path": "solutions/p5s-fric2-pass2/gravity.json",
+   "bytes": 3277
+  },
+  {
+   "path": "solutions/p5s-fric2-pass2/identified.json",
+   "bytes": 2256
+  },
+  {
+   "path": "solutions/p5s-fric2-pass2/identify.py",
+   "bytes": 4260
+  },
+  {
+   "path": "solutions/p5s-fric2-pass2/identify_friction2.py",
+   "bytes": 3307
+  },
+  {
+   "path": "solutions/p5s-fric2-pass2/identify_gravity.py",
+   "bytes": 4077
+  },
+  {
+   "path": "solutions/p5s-fric2-pass2/identify_pass2.py",
+   "bytes": 3955
+  },
+  {
+   "path": "solutions/p5s-fric2-pass2/meta.json",
+   "bytes": 365
+  },
+  {
+   "path": "solutions/p5s-fric2-pass2/pass2.json",
+   "bytes": 4790
+  },
+  {
+   "path": "solutions/p5s-fric2-pass2/solution.py",
+   "bytes": 11769
+  },
+  {
+   "path": "solutions/p5s-grav/gravity.json",
+   "bytes": 3277
+  },
+  {
+   "path": "solutions/p5s-grav/identified.json",
+   "bytes": 2256
+  },
+  {
+   "path": "solutions/p5s-grav/identify.py",
+   "bytes": 4260
+  },
+  {
+   "path": "solutions/p5s-grav/identify_gravity.py",
+   "bytes": 4077
+  },
+  {
+   "path": "solutions/p5s-grav/meta.json",
+   "bytes": 374
+  },
+  {
+   "path": "solutions/p5s-grav/solution.py",
+   "bytes": 8127
+  },
+  {
+   "path": "solutions/p5s-kd15/friction2.json",
+   "bytes": 2343
+  },
+  {
+   "path": "solutions/p5s-kd15/gravity.json",
+   "bytes": 3277
+  },
+  {
+   "path": "solutions/p5s-kd15/identified.json",
+   "bytes": 2256
+  },
+  {
+   "path": "solutions/p5s-kd15/identify.py",
+   "bytes": 4260
+  },
+  {
+   "path": "solutions/p5s-kd15/identify_friction2.py",
+   "bytes": 3307
+  },
+  {
+   "path": "solutions/p5s-kd15/identify_gravity.py",
+   "bytes": 4077
+  },
+  {
+   "path": "solutions/p5s-kd15/identify_pass2.py",
+   "bytes": 3652
+  },
+  {
+   "path": "solutions/p5s-kd15/meta.json",
+   "bytes": 300
+  },
+  {
+   "path": "solutions/p5s-kd15/pass2.json",
+   "bytes": 4515
+  },
+  {
+   "path": "solutions/p5s-kd15/solution.py",
+   "bytes": 14848
+  },
+  {
+   "path": "solutions/p5s-kd25/friction2.json",
+   "bytes": 2343
+  },
+  {
+   "path": "solutions/p5s-kd25/gravity.json",
+   "bytes": 3277
+  },
+  {
+   "path": "solutions/p5s-kd25/identified.json",
+   "bytes": 2256
+  },
+  {
+   "path": "solutions/p5s-kd25/identify.py",
+   "bytes": 4260
+  },
+  {
+   "path": "solutions/p5s-kd25/identify_friction2.py",
+   "bytes": 3307
+  },
+  {
+   "path": "solutions/p5s-kd25/identify_gravity.py",
+   "bytes": 4077
+  },
+  {
+   "path": "solutions/p5s-kd25/identify_pass2.py",
+   "bytes": 3652
+  },
+  {
+   "path": "solutions/p5s-kd25/meta.json",
+   "bytes": 318
+  },
+  {
+   "path": "solutions/p5s-kd25/pass2.json",
+   "bytes": 4515
+  },
+  {
+   "path": "solutions/p5s-kd25/solution.py",
+   "bytes": 14633
+  },
+  {
+   "path": "solutions/p5s-kp2/friction2.json",
+   "bytes": 2343
+  },
+  {
+   "path": "solutions/p5s-kp2/gravity.json",
+   "bytes": 3277
+  },
+  {
+   "path": "solutions/p5s-kp2/identified.json",
+   "bytes": 2256
+  },
+  {
+   "path": "solutions/p5s-kp2/identify.py",
+   "bytes": 4260
+  },
+  {
+   "path": "solutions/p5s-kp2/identify_friction2.py",
+   "bytes": 3307
+  },
+  {
+   "path": "solutions/p5s-kp2/identify_gravity.py",
+   "bytes": 4077
+  },
+  {
+   "path": "solutions/p5s-kp2/meta.json",
+   "bytes": 335
+  },
+  {
+   "path": "solutions/p5s-kp2/solution.py",
+   "bytes": 10823
+  },
+  {
+   "path": "solutions/p5s-kp2-pass2/friction2.json",
+   "bytes": 2343
+  },
+  {
+   "path": "solutions/p5s-kp2-pass2/gravity.json",
+   "bytes": 3277
+  },
+  {
+   "path": "solutions/p5s-kp2-pass2/identified.json",
+   "bytes": 2256
+  },
+  {
+   "path": "solutions/p5s-kp2-pass2/identify.py",
+   "bytes": 4260
+  },
+  {
+   "path": "solutions/p5s-kp2-pass2/identify_friction2.py",
+   "bytes": 3307
+  },
+  {
+   "path": "solutions/p5s-kp2-pass2/identify_gravity.py",
+   "bytes": 4077
+  },
+  {
+   "path": "solutions/p5s-kp2-pass2/identify_pass2.py",
+   "bytes": 3968
+  },
+  {
+   "path": "solutions/p5s-kp2-pass2/meta.json",
+   "bytes": 362
+  },
+  {
+   "path": "solutions/p5s-kp2-pass2/pass2.json",
+   "bytes": 4793
+  },
+  {
+   "path": "solutions/p5s-kp2-pass2/solution.py",
+   "bytes": 12609
+  },
+  {
+   "path": "solutions/p5s-kp4/friction2.json",
+   "bytes": 2343
+  },
+  {
+   "path": "solutions/p5s-kp4/gravity.json",
+   "bytes": 3277
+  },
+  {
+   "path": "solutions/p5s-kp4/identified.json",
+   "bytes": 2256
+  },
+  {
+   "path": "solutions/p5s-kp4/identify.py",
+   "bytes": 4260
+  },
+  {
+   "path": "solutions/p5s-kp4/identify_friction2.py",
+   "bytes": 3307
+  },
+  {
+   "path": "solutions/p5s-kp4/identify_gravity.py",
+   "bytes": 4077
+  },
+  {
+   "path": "solutions/p5s-kp4/meta.json",
+   "bytes": 284
+  },
+  {
+   "path": "solutions/p5s-kp4/solution.py",
+   "bytes": 11141
+  },
+  {
+   "path": "solutions/p5s-onefit/identify_pass.py",
+   "bytes": 4146
+  },
+  {
+   "path": "solutions/p5s-onefit/merge_stack.py",
+   "bytes": 3202
+  },
+  {
+   "path": "solutions/p5s-onefit/meta.json",
+   "bytes": 381
+  },
+  {
+   "path": "solutions/p5s-onefit/model.json",
+   "bytes": 4862
+  },
+  {
+   "path": "solutions/p5s-onefit/solution.py",
+   "bytes": 6928
+  },
+  {
+   "path": "solutions/p5s-pass2/friction2.json",
+   "bytes": 2343
+  },
+  {
+   "path": "solutions/p5s-pass2/gravity.json",
+   "bytes": 3277
+  },
+  {
+   "path": "solutions/p5s-pass2/identified.json",
+   "bytes": 2256
+  },
+  {
+   "path": "solutions/p5s-pass2/identify.py",
+   "bytes": 4260
+  },
+  {
+   "path": "solutions/p5s-pass2/identify_friction2.py",
+   "bytes": 3307
+  },
+  {
+   "path": "solutions/p5s-pass2/identify_gravity.py",
+   "bytes": 4077
+  },
+  {
+   "path": "solutions/p5s-pass2/identify_pass2.py",
+   "bytes": 3652
+  },
+  {
+   "path": "solutions/p5s-pass2/meta.json",
+   "bytes": 385
+  },
+  {
+   "path": "solutions/p5s-pass2/pass2.json",
+   "bytes": 4515
+  },
+  {
+   "path": "solutions/p5s-pass2/solution.py",
+   "bytes": 14296
+  },
+  {
+   "path": "solutions/p5s-pass3/identify_pass.py",
+   "bytes": 4146
+  },
+  {
+   "path": "solutions/p5s-pass3/merge_stack.py",
+   "bytes": 3202
+  },
+  {
+   "path": "solutions/p5s-pass3/meta.json",
+   "bytes": 292
+  },
+  {
+   "path": "solutions/p5s-pass3/model.json",
+   "bytes": 5890
+  },
+  {
+   "path": "solutions/p5s-pass3/solution.py",
+   "bytes": 7155
+  },
+  {
+   "path": "solutions/p5s-pass3-g1/identify_pass.py",
+   "bytes": 4146
+  },
+  {
+   "path": "solutions/p5s-pass3-g1/merge_stack.py",
+   "bytes": 3202
+  },
+  {
+   "path": "solutions/p5s-pass3-g1/meta.json",
+   "bytes": 313
+  },
+  {
+   "path": "solutions/p5s-pass3-g1/model.json",
+   "bytes": 5890
+  },
+  {
+   "path": "solutions/p5s-pass3-g1/solution.py",
+   "bytes": 7536
+  },
+  {
+   "path": "solutions/p5s-pass3-g1-nolag/identify_pass.py",
+   "bytes": 4146
+  },
+  {
+   "path": "solutions/p5s-pass3-g1-nolag/merge_stack.py",
+   "bytes": 3202
+  },
+  {
+   "path": "solutions/p5s-pass3-g1-nolag/meta.json",
+   "bytes": 387
+  },
+  {
+   "path": "solutions/p5s-pass3-g1-nolag/model.json",
+   "bytes": 5890
+  },
+  {
+   "path": "solutions/p5s-pass3-g1-nolag/solution.py",
+   "bytes": 8050
+  },
+  {
+   "path": "solutions/p5s-vlag/friction2.json",
+   "bytes": 2343
+  },
+  {
+   "path": "solutions/p5s-vlag/gravity.json",
+   "bytes": 3277
+  },
+  {
+   "path": "solutions/p5s-vlag/identified.json",
+   "bytes": 2256
+  },
+  {
+   "path": "solutions/p5s-vlag/identify.py",
+   "bytes": 4260
+  },
+  {
+   "path": "solutions/p5s-vlag/identify_friction2.py",
+   "bytes": 3307
+  },
+  {
+   "path": "solutions/p5s-vlag/identify_gravity.py",
+   "bytes": 4077
+  },
+  {
+   "path": "solutions/p5s-vlag/meta.json",
+   "bytes": 380
+  },
+  {
+   "path": "solutions/p5s-vlag/solution.py",
+   "bytes": 12471
   },
   {
    "path": "solutions/p6/meta.json",
    "bytes": 927
   },
   {
-   "path": "solutions/p6s/solution.py",
-   "bytes": 1739
+   "path": "solutions/p6/solution.py",
+   "bytes": 1722
   },
   {
    "path": "solutions/p6s/meta.json",
    "bytes": 951
   },
   {
-   "path": "solutions/p7/solution.py",
-   "bytes": 1732
+   "path": "solutions/p6s/solution.py",
+   "bytes": 1739
   },
   {
    "path": "solutions/p7/meta.json",
    "bytes": 930
   },
   {
-   "path": "solutions/p7s/solution.py",
-   "bytes": 1749
+   "path": "solutions/p7/solution.py",
+   "bytes": 1732
   },
   {
    "path": "solutions/p7s/meta.json",
    "bytes": 954
   },
   {
-   "path": "solutions/p8/solution.py",
-   "bytes": 1697
+   "path": "solutions/p7s/solution.py",
+   "bytes": 1749
   },
   {
    "path": "solutions/p8/meta.json",
    "bytes": 924
   },
   {
-   "path": "solutions/p9/solution.py",
-   "bytes": 1719
+   "path": "solutions/p8/solution.py",
+   "bytes": 1697
   },
   {
    "path": "solutions/p9/meta.json",
    "bytes": 955
+  },
+  {
+   "path": "solutions/p9/solution.py",
+   "bytes": 1719
   }
  ]
 }

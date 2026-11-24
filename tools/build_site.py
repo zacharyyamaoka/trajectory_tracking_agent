@@ -2,8 +2,8 @@
 
     uv run python tools/build_site.py build          # wheels + the shim's field table + site/data/*.json
     uv run python tools/build_site.py native-run     # the native reference run (outputs/site/native.json)
-    uv run --no-project --with playwright python tools/build_site.py parity   # headless Chrome vs native
-    uv run --no-project --with playwright python tools/build_site.py shoot    # screenshots + hero video
+    uv run --no-project --with playwright==1.64.1 python tools/build_site.py parity   # headless Chrome vs native (1.64.1: its cached Chromium)
+    uv run --no-project --with playwright==1.64.1 python tools/build_site.py shoot    # screenshots + hero video
 
 `build` runs in the project env (it needs native mujoco for the field table). `parity` and `shoot` drive headless
 Chromium through Playwright (its cached browser; never a visible window) and serve site/ on 127.0.0.1 themselves,
@@ -167,7 +167,14 @@ def mirror_repo_files() -> list[dict[str, Any]]:
     wanted += [DATASET_REL / "tapes" / f"{row['task_id']}.npz" for row in rows if row["split"] == "dev"]
     for folder in sorted((REPO / "solutions").iterdir()):
         if folder.is_dir() and (folder / "solution.py").exists() and (folder / "meta.json").exists():
-            wanted += [folder.relative_to(REPO) / "solution.py", folder.relative_to(REPO) / "meta.json"]
+            # WHY every file but the scorecards (2026-11-24): gen-1 solutions read fitted parameters beside their code
+            # (model.json, identified.json, ...); with only solution.py + meta.json the browser run of p5s-pass3
+            # raised on the missing model.json and every gate failed closed. Scorecards are outputs, never inputs.
+            wanted += [
+                path.relative_to(REPO)
+                for path in sorted(folder.iterdir())
+                if path.is_file() and not path.name.startswith("scorecard") and path.suffix in {".py", ".json"}
+            ]
     out = []
     for rel in wanted:
         source = REPO / rel
