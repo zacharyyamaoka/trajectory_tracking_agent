@@ -15,6 +15,7 @@ Lanes share one git index: commit **by pathspec** (`git commit -- <your paths>`)
 | `datasets/ur5e_alone/workspace/v2/` | the frozen dataset + speed-1.0 tapes | lane E |
 | `solutions/` | the population (generation 0 = robot_controllers P1–P10 × interpolation) | lane E (gen 0), then the agent |
 | `ledger.jsonl`, `PROGRESS.md` | the local truth (append-only) and its generated log | `tta` only |
+| `status.json` | schema `ai-team-status/1` (vault `PROJECT - AI Team`): kpi = best admissible objective, written from the ledger by `tta progress` | `tta` only (lane E builds it) |
 | `tools/progress_chart.py`, `site/progress.svg` | the built-in tracker | lane E |
 | `tests/` | `tests/test_ruler_*.py` (lane E) · `tests/test_site_*.py` (lane W) | per lane |
 | `site/` except `site/progress.svg` and `site/proposals/` | the landing page: in-browser MuJoCo running the real Python code | lane W |
