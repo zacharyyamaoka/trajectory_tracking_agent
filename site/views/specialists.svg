@@ -1,0 +1,617 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1043" height="382" viewBox="0 0 1043 382" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#8c8c8c" role="img" aria-label="Specialists on dev · 2 distinct per-task winners among 18 admissible solutions">
+<title>Specialists on dev · 2 distinct per-task winners among 18 admissible solutions</title>
+<text x="12.0" y="20.0" font-size="13.5" font-weight="600">Specialists on dev · 2 distinct per-task winners among 18 admissible solutions</text>
+<text x="12.0" y="37.0" font-size="10">cell = the solution&#x27;s task error ÷ the best admissible error on that task; ● = the task&#x27;s winner (1.0×)</text>
+<text x="12.0" y="52.0" font-size="10">The best (p5s-grav) is within 5 % of the per-task best in every task kind (median per kind).</text>
+<line x1="135.0" x2="541.0" y1="84.0" y2="84.0" stroke="#8c8c8c" stroke-width="1"/>
+<text x="338.0" y="79.0" font-size="10.5" text-anchor="middle">joint A→B</text>
+<line x1="553.0" x2="687.0" y1="84.0" y2="84.0" stroke="#8c8c8c" stroke-width="1"/>
+<text x="620.0" y="79.0" font-size="10.5" text-anchor="middle">tool line A→B</text>
+<line x1="699.0" x2="833.0" y1="84.0" y2="84.0" stroke="#8c8c8c" stroke-width="1"/>
+<text x="766.0" y="79.0" font-size="10.5" text-anchor="middle">via points</text>
+<line x1="845.0" x2="877.0" y1="84.0" y2="84.0" stroke="#8c8c8c" stroke-width="1"/>
+<text x="861.0" y="79.0" font-size="10.5" text-anchor="middle">ISO</text>
+<g transform="translate(145.5 118.0) rotate(-90)"><title>workspace-dev-003 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">003</text></g>
+<g transform="translate(162.5 118.0) rotate(-90)"><title>workspace-dev-005 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">005</text></g>
+<g transform="translate(179.5 118.0) rotate(-90)"><title>workspace-dev-006 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">006</text></g>
+<g transform="translate(196.5 118.0) rotate(-90)"><title>workspace-dev-007 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">007</text></g>
+<g transform="translate(213.5 118.0) rotate(-90)"><title>workspace-dev-008 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">008</text></g>
+<g transform="translate(230.5 118.0) rotate(-90)"><title>workspace-dev-010 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">010</text></g>
+<g transform="translate(247.5 118.0) rotate(-90)"><title>workspace-dev-011 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">011</text></g>
+<g transform="translate(264.5 118.0) rotate(-90)"><title>workspace-dev-013 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">013</text></g>
+<g transform="translate(281.5 118.0) rotate(-90)"><title>workspace-dev-014 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">014</text></g>
+<g transform="translate(298.5 118.0) rotate(-90)"><title>workspace-dev-015 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">015</text></g>
+<g transform="translate(315.5 118.0) rotate(-90)"><title>workspace-dev-022 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">022</text></g>
+<g transform="translate(332.5 118.0) rotate(-90)"><title>workspace-dev-024 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">024</text></g>
+<g transform="translate(349.5 118.0) rotate(-90)"><title>workspace-dev-025 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">025</text></g>
+<g transform="translate(366.5 118.0) rotate(-90)"><title>workspace-dev-026 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">026</text></g>
+<g transform="translate(383.5 118.0) rotate(-90)"><title>workspace-dev-027 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">027</text></g>
+<g transform="translate(400.5 118.0) rotate(-90)"><title>workspace-dev-028 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">028</text></g>
+<g transform="translate(417.5 118.0) rotate(-90)"><title>workspace-dev-031 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">031</text></g>
+<g transform="translate(434.5 118.0) rotate(-90)"><title>workspace-dev-032 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">032</text></g>
+<g transform="translate(451.5 118.0) rotate(-90)"><title>workspace-dev-033 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">033</text></g>
+<g transform="translate(468.5 118.0) rotate(-90)"><title>workspace-dev-034 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">034</text></g>
+<g transform="translate(485.5 118.0) rotate(-90)"><title>workspace-dev-036 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">036</text></g>
+<g transform="translate(502.5 118.0) rotate(-90)"><title>workspace-dev-037 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">037</text></g>
+<g transform="translate(519.5 118.0) rotate(-90)"><title>workspace-dev-038 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">038</text></g>
+<g transform="translate(536.5 118.0) rotate(-90)"><title>workspace-dev-041 (a_to_b_joint)</title><text x="0" y="0" font-size="8.5">041</text></g>
+<g transform="translate(563.5 118.0) rotate(-90)"><title>workspace-dev-002 (a_to_b_line)</title><text x="0" y="0" font-size="8.5">002</text></g>
+<g transform="translate(580.5 118.0) rotate(-90)"><title>workspace-dev-004 (a_to_b_line)</title><text x="0" y="0" font-size="8.5">004</text></g>
+<g transform="translate(597.5 118.0) rotate(-90)"><title>workspace-dev-009 (a_to_b_line)</title><text x="0" y="0" font-size="8.5">009</text></g>
+<g transform="translate(614.5 118.0) rotate(-90)"><title>workspace-dev-012 (a_to_b_line)</title><text x="0" y="0" font-size="8.5">012</text></g>
+<g transform="translate(631.5 118.0) rotate(-90)"><title>workspace-dev-018 (a_to_b_line)</title><text x="0" y="0" font-size="8.5">018</text></g>
+<g transform="translate(648.5 118.0) rotate(-90)"><title>workspace-dev-020 (a_to_b_line)</title><text x="0" y="0" font-size="8.5">020</text></g>
+<g transform="translate(665.5 118.0) rotate(-90)"><title>workspace-dev-021 (a_to_b_line)</title><text x="0" y="0" font-size="8.5">021</text></g>
+<g transform="translate(682.5 118.0) rotate(-90)"><title>workspace-dev-030 (a_to_b_line)</title><text x="0" y="0" font-size="8.5">030</text></g>
+<g transform="translate(709.5 118.0) rotate(-90)"><title>workspace-dev-016 (via_points)</title><text x="0" y="0" font-size="8.5">016</text></g>
+<g transform="translate(726.5 118.0) rotate(-90)"><title>workspace-dev-017 (via_points)</title><text x="0" y="0" font-size="8.5">017</text></g>
+<g transform="translate(743.5 118.0) rotate(-90)"><title>workspace-dev-019 (via_points)</title><text x="0" y="0" font-size="8.5">019</text></g>
+<g transform="translate(760.5 118.0) rotate(-90)"><title>workspace-dev-023 (via_points)</title><text x="0" y="0" font-size="8.5">023</text></g>
+<g transform="translate(777.5 118.0) rotate(-90)"><title>workspace-dev-029 (via_points)</title><text x="0" y="0" font-size="8.5">029</text></g>
+<g transform="translate(794.5 118.0) rotate(-90)"><title>workspace-dev-035 (via_points)</title><text x="0" y="0" font-size="8.5">035</text></g>
+<g transform="translate(811.5 118.0) rotate(-90)"><title>workspace-dev-039 (via_points)</title><text x="0" y="0" font-size="8.5">039</text></g>
+<g transform="translate(828.5 118.0) rotate(-90)"><title>workspace-dev-040 (via_points)</title><text x="0" y="0" font-size="8.5">040</text></g>
+<g transform="translate(855.5 118.0) rotate(-90)"><title>workspace-dev-000 (iso9283_path)</title><text x="0" y="0" font-size="8.5">000</text></g>
+<g transform="translate(872.5 118.0) rotate(-90)"><title>workspace-dev-001 (iso9283_cube)</title><text x="0" y="0" font-size="8.5">001</text></g>
+<text x="893.0" y="118.0" font-size="10">won</text>
+<text x="965.0" y="118.0" font-size="10">within 10 %</text>
+<text x="127.0" y="135.5" text-anchor="end" font-weight="600">p5s-grav <tspan font-size="9.5">0.097</tspan></text>
+<g><title>p5s-grav · 003 joint A→B · 0.075 mm · the winner</title><rect x="135" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="142.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 005 joint A→B · 0.062 mm · the winner</title><rect x="152" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="159.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 006 joint A→B · 0.096 mm · the winner</title><rect x="169" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="176.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 007 joint A→B · 0.064 mm · the winner</title><rect x="186" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="193.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 008 joint A→B · 0.129 mm · the winner</title><rect x="203" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="210.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 010 joint A→B · 0.104 mm · the winner</title><rect x="220" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="227.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 011 joint A→B · 0.122 mm · the winner</title><rect x="237" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="244.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 013 joint A→B · 0.069 mm · the winner</title><rect x="254" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="261.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 014 joint A→B · 0.089 mm · the winner</title><rect x="271" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="278.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 015 joint A→B · 0.070 mm · the winner</title><rect x="288" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="295.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 022 joint A→B · 0.061 mm · the winner</title><rect x="305" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="312.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 024 joint A→B · 0.134 mm · the winner</title><rect x="322" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="329.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 025 joint A→B · 0.110 mm · the winner</title><rect x="339" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="346.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 026 joint A→B · 0.072 mm · the winner</title><rect x="356" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="363.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 027 joint A→B · 0.190 mm · the winner</title><rect x="373" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="380.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 028 joint A→B · 0.093 mm · the winner</title><rect x="390" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="397.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 031 joint A→B · 0.105 mm · the winner</title><rect x="407" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="414.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 032 joint A→B · 0.063 mm · the winner</title><rect x="424" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="431.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 033 joint A→B · 0.079 mm · the winner</title><rect x="441" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="448.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 034 joint A→B · 0.104 mm · the winner</title><rect x="458" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="465.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 036 joint A→B · 0.087 mm · the winner</title><rect x="475" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="482.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 037 joint A→B · 0.087 mm · the winner</title><rect x="492" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="499.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 038 joint A→B · 0.124 mm · the winner</title><rect x="509" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="516.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 041 joint A→B · 0.117 mm · the winner</title><rect x="526" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="533.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 002 tool line A→B · 0.105 mm · the winner</title><rect x="553" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="560.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 004 tool line A→B · 0.096 mm · the winner</title><rect x="570" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="577.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<rect x="587" y="124" width="15" height="15" rx="2" fill="#1f5dab"><title>p5s-grav · 009 tool line A→B · 0.330 mm · 1.15× p5s-bus-enc</title></rect>
+<g><title>p5s-grav · 012 tool line A→B · 0.053 mm · the winner</title><rect x="604" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="611.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 018 tool line A→B · 0.146 mm · the winner</title><rect x="621" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="628.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 020 tool line A→B · 0.087 mm · the winner</title><rect x="638" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="645.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 021 tool line A→B · 0.103 mm · the winner</title><rect x="655" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="662.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 030 tool line A→B · 0.091 mm · the winner</title><rect x="672" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="679.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 016 via points · 0.063 mm · the winner</title><rect x="699" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="706.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 017 via points · 0.094 mm · the winner</title><rect x="716" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="723.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 019 via points · 0.155 mm · the winner</title><rect x="733" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="740.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 023 via points · 0.097 mm · the winner</title><rect x="750" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="757.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 029 via points · 0.101 mm · the winner</title><rect x="767" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="774.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 035 via points · 0.104 mm · the winner</title><rect x="784" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="791.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 039 via points · 0.114 mm · the winner</title><rect x="801" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="808.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 040 via points · 0.088 mm · the winner</title><rect x="818" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="825.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 000 ISO 9283 · 0.114 mm · the winner</title><rect x="845" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="852.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<g><title>p5s-grav · 001 ISO 9283 · 0.122 mm · the winner</title><rect x="862" y="124" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="869.5" cy="131.5" r="2.6" fill="#ffffff"/></g>
+<rect x="893" y="127" width="39.0" height="9" fill="#2a78d6" fill-opacity="1"/>
+<text x="936.0" y="135.5" font-size="9.5">41</text>
+<rect x="965" y="127" width="39.0" height="9" fill="#2a78d6" fill-opacity="0.55"/>
+<text x="1008.0" y="135.5" font-size="9.5">41</text>
+<text x="127.0" y="152.5" text-anchor="end">p5s-chord <tspan font-size="9.5">0.244</tspan></text>
+<rect x="135" y="141" width="15" height="15" rx="2" fill="#84b5f0"><title>p5s-chord · 003 joint A→B · 0.196 mm · 2.59× p5s-grav</title></rect>
+<rect x="152" y="141" width="15" height="15" rx="2" fill="#5397e9"><title>p5s-chord · 005 joint A→B · 0.123 mm · 1.99× p5s-grav</title></rect>
+<rect x="169" y="141" width="15" height="15" rx="2" fill="#1d59a5"><title>p5s-chord · 006 joint A→B · 0.107 mm · 1.11× p5s-grav</title></rect>
+<rect x="186" y="141" width="15" height="15" rx="2" fill="#7eb2ef"><title>p5s-chord · 007 joint A→B · 0.162 mm · 2.51× p5s-grav</title></rect>
+<rect x="203" y="141" width="15" height="15" rx="2" fill="#256abf"><title>p5s-chord · 008 joint A→B · 0.169 mm · 1.31× p5s-grav</title></rect>
+<rect x="220" y="141" width="15" height="15" rx="2" fill="#7fb2ef"><title>p5s-chord · 010 joint A→B · 0.262 mm · 2.52× p5s-grav</title></rect>
+<rect x="237" y="141" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-chord · 011 joint A→B · 0.390 mm · 3.19× p5s-grav</title></rect>
+<rect x="254" y="141" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-chord · 013 joint A→B · 0.228 mm · 3.29× p5s-grav</title></rect>
+<rect x="271" y="141" width="15" height="15" rx="2" fill="#94bff2"><title>p5s-chord · 014 joint A→B · 0.251 mm · 2.83× p5s-grav</title></rect>
+<rect x="288" y="141" width="15" height="15" rx="2" fill="#89b8f1"><title>p5s-chord · 015 joint A→B · 0.185 mm · 2.66× p5s-grav</title></rect>
+<rect x="305" y="141" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-chord · 022 joint A→B · 0.250 mm · 4.09× p5s-grav</title></rect>
+<rect x="322" y="141" width="15" height="15" rx="2" fill="#5095e8"><title>p5s-chord · 024 joint A→B · 0.263 mm · 1.96× p5s-grav</title></rect>
+<rect x="339" y="141" width="15" height="15" rx="2" fill="#3480dc"><title>p5s-chord · 025 joint A→B · 0.179 mm · 1.63× p5s-grav</title></rect>
+<rect x="356" y="141" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-chord · 026 joint A→B · 0.278 mm · 3.88× p5s-grav</title></rect>
+<rect x="373" y="141" width="15" height="15" rx="2" fill="#1e5ca9"><title>p5s-chord · 027 joint A→B · 0.215 mm · 1.14× p5s-grav</title></rect>
+<rect x="390" y="141" width="15" height="15" rx="2" fill="#64a1eb"><title>p5s-chord · 028 joint A→B · 0.203 mm · 2.17× p5s-grav</title></rect>
+<rect x="407" y="141" width="15" height="15" rx="2" fill="#5497e9"><title>p5s-chord · 031 joint A→B · 0.210 mm · 1.99× p5s-grav</title></rect>
+<rect x="424" y="141" width="15" height="15" rx="2" fill="#92bef2"><title>p5s-chord · 032 joint A→B · 0.177 mm · 2.81× p5s-grav</title></rect>
+<rect x="441" y="141" width="15" height="15" rx="2" fill="#428de6"><title>p5s-chord · 033 joint A→B · 0.143 mm · 1.82× p5s-grav</title></rect>
+<rect x="458" y="141" width="15" height="15" rx="2" fill="#7bafee"><title>p5s-chord · 034 joint A→B · 0.256 mm · 2.46× p5s-grav</title></rect>
+<rect x="475" y="141" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-chord · 036 joint A→B · 0.423 mm · 4.85× p5s-grav</title></rect>
+<rect x="492" y="141" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-chord · 037 joint A→B · 0.280 mm · 3.21× p5s-grav</title></rect>
+<rect x="509" y="141" width="15" height="15" rx="2" fill="#6da7ec"><title>p5s-chord · 038 joint A→B · 0.283 mm · 2.28× p5s-grav</title></rect>
+<rect x="526" y="141" width="15" height="15" rx="2" fill="#8dbbf1"><title>p5s-chord · 041 joint A→B · 0.320 mm · 2.73× p5s-grav</title></rect>
+<rect x="553" y="141" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-chord · 002 tool line A→B · 0.397 mm · 3.77× p5s-grav</title></rect>
+<rect x="570" y="141" width="15" height="15" rx="2" fill="#408be6"><title>p5s-chord · 004 tool line A→B · 0.173 mm · 1.80× p5s-grav</title></rect>
+<rect x="587" y="141" width="15" height="15" rx="2" fill="#1f5daa"><title>p5s-chord · 009 tool line A→B · 0.328 mm · 1.15× p5s-bus-enc</title></rect>
+<rect x="604" y="141" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-chord · 012 tool line A→B · 0.238 mm · 4.46× p5s-grav</title></rect>
+<rect x="621" y="141" width="15" height="15" rx="2" fill="#4891e7"><title>p5s-chord · 018 tool line A→B · 0.274 mm · 1.88× p5s-grav</title></rect>
+<rect x="638" y="141" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-chord · 020 tool line A→B · 0.420 mm · 4.83× p5s-grav</title></rect>
+<rect x="655" y="141" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-chord · 021 tool line A→B · 0.394 mm · 3.81× p5s-grav</title></rect>
+<rect x="672" y="141" width="15" height="15" rx="2" fill="#3683e0"><title>p5s-chord · 030 tool line A→B · 0.152 mm · 1.67× p5s-grav</title></rect>
+<rect x="699" y="141" width="15" height="15" rx="2" fill="#8fbcf2"><title>p5s-chord · 016 via points · 0.174 mm · 2.76× p5s-grav</title></rect>
+<rect x="716" y="141" width="15" height="15" rx="2" fill="#408be6"><title>p5s-chord · 017 via points · 0.168 mm · 1.79× p5s-grav</title></rect>
+<rect x="733" y="141" width="15" height="15" rx="2" fill="#589ae9"><title>p5s-chord · 019 via points · 0.317 mm · 2.04× p5s-grav</title></rect>
+<rect x="750" y="141" width="15" height="15" rx="2" fill="#3581dd"><title>p5s-chord · 023 via points · 0.159 mm · 1.63× p5s-grav</title></rect>
+<rect x="767" y="141" width="15" height="15" rx="2" fill="#99c2f3"><title>p5s-chord · 029 via points · 0.293 mm · 2.91× p5s-grav</title></rect>
+<rect x="784" y="141" width="15" height="15" rx="2" fill="#96c0f3"><title>p5s-chord · 035 via points · 0.300 mm · 2.87× p5s-grav</title></rect>
+<rect x="801" y="141" width="15" height="15" rx="2" fill="#3987e5"><title>p5s-chord · 039 via points · 0.197 mm · 1.73× p5s-grav</title></rect>
+<rect x="818" y="141" width="15" height="15" rx="2" fill="#5b9cea"><title>p5s-chord · 040 via points · 0.182 mm · 2.07× p5s-grav</title></rect>
+<rect x="845" y="141" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-chord · 000 ISO 9283 · 0.376 mm · 3.30× p5s-grav</title></rect>
+<rect x="862" y="141" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-chord · 001 ISO 9283 · 0.374 mm · 3.07× p5s-grav</title></rect>
+<text x="897.0" y="152.5" font-size="9.5">0</text>
+<text x="969.0" y="152.5" font-size="9.5">0</text>
+<text x="127.0" y="169.5" text-anchor="end">p5s-fric <tspan font-size="9.5">0.245</tspan></text>
+<rect x="135" y="158" width="15" height="15" rx="2" fill="#81b3ef"><title>p5s-fric · 003 joint A→B · 0.193 mm · 2.55× p5s-grav</title></rect>
+<rect x="152" y="158" width="15" height="15" rx="2" fill="#9cc4f4"><title>p5s-fric · 005 joint A→B · 0.183 mm · 2.96× p5s-grav</title></rect>
+<rect x="169" y="158" width="15" height="15" rx="2" fill="#256bc0"><title>p5s-fric · 006 joint A→B · 0.127 mm · 1.33× p5s-grav</title></rect>
+<rect x="186" y="158" width="15" height="15" rx="2" fill="#76aded"><title>p5s-fric · 007 joint A→B · 0.155 mm · 2.40× p5s-grav</title></rect>
+<rect x="203" y="158" width="15" height="15" rx="2" fill="#62a0ea"><title>p5s-fric · 008 joint A→B · 0.277 mm · 2.15× p5s-grav</title></rect>
+<rect x="220" y="158" width="15" height="15" rx="2" fill="#7bb0ee"><title>p5s-fric · 010 joint A→B · 0.257 mm · 2.47× p5s-grav</title></rect>
+<rect x="237" y="158" width="15" height="15" rx="2" fill="#88b7f0"><title>p5s-fric · 011 joint A→B · 0.325 mm · 2.65× p5s-grav</title></rect>
+<rect x="254" y="158" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-fric · 013 joint A→B · 0.230 mm · 3.32× p5s-grav</title></rect>
+<rect x="271" y="158" width="15" height="15" rx="2" fill="#96c0f3"><title>p5s-fric · 014 joint A→B · 0.255 mm · 2.88× p5s-grav</title></rect>
+<rect x="288" y="158" width="15" height="15" rx="2" fill="#95c0f3"><title>p5s-fric · 015 joint A→B · 0.198 mm · 2.85× p5s-grav</title></rect>
+<rect x="305" y="158" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-fric · 022 joint A→B · 0.246 mm · 4.03× p5s-grav</title></rect>
+<rect x="322" y="158" width="15" height="15" rx="2" fill="#337eda"><title>p5s-fric · 024 joint A→B · 0.214 mm · 1.59× p5s-grav</title></rect>
+<rect x="339" y="158" width="15" height="15" rx="2" fill="#317bd5"><title>p5s-fric · 025 joint A→B · 0.171 mm · 1.55× p5s-grav</title></rect>
+<rect x="356" y="158" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-fric · 026 joint A→B · 0.276 mm · 3.84× p5s-grav</title></rect>
+<rect x="373" y="158" width="15" height="15" rx="2" fill="#205fae"><title>p5s-fric · 027 joint A→B · 0.223 mm · 1.17× p5s-grav</title></rect>
+<rect x="390" y="158" width="15" height="15" rx="2" fill="#6aa5ec"><title>p5s-fric · 028 joint A→B · 0.209 mm · 2.24× p5s-grav</title></rect>
+<rect x="407" y="158" width="15" height="15" rx="2" fill="#70a9ec"><title>p5s-fric · 031 joint A→B · 0.245 mm · 2.32× p5s-grav</title></rect>
+<rect x="424" y="158" width="15" height="15" rx="2" fill="#93bef2"><title>p5s-fric · 032 joint A→B · 0.177 mm · 2.82× p5s-grav</title></rect>
+<rect x="441" y="158" width="15" height="15" rx="2" fill="#4f95e8"><title>p5s-fric · 033 joint A→B · 0.153 mm · 1.95× p5s-grav</title></rect>
+<rect x="458" y="158" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-fric · 034 joint A→B · 0.318 mm · 3.05× p5s-grav</title></rect>
+<rect x="475" y="158" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-fric · 036 joint A→B · 0.414 mm · 4.75× p5s-grav</title></rect>
+<rect x="492" y="158" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-fric · 037 joint A→B · 0.286 mm · 3.29× p5s-grav</title></rect>
+<rect x="509" y="158" width="15" height="15" rx="2" fill="#71aaed"><title>p5s-fric · 038 joint A→B · 0.290 mm · 2.34× p5s-grav</title></rect>
+<rect x="526" y="158" width="15" height="15" rx="2" fill="#5e9eea"><title>p5s-fric · 041 joint A→B · 0.246 mm · 2.10× p5s-grav</title></rect>
+<rect x="553" y="158" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-fric · 002 tool line A→B · 0.397 mm · 3.78× p5s-grav</title></rect>
+<rect x="570" y="158" width="15" height="15" rx="2" fill="#3d89e6"><title>p5s-fric · 004 tool line A→B · 0.170 mm · 1.77× p5s-grav</title></rect>
+<rect x="587" y="158" width="15" height="15" rx="2" fill="#1e5caa"><title>p5s-fric · 009 tool line A→B · 0.328 mm · 1.15× p5s-bus-enc</title></rect>
+<rect x="604" y="158" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-fric · 012 tool line A→B · 0.237 mm · 4.44× p5s-grav</title></rect>
+<rect x="621" y="158" width="15" height="15" rx="2" fill="#4890e7"><title>p5s-fric · 018 tool line A→B · 0.273 mm · 1.87× p5s-grav</title></rect>
+<rect x="638" y="158" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-fric · 020 tool line A→B · 0.418 mm · 4.80× p5s-grav</title></rect>
+<rect x="655" y="158" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-fric · 021 tool line A→B · 0.391 mm · 3.78× p5s-grav</title></rect>
+<rect x="672" y="158" width="15" height="15" rx="2" fill="#4b92e7"><title>p5s-fric · 030 tool line A→B · 0.173 mm · 1.91× p5s-grav</title></rect>
+<rect x="699" y="158" width="15" height="15" rx="2" fill="#99c2f3"><title>p5s-fric · 016 via points · 0.185 mm · 2.92× p5s-grav</title></rect>
+<rect x="716" y="158" width="15" height="15" rx="2" fill="#468fe7"><title>p5s-fric · 017 via points · 0.174 mm · 1.85× p5s-grav</title></rect>
+<rect x="733" y="158" width="15" height="15" rx="2" fill="#61a0ea"><title>p5s-fric · 019 via points · 0.332 mm · 2.14× p5s-grav</title></rect>
+<rect x="750" y="158" width="15" height="15" rx="2" fill="#4a91e7"><title>p5s-fric · 023 via points · 0.184 mm · 1.89× p5s-grav</title></rect>
+<rect x="767" y="158" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-fric · 029 via points · 0.349 mm · 3.47× p5s-grav</title></rect>
+<rect x="784" y="158" width="15" height="15" rx="2" fill="#91bdf2"><title>p5s-fric · 035 via points · 0.291 mm · 2.78× p5s-grav</title></rect>
+<rect x="801" y="158" width="15" height="15" rx="2" fill="#3e8ae6"><title>p5s-fric · 039 via points · 0.202 mm · 1.78× p5s-grav</title></rect>
+<rect x="818" y="158" width="15" height="15" rx="2" fill="#75aced"><title>p5s-fric · 040 via points · 0.210 mm · 2.38× p5s-grav</title></rect>
+<rect x="845" y="158" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-fric · 000 ISO 9283 · 0.376 mm · 3.31× p5s-grav</title></rect>
+<rect x="862" y="158" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-fric · 001 ISO 9283 · 0.386 mm · 3.17× p5s-grav</title></rect>
+<text x="897.0" y="169.5" font-size="9.5">0</text>
+<text x="969.0" y="169.5" font-size="9.5">0</text>
+<text x="127.0" y="186.5" text-anchor="end">p5s-bus-enc <tspan font-size="9.5">0.393</tspan></text>
+<rect x="135" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 003 joint A→B · 0.607 mm · 8.04× p5s-grav</title></rect>
+<rect x="152" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 005 joint A→B · 0.483 mm · 7.81× p5s-grav</title></rect>
+<rect x="169" y="175" width="15" height="15" rx="2" fill="#88b8f0"><title>p5s-bus-enc · 006 joint A→B · 0.255 mm · 2.66× p5s-grav</title></rect>
+<rect x="186" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 007 joint A→B · 0.230 mm · 3.58× p5s-grav</title></rect>
+<rect x="203" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 008 joint A→B · 0.460 mm · 3.57× p5s-grav</title></rect>
+<rect x="220" y="175" width="15" height="15" rx="2" fill="#8dbbf1"><title>p5s-bus-enc · 010 joint A→B · 0.285 mm · 2.73× p5s-grav</title></rect>
+<rect x="237" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 011 joint A→B · 0.500 mm · 4.09× p5s-grav</title></rect>
+<rect x="254" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 013 joint A→B · 0.272 mm · 3.92× p5s-grav</title></rect>
+<rect x="271" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 014 joint A→B · 0.323 mm · 3.64× p5s-grav</title></rect>
+<rect x="288" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 015 joint A→B · 0.488 mm · 7.02× p5s-grav</title></rect>
+<rect x="305" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 022 joint A→B · 0.355 mm · 5.81× p5s-grav</title></rect>
+<rect x="322" y="175" width="15" height="15" rx="2" fill="#6ea7ec"><title>p5s-bus-enc · 024 joint A→B · 0.307 mm · 2.29× p5s-grav</title></rect>
+<rect x="339" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 025 joint A→B · 0.472 mm · 4.28× p5s-grav</title></rect>
+<rect x="356" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 026 joint A→B · 0.449 mm · 6.26× p5s-grav</title></rect>
+<rect x="373" y="175" width="15" height="15" rx="2" fill="#2060af"><title>p5s-bus-enc · 027 joint A→B · 0.224 mm · 1.18× p5s-grav</title></rect>
+<rect x="390" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 028 joint A→B · 0.397 mm · 4.25× p5s-grav</title></rect>
+<rect x="407" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 031 joint A→B · 0.390 mm · 3.70× p5s-grav</title></rect>
+<rect x="424" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 032 joint A→B · 0.475 mm · 7.54× p5s-grav</title></rect>
+<rect x="441" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 033 joint A→B · 0.598 mm · 7.59× p5s-grav</title></rect>
+<rect x="458" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 034 joint A→B · 0.329 mm · 3.16× p5s-grav</title></rect>
+<rect x="475" y="175" width="15" height="15" rx="2" fill="#6ba6ec"><title>p5s-bus-enc · 036 joint A→B · 0.197 mm · 2.26× p5s-grav</title></rect>
+<rect x="492" y="175" width="15" height="15" rx="2" fill="#80b2ef"><title>p5s-bus-enc · 037 joint A→B · 0.221 mm · 2.53× p5s-grav</title></rect>
+<rect x="509" y="175" width="15" height="15" rx="2" fill="#5c9dea"><title>p5s-bus-enc · 038 joint A→B · 0.259 mm · 2.09× p5s-grav</title></rect>
+<rect x="526" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 041 joint A→B · 0.561 mm · 4.79× p5s-grav</title></rect>
+<rect x="553" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 002 tool line A→B · 0.467 mm · 4.44× p5s-grav</title></rect>
+<rect x="570" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 004 tool line A→B · 0.546 mm · 5.69× p5s-grav</title></rect>
+<g><title>p5s-bus-enc · 009 tool line A→B · 0.286 mm · the winner</title><rect x="587" y="175" width="15" height="15" rx="2" fill="#184f95"></rect><circle cx="594.5" cy="182.5" r="2.6" fill="#ffffff"/></g>
+<rect x="604" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 012 tool line A→B · 0.360 mm · 6.75× p5s-grav</title></rect>
+<rect x="621" y="175" width="15" height="15" rx="2" fill="#7fb2ef"><title>p5s-bus-enc · 018 tool line A→B · 0.368 mm · 2.52× p5s-grav</title></rect>
+<rect x="638" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 020 tool line A→B · 0.463 mm · 5.32× p5s-grav</title></rect>
+<rect x="655" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 021 tool line A→B · 0.452 mm · 4.37× p5s-grav</title></rect>
+<rect x="672" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 030 tool line A→B · 0.400 mm · 4.42× p5s-grav</title></rect>
+<rect x="699" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 016 via points · 0.284 mm · 4.48× p5s-grav</title></rect>
+<rect x="716" y="175" width="15" height="15" rx="2" fill="#65a2eb"><title>p5s-bus-enc · 017 via points · 0.205 mm · 2.18× p5s-grav</title></rect>
+<rect x="733" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 019 via points · 0.568 mm · 3.66× p5s-grav</title></rect>
+<rect x="750" y="175" width="15" height="15" rx="2" fill="#84b5f0"><title>p5s-bus-enc · 023 via points · 0.253 mm · 2.60× p5s-grav</title></rect>
+<rect x="767" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 029 via points · 0.466 mm · 4.63× p5s-grav</title></rect>
+<rect x="784" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 035 via points · 0.440 mm · 4.21× p5s-grav</title></rect>
+<rect x="801" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 039 via points · 0.374 mm · 3.29× p5s-grav</title></rect>
+<rect x="818" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 040 via points · 0.309 mm · 3.50× p5s-grav</title></rect>
+<rect x="845" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 000 ISO 9283 · 0.556 mm · 4.89× p5s-grav</title></rect>
+<rect x="862" y="175" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus-enc · 001 ISO 9283 · 0.506 mm · 4.16× p5s-grav</title></rect>
+<rect x="893" y="178" width="1.0" height="9" fill="#2a78d6" fill-opacity="1"/>
+<text x="898.0" y="186.5" font-size="9.5">1</text>
+<rect x="965" y="178" width="1.0" height="9" fill="#2a78d6" fill-opacity="0.55"/>
+<text x="970.0" y="186.5" font-size="9.5">1</text>
+<text x="127.0" y="203.5" text-anchor="end">p5s-bus <tspan font-size="9.5">0.595</tspan></text>
+<rect x="135" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 003 joint A→B · 0.622 mm · 8.24× p5s-grav</title></rect>
+<rect x="152" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 005 joint A→B · 1.035 mm · 16.75× p5s-grav</title></rect>
+<rect x="169" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 006 joint A→B · 0.468 mm · 4.87× p5s-grav</title></rect>
+<rect x="186" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 007 joint A→B · 0.432 mm · 6.71× p5s-grav</title></rect>
+<rect x="203" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 008 joint A→B · 1.119 mm · 8.68× p5s-grav</title></rect>
+<rect x="220" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 010 joint A→B · 0.446 mm · 4.28× p5s-grav</title></rect>
+<rect x="237" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 011 joint A→B · 1.448 mm · 11.83× p5s-grav</title></rect>
+<rect x="254" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 013 joint A→B · 0.335 mm · 4.83× p5s-grav</title></rect>
+<rect x="271" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 014 joint A→B · 0.411 mm · 4.63× p5s-grav</title></rect>
+<rect x="288" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 015 joint A→B · 0.973 mm · 13.99× p5s-grav</title></rect>
+<rect x="305" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 022 joint A→B · 0.447 mm · 7.31× p5s-grav</title></rect>
+<rect x="322" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 024 joint A→B · 0.605 mm · 4.51× p5s-grav</title></rect>
+<rect x="339" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 025 joint A→B · 0.625 mm · 5.67× p5s-grav</title></rect>
+<rect x="356" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 026 joint A→B · 0.609 mm · 8.50× p5s-grav</title></rect>
+<rect x="373" y="192" width="15" height="15" rx="2" fill="#4790e7"><title>p5s-bus · 027 joint A→B · 0.354 mm · 1.87× p5s-grav</title></rect>
+<rect x="390" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 028 joint A→B · 0.527 mm · 5.64× p5s-grav</title></rect>
+<rect x="407" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 031 joint A→B · 0.631 mm · 5.98× p5s-grav</title></rect>
+<rect x="424" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 032 joint A→B · 0.599 mm · 9.52× p5s-grav</title></rect>
+<rect x="441" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 033 joint A→B · 1.011 mm · 12.83× p5s-grav</title></rect>
+<rect x="458" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 034 joint A→B · 0.792 mm · 7.60× p5s-grav</title></rect>
+<rect x="475" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 036 joint A→B · 0.691 mm · 7.93× p5s-grav</title></rect>
+<rect x="492" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 037 joint A→B · 0.487 mm · 5.58× p5s-grav</title></rect>
+<rect x="509" y="192" width="15" height="15" rx="2" fill="#76aced"><title>p5s-bus · 038 joint A→B · 0.298 mm · 2.40× p5s-grav</title></rect>
+<rect x="526" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 041 joint A→B · 1.892 mm · 16.16× p5s-grav</title></rect>
+<rect x="553" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 002 tool line A→B · 0.442 mm · 4.20× p5s-grav</title></rect>
+<rect x="570" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 004 tool line A→B · 0.592 mm · 6.17× p5s-grav</title></rect>
+<rect x="587" y="192" width="15" height="15" rx="2" fill="#1f5dab"><title>p5s-bus · 009 tool line A→B · 0.331 mm · 1.16× p5s-bus-enc</title></rect>
+<rect x="604" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 012 tool line A→B · 0.494 mm · 9.26× p5s-grav</title></rect>
+<rect x="621" y="192" width="15" height="15" rx="2" fill="#7eb2ef"><title>p5s-bus · 018 tool line A→B · 0.366 mm · 2.51× p5s-grav</title></rect>
+<rect x="638" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 020 tool line A→B · 0.446 mm · 5.12× p5s-grav</title></rect>
+<rect x="655" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 021 tool line A→B · 0.464 mm · 4.49× p5s-grav</title></rect>
+<rect x="672" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 030 tool line A→B · 0.646 mm · 7.13× p5s-grav</title></rect>
+<rect x="699" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 016 via points · 0.524 mm · 8.27× p5s-grav</title></rect>
+<rect x="716" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 017 via points · 0.459 mm · 4.89× p5s-grav</title></rect>
+<rect x="733" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 019 via points · 0.922 mm · 5.94× p5s-grav</title></rect>
+<rect x="750" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 023 via points · 0.660 mm · 6.78× p5s-grav</title></rect>
+<rect x="767" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 029 via points · 0.845 mm · 8.39× p5s-grav</title></rect>
+<rect x="784" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 035 via points · 0.591 mm · 5.66× p5s-grav</title></rect>
+<rect x="801" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 039 via points · 0.468 mm · 4.12× p5s-grav</title></rect>
+<rect x="818" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 040 via points · 0.616 mm · 6.99× p5s-grav</title></rect>
+<rect x="845" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 000 ISO 9283 · 0.606 mm · 5.33× p5s-grav</title></rect>
+<rect x="862" y="192" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s-bus · 001 ISO 9283 · 0.604 mm · 4.96× p5s-grav</title></rect>
+<text x="897.0" y="203.5" font-size="9.5">0</text>
+<text x="969.0" y="203.5" font-size="9.5">0</text>
+<text x="127.0" y="220.5" text-anchor="end">p4s <tspan font-size="9.5">0.848</tspan></text>
+<rect x="135" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 003 joint A→B · 0.345 mm · 4.57× p5s-grav</title></rect>
+<rect x="152" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 005 joint A→B · 0.737 mm · 11.92× p5s-grav</title></rect>
+<rect x="169" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 006 joint A→B · 1.419 mm · 14.78× p5s-grav</title></rect>
+<rect x="186" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 007 joint A→B · 1.078 mm · 16.74× p5s-grav</title></rect>
+<rect x="203" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 008 joint A→B · 0.951 mm · 7.38× p5s-grav</title></rect>
+<rect x="220" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 010 joint A→B · 0.937 mm · 9.00× p5s-grav</title></rect>
+<rect x="237" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 011 joint A→B · 1.157 mm · 9.45× p5s-grav</title></rect>
+<rect x="254" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 013 joint A→B · 0.383 mm · 5.52× p5s-grav</title></rect>
+<rect x="271" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 014 joint A→B · 0.317 mm · 3.58× p5s-grav</title></rect>
+<rect x="288" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 015 joint A→B · 1.178 mm · 16.94× p5s-grav</title></rect>
+<rect x="305" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 022 joint A→B · 0.709 mm · 11.60× p5s-grav</title></rect>
+<rect x="322" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 024 joint A→B · 0.866 mm · 6.46× p5s-grav</title></rect>
+<rect x="339" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 025 joint A→B · 1.916 mm · 17.37× p5s-grav</title></rect>
+<rect x="356" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 026 joint A→B · 0.650 mm · 9.07× p5s-grav</title></rect>
+<rect x="373" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 027 joint A→B · 0.751 mm · 3.96× p5s-grav</title></rect>
+<rect x="390" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 028 joint A→B · 0.885 mm · 9.48× p5s-grav</title></rect>
+<rect x="407" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 031 joint A→B · 0.744 mm · 7.06× p5s-grav</title></rect>
+<rect x="424" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 032 joint A→B · 0.688 mm · 10.93× p5s-grav</title></rect>
+<rect x="441" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 033 joint A→B · 0.639 mm · 8.11× p5s-grav</title></rect>
+<rect x="458" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 034 joint A→B · 0.669 mm · 6.42× p5s-grav</title></rect>
+<rect x="475" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 036 joint A→B · 1.397 mm · 16.03× p5s-grav</title></rect>
+<rect x="492" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 037 joint A→B · 0.502 mm · 5.76× p5s-grav</title></rect>
+<rect x="509" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 038 joint A→B · 2.178 mm · 17.53× p5s-grav</title></rect>
+<rect x="526" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 041 joint A→B · 1.154 mm · 9.85× p5s-grav</title></rect>
+<rect x="553" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 002 tool line A→B · 0.931 mm · 8.84× p5s-grav</title></rect>
+<rect x="570" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 004 tool line A→B · 0.662 mm · 6.90× p5s-grav</title></rect>
+<rect x="587" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 009 tool line A→B · 1.071 mm · 3.75× p5s-bus-enc</title></rect>
+<rect x="604" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 012 tool line A→B · 0.806 mm · 15.10× p5s-grav</title></rect>
+<rect x="621" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 018 tool line A→B · 1.058 mm · 7.25× p5s-grav</title></rect>
+<rect x="638" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 020 tool line A→B · 1.023 mm · 11.75× p5s-grav</title></rect>
+<rect x="655" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 021 tool line A→B · 1.073 mm · 10.37× p5s-grav</title></rect>
+<rect x="672" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 030 tool line A→B · 0.698 mm · 7.71× p5s-grav</title></rect>
+<rect x="699" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 016 via points · 0.837 mm · 13.22× p5s-grav</title></rect>
+<rect x="716" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 017 via points · 0.682 mm · 7.26× p5s-grav</title></rect>
+<rect x="733" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 019 via points · 0.858 mm · 5.53× p5s-grav</title></rect>
+<rect x="750" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 023 via points · 0.714 mm · 7.33× p5s-grav</title></rect>
+<rect x="767" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 029 via points · 1.127 mm · 11.20× p5s-grav</title></rect>
+<rect x="784" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 035 via points · 0.594 mm · 5.68× p5s-grav</title></rect>
+<rect x="801" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 039 via points · 1.374 mm · 12.08× p5s-grav</title></rect>
+<rect x="818" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 040 via points · 0.695 mm · 7.89× p5s-grav</title></rect>
+<rect x="845" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 000 ISO 9283 · 0.934 mm · 8.22× p5s-grav</title></rect>
+<rect x="862" y="209" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4s · 001 ISO 9283 · 0.726 mm · 5.96× p5s-grav</title></rect>
+<text x="897.0" y="220.5" font-size="9.5">0</text>
+<text x="969.0" y="220.5" font-size="9.5">0</text>
+<text x="127.0" y="237.5" text-anchor="end">p6s <tspan font-size="9.5">0.868</tspan></text>
+<rect x="135" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 003 joint A→B · 0.324 mm · 4.29× p5s-grav</title></rect>
+<rect x="152" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 005 joint A→B · 0.737 mm · 11.93× p5s-grav</title></rect>
+<rect x="169" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 006 joint A→B · 1.346 mm · 14.02× p5s-grav</title></rect>
+<rect x="186" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 007 joint A→B · 1.065 mm · 16.54× p5s-grav</title></rect>
+<rect x="203" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 008 joint A→B · 1.513 mm · 11.74× p5s-grav</title></rect>
+<rect x="220" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 010 joint A→B · 0.889 mm · 8.53× p5s-grav</title></rect>
+<rect x="237" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 011 joint A→B · 1.553 mm · 12.68× p5s-grav</title></rect>
+<rect x="254" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 013 joint A→B · 0.397 mm · 5.72× p5s-grav</title></rect>
+<rect x="271" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 014 joint A→B · 0.308 mm · 3.47× p5s-grav</title></rect>
+<rect x="288" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 015 joint A→B · 1.262 mm · 18.16× p5s-grav</title></rect>
+<rect x="305" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 022 joint A→B · 0.657 mm · 10.74× p5s-grav</title></rect>
+<rect x="322" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 024 joint A→B · 1.085 mm · 8.09× p5s-grav</title></rect>
+<rect x="339" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 025 joint A→B · 1.785 mm · 16.18× p5s-grav</title></rect>
+<rect x="356" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 026 joint A→B · 0.684 mm · 9.55× p5s-grav</title></rect>
+<rect x="373" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 027 joint A→B · 0.809 mm · 4.27× p5s-grav</title></rect>
+<rect x="390" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 028 joint A→B · 0.949 mm · 10.17× p5s-grav</title></rect>
+<rect x="407" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 031 joint A→B · 0.947 mm · 8.98× p5s-grav</title></rect>
+<rect x="424" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 032 joint A→B · 0.663 mm · 10.54× p5s-grav</title></rect>
+<rect x="441" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 033 joint A→B · 0.828 mm · 10.51× p5s-grav</title></rect>
+<rect x="458" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 034 joint A→B · 0.616 mm · 5.90× p5s-grav</title></rect>
+<rect x="475" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 036 joint A→B · 1.263 mm · 14.49× p5s-grav</title></rect>
+<rect x="492" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 037 joint A→B · 0.498 mm · 5.71× p5s-grav</title></rect>
+<rect x="509" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 038 joint A→B · 2.129 mm · 17.14× p5s-grav</title></rect>
+<rect x="526" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 041 joint A→B · 1.729 mm · 14.76× p5s-grav</title></rect>
+<rect x="553" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 002 tool line A→B · 0.900 mm · 8.56× p5s-grav</title></rect>
+<rect x="570" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 004 tool line A→B · 0.671 mm · 6.99× p5s-grav</title></rect>
+<rect x="587" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 009 tool line A→B · 1.069 mm · 3.74× p5s-bus-enc</title></rect>
+<rect x="604" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 012 tool line A→B · 0.735 mm · 13.76× p5s-grav</title></rect>
+<rect x="621" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 018 tool line A→B · 1.045 mm · 7.16× p5s-grav</title></rect>
+<rect x="638" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 020 tool line A→B · 1.000 mm · 11.48× p5s-grav</title></rect>
+<rect x="655" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 021 tool line A→B · 1.085 mm · 10.49× p5s-grav</title></rect>
+<rect x="672" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 030 tool line A→B · 0.656 mm · 7.24× p5s-grav</title></rect>
+<rect x="699" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 016 via points · 0.782 mm · 12.34× p5s-grav</title></rect>
+<rect x="716" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 017 via points · 0.732 mm · 7.80× p5s-grav</title></rect>
+<rect x="733" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 019 via points · 0.714 mm · 4.60× p5s-grav</title></rect>
+<rect x="750" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 023 via points · 0.847 mm · 8.69× p5s-grav</title></rect>
+<rect x="767" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 029 via points · 1.077 mm · 10.70× p5s-grav</title></rect>
+<rect x="784" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 035 via points · 0.695 mm · 6.65× p5s-grav</title></rect>
+<rect x="801" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 039 via points · 1.337 mm · 11.76× p5s-grav</title></rect>
+<rect x="818" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 040 via points · 0.752 mm · 8.54× p5s-grav</title></rect>
+<rect x="845" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 000 ISO 9283 · 0.915 mm · 8.05× p5s-grav</title></rect>
+<rect x="862" y="226" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6s · 001 ISO 9283 · 0.657 mm · 5.39× p5s-grav</title></rect>
+<text x="897.0" y="237.5" font-size="9.5">0</text>
+<text x="969.0" y="237.5" font-size="9.5">0</text>
+<text x="127.0" y="254.5" text-anchor="end">p7s <tspan font-size="9.5">0.904</tspan></text>
+<rect x="135" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 003 joint A→B · 0.473 mm · 6.26× p5s-grav</title></rect>
+<rect x="152" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 005 joint A→B · 0.810 mm · 13.11× p5s-grav</title></rect>
+<rect x="169" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 006 joint A→B · 1.206 mm · 12.56× p5s-grav</title></rect>
+<rect x="186" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 007 joint A→B · 0.770 mm · 11.95× p5s-grav</title></rect>
+<rect x="203" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 008 joint A→B · 1.205 mm · 9.35× p5s-grav</title></rect>
+<rect x="220" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 010 joint A→B · 0.561 mm · 5.39× p5s-grav</title></rect>
+<rect x="237" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 011 joint A→B · 1.397 mm · 11.41× p5s-grav</title></rect>
+<rect x="254" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 013 joint A→B · 0.402 mm · 5.80× p5s-grav</title></rect>
+<rect x="271" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 014 joint A→B · 0.530 mm · 5.98× p5s-grav</title></rect>
+<rect x="288" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 015 joint A→B · 1.238 mm · 17.81× p5s-grav</title></rect>
+<rect x="305" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 022 joint A→B · 0.982 mm · 16.07× p5s-grav</title></rect>
+<rect x="322" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 024 joint A→B · 0.956 mm · 7.13× p5s-grav</title></rect>
+<rect x="339" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 025 joint A→B · 2.043 mm · 18.53× p5s-grav</title></rect>
+<rect x="356" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 026 joint A→B · 0.713 mm · 9.95× p5s-grav</title></rect>
+<rect x="373" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 027 joint A→B · 0.946 mm · 4.99× p5s-grav</title></rect>
+<rect x="390" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 028 joint A→B · 0.930 mm · 9.96× p5s-grav</title></rect>
+<rect x="407" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 031 joint A→B · 1.018 mm · 9.65× p5s-grav</title></rect>
+<rect x="424" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 032 joint A→B · 0.734 mm · 11.67× p5s-grav</title></rect>
+<rect x="441" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 033 joint A→B · 0.707 mm · 8.97× p5s-grav</title></rect>
+<rect x="458" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 034 joint A→B · 0.671 mm · 6.43× p5s-grav</title></rect>
+<rect x="475" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 036 joint A→B · 1.298 mm · 14.89× p5s-grav</title></rect>
+<rect x="492" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 037 joint A→B · 0.472 mm · 5.41× p5s-grav</title></rect>
+<rect x="509" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 038 joint A→B · 1.906 mm · 15.34× p5s-grav</title></rect>
+<rect x="526" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 041 joint A→B · 1.444 mm · 12.33× p5s-grav</title></rect>
+<rect x="553" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 002 tool line A→B · 0.937 mm · 8.90× p5s-grav</title></rect>
+<rect x="570" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 004 tool line A→B · 0.484 mm · 5.04× p5s-grav</title></rect>
+<rect x="587" y="243" width="15" height="15" rx="2" fill="#8bbaf1"><title>p7s · 009 tool line A→B · 0.772 mm · 2.70× p5s-bus-enc</title></rect>
+<rect x="604" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 012 tool line A→B · 0.878 mm · 16.46× p5s-grav</title></rect>
+<rect x="621" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 018 tool line A→B · 0.943 mm · 6.47× p5s-grav</title></rect>
+<rect x="638" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 020 tool line A→B · 1.192 mm · 13.69× p5s-grav</title></rect>
+<rect x="655" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 021 tool line A→B · 1.052 mm · 10.17× p5s-grav</title></rect>
+<rect x="672" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 030 tool line A→B · 0.623 mm · 6.88× p5s-grav</title></rect>
+<rect x="699" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 016 via points · 0.948 mm · 14.97× p5s-grav</title></rect>
+<rect x="716" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 017 via points · 0.666 mm · 7.10× p5s-grav</title></rect>
+<rect x="733" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 019 via points · 0.850 mm · 5.48× p5s-grav</title></rect>
+<rect x="750" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 023 via points · 0.785 mm · 8.07× p5s-grav</title></rect>
+<rect x="767" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 029 via points · 1.249 mm · 12.41× p5s-grav</title></rect>
+<rect x="784" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 035 via points · 0.701 mm · 6.71× p5s-grav</title></rect>
+<rect x="801" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 039 via points · 1.334 mm · 11.73× p5s-grav</title></rect>
+<rect x="818" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 040 via points · 0.741 mm · 8.41× p5s-grav</title></rect>
+<rect x="845" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 000 ISO 9283 · 1.067 mm · 9.38× p5s-grav</title></rect>
+<rect x="862" y="243" width="15" height="15" rx="2" fill="#9ec5f4"><title>p7s · 001 ISO 9283 · 0.817 mm · 6.71× p5s-grav</title></rect>
+<text x="897.0" y="254.5" font-size="9.5">0</text>
+<text x="969.0" y="254.5" font-size="9.5">0</text>
+<text x="127.0" y="271.5" text-anchor="end">p3s <tspan font-size="9.5">0.926</tspan></text>
+<rect x="135" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 003 joint A→B · 0.442 mm · 5.85× p5s-grav</title></rect>
+<rect x="152" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 005 joint A→B · 0.883 mm · 14.29× p5s-grav</title></rect>
+<rect x="169" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 006 joint A→B · 1.072 mm · 11.17× p5s-grav</title></rect>
+<rect x="186" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 007 joint A→B · 0.637 mm · 9.89× p5s-grav</title></rect>
+<rect x="203" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 008 joint A→B · 1.355 mm · 10.52× p5s-grav</title></rect>
+<rect x="220" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 010 joint A→B · 0.723 mm · 6.94× p5s-grav</title></rect>
+<rect x="237" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 011 joint A→B · 1.033 mm · 8.44× p5s-grav</title></rect>
+<rect x="254" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 013 joint A→B · 0.441 mm · 6.36× p5s-grav</title></rect>
+<rect x="271" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 014 joint A→B · 0.462 mm · 5.20× p5s-grav</title></rect>
+<rect x="288" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 015 joint A→B · 1.020 mm · 14.68× p5s-grav</title></rect>
+<rect x="305" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 022 joint A→B · 0.986 mm · 16.12× p5s-grav</title></rect>
+<rect x="322" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 024 joint A→B · 0.554 mm · 4.13× p5s-grav</title></rect>
+<rect x="339" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 025 joint A→B · 1.690 mm · 15.32× p5s-grav</title></rect>
+<rect x="356" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 026 joint A→B · 1.103 mm · 15.39× p5s-grav</title></rect>
+<rect x="373" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 027 joint A→B · 1.560 mm · 8.23× p5s-grav</title></rect>
+<rect x="390" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 028 joint A→B · 0.924 mm · 9.89× p5s-grav</title></rect>
+<rect x="407" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 031 joint A→B · 1.063 mm · 10.08× p5s-grav</title></rect>
+<rect x="424" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 032 joint A→B · 1.051 mm · 16.70× p5s-grav</title></rect>
+<rect x="441" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 033 joint A→B · 1.093 mm · 13.86× p5s-grav</title></rect>
+<rect x="458" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 034 joint A→B · 0.756 mm · 7.25× p5s-grav</title></rect>
+<rect x="475" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 036 joint A→B · 1.386 mm · 15.91× p5s-grav</title></rect>
+<rect x="492" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 037 joint A→B · 0.774 mm · 8.88× p5s-grav</title></rect>
+<rect x="509" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 038 joint A→B · 1.366 mm · 10.99× p5s-grav</title></rect>
+<rect x="526" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 041 joint A→B · 0.958 mm · 8.18× p5s-grav</title></rect>
+<rect x="553" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 002 tool line A→B · 0.930 mm · 8.84× p5s-grav</title></rect>
+<rect x="570" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 004 tool line A→B · 0.648 mm · 6.75× p5s-grav</title></rect>
+<rect x="587" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 009 tool line A→B · 0.859 mm · 3.01× p5s-bus-enc</title></rect>
+<rect x="604" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 012 tool line A→B · 0.890 mm · 16.68× p5s-grav</title></rect>
+<rect x="621" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 018 tool line A→B · 0.972 mm · 6.66× p5s-grav</title></rect>
+<rect x="638" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 020 tool line A→B · 0.973 mm · 11.18× p5s-grav</title></rect>
+<rect x="655" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 021 tool line A→B · 1.290 mm · 12.47× p5s-grav</title></rect>
+<rect x="672" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 030 tool line A→B · 0.740 mm · 8.17× p5s-grav</title></rect>
+<rect x="699" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 016 via points · 0.858 mm · 13.56× p5s-grav</title></rect>
+<rect x="716" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 017 via points · 0.829 mm · 8.84× p5s-grav</title></rect>
+<rect x="733" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 019 via points · 0.861 mm · 5.55× p5s-grav</title></rect>
+<rect x="750" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 023 via points · 0.814 mm · 8.36× p5s-grav</title></rect>
+<rect x="767" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 029 via points · 1.280 mm · 12.72× p5s-grav</title></rect>
+<rect x="784" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 035 via points · 0.803 mm · 7.68× p5s-grav</title></rect>
+<rect x="801" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 039 via points · 0.929 mm · 8.17× p5s-grav</title></rect>
+<rect x="818" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 040 via points · 0.825 mm · 9.36× p5s-grav</title></rect>
+<rect x="845" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 000 ISO 9283 · 0.957 mm · 8.41× p5s-grav</title></rect>
+<rect x="862" y="260" width="15" height="15" rx="2" fill="#9ec5f4"><title>p3s · 001 ISO 9283 · 0.714 mm · 5.87× p5s-grav</title></rect>
+<text x="897.0" y="271.5" font-size="9.5">0</text>
+<text x="969.0" y="271.5" font-size="9.5">0</text>
+<text x="127.0" y="288.5" text-anchor="end">p5s <tspan font-size="9.5">0.974</tspan></text>
+<rect x="135" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 003 joint A→B · 0.809 mm · 10.72× p5s-grav</title></rect>
+<rect x="152" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 005 joint A→B · 1.278 mm · 20.68× p5s-grav</title></rect>
+<rect x="169" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 006 joint A→B · 0.716 mm · 7.46× p5s-grav</title></rect>
+<rect x="186" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 007 joint A→B · 1.231 mm · 19.12× p5s-grav</title></rect>
+<rect x="203" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 008 joint A→B · 0.734 mm · 5.69× p5s-grav</title></rect>
+<rect x="220" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 010 joint A→B · 0.655 mm · 6.29× p5s-grav</title></rect>
+<rect x="237" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 011 joint A→B · 1.934 mm · 15.79× p5s-grav</title></rect>
+<rect x="254" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 013 joint A→B · 0.350 mm · 5.05× p5s-grav</title></rect>
+<rect x="271" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 014 joint A→B · 0.406 mm · 4.57× p5s-grav</title></rect>
+<rect x="288" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 015 joint A→B · 0.977 mm · 14.05× p5s-grav</title></rect>
+<rect x="305" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 022 joint A→B · 0.999 mm · 16.34× p5s-grav</title></rect>
+<rect x="322" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 024 joint A→B · 1.517 mm · 11.31× p5s-grav</title></rect>
+<rect x="339" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 025 joint A→B · 0.914 mm · 8.29× p5s-grav</title></rect>
+<rect x="356" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 026 joint A→B · 1.634 mm · 22.79× p5s-grav</title></rect>
+<rect x="373" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 027 joint A→B · 1.406 mm · 7.41× p5s-grav</title></rect>
+<rect x="390" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 028 joint A→B · 1.235 mm · 13.23× p5s-grav</title></rect>
+<rect x="407" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 031 joint A→B · 0.622 mm · 5.90× p5s-grav</title></rect>
+<rect x="424" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 032 joint A→B · 1.349 mm · 21.44× p5s-grav</title></rect>
+<rect x="441" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 033 joint A→B · 1.586 mm · 20.12× p5s-grav</title></rect>
+<rect x="458" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 034 joint A→B · 0.698 mm · 6.69× p5s-grav</title></rect>
+<rect x="475" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 036 joint A→B · 1.396 mm · 16.02× p5s-grav</title></rect>
+<rect x="492" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 037 joint A→B · 0.697 mm · 7.99× p5s-grav</title></rect>
+<rect x="509" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 038 joint A→B · 1.098 mm · 8.84× p5s-grav</title></rect>
+<rect x="526" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 041 joint A→B · 3.061 mm · 26.14× p5s-grav</title></rect>
+<rect x="553" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 002 tool line A→B · 0.553 mm · 5.26× p5s-grav</title></rect>
+<rect x="570" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 004 tool line A→B · 0.653 mm · 6.80× p5s-grav</title></rect>
+<rect x="587" y="277" width="15" height="15" rx="2" fill="#5196e8"><title>p5s · 009 tool line A→B · 0.561 mm · 1.96× p5s-bus-enc</title></rect>
+<rect x="604" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 012 tool line A→B · 0.567 mm · 10.62× p5s-grav</title></rect>
+<rect x="621" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 018 tool line A→B · 1.111 mm · 7.61× p5s-grav</title></rect>
+<rect x="638" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 020 tool line A→B · 0.985 mm · 11.31× p5s-grav</title></rect>
+<rect x="655" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 021 tool line A→B · 0.436 mm · 4.21× p5s-grav</title></rect>
+<rect x="672" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 030 tool line A→B · 0.773 mm · 8.54× p5s-grav</title></rect>
+<rect x="699" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 016 via points · 0.803 mm · 12.69× p5s-grav</title></rect>
+<rect x="716" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 017 via points · 1.373 mm · 14.63× p5s-grav</title></rect>
+<rect x="733" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 019 via points · 1.063 mm · 6.85× p5s-grav</title></rect>
+<rect x="750" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 023 via points · 0.850 mm · 8.72× p5s-grav</title></rect>
+<rect x="767" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 029 via points · 1.615 mm · 16.05× p5s-grav</title></rect>
+<rect x="784" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 035 via points · 1.011 mm · 9.67× p5s-grav</title></rect>
+<rect x="801" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 039 via points · 0.970 mm · 8.53× p5s-grav</title></rect>
+<rect x="818" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 040 via points · 1.083 mm · 12.30× p5s-grav</title></rect>
+<rect x="845" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 000 ISO 9283 · 0.620 mm · 5.45× p5s-grav</title></rect>
+<rect x="862" y="277" width="15" height="15" rx="2" fill="#9ec5f4"><title>p5s · 001 ISO 9283 · 0.549 mm · 4.51× p5s-grav</title></rect>
+<text x="897.0" y="288.5" font-size="9.5">0</text>
+<text x="969.0" y="288.5" font-size="9.5">0</text>
+<text x="127.0" y="305.5" text-anchor="end">p4 <tspan font-size="9.5">1.009</tspan></text>
+<rect x="135" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 003 joint A→B · 0.434 mm · 5.75× p5s-grav</title></rect>
+<rect x="152" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 005 joint A→B · 0.862 mm · 13.95× p5s-grav</title></rect>
+<rect x="169" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 006 joint A→B · 1.418 mm · 14.77× p5s-grav</title></rect>
+<rect x="186" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 007 joint A→B · 1.112 mm · 17.28× p5s-grav</title></rect>
+<rect x="203" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 008 joint A→B · 1.907 mm · 14.80× p5s-grav</title></rect>
+<rect x="220" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 010 joint A→B · 0.995 mm · 9.55× p5s-grav</title></rect>
+<rect x="237" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 011 joint A→B · 1.965 mm · 16.05× p5s-grav</title></rect>
+<rect x="254" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 013 joint A→B · 0.447 mm · 6.45× p5s-grav</title></rect>
+<rect x="271" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 014 joint A→B · 0.365 mm · 4.11× p5s-grav</title></rect>
+<rect x="288" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 015 joint A→B · 1.301 mm · 18.72× p5s-grav</title></rect>
+<rect x="305" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 022 joint A→B · 0.680 mm · 11.12× p5s-grav</title></rect>
+<rect x="322" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 024 joint A→B · 1.358 mm · 10.13× p5s-grav</title></rect>
+<rect x="339" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 025 joint A→B · 1.857 mm · 16.84× p5s-grav</title></rect>
+<rect x="356" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 026 joint A→B · 0.722 mm · 10.07× p5s-grav</title></rect>
+<rect x="373" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 027 joint A→B · 0.881 mm · 4.64× p5s-grav</title></rect>
+<rect x="390" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 028 joint A→B · 0.861 mm · 9.23× p5s-grav</title></rect>
+<rect x="407" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 031 joint A→B · 0.886 mm · 8.40× p5s-grav</title></rect>
+<rect x="424" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 032 joint A→B · 0.723 mm · 11.49× p5s-grav</title></rect>
+<rect x="441" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 033 joint A→B · 0.870 mm · 11.03× p5s-grav</title></rect>
+<rect x="458" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 034 joint A→B · 1.059 mm · 10.16× p5s-grav</title></rect>
+<rect x="475" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 036 joint A→B · 1.448 mm · 16.61× p5s-grav</title></rect>
+<rect x="492" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 037 joint A→B · 0.583 mm · 6.69× p5s-grav</title></rect>
+<rect x="509" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 038 joint A→B · 2.138 mm · 17.21× p5s-grav</title></rect>
+<rect x="526" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 041 joint A→B · 2.130 mm · 18.19× p5s-grav</title></rect>
+<rect x="553" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 002 tool line A→B · 0.898 mm · 8.53× p5s-grav</title></rect>
+<rect x="570" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 004 tool line A→B · 0.820 mm · 8.55× p5s-grav</title></rect>
+<rect x="587" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 009 tool line A→B · 1.082 mm · 3.79× p5s-bus-enc</title></rect>
+<rect x="604" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 012 tool line A→B · 0.778 mm · 14.57× p5s-grav</title></rect>
+<rect x="621" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 018 tool line A→B · 1.096 mm · 7.51× p5s-grav</title></rect>
+<rect x="638" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 020 tool line A→B · 1.006 mm · 11.55× p5s-grav</title></rect>
+<rect x="655" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 021 tool line A→B · 1.094 mm · 10.58× p5s-grav</title></rect>
+<rect x="672" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 030 tool line A→B · 0.668 mm · 7.38× p5s-grav</title></rect>
+<rect x="699" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 016 via points · 1.001 mm · 15.81× p5s-grav</title></rect>
+<rect x="716" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 017 via points · 1.012 mm · 10.78× p5s-grav</title></rect>
+<rect x="733" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 019 via points · 1.134 mm · 7.31× p5s-grav</title></rect>
+<rect x="750" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 023 via points · 1.084 mm · 11.13× p5s-grav</title></rect>
+<rect x="767" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 029 via points · 1.564 mm · 15.53× p5s-grav</title></rect>
+<rect x="784" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 035 via points · 1.004 mm · 9.61× p5s-grav</title></rect>
+<rect x="801" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 039 via points · 1.430 mm · 12.57× p5s-grav</title></rect>
+<rect x="818" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 040 via points · 1.130 mm · 12.82× p5s-grav</title></rect>
+<rect x="845" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 000 ISO 9283 · 0.952 mm · 8.37× p5s-grav</title></rect>
+<rect x="862" y="294" width="15" height="15" rx="2" fill="#9ec5f4"><title>p4 · 001 ISO 9283 · 1.046 mm · 8.59× p5s-grav</title></rect>
+<text x="897.0" y="305.5" font-size="9.5">0</text>
+<text x="969.0" y="305.5" font-size="9.5">0</text>
+<text x="127.0" y="322.5" text-anchor="end">p6 <tspan font-size="9.5">1.026</tspan></text>
+<rect x="135" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 003 joint A→B · 0.429 mm · 5.68× p5s-grav</title></rect>
+<rect x="152" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 005 joint A→B · 0.873 mm · 14.13× p5s-grav</title></rect>
+<rect x="169" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 006 joint A→B · 1.402 mm · 14.60× p5s-grav</title></rect>
+<rect x="186" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 007 joint A→B · 1.114 mm · 17.31× p5s-grav</title></rect>
+<rect x="203" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 008 joint A→B · 1.969 mm · 15.28× p5s-grav</title></rect>
+<rect x="220" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 010 joint A→B · 1.005 mm · 9.64× p5s-grav</title></rect>
+<rect x="237" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 011 joint A→B · 2.036 mm · 16.62× p5s-grav</title></rect>
+<rect x="254" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 013 joint A→B · 0.450 mm · 6.50× p5s-grav</title></rect>
+<rect x="271" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 014 joint A→B · 0.368 mm · 4.15× p5s-grav</title></rect>
+<rect x="288" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 015 joint A→B · 1.282 mm · 18.44× p5s-grav</title></rect>
+<rect x="305" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 022 joint A→B · 0.661 mm · 10.82× p5s-grav</title></rect>
+<rect x="322" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 024 joint A→B · 1.399 mm · 10.44× p5s-grav</title></rect>
+<rect x="339" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 025 joint A→B · 1.827 mm · 16.57× p5s-grav</title></rect>
+<rect x="356" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 026 joint A→B · 0.753 mm · 10.51× p5s-grav</title></rect>
+<rect x="373" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 027 joint A→B · 0.893 mm · 4.71× p5s-grav</title></rect>
+<rect x="390" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 028 joint A→B · 0.869 mm · 9.31× p5s-grav</title></rect>
+<rect x="407" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 031 joint A→B · 0.906 mm · 8.59× p5s-grav</title></rect>
+<rect x="424" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 032 joint A→B · 0.738 mm · 11.73× p5s-grav</title></rect>
+<rect x="441" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 033 joint A→B · 0.882 mm · 11.19× p5s-grav</title></rect>
+<rect x="458" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 034 joint A→B · 1.092 mm · 10.48× p5s-grav</title></rect>
+<rect x="475" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 036 joint A→B · 1.450 mm · 16.64× p5s-grav</title></rect>
+<rect x="492" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 037 joint A→B · 0.591 mm · 6.78× p5s-grav</title></rect>
+<rect x="509" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 038 joint A→B · 2.116 mm · 17.03× p5s-grav</title></rect>
+<rect x="526" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 041 joint A→B · 2.252 mm · 19.23× p5s-grav</title></rect>
+<rect x="553" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 002 tool line A→B · 0.899 mm · 8.55× p5s-grav</title></rect>
+<rect x="570" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 004 tool line A→B · 0.809 mm · 8.42× p5s-grav</title></rect>
+<rect x="587" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 009 tool line A→B · 1.097 mm · 3.84× p5s-bus-enc</title></rect>
+<rect x="604" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 012 tool line A→B · 0.798 mm · 14.94× p5s-grav</title></rect>
+<rect x="621" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 018 tool line A→B · 1.097 mm · 7.52× p5s-grav</title></rect>
+<rect x="638" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 020 tool line A→B · 1.009 mm · 11.59× p5s-grav</title></rect>
+<rect x="655" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 021 tool line A→B · 1.106 mm · 10.69× p5s-grav</title></rect>
+<rect x="672" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 030 tool line A→B · 0.671 mm · 7.41× p5s-grav</title></rect>
+<rect x="699" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 016 via points · 0.998 mm · 15.76× p5s-grav</title></rect>
+<rect x="716" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 017 via points · 1.044 mm · 11.12× p5s-grav</title></rect>
+<rect x="733" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 019 via points · 1.133 mm · 7.30× p5s-grav</title></rect>
+<rect x="750" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 023 via points · 1.145 mm · 11.76× p5s-grav</title></rect>
+<rect x="767" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 029 via points · 1.593 mm · 15.83× p5s-grav</title></rect>
+<rect x="784" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 035 via points · 1.007 mm · 9.64× p5s-grav</title></rect>
+<rect x="801" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 039 via points · 1.445 mm · 12.71× p5s-grav</title></rect>
+<rect x="818" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 040 via points · 1.155 mm · 13.11× p5s-grav</title></rect>
+<rect x="845" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 000 ISO 9283 · 0.960 mm · 8.44× p5s-grav</title></rect>
+<rect x="862" y="311" width="15" height="15" rx="2" fill="#9ec5f4"><title>p6 · 001 ISO 9283 · 1.059 mm · 8.70× p5s-grav</title></rect>
+<text x="897.0" y="322.5" font-size="9.5">0</text>
+<text x="969.0" y="322.5" font-size="9.5">0</text>
+<text x="12.0" y="354.0" font-size="10.5">÷ best</text>
+<rect x="56.0" y="342.0" width="40" height="16" rx="2" fill="#184f95"/>
+<text x="76.0" y="354.0" fill="#ffffff" font-size="10" text-anchor="middle">1×</text>
+<rect x="98.0" y="342.0" width="40" height="16" rx="2" fill="#2365b7"/>
+<text x="118.0" y="354.0" fill="#ffffff" font-size="10" text-anchor="middle">1.25×</text>
+<rect x="140.0" y="342.0" width="40" height="16" rx="2" fill="#2f78d1"/>
+<text x="160.0" y="354.0" fill="#ffffff" font-size="10" text-anchor="middle">1.5×</text>
+<rect x="182.0" y="342.0" width="40" height="16" rx="2" fill="#5498e9"/>
+<text x="202.0" y="354.0" fill="#111111" font-size="10" text-anchor="middle">2×</text>
+<rect x="224.0" y="342.0" width="40" height="16" rx="2" fill="#9ec5f4"/>
+<text x="244.0" y="354.0" fill="#111111" font-size="10" text-anchor="middle">≥3×</text>
+<circle cx="278.0" cy="350.0" r="2.6" fill="#8c8c8c"/>
+<text x="286.0" y="354.0" font-size="10">winner</text>
+<rect x="332.0" y="343.0" width="14" height="14" rx="2" fill="#9e9e9e" fill-opacity="0.3"/>
+<text x="350.0" y="354.0" font-size="10">no value · scale capped at 3× · rows: every winner, then the best, ≤ 12</text>
+</svg>

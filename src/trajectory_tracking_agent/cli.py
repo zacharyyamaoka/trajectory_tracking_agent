@@ -3,7 +3,7 @@
     tta verify                                   # every dataset + tape sha256, the deployment builds
     tta evaluate p7s [--split dev|holdout] [--workers N]   # scorecard + one ledger row, then PROGRESS.md + the chart
     tta leaderboard                              # OBJECTIVES §4's ranking, holdout - dev beside the admissible ones
-    tta progress                                 # PROGRESS.md, status.json, site/progress.svg (+ outputs/progress.png)
+    tta progress                                 # PROGRESS.md, status.json, site/progress.svg, site/views/*.svg
     tta new p7s+coulomb --parent p7s --change "host Coulomb feed-forward"
 """
 
@@ -21,6 +21,7 @@ from typing import Any
 from trajectory_tracking_agent.ruler.dataset import REPO_ROOT
 
 CHART_TOOL = REPO_ROOT / "tools" / "progress_chart.py"
+VIEWS_TOOL = REPO_ROOT / "tools" / "population_views.py"
 
 
 def _fmt(value: Any, digits: int = 3) -> str:
@@ -88,21 +89,26 @@ def cmd_leaderboard(_: argparse.Namespace) -> int:
     return 0
 
 
-def _chart_module() -> Any:
-    spec = importlib.util.spec_from_file_location("tta_progress_chart", CHART_TOOL)
+def _tool_module(name: str, path: Path) -> Any:
+    spec = importlib.util.spec_from_file_location(name, path)
     if spec is None or spec.loader is None:
-        raise ImportError(f"cannot load {CHART_TOOL}")
+        raise ImportError(f"cannot load {path}")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+def _chart_module() -> Any:
+    return _tool_module("tta_progress_chart", CHART_TOOL)
 
 
 def cmd_progress(_: argparse.Namespace, quiet: bool = False) -> int:
     from trajectory_tracking_agent import ledger, population
 
     order = population.ids_in_creation_order()
-    ledger.PROGRESS_PATH.write_text(ledger.progress_markdown(order))
-    paths = [ledger.PROGRESS_PATH, ledger.write_status(), *_chart_module().write_chart()]
+    views, summary = _tool_module("tta_population_views", VIEWS_TOOL).write_views(order=order)
+    ledger.PROGRESS_PATH.write_text(ledger.progress_markdown(order, population=summary))
+    paths = [ledger.PROGRESS_PATH, ledger.write_status(), *_chart_module().write_chart(), *views]
     if not quiet:
         print("wrote " + ", ".join(str(p.relative_to(REPO_ROOT)) for p in paths))
     return 0
@@ -133,7 +139,8 @@ def main(argv: list[str] | None = None) -> int:
     evaluate.add_argument("--no-progress", action="store_true", help="do not refresh PROGRESS.md and the chart")
     evaluate.set_defaults(run=cmd_evaluate)
     commands.add_parser("leaderboard", help="the ranking (OBJECTIVES §4)").set_defaults(run=cmd_leaderboard)
-    commands.add_parser("progress", help="PROGRESS.md + site/progress.svg from the ledger").set_defaults(run=cmd_progress)
+    commands.add_parser("progress", help="PROGRESS.md + site/progress.svg + site/views/*.svg from the ledger").set_defaults(
+        run=cmd_progress)
     new = commands.add_parser("new", help="a new solution folder, copied from its parent")
     new.add_argument("id")
     new.add_argument("--parent", required=True, help="the solution it starts from")

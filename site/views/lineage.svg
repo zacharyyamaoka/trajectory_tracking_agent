@@ -1,0 +1,254 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="960" height="439" viewBox="0 0 960 439" font-family="Helvetica, Arial, 'Liberation Sans', 'Nimbus Sans', sans-serif" font-size="11" fill="#8c8c8c" role="img" aria-label="Lineage · 21 solutions in 16 trees · 18 admissible · best p5s-grav 0.097 mm (dev, tool_track_rms_mm)">
+<title>Lineage · 21 solutions in 16 trees · 18 admissible · best p5s-grav 0.097 mm (dev, tool_track_rms_mm)</title>
+<text x="12.0" y="20.0" font-size="13.5" font-weight="600">Lineage · 21 solutions in 16 trees · 18 admissible · best p5s-grav 0.097 mm (dev, tool_track_rms_mm)</text>
+<text x="12.0" y="44.0" font-size="10.5">dev mm</text>
+<rect x="58.0" y="32.0" width="42" height="16" rx="3" fill="#184f95"/>
+<text x="79.0" y="44.0" fill="#ffffff" font-size="10" text-anchor="middle">0.0967</text>
+<rect x="102.0" y="32.0" width="42" height="16" rx="3" fill="#256abf"/>
+<text x="123.0" y="44.0" fill="#ffffff" font-size="10" text-anchor="middle">0.201</text>
+<rect x="146.0" y="32.0" width="42" height="16" rx="3" fill="#3987e5"/>
+<text x="167.0" y="44.0" fill="#111111" font-size="10" text-anchor="middle">0.42</text>
+<rect x="190.0" y="32.0" width="42" height="16" rx="3" fill="#6da7ec"/>
+<text x="211.0" y="44.0" fill="#111111" font-size="10" text-anchor="middle">0.874</text>
+<rect x="234.0" y="32.0" width="42" height="16" rx="3" fill="#9ec5f4"/>
+<text x="255.0" y="44.0" fill="#111111" font-size="10" text-anchor="middle">1.82</text>
+<line x1="288.0" x2="304.0" y1="40.0" y2="40.0" stroke="#f28c28" stroke-width="3"/>
+<text x="309.0" y="44.0" font-size="10.5">path to the best</text>
+<rect x="414.6" y="34.0" width="16" height="12" rx="3" fill="#3987e5" fill-opacity="0.35" stroke="#d62728" stroke-width="1.6"/>
+<text x="435.6" y="44.0" font-size="10.5">not admissible (✗ gates)</text>
+<rect x="586.0" y="34.0" width="16" height="12" rx="3" fill="#3987e5" fill-opacity="0.35" stroke="#8c8c8c" stroke-opacity="0.6"/>
+<text x="607.0" y="44.0" font-size="10.5">dead end</text>
+<text x="667.8" y="44.0" fill="#2ca02c" font-size="10">−Δ</text>
+<text x="688.8" y="44.0" font-size="10.5">edge: Δ mm vs parent</text>
+<text x="12.0" y="62.0" font-size="10">Gates failed: C completed · S stop error · T saturation · L limits · F floor. Darker = lower error. Hover a node for its change (the proposer&#x27;s claim).</text>
+<g transform="translate(12.0 74.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+
+<g class="node">
+<a xlink:title="#1 p2 · 1.820 mm · admissible · change: the trajectory&#39;s column (as built), board PD">
+<rect fill="#9ec5f4" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
+<text x="10" y="-16.2" font-weight="bold" fill="#111111">p2</text>
+<text x="4" y="-6" font-size="10" fill="#111111">1.820</text>
+</a>
+</g>
+</g></g>
+<g transform="translate(70.0 74.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+
+<g class="node">
+<a xlink:title="#2 p8 · 1.212 mm · admissible · change: model at plan time, host spring + board damper">
+<rect fill="#83b4f0" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
+<text x="10" y="-16.2" font-weight="bold" fill="#111111">p8</text>
+<text x="4" y="-6" font-size="10" fill="#111111">1.212</text>
+</a>
+</g>
+</g></g>
+<g transform="translate(128.0 74.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+
+<g class="node inadmissible">
+<a xlink:title="#3 p9 · 3.671 mm · not admissible: completed 25 tasks, stop_error_max_mm 11 tasks, saturation_share_pct 17 tasks, limit_violations 33 tasks · change: model at the host on the measured state, computed torque on the host">
+<rect fill="#9ec5f4" fill-opacity="0.35" stroke="#d62728" stroke-width="1.6" x="0" y="-27" width="71" height="27" rx="5"/>
+<text x="27.5" y="-16.2" font-weight="bold" fill="#8c8c8c">p9</text>
+<text x="4" y="-6" font-size="10" fill="#8c8c8c">3.671 ✗CSTL</text>
+</a>
+</g>
+</g></g>
+<g transform="translate(221.0 74.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+
+<g class="node inadmissible">
+<a xlink:title="#4 p10 · 3.721 mm · not admissible: completed 28 tasks, stop_error_max_mm 17 tasks, saturation_share_pct 19 tasks, limit_violations 32 tasks · change: model at plan time, PD on the host">
+<rect fill="#9ec5f4" fill-opacity="0.35" stroke="#d62728" stroke-width="1.6" x="0" y="-27" width="71" height="27" rx="5"/>
+<text x="24" y="-16.2" font-weight="bold" fill="#8c8c8c">p10</text>
+<text x="4" y="-6" font-size="10" fill="#8c8c8c">3.721 ✗CSTL</text>
+</a>
+</g>
+</g></g>
+<g transform="translate(314.0 74.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+
+<g class="node">
+<a xlink:title="#5 p3 · 1.051 mm · admissible · change: model at plan time, board PD, the datasheet&#39;s lookahead">
+<rect fill="#79afee" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
+<text x="10" y="-16.2" font-weight="bold" fill="#111111">p3</text>
+<text x="4" y="-6" font-size="10" fill="#111111">1.051</text>
+</a>
+</g>
+</g></g>
+<g transform="translate(372.0 74.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+
+<g class="node">
+<a xlink:title="#6 p2s · 1.782 mm · admissible · change: the trajectory&#39;s column (as built), board PD, secant_mid_ff">
+<rect fill="#9dc4f4" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
+<text x="7" y="-16.2" font-weight="bold" fill="#111111">p2s</text>
+<text x="4" y="-6" font-size="10" fill="#111111">1.782</text>
+</a>
+</g>
+</g></g>
+<g transform="translate(430.0 74.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+
+<g class="node">
+<a xlink:title="#7 p3s · 0.926 mm · admissible · change: model at plan time, board PD, the datasheet&#39;s lookahead, secant_mid_ff">
+<rect fill="#71a9ed" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
+<text x="7" y="-16.2" font-weight="bold" fill="#111111">p3s</text>
+<text x="4" y="-6" font-size="10" fill="#111111">0.926</text>
+</a>
+</g>
+</g></g>
+<g transform="translate(488.0 74.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+
+<g class="node inadmissible">
+<a xlink:title="#8 p1 · 6.258 mm · not admissible: completed 41 tasks, stop_error_max_mm 41 tasks · change: no feed&#45;forward, board PD, calibrated lookahead">
+<rect fill="#9ec5f4" fill-opacity="0.35" stroke="#d62728" stroke-width="1.6" x="0" y="-27" width="60" height="27" rx="5"/>
+<text x="22" y="-16.2" font-weight="bold" fill="#8c8c8c">p1</text>
+<text x="4" y="-6" font-size="10" fill="#8c8c8c">6.258 ✗CS</text>
+</a>
+</g>
+</g></g>
+<g transform="translate(570.0 74.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+
+<g class="node">
+<a xlink:title="#9 p4 · 1.009 mm · admissible · change: model at plan time, board PD, calibrated lookahead">
+<rect fill="#77adee" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
+<text x="10" y="-16.2" font-weight="bold" fill="#111111">p4</text>
+<text x="4" y="-6" font-size="10" fill="#111111">1.009</text>
+</a>
+</g>
+</g></g>
+<g transform="translate(628.0 74.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+
+<g class="node">
+<a xlink:title="#10 p4s · 0.848 mm · admissible · change: model at plan time, board PD, calibrated lookahead, secant_mid_ff">
+<rect fill="#6ba6ec" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
+<text x="7" y="-16.2" font-weight="bold" fill="#111111">p4s</text>
+<text x="4" y="-6" font-size="10" fill="#111111">0.848</text>
+</a>
+</g>
+</g></g>
+<g transform="translate(686.0 74.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+
+<g class="node">
+<a xlink:title="#11 p5 · 1.147 mm · admissible · change: model + Coulomb at plan time, board PD, calibrated lookahead">
+<rect fill="#7fb2ef" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
+<text x="10" y="-16.2" font-weight="bold" fill="#111111">p5</text>
+<text x="4" y="-6" font-size="10" fill="#111111">1.147</text>
+</a>
+</g>
+</g></g>
+<g transform="translate(744.0 74.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 296)">
+
+<g class="node path">
+<a xlink:title="#12 p5s · 0.974 mm · admissible · change: model + Coulomb at plan time, board PD, calibrated lookahead, secant_mid_ff">
+<rect fill="#74abed" stroke="#f28c28" stroke-width="2" x="23.5" y="-292" width="36" height="27" rx="5"/>
+<text x="30.5" y="-281.2" font-weight="bold" fill="#111111">p5s</text>
+<text x="27.5" y="-271" font-size="10" fill="#111111">0.974</text>
+</a>
+</g>
+
+<g class="node path">
+<a xlink:title="#17 p5s&#45;bus · 0.595 mm · admissible · parent p5s · change: lookahead = the deployment&#39;s bus command delay per joint, not the friction&#45;inflated calibration (Coulomb is already in the ff)">
+<rect fill="#5296e8" stroke="#f28c28" stroke-width="2" x="13" y="-239" width="57" height="27" rx="5"/>
+<text x="17" y="-228.2" font-weight="bold" fill="#111111">p5s&#45;bus</text>
+<text x="27.5" y="-218" font-size="10" fill="#111111">0.595</text>
+</a>
+</g>
+
+<g class="edge path">
+<path fill="none" stroke="#f28c28" stroke-width="3" d="M41.5,-264.89C41.5,-258.81 41.5,-251.4 41.5,-244.71"/>
+<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="43.25,-244.32 41.5,-239.32 39.75,-244.32 43.25,-244.32"/>
+<text text-anchor="middle" x="59" y="-249.8" font-size="9" fill="#2ca02c">−0.378</text>
+</g>
+
+<g class="node path">
+<a xlink:title="#18 p5s&#45;bus&#45;enc · 0.393 mm · admissible · parent p5s&#45;bus · change: lookahead = bus delay minus the board&#39;s own lead (encoder delay + one board tick, 0.75 ms), from the deployment&#39;s board fields">
+<rect fill="#3784e2" stroke="#f28c28" stroke-width="2" x="0" y="-186" width="83" height="27" rx="5"/>
+<text x="4" y="-175.2" font-weight="bold" fill="#111111">p5s&#45;bus&#45;enc</text>
+<text x="27.5" y="-165" font-size="10" fill="#111111">0.393</text>
+</a>
+</g>
+
+<g class="edge path">
+<path fill="none" stroke="#f28c28" stroke-width="3" d="M41.5,-211.89C41.5,-205.81 41.5,-198.4 41.5,-191.71"/>
+<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="43.25,-191.32 41.5,-186.32 39.75,-191.32 43.25,-191.32"/>
+<text text-anchor="middle" x="59" y="-196.8" font-size="9" fill="#2ca02c">−0.202</text>
+</g>
+
+<g class="node path">
+<a xlink:title="#19 p5s&#45;fric · 0.245 mm · admissible · parent p5s&#45;bus&#45;enc · change: friction ff = per&#45;joint Coulomb tanh(qd/vs) + viscous identified from p5s&#45;bus&#45;enc&#39;s dev run records, replacing the given model&#39;s Coulomb">
+<rect fill="#2a72c9" stroke="#f28c28" stroke-width="2" x="14" y="-133" width="55" height="27" rx="5"/>
+<text x="18" y="-122.2" font-weight="bold" fill="#ffffff">p5s&#45;fric</text>
+<text x="27.5" y="-112" font-size="10" fill="#ffffff">0.245</text>
+</a>
+</g>
+
+<g class="edge path">
+<path fill="none" stroke="#f28c28" stroke-width="3" d="M41.5,-158.89C41.5,-152.81 41.5,-145.4 41.5,-138.71"/>
+<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="43.25,-138.32 41.5,-133.32 39.75,-138.32 43.25,-138.32"/>
+<text text-anchor="middle" x="59" y="-143.8" font-size="9" fill="#2ca02c">−0.148</text>
+</g>
+
+<g class="node path">
+<a xlink:title="#20 p5s&#45;chord · 0.244 mm · admissible · parent p5s&#45;fric · change: position sent = sample &#45; a(s+T/2)·T²/12: the board&#39;s straight walk over a host period becomes the least&#45;squares line of the curve, not its …">
+<rect fill="#2a72c9" stroke="#f28c28" stroke-width="2" x="7" y="-80" width="69" height="27" rx="5"/>
+<text x="11" y="-69.2" font-weight="bold" fill="#ffffff">p5s&#45;chord</text>
+<text x="27.5" y="-59" font-size="10" fill="#ffffff">0.244</text>
+</a>
+</g>
+
+<g class="edge path">
+<path fill="none" stroke="#f28c28" stroke-width="3" d="M41.5,-105.89C41.5,-99.81 41.5,-92.4 41.5,-85.71"/>
+<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="43.25,-85.32 41.5,-80.32 39.75,-85.32 43.25,-85.32"/>
+<text text-anchor="middle" x="59" y="-90.8" font-size="9" fill="#2ca02c">−0.001</text>
+</g>
+
+<g class="node best path">
+<a xlink:title="#21 p5s&#45;grav · 0.097 mm · admissible · parent p5s&#45;chord · change: ff minus a gravity&#45;shaped torque error per joint, fitted from p5s&#45;chord&#39;s dev joint errors (kp·e + kd·ė on sin/cos of q2, q2+q3, q2+q3+q4, …">
+<rect fill="#184f95" stroke="#f28c28" stroke-width="3" x="10" y="-27" width="63" height="27" rx="5"/>
+<text x="14" y="-16.2" font-weight="bold" fill="#ffffff">p5s&#45;grav</text>
+<text x="27.5" y="-6" font-size="10" fill="#ffffff">0.097</text>
+</a>
+</g>
+
+<g class="edge path">
+<path fill="none" stroke="#f28c28" stroke-width="3" d="M41.5,-52.89C41.5,-46.81 41.5,-39.4 41.5,-32.71"/>
+<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="43.25,-32.32 41.5,-27.32 39.75,-32.32 43.25,-32.32"/>
+<text text-anchor="middle" x="59" y="-37.8" font-size="9" fill="#2ca02c">−0.147</text>
+</g>
+</g></g>
+<g transform="translate(849.0 74.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+
+<g class="node">
+<a xlink:title="#13 p6 · 1.026 mm · admissible · change: model at the host on the measured state, board PD, calibrated lookahead">
+<rect fill="#78aeee" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
+<text x="10" y="-16.2" font-weight="bold" fill="#111111">p6</text>
+<text x="4" y="-6" font-size="10" fill="#111111">1.026</text>
+</a>
+</g>
+</g></g>
+<g transform="translate(12.0 392.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+
+<g class="node">
+<a xlink:title="#14 p6s · 0.868 mm · admissible · change: model at the host on the measured state, board PD, calibrated lookahead, secant_mid_ff">
+<rect fill="#6da7ec" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
+<text x="7" y="-16.2" font-weight="bold" fill="#111111">p6s</text>
+<text x="4" y="-6" font-size="10" fill="#111111">0.868</text>
+</a>
+</g>
+</g></g>
+<g transform="translate(70.0 392.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+
+<g class="node">
+<a xlink:title="#15 p7 · 1.104 mm · admissible · change: model at plan time, computed&#45;torque gains re&#45;sent each tick, calibrated lookahead">
+<rect fill="#7db1ef" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
+<text x="10" y="-16.2" font-weight="bold" fill="#111111">p7</text>
+<text x="4" y="-6" font-size="10" fill="#111111">1.104</text>
+</a>
+</g>
+</g></g>
+<g transform="translate(128.0 392.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">
+
+<g class="node">
+<a xlink:title="#16 p7s · 0.904 mm · admissible · change: model at plan time, computed&#45;torque gains re&#45;sent each tick, calibrated lookahead, secant_mid_ff">
+<rect fill="#6fa8ec" stroke="#8c8c8c" x="0" y="-27" width="36" height="27" rx="5"/>
+<text x="7" y="-16.2" font-weight="bold" fill="#111111">p7s</text>
+<text x="4" y="-6" font-size="10" fill="#111111">0.904</text>
+</a>
+</g>
+</g></g>
+</svg>

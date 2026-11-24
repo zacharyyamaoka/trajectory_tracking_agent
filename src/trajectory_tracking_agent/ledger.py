@@ -27,7 +27,8 @@ ROW_KEYS = (
     "diagnostics", "wall_time_s", "repo_commit", "proposed_by", "change", "task_objectives",
 )  # fmt: skip
 
-__all__ = ["LEDGER_PATH", "append", "latest", "leaderboard_rows", "progress_markdown", "ranking", "rows"]
+__all__ = ["LEDGER_PATH", "append", "latest", "leaderboard_rows", "population_markdown", "progress_markdown", "ranking",
+           "rows"]
 
 
 def _finite(value: Any) -> float | None:
@@ -113,9 +114,30 @@ def _mm(value: Any) -> str:
     return "—" if number is None else f"{number:.3f}"
 
 
-def progress_markdown(order: Sequence[str], path: Path = LEDGER_PATH) -> str:
-    """PROGRESS.md: the best solution, its objective, the admissible count, the last 10 rows and the gate failure
-    matrix (dev, each solution's newest row). `order` is the solutions in creation order (the chart's x axis)."""
+def population_markdown(population: Mapping[str, Any] | None = None) -> list[str]:
+    """PROGRESS.md's "Population" section: the three views `tools/population_views.py` writes into site/views/, and
+    (when `population` is its summary) the per-task winners in text, so an agent reading this file gets them too."""
+    lines = ["## Population", "",
+             "Drawn from `ledger.jsonl` only (metrics out + provenance, never a solution's code) by `tta progress`.", ""]
+    if population and population.get("niche_winners"):
+        winners = ", ".join(f"`{s}` {n}" for s, n in population["niche_winners"])
+        weakest = population.get("weakest_family")
+        lines += [f"**Per-task winners** (dev, admissible, tasks won of {population.get('tasks')}): {winners}; "
+                  f"{population.get('distinct_winners')} distinct among {population.get('admissible')} admissible."
+                  + (f" The best is weakest on {weakest[1]} (median {weakest[0]:.2f}× the per-task best)." if weakest else ""),
+                  ""]  # fmt: skip
+    lines += ["**Lineage**: each tree from a generation-0 root; colour = dev mm, thick orange = the path to the best, "
+              "edge = Δ mm vs the parent.", "", "![lineage](site/views/lineage.svg)", "",
+              "**Gates**: dev tasks failing each gate, with the objective beside.", "", "![gates](site/views/gates.svg)", "",
+              "**Specialists**: each task's error ÷ the best admissible one; the dots are the niche winners to branch from.",
+              "", "![specialists](site/views/specialists.svg)", ""]  # fmt: skip
+    return lines
+
+
+def progress_markdown(order: Sequence[str], path: Path = LEDGER_PATH, population: Mapping[str, Any] | None = None) -> str:
+    """PROGRESS.md: the best solution, its objective, the admissible count, the population views, the last 10 rows and
+    the gate failure matrix (dev, each solution's newest row). `order` is the solutions in creation order (the chart's
+    x axis); `population` is `tools/population_views.py`'s summary (the per-task winners), when there is one."""
     every = rows(path)
     dev = latest("dev", path)
     top = best(path)
@@ -131,7 +153,8 @@ def progress_markdown(order: Sequence[str], path: Path = LEDGER_PATH) -> str:
         held = "" if holdout is None else f"; holdout {_mm(holdout.get('objective'))} mm (reporting only)"
         lines.append(f"**Best: `{top['solution']}`**, tool_track_rms_mm **{_mm(top['objective'])} mm** on dev{held}. "
                      f"{admissible} of {len(dev)} scored solutions are admissible.")
-    lines += ["", "![progress](site/progress.svg)", "", "## Last 10 ledger rows", "",
+    lines += ["", "![progress](site/progress.svg)", ""] + population_markdown(population)
+    lines += ["## Last 10 ledger rows", "",
               "| t | solution | split | objective (mm) | admissible | gate pass rate | failed gates (tasks) |",
               "|---|---|---|---|---|---|---|"]
     for row in every[-10:]:
