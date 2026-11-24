@@ -59,7 +59,7 @@
 <script src="../_shared/kit.js"></script>
 <script>
 const K = window.Kit, F = K.F, T = F.thresholds;
-const state = { sol: K.pop[0].id, row: null, i: null };
+const state = { sol: K.bestId, row: null, i: null };
 const h = K.hash();
 if (h.s && K.byId[h.s]) state.sol = h.s;
 let tr, rowsCache;
@@ -78,9 +78,9 @@ function rows() {
       i: stopEnd, joint: null, value: `${K.fmt.mm(k.stop_error_max_mm)} of ${T.stop_error_max_mm} mm`,
       say: () => `At stop ${ws + 1} the arm rests ${K.fmt.mm(k.stop_error_max_mm)} from the target (mean of the last ${T.stop_tail_s} s); the gate allows ${T.stop_error_max_mm} mm.`,
       series: () => tr.idx.map((i) => (tr.full.err_mm[i] / T.stop_error_max_mm) * 100), seriesNote: "tool error as % of the 1 mm stop limit (it only counts at stops)" },
-    { id: "sat", gate: "saturation_share_pct", name: "Torque saturation", what: `share of samples at the cap (${tr.full.sat.reduce((a, [x, y]) => a + y - x + 1, 0)} saturated)`, used: k.saturation_share_pct / T.saturation_share_pct,
+    { id: "sat", gate: "saturation_share_pct", name: "Torque saturation", what: "share of physics samples at the cap", used: k.saturation_share_pct / T.saturation_share_pct,
       i: tr.idx[tk], joint: tj, value: `${K.fmt.pct(k.saturation_share_pct)} of ${T.saturation_share_pct} %`, floorNote: "no sample saturated",
-      say: () => `No sample had a joint at ≥ ${Math.round(100 * T.sat_fraction)} % of its cap; the gate allows ${T.saturation_share_pct} % of samples.`,
+      say: () => (k.saturation_share_pct > 0 ? `${K.fmt.pct(k.saturation_share_pct)} of the physics samples have a joint at ≥ ${Math.round(100 * T.sat_fraction)} % of its cap (here ${J[tj]} at ${K.fmt.s(K.time(tr, tr.idx[tk]))}); the gate allows ${T.saturation_share_pct} %.` : `No physics sample had a joint at ≥ ${Math.round(100 * T.sat_fraction)} % of its cap; the gate allows ${T.saturation_share_pct} %.`),
       series: () => tr.tau_pct.map((r) => Math.max(...r.map(Math.abs)) / (100 * T.sat_fraction) * 100), seriesNote: "busiest joint's torque as % of the saturation level" },
     { id: "torque", gate: "saturation_share_pct", name: "↳ closest torque", what: `${J[tj]}, % of the ${Math.round(100 * T.sat_fraction)} % level`, used: tq / (100 * T.sat_fraction),
       i: tr.idx[tk], joint: tj, value: `${tq.toFixed(1)} % of cap`,
@@ -99,8 +99,8 @@ function rows() {
       say: () => `At ${K.fmt.s(K.time(tr, tr.lowest_i))} the ${F.deployment.links[tr.lowest_link]} is the lowest point of the arm, ${k.min_clearance_mm.toFixed(0)} mm above the floor.`,
       series: () => tr.idx.map((i) => tr.full.lowest_mm[i]), seriesNote: "lowest point of the arm above the floor, mm", mmSeries: true },
     { id: "done", gate: "completed", name: "Completed", what: "reached the end and settled", used: null, binary: tr.gates.completed,
-      i: tr.n - 1, joint: null, value: tr.gates.completed ? "yes" : "no",
-      say: () => `The run reaches ${K.fmt.s(K.time(tr, tr.n - 1))} and ends inside its final stop (${tr.stops.at(-1).map((v) => v.toFixed(2)).join("–")} s).`,
+      i: tr.n - 1, joint: null, value: tr.gates.completed ? "finished, settled" : "did not settle",
+      say: () => (tr.gates.completed ? `The run reaches ${K.fmt.s(K.time(tr, tr.n - 1))} and settles inside its final stop (${tr.stops.at(-1).map((v) => v.toFixed(2)).join("–")} s).` : `The run reaches ${K.fmt.s(K.time(tr, tr.n - 1))} but does not settle: ${tr.notes[0] || "see the scorecard"}.`),
       series: () => tr.idx.map((i) => tr.full.err_mm[i]), seriesNote: "tool error, mm (for orientation)" },
   ];
 }
@@ -139,12 +139,12 @@ function render() {
   const closest = ratio[0];
   const W = 400, ticks = [1e-4, 1e-3, 1e-2, 1e-1, 1, 10].map((u) => `<span style="position:absolute;left:${(ux(u, W) / W) * 100}%;transform:translateX(-50%)">${+(u * 100).toPrecision(2)} %</span>`).join("");
   const verdict = failed.length
-    ? `<span class="bad">✗ ${failed.map((g) => g.label).join(", ")}: ${closest.used.toFixed(1)}× over its limit</span>`
+    ? `<span class="bad">✗ Fails ${failed.map((g) => g.label.toLowerCase()).join(", ")}</span> · furthest over: <b>${closest.name.replace("↳ ", "")}</b>, ${closest.used.toFixed(1)}× its limit`
     : `<span class="ok">✓ All gates pass</span> · closest to failing: <b>${closest.name.replace("↳ ", "")}</b>, ${(closest.used * 100).toFixed(0)} % of its limit (${headroom(closest)} headroom)`;
   const others = K.pop.map((x) => x.objective);
   document.getElementById("gauges").innerHTML = `
     <p class="verdict">${verdict}</p>
-    <p class="sub">${state.sol} on task <code>${tr.task}</code> · ${s.admissible ? "admissible" : "not admissible"} over ${F.tasks_used} tasks · headroom = limit ÷ what was used</p>
+    <p class="sub">${state.sol} on task <code>${tr.task}</code> · ${s.admissible ? "admissible" : "not admissible"} over ${F.tasks_used} dev tasks · headroom = limit ÷ what was used</p>
     <div class="objrow" data-row="objective" aria-pressed="${state.row === "objective"}"><div><b>${K.OBJECTIVE.label}</b> <span style="color:var(--muted)">(no limit; lower is better)</span><br><span style="color:var(--muted);font-size:12.5px">this task ${K.fmt.mm(tr.kpis.tool_track_rms_mm)} · objective (median of ${F.tasks_used}) ${K.fmt.mm(s.objective)} · rank ${s.rank} of ${K.pop.length}</span></div><div class="big">${K.sig(s.objective, 3)} mm</div>${popStrip()}</div>
     <div class="group">Share of each limit used · log scale · fail line at 100 %</div>
     <div class="axis"><span></span><div style="position:relative;height:14px">${ticks}</div><span style="text-align:right;padding-right:10px">headroom</span></div>
@@ -224,11 +224,11 @@ function load(sol) { state.sol = sol; tr = K.trace(sol); state.i = null; render(
 const setPick = K.picker(document.getElementById("picker"), state.sol, (sol) => { load(sol); setPick(sol); guide.sync((s) => s.row === state.row && s.sol === state.sol); });
 K.theme(document.getElementById("theme"), () => render());
 const guide = K.guide(document.getElementById("guide"), [
-  { label: "One scale", caption: "Every gate as the share of its limit used, log scale, one fail line. The verdict line names the gate closest to failing.", row: null, sol: K.pop[0].id, target: ".verdict" },
-  { label: "Closest call", caption: "The gate nearest its limit (here the elbow's range). The side view shows that instant and rings the joint that set it.", row: "closest", sol: K.pop[0].id, target: '[aria-pressed="true"].row' },
-  { label: "Scrub the margin", caption: "The sparkline is that margin over the whole run; drag along it to move the instant.", row: "vel", sol: K.pop[0].id, target: "#spark" },
-  { label: "A failing gate", caption: "Another solution: stop error is 14× over its limit, the bar crosses into red. The side view shows where.", row: "stop", sol: "menagerie_stock", target: '[data-row="stop"]' },
-  { label: "Distance to spare", caption: "Floor clearance is a distance, not a share: the dot sits left of the line by its millimetres.", row: "floor", sol: "menagerie_stock", target: '[data-row="floor"]' },
+  { label: "One scale", caption: "Every gate as the share of its limit used, log scale, one fail line. The verdict line names the gate closest to failing.", row: null, sol: K.bestId, target: ".verdict" },
+  { label: "Closest call", caption: "The gate nearest its limit. The side view shows that instant and rings the joint that set it.", row: "closest", sol: K.bestId, target: '[aria-pressed="true"].row' },
+  { label: "Scrub the margin", caption: "The sparkline is that margin over the whole run; drag along it to move the instant.", row: "vel", sol: K.bestId, target: "#spark" },
+  { label: "Failing gates", caption: `A failing solution (${K.failingId}): stop error, torque and joint speed cross the fail line into red; the verdict names each one.`, row: "stop", sol: K.failingId, target: '[data-row="stop"]' },
+  { label: "Over the speed limit", caption: "Joint speed: the instant a joint went furthest past 105 % of its limit, ringed in the side view; the sparkline shows every crossing.", row: "vel", sol: K.failingId, target: '[data-row="vel"]' },
 ], (s) => {
   if (s.sol !== state.sol) { tr = K.trace(s.sol); state.sol = s.sol; setPick(s.sol); }
   state.row = s.row === "closest" ? rows().filter((r) => r.used > 0).sort((a, b) => b.used - a.used)[0].id : s.row;

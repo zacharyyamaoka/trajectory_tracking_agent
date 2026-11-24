@@ -7,6 +7,7 @@
   if (!F) { document.body.textContent = "Missing ../_data/fixture.js"; return; }
 
   const pop = F.population.slice().sort((a, b) => a.rank - b.rank);
+  const traced = pop.filter((s) => F.traces[s.id]);  // the solutions whose featured-task run ships in full
   const byId = Object.fromEntries(pop.map((s) => [s.id, s]));
 
   function mask(intervals, n) {
@@ -42,18 +43,18 @@
   const GATES = [
     { id: "completed", label: "Completed", short: "completed",
       rule: "no crash or NaN, reaches the end and settles",
-      value: (k) => k.completed, show: (k) => (k.completed ? "reached the end" : "did not finish") },
+      value: (k) => k.completed, show: (k) => (k.completed ? "finished, settled" : "did not settle") },
     { id: "stop_error_max_mm", label: "Stop error", short: "stop error",
       rule: `≤ ${T.stop_error_max_mm} mm at every stop (mean of its last ${T.stop_tail_s} s)`,
       value: (k) => k.stop_error_max_mm, show: (k) => `${sig(k.stop_error_max_mm, 3)} mm`, limit: T.stop_error_max_mm, unit: "mm" },
     { id: "saturation_share_pct", label: "Torque saturation", short: "saturation",
-      rule: `≤ ${T.saturation_share_pct} % of samples with any joint ≥ ${Math.round(T.sat_fraction * 100)} % of its torque cap`,
+      rule: `≤ ${T.saturation_share_pct} % of physics samples (4 kHz) with any joint ≥ ${Math.round(T.sat_fraction * 100)} % of its torque cap`,
       value: (k) => k.saturation_share_pct, show: (k) => fmt.pct(k.saturation_share_pct), limit: T.saturation_share_pct, unit: "%" },
     { id: "limit_violations", label: "Joint limits", short: "limits",
-      rule: `0 samples outside a position limit or above ${T.vel_margin} × a velocity limit`,
+      rule: `0 physics samples (4 kHz) outside a position limit or above ${T.vel_margin} × a velocity limit`,
       value: (k) => k.limit_violations, show: (k) => `${fmt.int(k.limit_violations)} samples` },
     { id: "floor_clearance", label: "Floor clearance", short: "floor",
-      rule: "0 samples with the tool point or any link origin below the floor",
+      rule: "0 physics samples (4 kHz) with the tool point or any link origin below the floor",
       value: (k) => k.floor_clearance, show: (k) => `${fmt.int(k.floor_clearance)} samples` },
   ];
   const DIAGNOSTICS = [
@@ -66,7 +67,7 @@
   ];
 
   const Kit = {
-    F, pop, byId, mask, fmt, sig, OBJECTIVE, GATES, DIAGNOSTICS,
+    F, pop, traced, byId, mask, failingId: F.featured_failing, bestId: traced[0].id, fmt, sig, OBJECTIVE, GATES, DIAGNOSTICS,
     trace: (id) => F.traces[id],
     best: () => pop.find((s) => s.admissible) || null,
     time: (tr, i) => tr.t0 + i * tr.dt,
@@ -127,7 +128,7 @@
 
   /* ── solution picker ── */
   Kit.picker = function (el, current, onPick) {
-    el.innerHTML = `<span class="lbl">Solution</span>` + pop.map((s) =>
+    el.innerHTML = `<span class="lbl">Solution</span>` + traced.map((s) =>
       `<button class="chip" data-sol="${s.id}" aria-pressed="${s.id === current}" title="rank ${s.rank} · ${s.admissible ? "admissible" : "not admissible"}">` +
       `<span class="dot ${s.admissible ? "" : "bad"}"></span><span class="rk">#${s.rank}</span>${s.id}</button>`).join("");
     el.addEventListener("click", (e) => {
@@ -153,7 +154,11 @@
       cap.innerHTML = `<b>${i + 1}. ${s.label}</b>${s.caption}`;
       if (run) apply(s);
       const t = s.target && document.querySelector(s.target);
-      if (t) t.classList.add("guide-target");
+      if (t) {
+        t.classList.add("guide-target");
+        const b = t.getBoundingClientRect();
+        if (b.top < 0 || b.bottom > innerHeight) t.scrollIntoView({ block: b.height > innerHeight * 0.7 ? "start" : "center" });
+      }
     }
     el.addEventListener("click", (e) => {
       const b = e.target.closest("[data-g]");
@@ -176,13 +181,13 @@
 
   /* ── inputs footer ── */
   Kit.footer = function (el, { reads, generalises, extra = "" }) {
-    const tr = F.traces[pop[0].id];
+    const tr = F.traces[traced[0].id];
     el.innerHTML = `
       <div><h3>This view reads (black-box outputs only)</h3><ul>${F.inputs.filter(([k]) => reads.includes(k)).map(([k, v]) => `<li><b>${k}</b>: ${v}</li>`).join("")}</ul>
         <p style="margin:6px 0 0">Never read: ${F.not_used}. Any solution renders through the same view.</p></div>
       <div><h3>How it generalises</h3><p style="margin:0">${generalises}</p></div>
-      <div><h3>Data shown</h3><p style="margin:0">${F.robot} · ${F.dataset} · task <code>${F.featured_task}</code> for the trace views, ${F.tasks_used} tasks for the population. Source: <span class="src">${F.source_repo}</span>, e.g. <span class="src">${tr.source}</span> @ <code>${tr.source_sha}</code>. Metrics recomputed by <span class="src">${F.generated_by}</span> per ruler ${F.ruler}.</p>
-        <p style="margin:6px 0 0">${F.caveat} ${F.tasks_excluded.length} tasks left out: ${F.excluded_why}</p>${extra}</div>`;
+      <div><h3>Data shown</h3><p style="margin:0">${F.deployment_title} · ${F.dataset} · ${pop.length} solutions from <span class="src">ledger.jsonl</span> (${F.ledger_rows} rows) and <span class="src">solutions/*/scorecard.json</span>. Traces: task <code>${F.featured_task}</code> for ${traced.map((s) => s.id).join(", ")}, from <span class="src">${tr.source}</span> and its siblings. Metrics and gates: ${F.ruler_source}.</p>
+        <p style="margin:6px 0 0">Samples are drawn on the target's 100 Hz grid; saturation, limits and floor are scored on every 4 kHz physics sample, so their counts are quoted from the scorecard and the 100 Hz flags only show where.</p>${extra}</div>`;
   };
 
   window.Kit = Kit;

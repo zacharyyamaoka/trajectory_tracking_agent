@@ -85,7 +85,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 const createArmView = (el, opts) => window.ArmView.create(THREE, OrbitControls, el, opts);
 const K = window.Kit, F = K.F;
-const state = { sol: K.pop[0].id, lens: "objective", k: 0 };
+const state = { sol: K.bestId, lens: "objective", k: 0 };
 const h = K.hash();
 if (h.s && K.byId[h.s]) state.sol = h.s;
 if (h.lens) state.lens = h.lens;
@@ -105,16 +105,16 @@ const LENSES = {
     read: () => `${tr.stops.length} stops · worst <b class="${tr.gates.stop_error_max_mm ? "" : "bad"}">${K.fmt.mm(tr.kpis.stop_error_max_mm)}</b> ${tr.gates.stop_error_max_mm ? "≤" : ">"} ${F.thresholds.stop_error_max_mm} mm`, legend: "stop" },
   saturation_share_pct: { title: "Torque saturation", frame: () => peakIndex(tr.tau_pct), magnify: false,
     how: () => `Each joint coloured by its torque as a share of its cap. A sample counts as saturated when any joint reaches ${Math.round(F.thresholds.sat_fraction * 100)} % of its cap.`,
-    read: () => `${K.fmt.int(count(sat))} saturated samples = <b>${K.fmt.pct(tr.kpis.saturation_share_pct)}</b> (gate ≤ ${F.thresholds.saturation_share_pct} %) · peak ${tr.kpis.torque_peak_pct.toFixed(1)} % of cap`, legend: "pct" },
+    read: () => `<b class="${tr.gates.saturation_share_pct ? "" : "bad"}">${K.fmt.pct(tr.kpis.saturation_share_pct)}</b> of physics samples saturated (gate ≤ ${F.thresholds.saturation_share_pct} %) · ${K.fmt.int(count(sat))} of ${K.fmt.int(tr.n)} on this 100 Hz strip · peak ${tr.kpis.torque_peak_pct.toFixed(1)} % of cap`, legend: "pct" },
   limit_violations: { title: "Joint limits", frame: () => peakIndex(tr.qd_pct), magnify: false,
     how: () => `Each joint coloured by its speed as a share of its velocity limit (180°/s). A violation is a speed above ${F.thresholds.vel_margin} × the limit or a position outside its range.`,
-    read: () => `<b>${K.fmt.int(tr.kpis.limit_violations)}</b> violating samples · peak speed ${tr.kpis.velocity_peak_pct.toFixed(1)} % of limit (fails above ${Math.round(F.thresholds.vel_margin * 100)} %)`, legend: "pct" },
+    read: () => `<b class="${tr.gates.limit_violations ? "" : "bad"}">${K.fmt.int(tr.kpis.limit_violations)}</b> violating physics samples (4 kHz) · peak speed ${tr.kpis.velocity_peak_pct.toFixed(1)} % of limit (fails above ${Math.round(F.thresholds.vel_margin * 100)} %)`, legend: "pct" },
   floor_clearance: { title: "Floor clearance", frame: () => tr.lowest_i, magnify: false,
     how: () => `The lowest of the tool point and every link origin, at every sample. Any sample below the floor plane (z = 0) fails the gate.`,
     read: () => `<b>${K.fmt.int(tr.kpis.floor_clearance)}</b> samples below · closest ${tr.kpis.min_clearance_mm.toFixed(0)} mm (${F.deployment.links[tr.lowest_link]} at ${K.fmt.s(K.time(tr, tr.lowest_i))})`, legend: "floor" },
   completed: { title: "Completed", frame: () => tr.n - 1, magnify: false,
     how: () => `No crash, no NaN command, the run reaches the trajectory's end and settles in its final stop.`,
-    read: () => `<b class="${tr.gates.completed ? "" : "bad"}">${tr.gates.completed ? "reached the end" : "did not finish"}</b> at ${K.fmt.s(K.time(tr, tr.n - 1))} · final stop ${tr.stops.at(-1).map((v) => v.toFixed(2)).join("–")} s`, legend: "" },
+    read: () => `<b class="${tr.gates.completed ? "" : "bad"}">${tr.gates.completed ? "finished and settled" : "did not settle"}</b> · run ends ${K.fmt.s(K.time(tr, tr.n - 1))} · final stop ${tr.stops.at(-1).map((v) => v.toFixed(2)).join("–")} s${tr.notes.length ? `<br><span class="bad">${tr.notes[0]}</span>` : ""}`, legend: "" },
   tool_lag_ms: { title: "Tool lag (diagnostic)", frame: () => tr.peak_err_i, magnify: false,
     how: () => `How late the measured motion runs. The highlighted stretch of the target path is where the target was over the last lag; a lagging arm sits at its start.`,
     read: () => `measured runs <b>${K.fmt.ms(tr.kpis.tool_lag_ms)}</b> behind the target`, legend: "lag" },
@@ -164,7 +164,7 @@ function renderScores() {
   const btn = (id, cls, ic, nm, val, rule) =>
     `<button class="score ${cls}" data-lens="${id}" aria-pressed="${state.lens === id}"><span class="ic ${cls === "fail" ? "bad" : cls === "pass" ? "ok" : ""}">${ic}</span><span class="nm">${nm}</span><span class="val">${val}</span><span class="rule">${rule}</span></button>`;
   document.getElementById("scores").innerHTML =
-    `<div class="answer">${ans}<br><span style="color:var(--muted)">${s.admissible ? "Admissible" : "Not admissible"} over ${F.tasks_used} tasks · rank ${s.rank} of ${K.pop.length}</span></div>` +
+    `<div class="answer">${ans}<br><span style="color:var(--muted)">${s.admissible ? "Admissible" : "Not admissible"} over ${F.tasks_used} dev tasks · rank ${s.rank} of ${K.pop.length}</span></div>` +
     `<div class="sec">Objective · lower is better</div>` +
     btn("objective", "objective", "", K.OBJECTIVE.label, K.fmt.mm(k.tool_track_rms_mm), `this task, RMS · <code>${K.OBJECTIVE.id}</code><br>median over ${F.tasks_used} tasks = <b>${K.fmt.mm(s.objective)}</b>`) +
     `<div class="sec">Gates · every task must pass every gate</div>` +
@@ -356,11 +356,11 @@ const setPick = K.picker(document.getElementById("picker"), state.sol, (sol) => 
 K.theme(document.getElementById("theme"), () => { view.applyTheme(); drawEvidence(); setFrame(state.k); });
 
 const guide = K.guide(document.getElementById("guide"), [
-  { label: "The score", caption: "The objective is drawn where it comes from: each whisker is one sample's target-to-measured distance (magnified). Grey = at rest, not counted.", lens: "objective", sol: K.pop[0].id, target: '[data-lens="objective"]' },
-  { label: "A gate", caption: "Stop error: every stop's last 0.1 s, its 1 mm ball and where the arm actually rested.", lens: "stop_error_max_mm", sol: K.pop[0].id, target: '[data-lens="stop_error_max_mm"]' },
-  { label: "Headroom", caption: "Torque saturation: joints coloured by torque as a share of cap at the busiest instant: far from the 98 % line.", lens: "saturation_share_pct", sol: K.pop[0].id, target: '[data-lens="saturation_share_pct"]' },
-  { label: "Swap the black box", caption: "Same view, another solution: menagerie_stock misses every stop's 1 mm ball, at true scale.", lens: "stop_error_max_mm", sol: "menagerie_stock", target: '[data-sol="menagerie_stock"]' },
-  { label: "Where it came from", caption: "Its tracking error in the motion: the error builds along each move and peaks mid-move.", lens: "objective", sol: "menagerie_stock", target: '[data-lens="objective"]' },
+  { label: "The score", caption: "The objective is drawn where it comes from: each whisker is one sample's target-to-measured distance (magnified). Grey = at rest, not counted.", lens: "objective", sol: K.bestId, target: '[data-lens="objective"]' },
+  { label: "A gate", caption: "Stop error: the stop's last 0.1 s, its 1 mm ball (magnified) and where the arm actually rested.", lens: "stop_error_max_mm", sol: K.bestId, target: '[data-lens="stop_error_max_mm"]' },
+  { label: "Swap the black box", caption: `Same view, a failing solution (${K.failingId}): it rests far outside the 1 mm ball, drawn at true scale.`, lens: "stop_error_max_mm", sol: K.failingId, target: `[data-sol="${K.failingId}"]` },
+  { label: "A torque gate fails", caption: "Torque saturation: joints coloured by share of cap; red ticks on the strip are the samples at the cap.", lens: "saturation_share_pct", sol: K.failingId, target: '[data-lens="saturation_share_pct"]' },
+  { label: "A limit gate fails", caption: "Joint limits: the busiest instant, a joint well past 105 % of its speed limit; red ticks mark every 100 Hz sample over it.", lens: "limit_violations", sol: K.failingId, target: '[data-lens="limit_violations"]' },
 ], (s) => { if (s.sol !== state.sol) { load(s.sol); setPick(s.sol); } setLens(s.lens, true); });
 
 K.footer(document.getElementById("inputs"), {

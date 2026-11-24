@@ -71,7 +71,7 @@
 <script src="../_shared/kit.js"></script>
 <script>
 const K = window.Kit, F = K.F, T = F.thresholds;
-const state = { sol: K.pop[0].id, metric: "tool_track_rms_mm", hover: null };
+const state = { sol: K.bestId, metric: "tool_track_rms_mm", hover: null };
 const h = K.hash();
 if (h.s && K.byId[h.s]) state.sol = h.s;
 if (h.m) state.metric = h.m;
@@ -140,7 +140,8 @@ function rankStrip(pi) {
   const x = (u) => ((Math.log(u) - Math.log(lo)) / (Math.log(hi) - Math.log(lo))) * (W - 40) + 20;
   return `<svg viewBox="0 0 ${W} 56" style="height:56px"><line x1="20" x2="${W - 20}" y1="30" y2="30" stroke="var(--line)"/>` +
     K.pop.map((s, i) => `<circle cx="${x(s.objective)}" cy="30" r="${i === pi ? 6.5 : 4.5}" fill="${s.admissible ? (i === pi ? "var(--accent)" : "var(--faint)") : "var(--surface)"}" stroke="${s.admissible ? "var(--surface)" : "var(--fail)"}" stroke-width="2"/>` +
-      `<text class="ax" x="${x(s.objective)}" y="${i % 2 ? 50 : 16}" text-anchor="middle" fill="${i === pi ? "var(--ink)" : "var(--muted)"}">#${s.rank} ${s.id} ${K.sig(s.objective, 2)} mm${s.admissible ? "" : " ✗"}</text>`).join("") + `</svg>`;
+      (i === pi || i === 0 ? `<text class="ax" x="${x(s.objective)}" y="${i === pi ? 16 : 50}" text-anchor="middle" fill="${i === pi ? "var(--ink)" : "var(--muted)"}">#${s.rank} ${s.id} ${K.sig(s.objective, 2)} mm${s.admissible ? "" : " ✗"}</text>` : `<title>#${s.rank} ${s.id}</title>`)).join("") +
+    `<text class="ax" x="20" y="50">${K.pop.filter((s) => s.admissible).length} admissible (filled) · ${K.pop.filter((s) => !s.admissible).length} not (red ring)</text></svg>`;
 }
 
 /* ── the receipts ── */
@@ -223,11 +224,11 @@ R.saturation_share_pct = () => {
       { what: "Each joint's torque as a share of its cap", why: `Caps ${F.deployment.tau_cap_nm.join(" / ")} N·m. ${jointLegend()}`, res: `peak ${pk.toFixed(1)} %<small>${F.deployment.joints[pj]} at ${time(tr.idx[pkk]).toFixed(2)} s</small>`,
         viz: frame(H, jointLines(tr.tau_pct, H, 100, 100 * T.sat_fraction, `${Math.round(100 * T.sat_fraction)} % = saturated`)),
         hover: (i) => { const r = tr.tau_pct[K.near(tr, i)]; const j = r.reduce((b, v, jj) => (Math.abs(v) > Math.abs(r[b]) ? jj : b), 0); return `${F.deployment.joints[j]} ${Math.abs(r[j]).toFixed(0)} %`; } },
-      { what: `Flag samples with any joint ≥ ${Math.round(100 * T.sat_fraction)} %`, why: "Red ticks mark flagged samples.", res: `${K.fmt.int(c)} flagged`,
+      { what: `Flag samples with any joint ≥ ${Math.round(100 * T.sat_fraction)} %`, why: "Red ticks mark flagged samples on this 100 Hz record; the gate flags every 4 kHz physics sample the same way.", res: `${K.fmt.int(c)} of ${K.fmt.int(tr.n)} here`,
         viz: frame(14, bands([[0, tr.n - 1]], 14, "var(--surface-2)") + bands(tr.full.sat, 14, "var(--fail)")) },
-      { what: "Share of all samples", why: `${K.fmt.int(c)} ÷ ${K.fmt.int(tr.n)}.`, res: `<b class="${ok ? "" : "bad"}">${K.fmt.pct(share)} ${ok ? "≤" : ">"} ${T.saturation_share_pct} %</b>`, total: true },
+      { what: "Share of all physics samples", why: `The gate's count over the 4 kHz physics samples (the scorecard); on this page's 100 Hz samples it is ${K.fmt.pct(share)}.`, res: `<b class="${ok ? "" : "bad"}">${K.fmt.pct(tr.kpis.saturation_share_pct)} ${ok ? "≤" : ">"} ${T.saturation_share_pct} %</b>`, total: true },
     ],
-    check: [share, tr.kpis.saturation_share_pct, "%", "from the per-sample flags"],
+    note: `Counted by the ruler on 4 kHz physics samples (scorecard ${K.fmt.pct(tr.kpis.saturation_share_pct)}); this page's ${K.fmt.int(tr.n)} record samples give ${K.fmt.pct(share)}, so the flags show where, not the count.`,
   };
 };
 R.limit_violations = () => {
@@ -239,13 +240,13 @@ R.limit_violations = () => {
     blurb: `Samples outside a joint's position range, or faster than ${T.vel_margin} × its velocity limit. Gate: 0.`,
     items: [
       { what: "Each joint's speed as a share of its limit", why: `Limit ${F.deployment.qd_max_deg_s[0]}°/s every joint (UR datasheet). ${jointLegend()}`, res: `peak ${pk.toFixed(1)} %<small>${F.deployment.joints[pj]} at ${time(tr.idx[pkk]).toFixed(2)} s</small>`,
-        viz: frame(H, jointLines(tr.qd_pct, H, 110, 100 * T.vel_margin, `${Math.round(100 * T.vel_margin)} % = violation`)),
+        viz: frame(H, jointLines(tr.qd_pct, H, Math.max(110, ...tr.qd_pct.flat().map(Math.abs)) * 1.02, 100 * T.vel_margin, `${Math.round(100 * T.vel_margin)} % = violation`) + bands(tr.full.lim, 3, "var(--fail)")),
         hover: (i) => { const r = tr.qd_pct[K.near(tr, i)]; const j = r.reduce((b, v, jj) => (Math.abs(v) > Math.abs(r[b]) ? jj : b), 0); return `${F.deployment.joints[j]} ${Math.abs(r[j]).toFixed(0)} %`; } },
       { what: "Each joint's furthest reach into its range", why: `Range ±${F.deployment.q_limit_deg.join(" / ±")}°.`, res: `max ${Math.max(...posPct).toFixed(0)} % of range`,
         viz: `<svg viewBox="0 0 ${W} 30" style="height:30px">${posPct.map((p, j) => `<rect x="${j * (W / 6) + 4}" y="6" width="${(W / 6 - 12) * p / 100}" height="10" fill="var(--ink)" opacity=".7"/><rect x="${j * (W / 6) + 4}" y="6" width="${W / 6 - 12}" height="10" fill="none" stroke="var(--line)"/><text class="ax" x="${j * (W / 6) + 4}" y="28">${F.deployment.joints[j]} ${p.toFixed(0)} %</text>`).join("")}</svg>` },
-      { what: "Count violating samples", why: "", res: `<b class="${ok ? "" : "bad"}">${K.fmt.int(c)} ${ok ? "= 0" : "> 0"}</b>`, total: true },
+      { what: "Count violating physics samples", why: `The gate counts 4 kHz physics samples; this 100 Hz record flags ${K.fmt.int(c)} of its ${K.fmt.int(tr.n)} samples (red ticks on line 01).`, res: `<b class="${ok ? "" : "bad"}">${K.fmt.int(tr.kpis.limit_violations)} ${ok ? "= 0" : "> 0"}</b>`, total: true },
     ],
-    check: [c, tr.kpis.limit_violations, "samples", "from the per-sample flags"],
+    note: `Counted by the ruler on 4 kHz physics samples (scorecard ${K.fmt.int(tr.kpis.limit_violations)}); this page's 100 Hz record flags ${K.fmt.int(c)}.`,
   };
 };
 R.floor_clearance = () => {
@@ -257,9 +258,8 @@ R.floor_clearance = () => {
     items: [
       { what: "Lowest point of the arm at every sample", why: "The lowest of the tool point and the six link origins, height above the floor.", res: `closest ${tr.kpis.min_clearance_mm.toFixed(0)} mm<small>${F.deployment.links[tr.lowest_link]} at ${time(tr.lowest_i).toFixed(2)} s</small>`,
         viz: frame(H, series(lowv, (k) => k, H, mx) + hline(0, H, mx, "floor", "var(--fail)")), hover: (i) => `${lowv[i].toFixed(0)} mm above` },
-      { what: "Count samples below the floor", why: "", res: `<b class="${ok ? "" : "bad"}">${K.fmt.int(c)} ${ok ? "= 0" : "> 0"}</b>`, total: true },
+      { what: "Count physics samples below the floor", why: `The gate counts 4 kHz physics samples; this 100 Hz record has ${K.fmt.int(c)} below.`, res: `<b class="${ok ? "" : "bad"}">${K.fmt.int(tr.kpis.floor_clearance)} ${ok ? "= 0" : "> 0"}</b>`, total: true },
     ],
-    check: [c, tr.kpis.floor_clearance, "samples", "from the per-sample flags"],
   };
 };
 R.completed = () => {
@@ -268,9 +268,8 @@ R.completed = () => {
     title: "Completed", code: "completed", verdict: ok,
     blurb: "A crash is not a score: the run must finish cleanly before anything else counts.",
     items: [
-      { what: "No crash, no NaN", why: "Every measured joint state and torque is a finite number.", res: ok ? "✓ all finite" : "✗" },
-      { what: "Reaches the trajectory's end", why: "The run lasts past the last target sample.", res: `${time(tr.n - 1).toFixed(2)} s recorded` },
-      { what: "Settles", why: `It ends inside a final stop (target at rest ≥ ${T.stop_min_s} s).`, res: `${last[0].toFixed(2)}–${last[1].toFixed(2)} s`,
+      { what: "No crash, no NaN, reaches the end", why: "Every command is a finite number and the run lasts to the trajectory's end.", res: `${time(tr.n - 1).toFixed(2)} s recorded` },
+      { what: "Settles", why: `The tool stays within 1 mm of the target over the last 0.1 s of the final stop (target at rest ≥ ${T.stop_min_s} s).${tr.notes.length ? ` <span class="bad">${tr.notes[0]}</span>` : ""}`, res: `${last[0].toFixed(2)}–${last[1].toFixed(2)} s<small>settle error ${K.fmt.mm(tr.kpis.settle_error_max_mm)}</small>`,
         viz: frame(18, bands([[Math.round((last[0] - tr.t0) / tr.dt), tr.n - 1]], 18, "var(--ink)", 0.7) + stopTicks(18)) },
       { what: "Verdict", why: "", res: `<b class="${ok ? "" : "bad"}">${ok ? "completed" : "not completed"}</b>`, total: true },
     ],
@@ -352,6 +351,7 @@ function renderReceipt() {
   hovers = [];
   const items = r.items.map((it, n) => { hovers.push(it.hover || null); return `<div class="item ${it.total ? "total" : ""}" data-item="${n}"><span class="n">${String(n + 1).padStart(2, "0")}</span><div><div class="what">${it.what}</div><div class="why">${it.why}</div></div><div class="res">${it.res}${it.hover ? "<small class='hv'></small>" : ""}</div>${it.viz ? `<div class="viz">${it.viz}</div>` : ""}</div>`; }).join("");
   let check = "";
+  if (r.note) check = `<div class="check">${r.note}</div>`;
   if (r.check) {
     const [here, card, unit, from] = r.check, same = K.sig(here, 3) === K.sig(card, 3);
     check = `<div class="check">Recomputed in this page ${from}: ${K.sig(here, 3)} ${unit} · scorecard: ${K.sig(card, 3)} ${unit} · <b class="${same ? "ok" : "bad"}">${same ? "equal" : "DIFFERENT"}</b></div>`;
@@ -375,11 +375,11 @@ function setHover(i) {
 const setPick = K.picker(document.getElementById("picker"), state.sol, (sol) => { load(sol); setPick(sol); guide.sync((s) => s.m === state.metric && s.sol === state.sol); });
 K.theme(document.getElementById("theme"), () => renderReceipt());
 const guide = K.guide(document.getElementById("guide"), [
-  { label: "The objective's receipt", caption: "Read top to bottom: raw samples → keep the moving ones → distance → square → mean → root → median over tasks.", m: "tool_track_rms_mm", sol: K.pop[0].id, target: '[data-m="tool_track_rms_mm"]', hover: 1990 },
-  { label: "Where it came from", caption: "Line 04: the worst tenth of the samples (accent) carries most of the squared error; hover any chart to read one sample on every line.", m: "tool_track_rms_mm", sol: K.pop[0].id, target: '[data-item="3"]', hover: 1990 },
-  { label: "A gate's receipt", caption: "Stop error: find stops → last 0.1 s → distance per stop → worst vs 1 mm. Stamped PASS.", m: "stop_error_max_mm", sol: K.pop[0].id, target: '[data-m="stop_error_max_mm"]' },
-  { label: "A failing receipt", caption: "Same receipt, another solution: every stop misses by 7–14 mm. Stamped FAIL.", m: "stop_error_max_mm", sol: "menagerie_stock", target: '[data-sol="menagerie_stock"]' },
-  { label: "A diagnostic", caption: "Tool lag: slide the measured curve until it lines up with the target; the slide is the lag.", m: "tool_lag_ms", sol: "menagerie_stock", target: '[data-m="tool_lag_ms"]', hover: 1100 },
+  { label: "The objective's receipt", caption: "Read top to bottom: raw samples → keep the moving ones → distance → square → mean → root → median over tasks.", m: "tool_track_rms_mm", sol: K.bestId, target: '[data-m="tool_track_rms_mm"]', hover: K.trace(K.bestId).peak_err_i },
+  { label: "Where it came from", caption: "Line 04: the worst tenth of the samples (accent) carries a large share of the squared error; hover any chart to read one sample on every line.", m: "tool_track_rms_mm", sol: K.bestId, target: '[data-item="3"]', hover: K.trace(K.bestId).peak_err_i },
+  { label: "A gate's receipt", caption: "Stop error: find stops → last 0.1 s → distance per stop → worst vs 1 mm. Stamped PASS.", m: "stop_error_max_mm", sol: K.bestId, target: '[data-m="stop_error_max_mm"]' },
+  { label: "A failing receipt", caption: `Same receipt, a failing solution (${K.failingId}): it rests ${K.fmt.mm(K.trace(K.failingId).kpis.stop_error_max_mm)} from the target. Stamped FAIL.`, m: "stop_error_max_mm", sol: K.failingId, target: `[data-sol="${K.failingId}"]` },
+  { label: "A torque gate fails", caption: "Torque saturation: the joints' torque against the 98 % line, the flagged samples, and the gate's 4 kHz share. Stamped FAIL.", m: "saturation_share_pct", sol: K.failingId, target: '[data-m="saturation_share_pct"]' },
 ], (s) => { state.metric = s.m; if (s.sol !== state.sol) { load(s.sol); setPick(s.sol); } else { renderTill(); renderReceipt(); } if (s.hover) setHover(s.hover); });
 K.footer(document.getElementById("inputs"), {
   reads: ["target trajectory", "measured joint states", "applied torques", "deployment", "ruler v1"],

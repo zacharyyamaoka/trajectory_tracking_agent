@@ -41,7 +41,7 @@ GATES = [
 ]
 G_ALL = {
     "g1": {"pass": True, "evidence": "Reads only _data/fixture.js (target, measured joint states, applied torques, deployment, ruler); the builder never loads the traces' controller fields."},
-    "g2": {"pass": True, "evidence": "Shown numbers checked against the fixture from the rendered DOM (0 misses); the fixture is recomputed from arm_motion_bench traces and cross-checked against the traces' own tool error."},
+    "g2": {"pass": True, "evidence": "Shown numbers checked from the rendered DOM against the source files (run records, scorecards, ledger): 0 misses; the builder re-runs the ruler on every shipped record and gets its numbers back."},
     "g3": {"pass": True, "evidence": "Static HTML plus the shared fixture; light, dark and phone width screenshotted; displayed paths are repo-relative."},
 }
 
@@ -55,7 +55,7 @@ def preview(slug, n, what):
             f'<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">'
             f'<button class="demo-button" data-demo-toggle data-base-label="Show the failing solution" data-alt-label="Show the best solution">Show the failing solution</button>'
             f'<a data-open href="{slug}/index.html" target="_blank" rel="noopener" style="font-size:13px">Open the live page ↗</a>'
-            f'<span style="font-size:12px;opacity:.7">Same task, same view: best (ctc_tuned) vs failing (menagerie_stock).</span></div></div>')
+            f'<span style="font-size:12px;opacity:.7">Same task, same view: the best solution vs a failing one (p10).</span></div></div>')
 
 
 def still(n, label, caption):
@@ -94,12 +94,13 @@ V = [
                 "fr3": sc(4, "Failing stops are red in 3D, in the close-ups and on the strip; the exact time needs a scrub."),
                 "fr4": sc(3, "Needs FK link points and a 3D glyph per metric; a non-spatial black box keeps only the list and strip."),
                 "fr5": sc(5, "It is the landing page's own interaction (score list + 3D); phone stacks the 3D first.", "high")},
-     "media": [still("01-sat", "Torque lens", "Joints coloured by torque as a share of cap at the busiest instant: far from the 98 % line."),
+     "media": [still("01-sat", "A torque gate fails", "p10: joints coloured by torque as a share of cap; the shoulder lift pins at 100 % and red ticks on the strip mark the saturated samples."),
+               still("01-lim", "A limit gate fails", "p10: a wrist turns far past 105 % of its speed limit; red ticks mark every 100 Hz sample over it."),
                still("01-dark", "Stop lens, dark", "Each stop's 1 mm ball (magnified) and the close-ups, in the dark theme."),
-               still("01-phone", "Phone width", "3D first, then the score list."), live("01-evidence-lens")]},
+               live("01-evidence-lens")]},
     {"id": "v2", "name": "Itemized Receipt", "slug": "02-receipt", "n": "02", "accent": "#0f766e",
      "thesis": "Every number prints as a receipt: the line items that turn raw samples into it, each a live chart, ending in a total the page recomputes.",
-     "bestWhen": "Trust and audit: someone asks 'how exactly is 0.0168 mm computed?', or a new metric is being designed.",
+     "bestWhen": "Trust and audit: someone asks 'how exactly is this task's tracking error computed?', or a new metric is being designed.",
      "losesWhen": "The question is where in space or when it went wrong, or many numbers must be read at once.",
      "decisions": [{"label": "Primary object", "value": "one number's derivation, top to bottom"},
                    {"label": "Proof", "value": "the page recomputes the total from the samples and says 'equal'"},
@@ -112,7 +113,7 @@ V = [
                 "fr4": sc(5, "Any metric that is a chain of reductions prints as a receipt; no geometry needed.", "high"),
                 "fr5": sc(3, "Fits as a 'how is this computed' drawer behind a score; not a landing view on its own.")},
      "media": [still("02-where", "Where the error lives", "Line 04: the worst tenth of the samples carries most of the squared error; the hover reads one sample on every line."),
-               still("02-lag", "A diagnostic's receipt", "Tool lag: slide the measured curve until it lines up with the target."),
+               still("02-sat", "A failing gate's receipt", "p10's torque saturation: torque against the 98 % line, the flagged samples, and the gate's own 4 kHz share, stamped FAIL."),
                still("02-phone", "Phone width", "The list becomes two columns above the receipt."), live("02-receipt")]},
     {"id": "v3", "name": "Headroom Gauges", "slug": "03-headroom", "n": "03", "accent": "#b45309",
      "thesis": "Every gate as the share of its limit used, on one log scale with one fail line, sorted into 'what fails next'; click one to see the instant it came closest, in a side view.",
@@ -122,13 +123,13 @@ V = [
                    {"label": "Answer", "value": "'closest to failing: X, N % of its limit' as the verdict line"},
                    {"label": "Drill", "value": "worst instant in a 2D side elevation plus a draggable margin sparkline"}],
      "keepParts": ["closest-to-failing verdict line", "one-scale headroom bars", "N× headroom column", "side elevation at the worst instant"],
-     "proof": ["Screenshotted light, dark, phone, the failing case and the floor row.", "Surfaced a real near-limit: the elbow at 71 % of its range on the best solution."],
+     "proof": ["Screenshotted light, dark, phone, the failing case and the floor row.", "Surfaced a real near-limit on the best solution: a wrist at 96 % of its joint range (1.0× headroom)."],
      "scores": {"fr1": sc(5, "One sentence names the verdict and the gate closest to failing; every gate on one scale.", "high"),
                 "fr2": sc(3, "Shows the worst instant and the margin over time, not how the number is reduced."),
                 "fr3": sc(4, "A failing bar crosses into red, with its instant and side view; one task at a time."),
                 "fr4": sc(4, "Any threshold metric is one more row (value ÷ limit) for any black box; the side view needs FK points."),
                 "fr5": sc(4, "Gauges fit a landing page's score area well; the drill is 2D, not the 3D Zach pictured.")},
-     "media": [still("03-floor", "Distance to spare", "Floor clearance is a distance, not a share: the dot sits left of the line by its millimetres."),
+     "media": [still("03-vel", "Over the speed limit", "p10: the instant a joint went furthest past 105 % of its speed limit, ringed in the side view; the sparkline shows every crossing."),
                still("03-dark", "Scrub the margin, dark", "The margin over the whole run; drag along it to move the instant."),
                still("03-phone", "Phone width", "Gauges stack above the moment panel."), live("03-headroom")]},
     {"id": "v4", "name": "Flight Recorder", "slug": "04-flight-recorder", "n": "04", "accent": "#7c3aed",
@@ -146,7 +147,7 @@ V = [
                 "fr4": sc(5, "A lane is a per-sample signal + threshold + reduction: generic for any black box with time series.", "high"),
                 "fr5": sc(3, "Best as the details view under the landing page's scores; too dense to be the hero.")},
      "media": [still("04-joints", "A lane, opened", "Torque vs cap opened into its six joints, each with the 98 % saturation line."),
-               still("04-lag", "Why: the lag", "Tool speed: the measured (ink) trails the target (grey) by 144 ms, so the arm is still moving when each stop window closes."),
+               still("04-why", "Why it misses the stop", "p10 into the stop: torque pins at the cap and joints overspeed; the arm is still swinging when the stop window closes, 13 mm off."),
                still("04-phone", "Phone width", "Lanes narrow, scores stay at the right."), live("04-flight-recorder")]},
     {"id": "v5", "name": "Population Map", "slug": "05-population-map", "n": "05", "accent": "#be185d",
      "thesis": "Start from every solution at once: the objective as the median of each row's task dots, the gates as a 5 × 20 fingerprint; click down to a task and its trace.",
@@ -162,8 +163,8 @@ V = [
                 "fr3": sc(4, "The fingerprint shows which gate on which task at a glance; the time only after drilling."),
                 "fr4": sc(5, "Reads only scorecards (per-task rows + verdicts): any black box with an objective and gates.", "high"),
                 "fr5": sc(4, "The natural top of the landing page; its drill hands off to one of the other views.")},
-     "media": [still("05-drill", "Drill into a solution", "menagerie_stock: the stop gate fails on every task; its task trace labels each stop's error."),
-               still("05-best", "Compare the best", "ctc_tuned on the same task: stops at a thousandth of a millimetre."),
+     "media": [still("05-drill", "Drill into a solution", "p10: completed, stop, saturation and limits fail across many tasks; its task trace shows the 13 mm stop miss."),
+               still("05-best", "Compare the best", "The ledger's best on the same task: it rests under a tenth of a millimetre from the target."),
                still("05-dark", "Dark theme", "The same drill in the dark theme."), live("05-population-map")]},
 ]
 
@@ -184,8 +185,8 @@ def main():
             "previewLabel": "best vs failing solution",
             "preview": preview(v["slug"], v["n"], v["name"]),
             "story": {"title": f"{v['name']}: same view, any solution", "steps": steps(
-                "The best solution (ctc_tuned) on task workspace-dev-001: every gate passes.",
-                "A failing solution (menagerie_stock) through the same view: the stop error gate fails.",
+                "The ledger's best solution on task workspace-dev-029: every gate passes.",
+                "A failing solution (p10) through the same view: completed, stop error, saturation and limits fail.",
                 "The live page has its own five-step Guide and every control works.")},
             "media": v["media"],
         })
@@ -206,13 +207,13 @@ def main():
         "decisionHinge": ("Generality versus landing-page fit. Move 15 points from 'Fits the landing page' to 'Black-box generality' "
                           "(a template repo first, this page second) and Flight Recorder leads 90 to Evidence Lens 79."),
         "invariants": [
-            "Same fixture for all five: arm_motion_bench UR5e, workspace v1 dev, speed 1.0; task workspace-dev-001 for traces; 4 solutions × 20 tasks.",
+            "Same fixture for all five: the ruler's own runs (ur5e_alone, workspace v2 dev, speed 1.0); task workspace-dev-029 for traces; every solution in the ledger × 42 tasks.",
             "Only black-box outputs: target, measured joint states, applied torques, deployment, ruler v1. No controller internals.",
             "Same solution switcher (best vs failing) and the same five-step Guide strip shape on every page.",
             "Static pages, light and dark, phone width; numbers recomputed per OBJECTIVES §4.",
         ],
-        "boundary": ("Five runnable static pages on real simulation traces. Not yet ruler v1's own deployment (500 Hz arm_motion_bench "
-                     "traces of arm_motion_bench's UR5e cell, 20 of its 42 dev tasks); lane E's scorecards drop in through the same fixture."),
+        "boundary": ("Five runnable static pages on the ruler's own runs (ledger, scorecards, run records). Samples are drawn on the "
+                     "100 Hz record; saturation, limits and floor counts are the scorecard's 4 kHz numbers. Population as of the build."),
         "axes": [
             {"name": "Primary object", "values": ["the motion in 3D (V1)", "a number's derivation (V2)", "a gate's margin (V3)",
                                                    "time (V4)", "the population (V5)"]},

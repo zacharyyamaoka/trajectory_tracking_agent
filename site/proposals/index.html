@@ -289,7 +289,7 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
   .keys .kh { grid-column: 1 / -1; font-size: 12.5px; color: var(--ink-2); font-weight: 600; margin-top: 6px; }
 
   /* ==== Splice · Diff · label-aligned steps — ported 2026-11-17 from the report round's d6 prototype
-     (bam_ws docs/babble_report_deck/formats/d6_splice.html: d2 Merge + d3 Diff lens + d5's step matcher). */
+     (an earlier internal report's splice format: d2 Merge + d3 Diff lens + d5's step matcher). */
   /* label-aligned steps, said quietly where two exhibits sit on different step numbers */
   .capline .al-note { color: var(--ink-3); flex: none; max-width: 46%; overflow: hidden; text-overflow: ellipsis; font-size: 12.5px; font-variant-numeric: tabular-nums; }
   .al-tag { color: var(--ink-3); font-size: 11.5px; flex: none; border: 1px dashed var(--line-2); border-radius: 4px; padding: 1px 5px; font-variant-numeric: tabular-nums; }
@@ -447,12 +447,12 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
   "defaultWhy": "Evidence Lens scores highest (85/100): it is the interaction Zach described (click a score, the 3D view shows the samples behind it) and it explains every number in the motion. Flight Recorder is a co-leader at 84 and wins 'which gate failed and when'. Recommended splice for lane W: Population Map's leaderboard on top, Evidence Lens as the click-to-explain, Headroom's 'closest to failing' line in the verdict, Flight Recorder as the details view, Receipt as the 'how is it computed' drawer.",
   "decisionHinge": "Generality versus landing-page fit. Move 15 points from 'Fits the landing page' to 'Black-box generality' (a template repo first, this page second) and Flight Recorder leads 90 to Evidence Lens 79.",
   "invariants": [
-    "Same fixture for all five: arm_motion_bench UR5e, workspace v1 dev, speed 1.0; task workspace-dev-001 for traces; 4 solutions × 20 tasks.",
+    "Same fixture for all five: the ruler's own runs (ur5e_alone, workspace v2 dev, speed 1.0); task workspace-dev-029 for traces; every solution in the ledger × 42 tasks.",
     "Only black-box outputs: target, measured joint states, applied torques, deployment, ruler v1. No controller internals.",
     "Same solution switcher (best vs failing) and the same five-step Guide strip shape on every page.",
     "Static pages, light and dark, phone width; numbers recomputed per OBJECTIVES §4."
   ],
-  "boundary": "Five runnable static pages on real simulation traces. Not yet ruler v1's own deployment (500 Hz arm_motion_bench traces of arm_motion_bench's UR5e cell, 20 of its 42 dev tasks); lane E's scorecards drop in through the same fixture.",
+  "boundary": "Five runnable static pages on the ruler's own runs (ledger, scorecards, run records). Samples are drawn on the 100 Hz record; saturation, limits and floor counts are the scorecard's 4 kHz numbers. Population as of the build.",
   "axes": [
     {
       "name": "Primary object",
@@ -630,7 +630,7 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
         },
         "g2": {
           "pass": true,
-          "evidence": "Shown numbers checked against the fixture from the rendered DOM (0 misses); the fixture is recomputed from arm_motion_bench traces and cross-checked against the traces' own tool error."
+          "evidence": "Shown numbers checked from the rendered DOM against the source files (run records, scorecards, ledger): 0 misses; the builder re-runs the ruler on every shipped record and gets its numbers back."
         },
         "g3": {
           "pass": true,
@@ -638,19 +638,19 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
         }
       },
       "previewLabel": "best vs failing solution",
-      "preview": "<div style=\"display:grid;gap:8px\"><div class=\"demo-base-only\" data-spot=\"hero\"><img src=\"shots/01-hero.jpg\" alt=\"Evidence Lens: the best solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div class=\"demo-alt-only\" data-spot=\"fail\"><img src=\"shots/01-fail.jpg\" alt=\"Evidence Lens: a failing solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div style=\"display:flex;gap:10px;align-items:center;flex-wrap:wrap\"><button class=\"demo-button\" data-demo-toggle data-base-label=\"Show the failing solution\" data-alt-label=\"Show the best solution\">Show the failing solution<\/button><a data-open href=\"01-evidence-lens/index.html\" target=\"_blank\" rel=\"noopener\" style=\"font-size:13px\">Open the live page ↗<\/a><span style=\"font-size:12px;opacity:.7\">Same task, same view: best (ctc_tuned) vs failing (menagerie_stock).<\/span><\/div><\/div>",
+      "preview": "<div style=\"display:grid;gap:8px\"><div class=\"demo-base-only\" data-spot=\"hero\"><img src=\"shots/01-hero.jpg\" alt=\"Evidence Lens: the best solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div class=\"demo-alt-only\" data-spot=\"fail\"><img src=\"shots/01-fail.jpg\" alt=\"Evidence Lens: a failing solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div style=\"display:flex;gap:10px;align-items:center;flex-wrap:wrap\"><button class=\"demo-button\" data-demo-toggle data-base-label=\"Show the failing solution\" data-alt-label=\"Show the best solution\">Show the failing solution<\/button><a data-open href=\"01-evidence-lens/index.html\" target=\"_blank\" rel=\"noopener\" style=\"font-size:13px\">Open the live page ↗<\/a><span style=\"font-size:12px;opacity:.7\">Same task, same view: the best solution vs a failing one (p10).<\/span><\/div><\/div>",
       "story": {
         "title": "Evidence Lens: same view, any solution",
         "steps": [
           {
             "label": "Best solution",
-            "caption": "The best solution (ctc_tuned) on task workspace-dev-001: every gate passes.",
+            "caption": "The ledger's best solution on task workspace-dev-029: every gate passes.",
             "state": "base",
             "target": "[data-spot=\"hero\"]"
           },
           {
             "label": "Failing solution",
-            "caption": "A failing solution (menagerie_stock) through the same view: the stop error gate fails.",
+            "caption": "A failing solution (p10) through the same view: completed, stop error, saturation and limits fail.",
             "state": "alt",
             "target": "[data-demo-toggle]"
           },
@@ -664,19 +664,19 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
       },
       "media": [
         {
-          "label": "Torque lens",
-          "caption": "Joints coloured by torque as a share of cap at the busiest instant: far from the 98 % line.",
-          "html": "<img src=\"shots/01-sat.jpg\" alt=\"Torque lens\">"
+          "label": "A torque gate fails",
+          "caption": "p10: joints coloured by torque as a share of cap; the shoulder lift pins at 100 % and red ticks on the strip mark the saturated samples.",
+          "html": "<img src=\"shots/01-sat.jpg\" alt=\"A torque gate fails\">"
+        },
+        {
+          "label": "A limit gate fails",
+          "caption": "p10: a wrist turns far past 105 % of its speed limit; red ticks mark every 100 Hz sample over it.",
+          "html": "<img src=\"shots/01-lim.jpg\" alt=\"A limit gate fails\">"
         },
         {
           "label": "Stop lens, dark",
           "caption": "Each stop's 1 mm ball (magnified) and the close-ups, in the dark theme.",
           "html": "<img src=\"shots/01-dark.jpg\" alt=\"Stop lens, dark\">"
-        },
-        {
-          "label": "Phone width",
-          "caption": "3D first, then the score list.",
-          "html": "<img src=\"shots/01-phone.jpg\" alt=\"Phone width\">"
         },
         {
           "label": "Live page",
@@ -690,7 +690,7 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
       "name": "Itemized Receipt",
       "thesis": "Every number prints as a receipt: the line items that turn raw samples into it, each a live chart, ending in a total the page recomputes.",
       "accent": "#0f766e",
-      "bestWhen": "Trust and audit: someone asks 'how exactly is 0.0168 mm computed?', or a new metric is being designed.",
+      "bestWhen": "Trust and audit: someone asks 'how exactly is this task's tracking error computed?', or a new metric is being designed.",
       "losesWhen": "The question is where in space or when it went wrong, or many numbers must be read at once.",
       "decisions": [
         {
@@ -750,7 +750,7 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
         },
         "g2": {
           "pass": true,
-          "evidence": "Shown numbers checked against the fixture from the rendered DOM (0 misses); the fixture is recomputed from arm_motion_bench traces and cross-checked against the traces' own tool error."
+          "evidence": "Shown numbers checked from the rendered DOM against the source files (run records, scorecards, ledger): 0 misses; the builder re-runs the ruler on every shipped record and gets its numbers back."
         },
         "g3": {
           "pass": true,
@@ -758,19 +758,19 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
         }
       },
       "previewLabel": "best vs failing solution",
-      "preview": "<div style=\"display:grid;gap:8px\"><div class=\"demo-base-only\" data-spot=\"hero\"><img src=\"shots/02-hero.jpg\" alt=\"Itemized Receipt: the best solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div class=\"demo-alt-only\" data-spot=\"fail\"><img src=\"shots/02-fail.jpg\" alt=\"Itemized Receipt: a failing solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div style=\"display:flex;gap:10px;align-items:center;flex-wrap:wrap\"><button class=\"demo-button\" data-demo-toggle data-base-label=\"Show the failing solution\" data-alt-label=\"Show the best solution\">Show the failing solution<\/button><a data-open href=\"02-receipt/index.html\" target=\"_blank\" rel=\"noopener\" style=\"font-size:13px\">Open the live page ↗<\/a><span style=\"font-size:12px;opacity:.7\">Same task, same view: best (ctc_tuned) vs failing (menagerie_stock).<\/span><\/div><\/div>",
+      "preview": "<div style=\"display:grid;gap:8px\"><div class=\"demo-base-only\" data-spot=\"hero\"><img src=\"shots/02-hero.jpg\" alt=\"Itemized Receipt: the best solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div class=\"demo-alt-only\" data-spot=\"fail\"><img src=\"shots/02-fail.jpg\" alt=\"Itemized Receipt: a failing solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div style=\"display:flex;gap:10px;align-items:center;flex-wrap:wrap\"><button class=\"demo-button\" data-demo-toggle data-base-label=\"Show the failing solution\" data-alt-label=\"Show the best solution\">Show the failing solution<\/button><a data-open href=\"02-receipt/index.html\" target=\"_blank\" rel=\"noopener\" style=\"font-size:13px\">Open the live page ↗<\/a><span style=\"font-size:12px;opacity:.7\">Same task, same view: the best solution vs a failing one (p10).<\/span><\/div><\/div>",
       "story": {
         "title": "Itemized Receipt: same view, any solution",
         "steps": [
           {
             "label": "Best solution",
-            "caption": "The best solution (ctc_tuned) on task workspace-dev-001: every gate passes.",
+            "caption": "The ledger's best solution on task workspace-dev-029: every gate passes.",
             "state": "base",
             "target": "[data-spot=\"hero\"]"
           },
           {
             "label": "Failing solution",
-            "caption": "A failing solution (menagerie_stock) through the same view: the stop error gate fails.",
+            "caption": "A failing solution (p10) through the same view: completed, stop error, saturation and limits fail.",
             "state": "alt",
             "target": "[data-demo-toggle]"
           },
@@ -789,9 +789,9 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
           "html": "<img src=\"shots/02-where.jpg\" alt=\"Where the error lives\">"
         },
         {
-          "label": "A diagnostic's receipt",
-          "caption": "Tool lag: slide the measured curve until it lines up with the target.",
-          "html": "<img src=\"shots/02-lag.jpg\" alt=\"A diagnostic's receipt\">"
+          "label": "A failing gate's receipt",
+          "caption": "p10's torque saturation: torque against the 98 % line, the flagged samples, and the gate's own 4 kHz share, stamped FAIL.",
+          "html": "<img src=\"shots/02-sat.jpg\" alt=\"A failing gate's receipt\">"
         },
         {
           "label": "Phone width",
@@ -834,7 +834,7 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
       ],
       "proof": [
         "Screenshotted light, dark, phone, the failing case and the floor row.",
-        "Surfaced a real near-limit: the elbow at 71 % of its range on the best solution."
+        "Surfaced a real near-limit on the best solution: a wrist at 96 % of its joint range (1.0× headroom)."
       ],
       "scores": {
         "fr1": {
@@ -870,7 +870,7 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
         },
         "g2": {
           "pass": true,
-          "evidence": "Shown numbers checked against the fixture from the rendered DOM (0 misses); the fixture is recomputed from arm_motion_bench traces and cross-checked against the traces' own tool error."
+          "evidence": "Shown numbers checked from the rendered DOM against the source files (run records, scorecards, ledger): 0 misses; the builder re-runs the ruler on every shipped record and gets its numbers back."
         },
         "g3": {
           "pass": true,
@@ -878,19 +878,19 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
         }
       },
       "previewLabel": "best vs failing solution",
-      "preview": "<div style=\"display:grid;gap:8px\"><div class=\"demo-base-only\" data-spot=\"hero\"><img src=\"shots/03-hero.jpg\" alt=\"Headroom Gauges: the best solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div class=\"demo-alt-only\" data-spot=\"fail\"><img src=\"shots/03-fail.jpg\" alt=\"Headroom Gauges: a failing solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div style=\"display:flex;gap:10px;align-items:center;flex-wrap:wrap\"><button class=\"demo-button\" data-demo-toggle data-base-label=\"Show the failing solution\" data-alt-label=\"Show the best solution\">Show the failing solution<\/button><a data-open href=\"03-headroom/index.html\" target=\"_blank\" rel=\"noopener\" style=\"font-size:13px\">Open the live page ↗<\/a><span style=\"font-size:12px;opacity:.7\">Same task, same view: best (ctc_tuned) vs failing (menagerie_stock).<\/span><\/div><\/div>",
+      "preview": "<div style=\"display:grid;gap:8px\"><div class=\"demo-base-only\" data-spot=\"hero\"><img src=\"shots/03-hero.jpg\" alt=\"Headroom Gauges: the best solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div class=\"demo-alt-only\" data-spot=\"fail\"><img src=\"shots/03-fail.jpg\" alt=\"Headroom Gauges: a failing solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div style=\"display:flex;gap:10px;align-items:center;flex-wrap:wrap\"><button class=\"demo-button\" data-demo-toggle data-base-label=\"Show the failing solution\" data-alt-label=\"Show the best solution\">Show the failing solution<\/button><a data-open href=\"03-headroom/index.html\" target=\"_blank\" rel=\"noopener\" style=\"font-size:13px\">Open the live page ↗<\/a><span style=\"font-size:12px;opacity:.7\">Same task, same view: the best solution vs a failing one (p10).<\/span><\/div><\/div>",
       "story": {
         "title": "Headroom Gauges: same view, any solution",
         "steps": [
           {
             "label": "Best solution",
-            "caption": "The best solution (ctc_tuned) on task workspace-dev-001: every gate passes.",
+            "caption": "The ledger's best solution on task workspace-dev-029: every gate passes.",
             "state": "base",
             "target": "[data-spot=\"hero\"]"
           },
           {
             "label": "Failing solution",
-            "caption": "A failing solution (menagerie_stock) through the same view: the stop error gate fails.",
+            "caption": "A failing solution (p10) through the same view: completed, stop error, saturation and limits fail.",
             "state": "alt",
             "target": "[data-demo-toggle]"
           },
@@ -904,9 +904,9 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
       },
       "media": [
         {
-          "label": "Distance to spare",
-          "caption": "Floor clearance is a distance, not a share: the dot sits left of the line by its millimetres.",
-          "html": "<img src=\"shots/03-floor.jpg\" alt=\"Distance to spare\">"
+          "label": "Over the speed limit",
+          "caption": "p10: the instant a joint went furthest past 105 % of its speed limit, ringed in the side view; the sparkline shows every crossing.",
+          "html": "<img src=\"shots/03-vel.jpg\" alt=\"Over the speed limit\">"
         },
         {
           "label": "Scrub the margin, dark",
@@ -990,7 +990,7 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
         },
         "g2": {
           "pass": true,
-          "evidence": "Shown numbers checked against the fixture from the rendered DOM (0 misses); the fixture is recomputed from arm_motion_bench traces and cross-checked against the traces' own tool error."
+          "evidence": "Shown numbers checked from the rendered DOM against the source files (run records, scorecards, ledger): 0 misses; the builder re-runs the ruler on every shipped record and gets its numbers back."
         },
         "g3": {
           "pass": true,
@@ -998,19 +998,19 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
         }
       },
       "previewLabel": "best vs failing solution",
-      "preview": "<div style=\"display:grid;gap:8px\"><div class=\"demo-base-only\" data-spot=\"hero\"><img src=\"shots/04-hero.jpg\" alt=\"Flight Recorder: the best solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div class=\"demo-alt-only\" data-spot=\"fail\"><img src=\"shots/04-fail.jpg\" alt=\"Flight Recorder: a failing solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div style=\"display:flex;gap:10px;align-items:center;flex-wrap:wrap\"><button class=\"demo-button\" data-demo-toggle data-base-label=\"Show the failing solution\" data-alt-label=\"Show the best solution\">Show the failing solution<\/button><a data-open href=\"04-flight-recorder/index.html\" target=\"_blank\" rel=\"noopener\" style=\"font-size:13px\">Open the live page ↗<\/a><span style=\"font-size:12px;opacity:.7\">Same task, same view: best (ctc_tuned) vs failing (menagerie_stock).<\/span><\/div><\/div>",
+      "preview": "<div style=\"display:grid;gap:8px\"><div class=\"demo-base-only\" data-spot=\"hero\"><img src=\"shots/04-hero.jpg\" alt=\"Flight Recorder: the best solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div class=\"demo-alt-only\" data-spot=\"fail\"><img src=\"shots/04-fail.jpg\" alt=\"Flight Recorder: a failing solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div style=\"display:flex;gap:10px;align-items:center;flex-wrap:wrap\"><button class=\"demo-button\" data-demo-toggle data-base-label=\"Show the failing solution\" data-alt-label=\"Show the best solution\">Show the failing solution<\/button><a data-open href=\"04-flight-recorder/index.html\" target=\"_blank\" rel=\"noopener\" style=\"font-size:13px\">Open the live page ↗<\/a><span style=\"font-size:12px;opacity:.7\">Same task, same view: the best solution vs a failing one (p10).<\/span><\/div><\/div>",
       "story": {
         "title": "Flight Recorder: same view, any solution",
         "steps": [
           {
             "label": "Best solution",
-            "caption": "The best solution (ctc_tuned) on task workspace-dev-001: every gate passes.",
+            "caption": "The ledger's best solution on task workspace-dev-029: every gate passes.",
             "state": "base",
             "target": "[data-spot=\"hero\"]"
           },
           {
             "label": "Failing solution",
-            "caption": "A failing solution (menagerie_stock) through the same view: the stop error gate fails.",
+            "caption": "A failing solution (p10) through the same view: completed, stop error, saturation and limits fail.",
             "state": "alt",
             "target": "[data-demo-toggle]"
           },
@@ -1029,9 +1029,9 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
           "html": "<img src=\"shots/04-joints.jpg\" alt=\"A lane, opened\">"
         },
         {
-          "label": "Why: the lag",
-          "caption": "Tool speed: the measured (ink) trails the target (grey) by 144 ms, so the arm is still moving when each stop window closes.",
-          "html": "<img src=\"shots/04-lag.jpg\" alt=\"Why: the lag\">"
+          "label": "Why it misses the stop",
+          "caption": "p10 into the stop: torque pins at the cap and joints overspeed; the arm is still swinging when the stop window closes, 13 mm off.",
+          "html": "<img src=\"shots/04-why.jpg\" alt=\"Why it misses the stop\">"
         },
         {
           "label": "Phone width",
@@ -1110,7 +1110,7 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
         },
         "g2": {
           "pass": true,
-          "evidence": "Shown numbers checked against the fixture from the rendered DOM (0 misses); the fixture is recomputed from arm_motion_bench traces and cross-checked against the traces' own tool error."
+          "evidence": "Shown numbers checked from the rendered DOM against the source files (run records, scorecards, ledger): 0 misses; the builder re-runs the ruler on every shipped record and gets its numbers back."
         },
         "g3": {
           "pass": true,
@@ -1118,19 +1118,19 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
         }
       },
       "previewLabel": "best vs failing solution",
-      "preview": "<div style=\"display:grid;gap:8px\"><div class=\"demo-base-only\" data-spot=\"hero\"><img src=\"shots/05-hero.jpg\" alt=\"Population Map: the best solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div class=\"demo-alt-only\" data-spot=\"fail\"><img src=\"shots/05-fail.jpg\" alt=\"Population Map: a failing solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div style=\"display:flex;gap:10px;align-items:center;flex-wrap:wrap\"><button class=\"demo-button\" data-demo-toggle data-base-label=\"Show the failing solution\" data-alt-label=\"Show the best solution\">Show the failing solution<\/button><a data-open href=\"05-population-map/index.html\" target=\"_blank\" rel=\"noopener\" style=\"font-size:13px\">Open the live page ↗<\/a><span style=\"font-size:12px;opacity:.7\">Same task, same view: best (ctc_tuned) vs failing (menagerie_stock).<\/span><\/div><\/div>",
+      "preview": "<div style=\"display:grid;gap:8px\"><div class=\"demo-base-only\" data-spot=\"hero\"><img src=\"shots/05-hero.jpg\" alt=\"Population Map: the best solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div class=\"demo-alt-only\" data-spot=\"fail\"><img src=\"shots/05-fail.jpg\" alt=\"Population Map: a failing solution\" style=\"width:100%;vertical-align:top;border-radius:8px;border:1px solid rgba(127,127,127,.25)\"><\/div><div style=\"display:flex;gap:10px;align-items:center;flex-wrap:wrap\"><button class=\"demo-button\" data-demo-toggle data-base-label=\"Show the failing solution\" data-alt-label=\"Show the best solution\">Show the failing solution<\/button><a data-open href=\"05-population-map/index.html\" target=\"_blank\" rel=\"noopener\" style=\"font-size:13px\">Open the live page ↗<\/a><span style=\"font-size:12px;opacity:.7\">Same task, same view: the best solution vs a failing one (p10).<\/span><\/div><\/div>",
       "story": {
         "title": "Population Map: same view, any solution",
         "steps": [
           {
             "label": "Best solution",
-            "caption": "The best solution (ctc_tuned) on task workspace-dev-001: every gate passes.",
+            "caption": "The ledger's best solution on task workspace-dev-029: every gate passes.",
             "state": "base",
             "target": "[data-spot=\"hero\"]"
           },
           {
             "label": "Failing solution",
-            "caption": "A failing solution (menagerie_stock) through the same view: the stop error gate fails.",
+            "caption": "A failing solution (p10) through the same view: completed, stop error, saturation and limits fail.",
             "state": "alt",
             "target": "[data-demo-toggle]"
           },
@@ -1145,12 +1145,12 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
       "media": [
         {
           "label": "Drill into a solution",
-          "caption": "menagerie_stock: the stop gate fails on every task; its task trace labels each stop's error.",
+          "caption": "p10: completed, stop, saturation and limits fail across many tasks; its task trace shows the 13 mm stop miss.",
           "html": "<img src=\"shots/05-drill.jpg\" alt=\"Drill into a solution\">"
         },
         {
           "label": "Compare the best",
-          "caption": "ctc_tuned on the same task: stops at a thousandth of a millimetre.",
+          "caption": "The ledger's best on the same task: it rests under a tenth of a millimetre from the target.",
           "html": "<img src=\"shots/05-best.jpg\" alt=\"Compare the best\">"
         },
         {
@@ -1998,7 +1998,7 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
   };
 
   // ---- word diff (pure; no DOM) -------------------------------------------------
-  // Ported from the 2026-11-17 report round's d3/d6 Diff lens (bam_ws docs/babble_report_deck).
+  // Ported from the 2026-11-17 report round's d3/d6 Diff lens (ported from an earlier internal report's diff lens).
   // Myers' O(ND) difference algorithm (1986) on interned tokens: first on lines, then on words
   // inside each changed block — the GitHub / Beyond Compare split: line hunks, word marks.
   BR.wordDiff = (function () {
@@ -2189,7 +2189,7 @@ html.br-annotating .bx-ann { cursor: crosshair; background: rgba(35,131,226,.03)
     }
 
     // ---- label-aligned steps ---------------------------------------------------------
-    // WHY (2026-11-17 report round, d5/d6 in bam_ws docs/babble_report_deck): flipping kept the step
+    // WHY (2026-11-17 report round, d5/d6 of an earlier internal report): flipping kept the step
     // NUMBER, so variants whose walkthroughs differ landed on different moments (robot_models: "fit on
     // fit plateaus" is V1's step 4 and V2's step 3). A step whose label also exists in the other variant
     // (case, quotes and whitespace folded) goes to that variant's own step; otherwise the number is kept.

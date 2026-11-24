@@ -65,7 +65,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 const createArmView = (el, opts) => window.ArmView.create(THREE, OrbitControls, el, opts);
 const K = window.Kit, F = K.F, T = F.thresholds, J = F.deployment.joints;
-const state = { sol: K.pop[0].id, i: 0, open: new Set() };
+const state = { sol: K.bestId, i: 0, open: new Set() };
 const h = K.hash();
 if (h.s && K.byId[h.s]) state.sol = h.s;
 let tr, err, moving, maxErr, speed;
@@ -105,16 +105,16 @@ const LANES = [
       });
     } },
   { id: "sat", kind: "gate", gate: "saturation_share_pct", label: "Torque vs cap", code: "saturation_share_pct", h: [30, 150],
-    score: () => K.fmt.pct(tr.kpis.saturation_share_pct), sub: () => `samples ≥ ${Math.round(100 * T.sat_fraction)} % cap · ≤ ${T.saturation_share_pct} %`,
+    score: () => K.fmt.pct(tr.kpis.saturation_share_pct), sub: () => `of 4 kHz samples ≥ ${Math.round(100 * T.sat_fraction)} % cap · ≤ ${T.saturation_share_pct} %`,
     read: (i) => { const r = tr.tau_pct[K.near(tr, i)], j = r.map(Math.abs).indexOf(absMax(r)); return `${J[j]} ${Math.abs(r[j]).toFixed(0)} %`; },
     flags: () => runs(tr.full.sat, "saturated"),
     draw(c, w, hh, open) { jointLane(c, w, hh, open, tr.tau_pct, 100, 100 * T.sat_fraction, "% of cap", tr.full.sat); } },
   { id: "vel", kind: "gate", gate: "limit_violations", label: "Speed vs limit", code: "limit_violations", h: [30, 150],
-    score: () => `${tr.kpis.limit_violations}`, sub: () => `samples > ${T.vel_margin} × limit or out of range`,
+    score: () => K.fmt.int(tr.kpis.limit_violations), sub: () => `4 kHz samples > ${T.vel_margin} × limit or out of range`,
     read: (i) => { const r = tr.qd_pct[K.near(tr, i)], j = r.map(Math.abs).indexOf(absMax(r)); return `${J[j]} ${Math.abs(r[j]).toFixed(0)} %`; },
     flags: () => runs(tr.full.lim, "limit"),
     draw(c, w, hh, open) { jointLane(c, w, hh, open, tr.qd_pct, 110, 100 * T.vel_margin, "% of 180°/s", tr.full.lim); } },
-  { id: "range", kind: "gate", gate: "limit_violations", label: "Angle vs range", code: "limit_violations", h: [30, 150], same: true,
+  { id: "range", kind: "gate", label: "Angle vs range", code: "limit_violations (position part)", h: [30, 150],
     score: () => `${maxRange().toFixed(0)} %`, sub: () => "furthest joint, % of its range",
     read: (i) => { const r = rangePct(K.near(tr, i)), j = r.indexOf(Math.max(...r)); return `${J[j]} ${r[j].toFixed(0)} %`; },
     draw(c, w, hh, open) { jointLane(c, w, hh, open, tr.q_deg.map((_, k) => rangePct(k)), 105, 100, "% of range", []); } },
@@ -131,7 +131,7 @@ const LANES = [
       label(c, x + 6, hh - (v[tr.lowest_i] / mx) * hh + 4, `${tr.kpis.min_clearance_mm.toFixed(0)} mm (${F.deployment.links[tr.lowest_link]})`);
     } },
   { id: "done", kind: "gate", gate: "completed", label: "Completed", code: "completed", h: [24, 24],
-    score: () => (tr.gates.completed ? "yes" : "no"), sub: () => "reached the end, settled",
+    score: () => (tr.gates.completed ? "settled" : "did not settle"), sub: () => (tr.notes[0] || "reached the end, settled"),
     read: (i) => (i >= tr.n - 1 ? "end" : ""),
     draw(c, w, hh) { c.fillStyle = K.css("--surface-2"); c.fillRect(0, 6, w, hh - 12); const last = tr.stops.at(-1); c.fillStyle = tr.gates.completed ? K.css("--pass") : K.css("--fail"); c.fillRect(X((last[0] - tr.t0) / tr.dt, w), 6, w, hh - 12); label(c, X((last[0] - tr.t0) / tr.dt, w) + 4, hh - 8, "final stop: settled", "left", "#fff"); } },
   { group: "Diagnostics (reported, not scored)" },
@@ -155,7 +155,7 @@ const LANES = [
 ];
 function rangePct(k) { return tr.q_deg[k].map((v, j) => (Math.abs(v) / F.deployment.q_limit_deg[j]) * 100); }
 function maxRange() { return Math.max(...tr.q_deg.map((_, k) => Math.max(...rangePct(k)))); }
-function runs(intervals, what) { return intervals.map(([a, b]) => ({ i: a, bad: true, text: `${what} ${K.time(tr, a).toFixed(2)}–${K.time(tr, b).toFixed(2)} s` })); }
+function runs(intervals, what) { return intervals.map(([a, b]) => ({ i: a, bad: true, at: false, text: `${what} ${K.time(tr, a).toFixed(2)}–${K.time(tr, b).toFixed(2)} s` })); }
 
 /* ── drawing helpers (canvas, shared x = sample index) ── */
 /* gate lanes stay calm: a neutral ramp toward ink, red only past the fail level */
@@ -240,12 +240,19 @@ function play(e) {
 
 function answer() {
   const s = K.byId[state.sol], failed = K.failed(tr);
-  const flags = LANES.filter((L) => L.flags).flatMap((L) => L.flags().map((f) => ({ ...f, lane: L.label })));
+  // one flag per failing lane: when it first happens and how often (every occurrence is a red pole on its lane)
+  const flags = LANES.filter((L) => L.flags).map((L) => {
+    const f = L.flags().sort((a, b) => a.i - b.i);
+    if (!f.length) return null;
+    return { i: f[0].i, lane: L.label, text: f.length > 1 ? `${f.length} stretches from ${K.time(tr, f[0].i).toFixed(2)} s` : f[0].text, at: f.length > 1 ? false : f[0].at };
+  }).filter(Boolean);
+  if (!tr.gates.completed) flags.push({ i: tr.n - 1, lane: "Completed", text: tr.notes[0] || "did not settle", at: false });
+  const poles = LANES.filter((L) => L.flags).reduce((n, L) => n + L.flags().length, 0);
   const v = failed.length
-    ? `<span class="bad">✗ ${failed.map((g) => g.label).join(", ")} fails</span> · ${flags.length} flagged moment${flags.length > 1 ? "s" : ""} on the timeline`
+    ? `<span class="bad">✗ Fails ${failed.map((g) => g.label.toLowerCase()).join(", ")}</span> · ${poles} red flags on the timeline`
     : `<span class="ok">✓ All ${K.GATES.length} gates pass</span> · no flags on the timeline`;
   document.getElementById("answer").innerHTML = `<p class="v">${v}</p><p class="s">${state.sol} on task <code>${tr.task}</code> · tracking ${K.fmt.mm(tr.kpis.tool_track_rms_mm)} RMS here · objective ${K.fmt.mm(s.objective)} (median of ${F.tasks_used}) · rank ${s.rank} of ${K.pop.length}${s.admissible ? "" : " (not admissible)"}</p>` +
-    (flags.length ? `<div class="flags">${flags.map((f) => `<button class="flag" data-jump="${f.i}">⚑ ${f.lane}: ${f.text} @ ${K.time(tr, f.i).toFixed(2)} s</button>`).join("")}</div>` : "");
+    (flags.length ? `<div class="flags">${flags.slice(0, 8).map((f) => `<button class="flag" data-jump="${f.i}">⚑ ${f.lane}: ${f.text}${f.at === false ? "" : ` @ ${K.time(tr, f.i).toFixed(2)} s`}</button>`).join("")}${flags.length > 8 ? `<span class="flag" style="background:none">+ ${flags.length - 8} more on the lanes</span>` : ""}</div>` : "");
 }
 document.getElementById("answer").addEventListener("click", (e) => { const b = e.target.closest("[data-jump]"); if (b) setI(+b.dataset.jump); });
 
@@ -271,11 +278,11 @@ const setPick = K.picker(document.getElementById("picker"), state.sol, (sol) => 
 K.theme(document.getElementById("theme"), () => { view.applyTheme(); render(); });
 new ResizeObserver(() => tr && drawAll()).observe(document.getElementById("rec"));
 const guide = K.guide(document.getElementById("guide"), [
-  { label: "One timeline", caption: "Each row is one number, collapsed to a strip on the same time axis; the right column is its score. Stops are the grey spans.", sol: K.pop[0].id, open: [], i: 1990, target: "#rec" },
-  { label: "Open the objective", caption: "Tool tracking error opened: the per-sample error that the RMS (dashed) summarises. It grows during each move and vanishes at stops.", sol: K.pop[0].id, open: ["err"], i: 1990, target: '[data-toggle="err"]' },
-  { label: "Joints, open", caption: "Torque vs cap opened into its six joints, each with the 98 % saturation line: lots of headroom.", sol: K.pop[0].id, open: ["sat"], i: 1150, target: '[data-toggle="sat"]' },
-  { label: "Which gate, when", caption: "Another solution: red flags mark the stop error failing at all five stops; click a flag to jump there.", sol: "menagerie_stock", open: ["stop"], i: 1426, target: ".flags" },
-  { label: "Why: the lag", caption: "Its tool speed (ink) trails the target (grey) by 144 ms: the arm is still moving when the stop window closes.", sol: "menagerie_stock", open: ["stop", "lag"], i: 1426, target: '[data-toggle="lag"]' },
+  { label: "One timeline", caption: "Each row is one number, collapsed to a strip on the same time axis; the right column is its score. The stop is the grey span.", sol: K.bestId, open: [], i: K.trace(K.bestId).peak_err_i, target: "#rec" },
+  { label: "Open the objective", caption: "Tool tracking error opened: the per-sample error that the RMS (dashed) summarises; grey = at rest, not counted.", sol: K.bestId, open: ["err"], i: K.trace(K.bestId).peak_err_i, target: '[data-toggle="err"]' },
+  { label: "Joints, open", caption: "Speed vs limit opened into its six joints, each with the 105 % violation line: one joint runs right at its limit, inside the allowance.", sol: K.bestId, open: ["vel"], i: (() => { const t = K.trace(K.bestId); let b = 0, bi = 0; t.qd_pct.forEach((r, k) => r.forEach((v) => { if (Math.abs(v) > b) { b = Math.abs(v); bi = k; } })); return t.idx[bi]; })(), target: '[data-toggle="vel"]' },
+  { label: "Which gate, when", caption: `A failing solution (${K.failingId}): red flags mark every saturated stretch and speed-limit crossing, the stop error and the failure to settle; click a flag to jump.`, sol: K.failingId, open: ["sat", "vel", "stop"], i: K.trace(K.failingId).full.sat[0]?.[0] ?? 0, target: ".flags" },
+  { label: "Why it misses the stop", caption: "Into the stop, torque pins at the cap and joints overspeed: the arm is still swinging when the stop window closes.", sol: K.failingId, open: ["sat", "stop", "err"], i: Math.round((K.trace(K.failingId).stops.at(-1)[1] - 0.05) / K.trace(K.failingId).dt), target: '[data-toggle="sat"]' },
 ], (s) => { state.open = new Set(s.open); if (s.sol !== state.sol) { load(s.sol); setPick(s.sol); } else render(); setI(s.i); });
 K.footer(document.getElementById("inputs"), {
   reads: ["target trajectory", "measured joint states", "applied torques", "deployment", "ruler v1"],

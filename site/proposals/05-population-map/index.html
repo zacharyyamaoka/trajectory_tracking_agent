@@ -11,24 +11,27 @@
   .answer { padding: 12px 16px; }
   .answer .v { font-size: 17px; margin: 0 0 4px; }
   .answer .s { margin: 0; color: var(--muted); font-size: 13px; }
-  .board { padding: 6px 0 4px; overflow-x: auto; }
-  .bh, .br { display: grid; grid-template-columns: 44px 170px minmax(260px, 1fr) 210px 86px; gap: 12px; align-items: center; padding: 6px 16px; min-width: 820px; }
+  /* WHY a scrolling board: the agent keeps adding solutions; the drill below must stay in view */
+  .board { padding: 0 0 4px; overflow: auto; max-height: 46vh; }
+  .board .bh:first-child { position: sticky; top: 0; z-index: 1; background: var(--surface); }
+  .bh, .br { display: grid; grid-template-columns: 40px 150px minmax(260px, 1fr) 230px 150px; gap: 12px; align-items: center; padding: 3px 16px; min-width: 840px; }
   .bh { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); border-bottom: 1px solid var(--line); }
   .br { border: 0; border-bottom: 1px solid var(--line); background: none; width: 100%; text-align: left; cursor: pointer; }
   .br:last-child { border-bottom: 0; }
   .br:hover { background: var(--surface-2); }
   .br[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 7%, var(--surface)); box-shadow: inset 3px 0 0 var(--accent); }
-  .rk { font: 700 18px var(--mono); color: var(--muted); }
+  .rk { font: 700 16px var(--mono); color: var(--muted); }
   .br[aria-pressed="true"] .rk { color: var(--accent); }
-  .nm b { display: block; font-size: 14px; }
+  .nm b { display: block; font-size: 13.5px; }
+  .nm span { font-size: 11.5px; }
   .nm span { font-size: 12px; }
-  .strip { position: relative; height: 40px; display: block; }
+  .strip { position: relative; height: 30px; display: block; }
   .strip i { position: absolute; display: block; }
-  .strip .base { left: 0; right: 0; top: 20px; height: 1px; background: var(--line); }
+  .strip .base { left: 0; right: 0; top: 15px; height: 1px; background: var(--line); }
   .strip .dot { width: 7px; height: 7px; border-radius: 50%; transform: translate(-50%, 0); opacity: .85; }
-  .strip .med { width: 4px; height: 32px; top: 4px; border-radius: 2px; transform: translateX(-50%); }
-  .fp { display: grid; grid-template-columns: repeat(20, 1fr); gap: 1px; }
-  .fp i { height: 6px; border-radius: 1px; background: var(--pass); opacity: .75; }
+  .strip .med { width: 4px; height: 26px; top: 2px; border-radius: 2px; transform: translateX(-50%); }
+  .fp { display: grid; gap: 1px; }
+  .fp i { height: 4px; border-radius: 1px; background: var(--pass); opacity: .75; }
   .fp i.x { background: var(--fail); opacity: 1; }
   .tp { font: 13px var(--mono); text-align: right; }
   .axis { position: relative; height: 16px; font: 10.5px var(--mono); color: var(--muted); }
@@ -50,7 +53,7 @@
   td.bar { width: 28%; }
   td.bar div { height: 8px; background: var(--ink); opacity: .5; border-radius: 4px; }
   td.bar div.med { opacity: .9; background: var(--accent); }
-  .task { padding: 12px 14px; position: sticky; top: 10px; }
+  .task { padding: 12px 14px; }
   .task svg { width: 100%; display: block; overflow: visible; }
   .kv { display: grid; grid-template-columns: 1fr auto; gap: 3px 12px; font-size: 13px; margin-top: 10px; }
   .kv span:nth-child(odd) { color: var(--muted); }
@@ -96,15 +99,15 @@ function answer() {
 function board() {
   const W = 500;
   const ticks = [0.001, 0.01, 0.1, 1, 10, 100].filter((v) => Math.log10(v) > LO && Math.log10(v) < HI);
-  document.getElementById("board").innerHTML = `<div class="bh"><span>Rank</span><span>Solution</span><span>Tool tracking error, each dot one task (log) · bar = median = objective</span><span>Gates · 5 rows × ${F.tasks_used} tasks</span><span style="text-align:right">Tasks passed</span></div>` +
+  document.getElementById("board").innerHTML = `<div class="bh"><span>Rank</span><span>Solution</span><span>Tool tracking error, each dot one task (log) · bar = median = objective</span><span>Gates · 5 rows × ${F.tasks_used} tasks</span><span style="text-align:right">Passed · dev · holdout − dev</span></div>` +
     K.pop.map((s) => {
-      const dots = s.tasks.map((t, n) => `<i class="dot" style="left:${(ax(t.tool_track_rms_mm, W) / W) * 100}%;top:${16 + ((n % 5) - 2) * 4}px;background:${t.passed ? "var(--faint)" : "var(--fail)"}" title="${t.task}: ${K.sig(t.tool_track_rms_mm, 3)} mm"></i>`).join("");
+      const dots = s.tasks.map((t, n) => `<i class="dot" style="left:${(ax(t.tool_track_rms_mm, W) / W) * 100}%;top:${12 + ((n % 5) - 2) * 3}px;background:${t.passed ? "var(--faint)" : "var(--fail)"}" title="${t.task}: ${K.sig(t.tool_track_rms_mm, 3)} mm"></i>`).join("");
       const med = (ax(s.objective, W) / W) * 100;
-      const fp = K.GATES.map((g) => `<div class="fp" title="${g.label}">${s.tasks.map((t) => `<i class="${t.gates[g.id] ? "" : "x"}" title="${t.task} · ${g.label}: ${t.gates[g.id] ? "pass" : "fail"}"></i>`).join("")}</div>`).join("");
+      const fp = K.GATES.map((g) => `<div class="fp" style="grid-template-columns:repeat(${s.tasks.length},1fr)" title="${g.label}">${s.tasks.map((t) => `<i class="${t.gates[g.id] ? "" : "x"}" title="${t.task} · ${g.label}: ${t.gates[g.id] ? "pass" : "fail"}"></i>`).join("")}</div>`).join("");
       return `<button class="br" data-sol="${s.id}" aria-pressed="${s.id === state.sol}"><span class="rk">${s.rank}</span>
         <span class="nm"><b>${s.id}</b><span class="${s.admissible ? "ok" : "bad"}">${s.admissible ? "✓ admissible" : "✗ not admissible"}</span></span>
         <span class="strip"><i class="base"></i>${dots}<i class="med" style="left:${med}%;background:${s.admissible ? "var(--accent)" : "var(--fail)"}" title="objective ${K.sig(s.objective, 3)} mm"></i></span>
-        <span style="display:grid;gap:2px">${fp}</span><span class="tp"><b>${s.tasks_passed}</b>/${F.tasks_used}<br><span style="color:var(--muted);font-size:11.5px">${K.sig(s.objective, 3)} mm</span></span></button>`;
+        <span style="display:grid;gap:2px">${fp}</span><span class="tp"><b>${s.tasks_passed}</b>/${s.tasks.length} · ${K.sig(s.objective, 3)} mm${s.admissible && s.objective_holdout !== null ? `<br><span style="color:var(--muted);font-size:11px" title="holdout objective (reported, never selected on)">holdout ${K.sig(s.objective_holdout, 3)} (${s.holdout_minus_dev >= 0 ? "+" : ""}${K.sig(s.holdout_minus_dev, 2)})</span>` : ""}</span></button>`;
     }).join("") +
     `<div class="bh" style="border:0;border-top:1px solid var(--line)"><span></span><span></span><div class="axis">${ticks.map((v) => `<span style="left:${(ax(v, W) / W) * 100}%">${v} mm</span>`).join("")}</div><span style="text-transform:none;letter-spacing:0">rows: ${K.GATES.map((g) => GSHORT[g.id]).join(" · ")}</span><span></span></div>`;
 }
@@ -121,9 +124,9 @@ function matrix() {
   const n = sorted.length, mid = n % 2 ? [sorted[(n - 1) / 2].task] : [sorted[n / 2 - 1].task, sorted[n / 2].task];
   document.getElementById("matrix").innerHTML = `<h2>${s.id}: every task, every gate</h2>
     <p class="s">Rank ${s.rank} · objective ${K.fmt.mm(s.objective)} = the median (accent bars: ${F.tasks_used} tasks, so the mean of the middle two) · gate pass rate ${(s.gate_pass_rate * 100).toFixed(0)} %. Click a task.</p>
-    <table><thead><tr><th>task</th>${K.GATES.map((g) => `<th title="${g.id}">${GSHORT[g.id]}</th>`).join("")}<th style="text-align:right">RMS</th><th></th></tr></thead><tbody>` +
+    <div style="max-height:620px;overflow:auto"><table><thead><tr><th>task</th>${K.GATES.map((g) => `<th title="${g.id}">${GSHORT[g.id]}</th>`).join("")}<th style="text-align:right">RMS</th><th></th></tr></thead><tbody>` +
     s.tasks.map((t) => `<tr data-task="${t.task}" aria-selected="${t.task === state.task}"><td><code>${t.task.replace("workspace-", "")}</code></td>${K.GATES.map((g) => `<td><span class="c ${t.gates[g.id] ? "" : "x"}">${t.gates[g.id] ? "✓" : "✗"}</span></td>`).join("")}
-      <td class="rms">${K.sig(t.tool_track_rms_mm, 3)}</td><td class="bar"><div class="${mid.includes(t.task) ? "med" : ""}" style="width:${(t.tool_track_rms_mm / mx) * 100}%"></div></td></tr>`).join("") + `</tbody></table>`;
+      <td class="rms">${K.sig(t.tool_track_rms_mm, 3)}</td><td class="bar"><div class="${mid.includes(t.task) ? "med" : ""}" style="width:${(t.tool_track_rms_mm / mx) * 100}%"></div></td></tr>`).join("") + `</tbody></table></div>`;
 }
 document.getElementById("matrix").addEventListener("click", (e) => {
   const r = e.target.closest("[data-task]"); if (!r) return;
@@ -144,29 +147,31 @@ function task() {
     const stops = full.stops.map(([a, b], j) => { const x0 = xs((a - full.t0) / full.dt), x1 = xs((b - full.t0) / full.dt), e = full.stop_errors_mm[j], ok = e <= T.stop_error_max_mm;
       return `<rect x="${x0}" y="0" width="${x1 - x0}" height="${H}" fill="var(--surface-2)"/><text class="ax" x="${x1 - 2}" y="${H - 4}" text-anchor="end" fill="${ok ? "var(--muted)" : "var(--fail)"}">S${j + 1} ${K.sig(e, 2)}</text>`; }).join("");
     chart = `<svg viewBox="0 0 ${W} ${H + 14}">${stops}<path d="${d}" stroke="var(--err-2)" stroke-width="1"/><line x1="0" x2="${W}" y1="${H - (full.kpis.tool_track_rms_mm / mx) * H}" y2="${H - (full.kpis.tool_track_rms_mm / mx) * H}" stroke="var(--ink)" stroke-dasharray="4 3"/><text class="ax" x="0" y="${H + 12}">0 s</text><text class="ax" x="${W}" y="${H + 12}" text-anchor="end">${K.time(full, full.n - 1).toFixed(2)} s</text></svg>`;
+  } else if (!t.spark_err_mm) {
+    chart = `<p class="note">No run record on disk for this task yet; the numbers below are the scorecard's.</p>`;
   } else {
     const mx = Math.max(...t.spark_err_mm, 1e-9), bw = W / t.spark_err_mm.length;
     chart = `<svg viewBox="0 0 ${W} ${H + 14}">${t.spark_err_mm.map((v, j) => `<rect x="${j * bw}" y="${H - (v / mx) * H}" width="${bw - 0.5}" height="${(v / mx) * H}" fill="${t.spark_moving[j] ? "var(--err-2)" : "var(--rest)"}"/>`).join("")}<text class="ax" x="0" y="${H + 12}">0 s</text><text class="ax" x="${W}" y="${H + 12}" text-anchor="end">${t.duration_s.toFixed(2)} s</text></svg>`;
   }
   const row = (k, v, bad) => `<span>${k}</span><b class="${bad ? "bad" : ""}">${v}</b>`;
-  const cap = full ? `Tool error per sample, 0 – ${K.sig(Math.max(...full.full.err_mm), 2)} mm; dashed = this task's RMS; grey spans = stops, labelled with their stop error (mm).` : `Peak tool error in each 1/80 of the run, 0 – ${K.sig(Math.max(...t.spark_err_mm), 2)} mm; grey = at rest.`;
-  document.getElementById("task").innerHTML = `<h2>${s.id} · <code>${t.task}</code></h2><p class="s">${t.passed ? '<span class="ok">✓ passes every gate</span>' : `<span class="bad">✗ fails ${K.GATES.filter((g) => !t.gates[g.id]).map((g) => g.label.toLowerCase()).join(", ")}</span>`} · ${t.duration_s.toFixed(2)} s · ${K.fmt.int(t.moving_samples)} of ${K.fmt.int(t.samples)} samples moving</p><p class="note" style="margin:0 0 4px">${cap}</p>${chart}
+  const cap = full ? `Tool error per sample, 0 – ${K.sig(Math.max(...full.full.err_mm), 2)} mm; dashed = this task's RMS; grey spans = stops, labelled with their stop error (mm).` : t.spark_err_mm ? `Peak tool error in each 1/${t.spark_err_mm.length} of the run, 0 – ${K.sig(Math.max(...t.spark_err_mm), 2)} mm; grey = at rest.` : "";
+  document.getElementById("task").innerHTML = `<h2>${s.id} · <code>${t.task}</code></h2><p class="s">${t.passed ? '<span class="ok">✓ passes every gate</span>' : `<span class="bad">✗ fails ${K.GATES.filter((g) => !t.gates[g.id]).map((g) => g.label.toLowerCase()).join(", ")}</span>`} · ${t.kind ? t.kind.replace(/_/g, " ") + " · " : ""}${t.duration_s.toFixed(2)} s · ${K.fmt.int(t.moving_samples)} moving samples (100 Hz)</p><p class="note" style="margin:0 0 4px">${cap}</p>${chart}
     <div class="kv">${row("Tool tracking error (RMS)", K.fmt.mm(t.tool_track_rms_mm))}${row("Peak tool error", K.fmt.mm(t.tool_track_max_mm))}
       ${row(`Stop error, worst (≤ ${T.stop_error_max_mm} mm)`, K.fmt.mm(t.stop_error_max_mm), !t.gates.stop_error_max_mm)}
       ${row(`Saturated samples (≤ ${T.saturation_share_pct} %)`, K.fmt.pct(t.saturation_share_pct), !t.gates.saturation_share_pct)}
-      ${row("Limit violations", t.limit_violations, !t.gates.limit_violations)}${row("Below the floor", `${t.floor_clearance} (closest ${t.min_clearance_mm.toFixed(0)} mm)`, !t.gates.floor_clearance)}
-      ${row("Completed", t.completed ? "yes" : "no", !t.gates.completed)}${row("Tool lag", K.fmt.ms(t.tool_lag_ms))}${row("Joint tracking, worst joint", K.fmt.deg(t.joint_track_rms_deg))}${row("Motor energy", `${t.energy_j.toFixed(1)} J`)}</div>
-    <p class="note">${full ? "Full-rate trace (every sample)." : `Summary sparkline; the full-rate trace ships for <code>${F.featured_task}</code> only.`} Source: <code>${t.source}</code></p>`;
+      ${row("Limit violations (4 kHz samples)", K.fmt.int(t.limit_violations), !t.gates.limit_violations)}${row("Below the floor (4 kHz samples)", K.fmt.int(t.floor_clearance), !t.gates.floor_clearance)}
+      ${row("Completed", t.completed ? "finished, settled" : "did not settle", !t.gates.completed)}${row("Tool lag", K.fmt.ms(t.tool_lag_ms))}${row("Joint tracking, worst joint", K.fmt.deg(t.joint_track_rms_deg))}${row("Motor energy", `${t.energy_j.toFixed(1)} J`)}</div>
+    ${t.notes && t.notes.length ? `<p class="note bad">${t.notes[0]}</p>` : ""}<p class="note">${full ? "Every 100 Hz sample of the run record." : `Summary sparkline; the full trace ships for <code>${F.featured_task}</code> (${K.traced.map((x) => x.id).join(", ")}).`} Source: <code>${full ? full.source : t.source}</code></p>`;
 }
 
 function renderAll() { answer(); board(); matrix(); task(); }
 K.theme(document.getElementById("theme"), () => renderAll());
 const guide = K.guide(document.getElementById("guide"), [
   { label: "The population", caption: "Every solution at once, ranked. The accent bar is the objective: the median of that row's task dots (log scale).", sol: K.pop[0].id, task: F.featured_task, target: "#board" },
-  { label: "Gate fingerprint", caption: "Five rows of 20 cells: one per gate, one cell per task. A single red cell makes a solution inadmissible.", sol: K.pop[0].id, task: F.featured_task, target: '[data-sol="menagerie_stock"] .fp' },
-  { label: "Drill into one", caption: "menagerie_stock: the matrix shows the stop gate failing on every task, and its RMS bars.", sol: "menagerie_stock", task: F.featured_task, target: '[data-sol="menagerie_stock"]' },
-  { label: "Down to a task", caption: "One task's trace: each stop labelled with its error; every one exceeds the 1 mm gate.", sol: "menagerie_stock", task: F.featured_task, target: "#task" },
-  { label: "Compare the best", caption: "The best solution on the same task: stops at a thousandth of a millimetre.", sol: K.pop[0].id, task: F.featured_task, target: `[data-sol="${K.pop[0].id}"]` },
+  { label: "Gate fingerprint", caption: `Five rows of ${F.tasks_used} cells: one per gate, one cell per task. A single red cell makes a solution inadmissible.`, sol: K.pop[0].id, task: F.featured_task, target: `[data-sol="${K.failingId}"] .fp` },
+  { label: "Drill into one", caption: `${K.failingId}: the matrix shows which gates fail on which tasks (completed, stop, saturation, limits), with each task's RMS.`, sol: K.failingId, task: F.featured_task, target: `[data-sol="${K.failingId}"]` },
+  { label: "Down to a task", caption: `One task's trace: ${K.failingId} misses the stop by ${K.sig(K.trace(K.failingId).kpis.stop_error_max_mm, 3)} mm and does not settle.`, sol: K.failingId, task: F.featured_task, target: ".drill" },
+  { label: "Compare the best", caption: `The best solution (${K.pop[0].id}) on the same task: it rests ${K.sig(K.byId[K.pop[0].id].tasks.find((x) => x.task === F.featured_task).stop_error_max_mm, 2)} mm from the target.`, sol: K.pop[0].id, task: F.featured_task, target: `[data-sol="${K.pop[0].id}"]` },
 ], (s) => { state.sol = s.sol; state.task = s.task; renderAll(); });
 K.footer(document.getElementById("inputs"), {
   reads: ["target trajectory", "measured joint states", "applied torques", "deployment", "ruler v1"],
