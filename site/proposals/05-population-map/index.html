@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Population Map</title>
+<link rel="stylesheet" href="../_shared/kit.css">
+<style>
+  main { padding: 14px 16px 20px; display: grid; gap: 14px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); }
+  .answer { padding: 12px 16px; }
+  .answer .v { font-size: 17px; margin: 0 0 4px; }
+  .answer .s { margin: 0; color: var(--muted); font-size: 13px; }
+  .board { padding: 6px 0 4px; overflow-x: auto; }
+  .bh, .br { display: grid; grid-template-columns: 44px 170px minmax(260px, 1fr) 210px 86px; gap: 12px; align-items: center; padding: 6px 16px; min-width: 820px; }
+  .bh { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); border-bottom: 1px solid var(--line); }
+  .br { border: 0; border-bottom: 1px solid var(--line); background: none; width: 100%; text-align: left; cursor: pointer; }
+  .br:last-child { border-bottom: 0; }
+  .br:hover { background: var(--surface-2); }
+  .br[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 7%, var(--surface)); box-shadow: inset 3px 0 0 var(--accent); }
+  .rk { font: 700 18px var(--mono); color: var(--muted); }
+  .br[aria-pressed="true"] .rk { color: var(--accent); }
+  .nm b { display: block; font-size: 14px; }
+  .nm span { font-size: 12px; }
+  .strip { position: relative; height: 40px; display: block; }
+  .strip i { position: absolute; display: block; }
+  .strip .base { left: 0; right: 0; top: 20px; height: 1px; background: var(--line); }
+  .strip .dot { width: 7px; height: 7px; border-radius: 50%; transform: translate(-50%, 0); opacity: .85; }
+  .strip .med { width: 4px; height: 32px; top: 4px; border-radius: 2px; transform: translateX(-50%); }
+  .fp { display: grid; grid-template-columns: repeat(20, 1fr); gap: 1px; }
+  .fp i { height: 6px; border-radius: 1px; background: var(--pass); opacity: .75; }
+  .fp i.x { background: var(--fail); opacity: 1; }
+  .tp { font: 13px var(--mono); text-align: right; }
+  .axis { position: relative; height: 16px; font: 10.5px var(--mono); color: var(--muted); }
+  .axis span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+  .drill { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+  .matrix { padding: 12px 14px; }
+  .matrix h2, .task h2 { font-size: 15px; margin: 0 0 2px; }
+  .matrix .s, .task .s { color: var(--muted); font-size: 12.5px; margin: 0 0 8px; }
+  table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+  th { font-weight: 600; font-size: 11px; color: var(--muted); text-align: center; padding: 3px 4px; border-bottom: 1px solid var(--line); }
+  th:first-child, td:first-child { text-align: left; }
+  td { padding: 2px 4px; text-align: center; border-bottom: 1px solid color-mix(in srgb, var(--line) 50%, transparent); }
+  tbody tr { cursor: pointer; }
+  tbody tr:hover { background: var(--surface-2); }
+  tbody tr[aria-selected="true"] { background: color-mix(in srgb, var(--accent) 9%, var(--surface)); }
+  td .c { display: inline-block; width: 18px; height: 14px; border-radius: 3px; background: var(--pass-bg); color: var(--pass); font-size: 10px; line-height: 14px; }
+  td .c.x { background: var(--fail); color: #fff; }
+  td.rms { font-family: var(--mono); text-align: right; white-space: nowrap; }
+  td.bar { width: 28%; }
+  td.bar div { height: 8px; background: var(--ink); opacity: .5; border-radius: 4px; }
+  td.bar div.med { opacity: .9; background: var(--accent); }
+  .task { padding: 12px 14px; position: sticky; top: 10px; }
+  .task svg { width: 100%; display: block; overflow: visible; }
+  .kv { display: grid; grid-template-columns: 1fr auto; gap: 3px 12px; font-size: 13px; margin-top: 10px; }
+  .kv span:nth-child(odd) { color: var(--muted); }
+  .kv b { font-family: var(--mono); font-weight: 500; }
+  .kv .bad { color: var(--fail); font-weight: 600; }
+  .ax { fill: var(--muted); font: 10px var(--mono); }
+  .note { font-size: 12px; color: var(--muted); margin-top: 8px; }
+  @media (max-width: 900px) { .drill { grid-template-columns: 1fr; } .task { position: static; } main { padding: 10px; } }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="who"><span class="no">05</span><h1>Population Map</h1><span class="thesis">Start from every solution at once: the objective as the median of its task dots, the gates as a fingerprint; click down to a task and its trace.</span></div>
+  <button class="iconbtn" id="theme">☾ Dark</button>
+</header>
+<nav class="guide" id="guide"></nav>
+<main>
+  <section class="card answer" id="answer"></section>
+  <section class="card board" id="board"></section>
+  <section class="drill"><div class="card matrix" id="matrix"></div><aside class="card task" id="task"></aside></section>
+</main>
+<footer class="inputs" id="inputs"></footer>
+<script src="../_data/fixture.js"></script>
+<script src="../_shared/kit.js"></script>
+<script>
+const K = window.Kit, F = K.F, T = F.thresholds;
+const state = { sol: K.pop[0].id, task: F.featured_task };
+const h = K.hash();
+if (h.s && K.byId[h.s]) state.sol = h.s;
+const GSHORT = { completed: "done", stop_error_max_mm: "stop", saturation_share_pct: "sat", limit_violations: "limits", floor_clearance: "floor" };
+
+/* shared log axis for every task's RMS across the population */
+const allRms = K.pop.flatMap((s) => s.tasks.map((t) => t.tool_track_rms_mm));
+const LO = Math.log10(Math.min(...allRms) / 1.6), HI = Math.log10(Math.max(...allRms) * 1.6);
+const ax = (v, w) => ((Math.log10(v) - LO) / (HI - LO)) * w;
+
+function answer() {
+  const best = K.best(), adm = K.pop.filter((s) => s.admissible).length;
+  const bad = K.pop.filter((s) => !s.admissible);
+  document.getElementById("answer").innerHTML = `<p class="v">Best: <b>${best.id}</b> · <span class="num">${K.fmt.mm(best.objective)}</span> tracking error, <span class="ok">admissible on all ${F.tasks_used} tasks</span></p>
+    <p class="s">${adm} of ${K.pop.length} solutions admissible. ${bad.map((s) => `<span class="bad">${s.id}</span> fails ${Object.entries(s.failed_gates).filter(([, n]) => n).map(([g, n]) => `${K.GATES.find((x) => x.id === g).label.toLowerCase()} on ${n} of ${F.tasks_used} tasks`).join(", ")}`).join("; ")}. Objective = median over tasks of each task's RMS tool error (lower is better); ranking: admissible first.</p>`;
+}
+function board() {
+  const W = 500;
+  const ticks = [0.001, 0.01, 0.1, 1, 10, 100].filter((v) => Math.log10(v) > LO && Math.log10(v) < HI);
+  document.getElementById("board").innerHTML = `<div class="bh"><span>Rank</span><span>Solution</span><span>Tool tracking error, each dot one task (log) · bar = median = objective</span><span>Gates · 5 rows × ${F.tasks_used} tasks</span><span style="text-align:right">Tasks passed</span></div>` +
+    K.pop.map((s) => {
+      const dots = s.tasks.map((t, n) => `<i class="dot" style="left:${(ax(t.tool_track_rms_mm, W) / W) * 100}%;top:${16 + ((n % 5) - 2) * 4}px;background:${t.passed ? "var(--faint)" : "var(--fail)"}" title="${t.task}: ${K.sig(t.tool_track_rms_mm, 3)} mm"></i>`).join("");
+      const med = (ax(s.objective, W) / W) * 100;
+      const fp = K.GATES.map((g) => `<div class="fp" title="${g.label}">${s.tasks.map((t) => `<i class="${t.gates[g.id] ? "" : "x"}" title="${t.task} · ${g.label}: ${t.gates[g.id] ? "pass" : "fail"}"></i>`).join("")}</div>`).join("");
+      return `<button class="br" data-sol="${s.id}" aria-pressed="${s.id === state.sol}"><span class="rk">${s.rank}</span>
+        <span class="nm"><b>${s.id}</b><span class="${s.admissible ? "ok" : "bad"}">${s.admissible ? "✓ admissible" : "✗ not admissible"}</span></span>
+        <span class="strip"><i class="base"></i>${dots}<i class="med" style="left:${med}%;background:${s.admissible ? "var(--accent)" : "var(--fail)"}" title="objective ${K.sig(s.objective, 3)} mm"></i></span>
+        <span style="display:grid;gap:2px">${fp}</span><span class="tp"><b>${s.tasks_passed}</b>/${F.tasks_used}<br><span style="color:var(--muted);font-size:11.5px">${K.sig(s.objective, 3)} mm</span></span></button>`;
+    }).join("") +
+    `<div class="bh" style="border:0;border-top:1px solid var(--line)"><span></span><span></span><div class="axis">${ticks.map((v) => `<span style="left:${(ax(v, W) / W) * 100}%">${v} mm</span>`).join("")}</div><span style="text-transform:none;letter-spacing:0">rows: ${K.GATES.map((g) => GSHORT[g.id]).join(" · ")}</span><span></span></div>`;
+}
+document.getElementById("board").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-sol]"); if (!b) return;
+  state.sol = b.dataset.sol; renderAll();
+  guide.sync((s) => s.sol === state.sol && s.task === state.task);
+});
+
+function matrix() {
+  const s = K.byId[state.sol];
+  const mx = Math.max(...s.tasks.map((t) => t.tool_track_rms_mm));
+  const sorted = s.tasks.slice().sort((a, b) => a.tool_track_rms_mm - b.tool_track_rms_mm);
+  const n = sorted.length, mid = n % 2 ? [sorted[(n - 1) / 2].task] : [sorted[n / 2 - 1].task, sorted[n / 2].task];
+  document.getElementById("matrix").innerHTML = `<h2>${s.id}: every task, every gate</h2>
+    <p class="s">Rank ${s.rank} · objective ${K.fmt.mm(s.objective)} = the median (accent bars: ${F.tasks_used} tasks, so the mean of the middle two) · gate pass rate ${(s.gate_pass_rate * 100).toFixed(0)} %. Click a task.</p>
+    <table><thead><tr><th>task</th>${K.GATES.map((g) => `<th title="${g.id}">${GSHORT[g.id]}</th>`).join("")}<th style="text-align:right">RMS</th><th></th></tr></thead><tbody>` +
+    s.tasks.map((t) => `<tr data-task="${t.task}" aria-selected="${t.task === state.task}"><td><code>${t.task.replace("workspace-", "")}</code></td>${K.GATES.map((g) => `<td><span class="c ${t.gates[g.id] ? "" : "x"}">${t.gates[g.id] ? "✓" : "✗"}</span></td>`).join("")}
+      <td class="rms">${K.sig(t.tool_track_rms_mm, 3)}</td><td class="bar"><div class="${mid.includes(t.task) ? "med" : ""}" style="width:${(t.tool_track_rms_mm / mx) * 100}%"></div></td></tr>`).join("") + `</tbody></table>`;
+}
+document.getElementById("matrix").addEventListener("click", (e) => {
+  const r = e.target.closest("[data-task]"); if (!r) return;
+  state.task = r.dataset.task; matrix(); task();
+  guide.sync((s) => s.sol === state.sol && s.task === state.task);
+});
+
+function task() {
+  const s = K.byId[state.sol], t = s.tasks.find((x) => x.task === state.task);
+  const full = t.task === F.featured_task ? K.trace(state.sol) : null;
+  const W = 460, H = 90;
+  let chart;
+  if (full) {
+    const err = full.full.err_mm, mv = K.mask(full.full.moving, full.n);
+    let mx = 0; for (let i = 0; i < full.n; i++) if (mv[i] && err[i] > mx) mx = err[i];
+    const xs = (i) => (i / (full.n - 1)) * W;
+    let d = ""; for (let i = 0; i < full.n; i += 2) if (mv[i]) d += `M${xs(i).toFixed(1)},${H}V${(H - (err[i] / mx) * H).toFixed(1)}`;
+    const stops = full.stops.map(([a, b], j) => { const x0 = xs((a - full.t0) / full.dt), x1 = xs((b - full.t0) / full.dt), e = full.stop_errors_mm[j], ok = e <= T.stop_error_max_mm;
+      return `<rect x="${x0}" y="0" width="${x1 - x0}" height="${H}" fill="var(--surface-2)"/><text class="ax" x="${x1 - 2}" y="${H - 4}" text-anchor="end" fill="${ok ? "var(--muted)" : "var(--fail)"}">S${j + 1} ${K.sig(e, 2)}</text>`; }).join("");
+    chart = `<svg viewBox="0 0 ${W} ${H + 14}">${stops}<path d="${d}" stroke="var(--err-2)" stroke-width="1"/><line x1="0" x2="${W}" y1="${H - (full.kpis.tool_track_rms_mm / mx) * H}" y2="${H - (full.kpis.tool_track_rms_mm / mx) * H}" stroke="var(--ink)" stroke-dasharray="4 3"/><text class="ax" x="0" y="${H + 12}">0 s</text><text class="ax" x="${W}" y="${H + 12}" text-anchor="end">${K.time(full, full.n - 1).toFixed(2)} s</text></svg>`;
+  } else {
+    const mx = Math.max(...t.spark_err_mm, 1e-9), bw = W / t.spark_err_mm.length;
+    chart = `<svg viewBox="0 0 ${W} ${H + 14}">${t.spark_err_mm.map((v, j) => `<rect x="${j * bw}" y="${H - (v / mx) * H}" width="${bw - 0.5}" height="${(v / mx) * H}" fill="${t.spark_moving[j] ? "var(--err-2)" : "var(--rest)"}"/>`).join("")}<text class="ax" x="0" y="${H + 12}">0 s</text><text class="ax" x="${W}" y="${H + 12}" text-anchor="end">${t.duration_s.toFixed(2)} s</text></svg>`;
+  }
+  const row = (k, v, bad) => `<span>${k}</span><b class="${bad ? "bad" : ""}">${v}</b>`;
+  const cap = full ? `Tool error per sample, 0 – ${K.sig(Math.max(...full.full.err_mm), 2)} mm; dashed = this task's RMS; grey spans = stops, labelled with their stop error (mm).` : `Peak tool error in each 1/80 of the run, 0 – ${K.sig(Math.max(...t.spark_err_mm), 2)} mm; grey = at rest.`;
+  document.getElementById("task").innerHTML = `<h2>${s.id} · <code>${t.task}</code></h2><p class="s">${t.passed ? '<span class="ok">✓ passes every gate</span>' : `<span class="bad">✗ fails ${K.GATES.filter((g) => !t.gates[g.id]).map((g) => g.label.toLowerCase()).join(", ")}</span>`} · ${t.duration_s.toFixed(2)} s · ${K.fmt.int(t.moving_samples)} of ${K.fmt.int(t.samples)} samples moving</p><p class="note" style="margin:0 0 4px">${cap}</p>${chart}
+    <div class="kv">${row("Tool tracking error (RMS)", K.fmt.mm(t.tool_track_rms_mm))}${row("Peak tool error", K.fmt.mm(t.tool_track_max_mm))}
+      ${row(`Stop error, worst (≤ ${T.stop_error_max_mm} mm)`, K.fmt.mm(t.stop_error_max_mm), !t.gates.stop_error_max_mm)}
+      ${row(`Saturated samples (≤ ${T.saturation_share_pct} %)`, K.fmt.pct(t.saturation_share_pct), !t.gates.saturation_share_pct)}
+      ${row("Limit violations", t.limit_violations, !t.gates.limit_violations)}${row("Below the floor", `${t.floor_clearance} (closest ${t.min_clearance_mm.toFixed(0)} mm)`, !t.gates.floor_clearance)}
+      ${row("Completed", t.completed ? "yes" : "no", !t.gates.completed)}${row("Tool lag", K.fmt.ms(t.tool_lag_ms))}${row("Joint tracking, worst joint", K.fmt.deg(t.joint_track_rms_deg))}${row("Motor energy", `${t.energy_j.toFixed(1)} J`)}</div>
+    <p class="note">${full ? "Full-rate trace (every sample)." : `Summary sparkline; the full-rate trace ships for <code>${F.featured_task}</code> only.`} Source: <code>${t.source}</code></p>`;
+}
+
+function renderAll() { answer(); board(); matrix(); task(); }
+K.theme(document.getElementById("theme"), () => renderAll());
+const guide = K.guide(document.getElementById("guide"), [
+  { label: "The population", caption: "Every solution at once, ranked. The accent bar is the objective: the median of that row's task dots (log scale).", sol: K.pop[0].id, task: F.featured_task, target: "#board" },
+  { label: "Gate fingerprint", caption: "Five rows of 20 cells: one per gate, one cell per task. A single red cell makes a solution inadmissible.", sol: K.pop[0].id, task: F.featured_task, target: '[data-sol="menagerie_stock"] .fp' },
+  { label: "Drill into one", caption: "menagerie_stock: the matrix shows the stop gate failing on every task, and its RMS bars.", sol: "menagerie_stock", task: F.featured_task, target: '[data-sol="menagerie_stock"]' },
+  { label: "Down to a task", caption: "One task's trace: each stop labelled with its error; every one exceeds the 1 mm gate.", sol: "menagerie_stock", task: F.featured_task, target: "#task" },
+  { label: "Compare the best", caption: "The best solution on the same task: stops at a thousandth of a millimetre.", sol: K.pop[0].id, task: F.featured_task, target: `[data-sol="${K.pop[0].id}"]` },
+], (s) => { state.sol = s.sol; state.task = s.task; renderAll(); });
+K.footer(document.getElementById("inputs"), {
+  reads: ["target trajectory", "measured joint states", "applied torques", "deployment", "ruler v1"],
+  generalises: "Best of the five for the population and for a template repo: it reads only scorecards (per-task metric rows + gate verdicts), so any black box with an objective and pass/fail gates gets it unchanged. It needs no robot geometry; the drill-down's trace panel is the one robot-shaped piece and can be swapped for any of the other four views.",
+});
+renderAll();
+if (h.step) guide.show(+h.step - 1); else guide.show(-1);
+</script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flight Recorder</title>
+<link rel="stylesheet" href="../_shared/kit.css">
+<style>
+  .head { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 12px; padding: 12px 16px 0; align-items: stretch; }
+  .answer { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; box-shadow: var(--shadow); }
+  .answer .v { font-size: 16px; margin: 0 0 4px; }
+  .answer .s { color: var(--muted); font-size: 13px; margin: 0; }
+  .answer .flags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .flag { font: 12px var(--mono); border-radius: 6px; padding: 2px 8px; background: var(--fail-bg); color: var(--fail); cursor: pointer; border: 0; }
+  .mini { position: relative; height: 170px; background: radial-gradient(ellipse at 50% 30%, var(--surface), var(--surface-2)); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .mini .cap { position: absolute; left: 8px; top: 6px; font: 11px var(--mono); color: var(--muted); z-index: 2; }
+  .rec { margin: 12px 16px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; }
+  .ruler, .lane { display: grid; grid-template-columns: 200px minmax(0, 1fr) 132px; }
+  .ruler { border-bottom: 1px solid var(--line); background: var(--surface-2); }
+  .ruler .ctl { display: flex; align-items: center; gap: 6px; padding: 6px 10px; font: 12px var(--mono); color: var(--muted); }
+  .lane { border-bottom: 1px solid var(--line); }
+  .lane:last-child { border-bottom: 0; }
+  .lane .lbl { padding: 6px 10px; cursor: pointer; border: 0; background: none; text-align: left; display: flex; flex-direction: column; justify-content: center; gap: 1px; }
+  .lane .lbl:hover { background: var(--surface-2); }
+  .lane .lbl b { font-size: 13px; }
+  .lane .lbl b::before { content: "▸ "; color: var(--muted); }
+  .lane.open .lbl b::before { content: "▾ "; }
+  .lane .lbl code { font-size: 10.5px; }
+  .lane .kind { font-size: 10.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  .lane canvas, .ruler canvas { width: 100%; display: block; touch-action: none; cursor: ew-resize; }
+  .lane .sc { padding: 6px 10px; text-align: right; display: flex; flex-direction: column; justify-content: center; font: 13px var(--mono); border-left: 1px solid var(--line); }
+  .lane .sc .rd { color: var(--muted); font-size: 11px; min-height: 1.3em; }
+  .lane.fail .sc .val { color: var(--fail); font-weight: 600; }
+  .lane .sc .ok { color: var(--pass); } .lane .sc .bad { color: var(--fail); }
+  .group { grid-column: 1 / 4; font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 6px 10px 2px; background: var(--bg); border-bottom: 1px solid var(--line); }
+  .lbl3d { position: absolute; left: 0; top: 0; white-space: nowrap; font: 600 10.5px var(--mono); background: var(--surface); border: 1px solid var(--line); border-radius: 5px; padding: 0 5px; }
+  @media (max-width: 860px) {
+    .head { grid-template-columns: 1fr; padding: 10px 10px 0; }
+    .rec { margin: 10px; }
+    .ruler, .lane { grid-template-columns: 112px minmax(0, 1fr) 84px; }
+    .lane .lbl code, .lane .kind { display: none; }
+    .lane .sc { font-size: 11.5px; padding: 4px 6px; }
+  }
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body>
+<header class="topbar">
+  <div class="who"><span class="no">04</span><h1>Flight Recorder</h1><span class="thesis">Every metric is a lane on one shared timeline; failures are red flags at the moment they happen; open a lane for its per-joint traces.</span></div>
+  <div class="picker" id="picker"></div>
+  <button class="iconbtn" id="theme">☾ Dark</button>
+</header>
+<nav class="guide" id="guide"></nav>
+<div class="head">
+  <div class="answer" id="answer"></div>
+  <div class="mini" id="mini"><span class="cap" id="minicap"></span></div>
+</div>
+<section class="rec" id="rec"></section>
+<footer class="inputs" id="inputs"></footer>
+<script src="../_data/fixture.js"></script>
+<script src="../_shared/kit.js"></script>
+<script src="../_shared/arm3d.js"></script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+const createArmView = (el, opts) => window.ArmView.create(THREE, OrbitControls, el, opts);
+const K = window.Kit, F = K.F, T = F.thresholds, J = F.deployment.joints;
+const state = { sol: K.pop[0].id, i: 0, open: new Set() };
+const h = K.hash();
+if (h.s && K.byId[h.s]) state.sol = h.s;
+let tr, err, moving, maxErr, speed;
+const JC = ["#2f5bd3", "#c2410c", "#0f766e", "#7c3aed", "#b45309", "#be185d"];
+
+/* ── lanes: each is (what it shows collapsed, what it shows open, its score, its readout at the playhead) ── */
+const absMax = (r) => Math.max(...r.map(Math.abs));
+const LANES = [
+  { group: "Objective" },
+  { id: "err", kind: "objective", label: "Tool tracking error", code: "tool_track_rms_mm", h: [30, 110],
+    score: () => K.fmt.mm(tr.kpis.tool_track_rms_mm), sub: () => "RMS, moving samples",
+    read: (i) => (moving[i] ? K.fmt.mm(err[i]) : "at rest, not counted"),
+    draw(c, w, hh, open) {
+      if (!open) return heatFull(c, w, hh, (i) => (moving[i] ? K.errColor(err[i] / maxErr) : K.css("--rest")));
+      const rms = tr.kpis.tool_track_rms_mm, mx = maxErr * 1.1;
+      area(c, w, hh, err, mx, (i) => moving[i], K.css("--err-2"));
+      hl(c, w, hh, rms, mx, `RMS ${K.sig(rms, 3)} mm`, K.css("--ink"));
+      label(c, 4, 12, `0 – ${K.sig(maxErr, 2)} mm · grey = at rest`);
+    } },
+  { group: "Gates" },
+  { id: "stop", kind: "gate", gate: "stop_error_max_mm", label: "Stop error", code: "stop_error_max_mm", h: [30, 90],
+    score: () => `${K.fmt.mm(tr.kpis.stop_error_max_mm)}`, sub: () => `worst of ${tr.stops.length} · ≤ ${T.stop_error_max_mm} mm`,
+    read: (i) => { const j = tr.stops.findIndex(([a, b]) => K.time(tr, i) >= a && K.time(tr, i) <= b); return j < 0 ? "moving" : `S${j + 1} ${K.fmt.mm(tr.stop_errors_mm[j])}`; },
+    flags: () => tr.stops.map(([a, b], j) => ({ i: Math.round((b - tr.t0) / tr.dt), bad: tr.stop_errors_mm[j] > T.stop_error_max_mm, text: `S${j + 1} ${K.sig(tr.stop_errors_mm[j], 2)} mm` })).filter((f) => f.bad),
+    draw(c, w, hh, open) {
+      tr.stops.forEach(([a, b], j) => {
+        const x0 = X((a - tr.t0) / tr.dt, w), x1 = X((b - tr.t0) / tr.dt, w), xt = X((b - T.stop_tail_s - tr.t0) / tr.dt, w);
+        const e = tr.stop_errors_mm[j], ok = e <= T.stop_error_max_mm;
+        c.fillStyle = K.css("--surface-2"); c.fillRect(x0, 0, x1 - x0, hh);
+        c.fillStyle = ok ? K.css("--pass") : K.css("--fail");
+        if (open) {
+          const mx = Math.max(T.stop_error_max_mm * 1.4, ...tr.stop_errors_mm) * 1.05, bh = Math.max(2, (e / mx) * (hh - 16));
+          c.fillRect(xt, hh - bh, Math.max(4, x1 - xt), bh);
+          hl(c, w, hh, T.stop_error_max_mm, mx, `${T.stop_error_max_mm} mm`, K.css("--fail"), true, 16);
+          label(c, xt - 2, hh - bh - 3, `${K.sig(e, 2)}`, "right");
+        } else c.fillRect(xt, 6, Math.max(4, x1 - xt), hh - 12);
+      });
+    } },
+  { id: "sat", kind: "gate", gate: "saturation_share_pct", label: "Torque vs cap", code: "saturation_share_pct", h: [30, 150],
+    score: () => K.fmt.pct(tr.kpis.saturation_share_pct), sub: () => `samples ≥ ${Math.round(100 * T.sat_fraction)} % cap · ≤ ${T.saturation_share_pct} %`,
+    read: (i) => { const r = tr.tau_pct[K.near(tr, i)], j = r.map(Math.abs).indexOf(absMax(r)); return `${J[j]} ${Math.abs(r[j]).toFixed(0)} %`; },
+    flags: () => runs(tr.full.sat, "saturated"),
+    draw(c, w, hh, open) { jointLane(c, w, hh, open, tr.tau_pct, 100, 100 * T.sat_fraction, "% of cap", tr.full.sat); } },
+  { id: "vel", kind: "gate", gate: "limit_violations", label: "Speed vs limit", code: "limit_violations", h: [30, 150],
+    score: () => `${tr.kpis.limit_violations}`, sub: () => `samples > ${T.vel_margin} × limit or out of range`,
+    read: (i) => { const r = tr.qd_pct[K.near(tr, i)], j = r.map(Math.abs).indexOf(absMax(r)); return `${J[j]} ${Math.abs(r[j]).toFixed(0)} %`; },
+    flags: () => runs(tr.full.lim, "limit"),
+    draw(c, w, hh, open) { jointLane(c, w, hh, open, tr.qd_pct, 110, 100 * T.vel_margin, "% of 180°/s", tr.full.lim); } },
+  { id: "range", kind: "gate", gate: "limit_violations", label: "Angle vs range", code: "limit_violations", h: [30, 150], same: true,
+    score: () => `${maxRange().toFixed(0)} %`, sub: () => "furthest joint, % of its range",
+    read: (i) => { const r = rangePct(K.near(tr, i)), j = r.indexOf(Math.max(...r)); return `${J[j]} ${r[j].toFixed(0)} %`; },
+    draw(c, w, hh, open) { jointLane(c, w, hh, open, tr.q_deg.map((_, k) => rangePct(k)), 105, 100, "% of range", []); } },
+  { id: "floor", kind: "gate", gate: "floor_clearance", label: "Floor clearance", code: "floor_clearance", h: [30, 90],
+    score: () => `${tr.kpis.floor_clearance}`, sub: () => `samples below · closest ${tr.kpis.min_clearance_mm.toFixed(0)} mm`,
+    read: (i) => `${tr.full.lowest_mm[i].toFixed(0)} mm above`,
+    flags: () => runs(tr.full.below, "below floor"),
+    draw(c, w, hh, open) {
+      const v = tr.full.lowest_mm, mx = Math.max(...v) * 1.1;
+      if (!open) return heatFull(c, w, hh, (i) => (v[i] < 0 ? K.css("--fail") : neutral(1 - Math.min(1, v[i] / mx))));
+      line(c, w, hh, v, mx, K.css("--ink"));
+      hl(c, w, hh, 0, mx, "floor", K.css("--fail"), true);
+      const x = X(tr.lowest_i, w); c.fillStyle = K.css("--accent"); c.beginPath(); c.arc(x, hh - (v[tr.lowest_i] / mx) * hh, 4, 0, 7); c.fill();
+      label(c, x + 6, hh - (v[tr.lowest_i] / mx) * hh + 4, `${tr.kpis.min_clearance_mm.toFixed(0)} mm (${F.deployment.links[tr.lowest_link]})`);
+    } },
+  { id: "done", kind: "gate", gate: "completed", label: "Completed", code: "completed", h: [24, 24],
+    score: () => (tr.gates.completed ? "yes" : "no"), sub: () => "reached the end, settled",
+    read: (i) => (i >= tr.n - 1 ? "end" : ""),
+    draw(c, w, hh) { c.fillStyle = K.css("--surface-2"); c.fillRect(0, 6, w, hh - 12); const last = tr.stops.at(-1); c.fillStyle = tr.gates.completed ? K.css("--pass") : K.css("--fail"); c.fillRect(X((last[0] - tr.t0) / tr.dt, w), 6, w, hh - 12); label(c, X((last[0] - tr.t0) / tr.dt, w) + 4, hh - 8, "final stop: settled", "left", "#fff"); } },
+  { group: "Diagnostics (reported, not scored)" },
+  { id: "lag", kind: "diag", label: "Tool lag", code: "tool_lag_ms", h: [30, 90],
+    score: () => K.fmt.ms(tr.kpis.tool_lag_ms), sub: () => "measured behind target",
+    read: (i) => { const k = K.near(tr, i); return `target ${speed.t[k].toFixed(0)} · meas ${speed.m[k].toFixed(0)} mm/s`; },
+    draw(c, w, hh, open) {
+      const mx = Math.max(...speed.t, ...speed.m) * 1.1;
+      lineDec(c, w, hh, speed.t, mx, K.css("--target"), 2.5);
+      lineDec(c, w, hh, speed.m, mx, K.css("--ink"), 1.2);
+      if (open) label(c, 4, 12, "tool speed: target (grey) vs measured (ink); the horizontal offset is the lag");
+    } },
+  { id: "joint", kind: "diag", label: "Joint tracking", code: "joint_track_rms_deg", h: [30, 150],
+    score: () => K.fmt.deg(tr.kpis.joint_track_rms_deg), sub: () => `worst joint RMS (${J[tr.joint_rms_deg.indexOf(Math.max(...tr.joint_rms_deg))]})`,
+    read: (i) => { const r = tr.err_deg[K.near(tr, i)], j = r.map(Math.abs).indexOf(absMax(r)); return `${J[j]} ${K.sig(Math.abs(r[j]), 2)}°`; },
+    draw(c, w, hh, open) { const mx = Math.max(...tr.err_deg.flat().map(Math.abs)) * 1.05; jointLane(c, w, hh, open, tr.err_deg, mx, null, "°", []); } },
+  { id: "energy", kind: "diag", label: "Motor power", code: "energy_j", h: [30, 150],
+    score: () => `${tr.kpis.energy_j.toFixed(1)} J`, sub: () => "positive work, whole run",
+    read: (i) => `${tr.power_w[K.near(tr, i)].reduce((a, v) => a + Math.max(0, v), 0).toFixed(0)} W`,
+    draw(c, w, hh, open) { const pos = tr.power_w.map((r) => r.map((v) => Math.max(0, v))); jointLane(c, w, hh, open, pos, Math.max(...pos.flat()) * 1.05, null, "W", []); } },
+];
+function rangePct(k) { return tr.q_deg[k].map((v, j) => (Math.abs(v) / F.deployment.q_limit_deg[j]) * 100); }
+function maxRange() { return Math.max(...tr.q_deg.map((_, k) => Math.max(...rangePct(k)))); }
+function runs(intervals, what) { return intervals.map(([a, b]) => ({ i: a, bad: true, text: `${what} ${K.time(tr, a).toFixed(2)}–${K.time(tr, b).toFixed(2)} s` })); }
+
+/* ── drawing helpers (canvas, shared x = sample index) ── */
+/* gate lanes stay calm: a neutral ramp toward ink, red only past the fail level */
+const neutral = (f) => K.mix(K.css("--surface-2"), K.css("--ink"), 0.08 + 0.72 * Math.max(0, Math.min(1, f)));
+const X = (i, w) => (i / (tr.n - 1)) * w;
+function heatFull(c, w, hh, color) { for (let i = 0; i < tr.n; i += 2) { c.fillStyle = color(i); c.fillRect(X(i, w), 5, w / tr.n * 2 + 0.6, hh - 10); } }
+function heatDec(c, w, y, hh, vals, color) { vals.forEach((v, k) => { const i = tr.idx[k], i1 = tr.idx[k + 1] ?? tr.n - 1; c.fillStyle = color(v); c.fillRect(X(i, w), y, X(i1, w) - X(i, w) + 0.6, hh); }); }
+function area(c, w, hh, vals, mx, keep, fill) { c.fillStyle = fill; for (let i = 0; i < tr.n; i++) if (keep(i)) { const y = hh - (vals[i] / mx) * hh; c.fillRect(X(i, w), y, Math.max(1, w / tr.n + 0.3), hh - y); } }
+function line(c, w, hh, vals, mx, color) { c.strokeStyle = color; c.lineWidth = 1.3; c.beginPath(); vals.forEach((v, i) => { const x = X(i, w), y = hh - (v / mx) * hh; i ? c.lineTo(x, y) : c.moveTo(x, y); }); c.stroke(); }
+function lineDec(c, w, hh, vals, mx, color, lw = 1.2, y0 = 0, h0 = hh) { c.strokeStyle = color; c.lineWidth = lw; c.beginPath(); vals.forEach((v, k) => { const x = X(tr.idx[k], w), y = y0 + h0 - (v / mx) * h0; k ? c.lineTo(x, y) : c.moveTo(x, y); }); c.stroke(); }
+function hl(c, w, hh, v, mx, text, color, dashed = true, pad = 0) { const y = hh - (v / mx) * (hh - pad); c.strokeStyle = color; c.setLineDash(dashed ? [4, 3] : []); c.beginPath(); c.moveTo(0, y); c.lineTo(w, y); c.stroke(); c.setLineDash([]); label(c, w - 4, y - 3, text, "right", color); }
+function label(c, x, y, text, align = "left", color) { c.fillStyle = color || K.css("--muted"); c.font = "10.5px " + K.css("--mono"); c.textAlign = align; c.fillText(text, x, y); c.textAlign = "left"; }
+function jointLane(c, w, hh, open, rows, mx, failAt, unit, failRuns) {
+  if (!open) {
+    heatDec(c, w, 5, hh - 10, rows.map(absMax), (v) => (failAt && v >= failAt ? K.css("--fail") : neutral(v / mx)));
+  } else {
+    const rh = hh / 6;
+    rows[0].forEach((_, j) => {
+      const y0 = j * rh;
+      c.fillStyle = j % 2 ? K.css("--surface") : K.css("--surface-2"); c.fillRect(0, y0, w, rh);
+      lineDec(c, w, rh, rows.map((r) => Math.abs(r[j])), mx, JC[j], 1.2, y0, rh - 2);
+      if (failAt) { const y = y0 + rh - 2 - (failAt / mx) * (rh - 2); c.strokeStyle = K.css("--fail"); c.setLineDash([3, 3]); c.beginPath(); c.moveTo(0, y); c.lineTo(w, y); c.stroke(); c.setLineDash([]); }
+      label(c, 4, y0 + 11, J[j], "left", JC[j]);
+    });
+    label(c, w - 4, 11, `0 – ${K.sig(mx, 3)} ${unit}${failAt ? ` · red = fail at ${failAt.toFixed(0)}` : ""}`, "right");
+  }
+  c.fillStyle = K.css("--fail"); failRuns.forEach(([a, b]) => c.fillRect(X(a, w), 0, Math.max(2, X(b, w) - X(a, w)), 3));
+}
+
+/* ── layout ── */
+function render() {
+  const rec = document.getElementById("rec");
+  rec.innerHTML = `<div class="ruler"><div class="ctl"><button class="iconbtn" id="play" aria-label="Play">▶</button><span id="tnow"></span></div><canvas id="c-ruler" style="height:30px"></canvas><div class="ctl" style="justify-content:flex-end">score</div></div>` +
+    LANES.map((L) => L.group ? `<div class="group">${L.group}</div>` :
+      `<div class="lane ${L.gate && !tr.gates[L.gate] ? "fail" : ""} ${state.open.has(L.id) ? "open" : ""}" data-lane="${L.id}">
+        <button class="lbl" data-toggle="${L.id}" aria-expanded="${state.open.has(L.id)}"><b>${L.label}</b><code>${L.code}</code></button>
+        <canvas id="c-${L.id}" style="height:${L.h[state.open.has(L.id) ? 1 : 0]}px"></canvas>
+        <div class="sc">${L.gate ? `<span class="${tr.gates[L.gate] ? "ok" : "bad"}">${tr.gates[L.gate] ? "✓ pass" : "✗ fail"}</span>` : ""}<span class="val">${L.score()}</span><span class="rd" id="rd-${L.id}"></span></div></div>`).join("");
+  document.getElementById("play").addEventListener("click", play);
+  drawAll();
+}
+function drawAll() {
+  const dpr = window.devicePixelRatio || 1;
+  for (const L of LANES.filter((x) => !x.group)) {
+    const cv = document.getElementById("c-" + L.id), w = cv.clientWidth, hh = cv.clientHeight;
+    cv.width = w * dpr; cv.height = hh * dpr;
+    const c = cv.getContext("2d"); c.scale(dpr, dpr);
+    L.draw(c, w, hh, state.open.has(L.id));
+    for (const f of (L.flags ? L.flags() : [])) { const x = X(f.i, w); c.fillStyle = K.css("--fail"); c.fillRect(x - 1, 0, 2, hh); c.beginPath(); c.moveTo(x, 0); c.lineTo(x + 9, 4); c.lineTo(x, 8); c.fill(); }
+    const px = X(state.i, w); c.fillStyle = K.css("--accent"); c.fillRect(px - 1, 0, 2, hh);
+    document.getElementById("rd-" + L.id).textContent = L.read(state.i);
+  }
+  // the ruler: time ticks + stops
+  const cv = document.getElementById("c-ruler"), w = cv.clientWidth, hh = cv.clientHeight;
+  cv.width = w * dpr; cv.height = hh * dpr;
+  const c = cv.getContext("2d"); c.scale(dpr, dpr);
+  tr.stops.forEach(([a, b], j) => { c.fillStyle = K.css("--line"); c.fillRect(X((a - tr.t0) / tr.dt, w), 16, X((b - a) / tr.dt, w), hh - 16); label(c, X((a - tr.t0) / tr.dt, w) + 3, hh - 3, `stop S${j + 1}`); });
+  for (let s = 0; s <= K.time(tr, tr.n - 1); s += 1) { const x = X(s / tr.dt, w); c.fillStyle = K.css("--muted"); c.fillRect(x, 0, 1, 6); label(c, x + 2, 12, `${s} s`); }
+  c.fillStyle = K.css("--accent"); c.fillRect(X(state.i, w) - 1, 0, 2, hh);
+  document.getElementById("tnow").textContent = `${K.time(tr, state.i).toFixed(2)} s`;
+  pose();
+}
+function setI(i) { state.i = Math.max(0, Math.min(tr.n - 1, Math.round(i))); drawAll(); }
+document.getElementById("rec").addEventListener("pointerdown", (e) => {
+  const cv = e.target.closest("canvas"); if (!cv) return;
+  const go = (ev) => { const r = cv.getBoundingClientRect(); setI(((ev.clientX - r.left) / r.width) * (tr.n - 1)); };
+  go(e); cv.setPointerCapture(e.pointerId); cv.onpointermove = go; cv.onpointerup = () => (cv.onpointermove = null);
+});
+document.getElementById("rec").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-toggle]"); if (!b) return;
+  const id = b.dataset.toggle; state.open.has(id) ? state.open.delete(id) : state.open.add(id);
+  render(); guide.sync((s) => s.sol === state.sol && sameSet(s.open, state.open));
+});
+const sameSet = (a, b) => a.length === b.size && a.every((x) => b.has(x));
+let timer = null;
+function play(e) {
+  const b = document.getElementById("play");
+  if (timer) { clearInterval(timer); timer = null; b.textContent = "▶"; return; }
+  b.textContent = "❚❚"; if (state.i >= tr.n - 1) state.i = 0;
+  timer = setInterval(() => { if (state.i >= tr.n - 1) { clearInterval(timer); timer = null; document.getElementById("play").textContent = "▶"; return; } setI(state.i + 10); }, 20);
+}
+
+function answer() {
+  const s = K.byId[state.sol], failed = K.failed(tr);
+  const flags = LANES.filter((L) => L.flags).flatMap((L) => L.flags().map((f) => ({ ...f, lane: L.label })));
+  const v = failed.length
+    ? `<span class="bad">✗ ${failed.map((g) => g.label).join(", ")} fails</span> · ${flags.length} flagged moment${flags.length > 1 ? "s" : ""} on the timeline`
+    : `<span class="ok">✓ All ${K.GATES.length} gates pass</span> · no flags on the timeline`;
+  document.getElementById("answer").innerHTML = `<p class="v">${v}</p><p class="s">${state.sol} on task <code>${tr.task}</code> · tracking ${K.fmt.mm(tr.kpis.tool_track_rms_mm)} RMS here · objective ${K.fmt.mm(s.objective)} (median of ${F.tasks_used}) · rank ${s.rank} of ${K.pop.length}${s.admissible ? "" : " (not admissible)"}</p>` +
+    (flags.length ? `<div class="flags">${flags.map((f) => `<button class="flag" data-jump="${f.i}">⚑ ${f.lane}: ${f.text} @ ${K.time(tr, f.i).toFixed(2)} s</button>`).join("")}</div>` : "");
+}
+document.getElementById("answer").addEventListener("click", (e) => { const b = e.target.closest("[data-jump]"); if (b) setI(+b.dataset.jump); });
+
+/* ── the mini 3D arm, following the playhead ── */
+const view = createArmView(document.getElementById("mini"), { fov: 30 });
+function pose() {
+  const k = K.near(tr, state.i);
+  view.setPose(tr.arm_mm[k], tr.target_arm_mm[k]);
+  view.render();
+  document.getElementById("minicap").textContent = `${K.time(tr, state.i).toFixed(2)} s · measured (solid) vs target (ghost), true scale`;
+}
+
+function load(sol) {
+  state.sol = sol; tr = K.trace(sol); err = tr.full.err_mm; moving = K.mask(tr.full.moving, tr.n);
+  maxErr = 0; for (let i = 0; i < tr.n; i++) if (moving[i] && err[i] > maxErr) maxErr = err[i];
+  const sp = (pts) => pts.map((p, k) => { const q = pts[Math.min(k + 1, pts.length - 1)], o = pts[Math.max(k - 1, 0)], dt = (tr.idx[Math.min(k + 1, pts.length - 1)] - tr.idx[Math.max(k - 1, 0)]) * tr.dt; return dt ? Math.hypot(q[0] - o[0], q[1] - o[1], q[2] - o[2]) / dt : 0; });
+  speed = { t: sp(tr.target_tool_mm), m: sp(tr.tool_mm) };
+  const pts = tr.target_arm_mm.filter((_, k) => k % 10 === 0).flat();
+  view.fit(pts, [0.62, -0.7, 0.42], 0.95);
+  answer(); render();
+}
+const setPick = K.picker(document.getElementById("picker"), state.sol, (sol) => { load(sol); setPick(sol); guide.sync((s) => s.sol === state.sol && sameSet(s.open, state.open)); });
+K.theme(document.getElementById("theme"), () => { view.applyTheme(); render(); });
+new ResizeObserver(() => tr && drawAll()).observe(document.getElementById("rec"));
+const guide = K.guide(document.getElementById("guide"), [
+  { label: "One timeline", caption: "Each row is one number, collapsed to a strip on the same time axis; the right column is its score. Stops are the grey spans.", sol: K.pop[0].id, open: [], i: 1990, target: "#rec" },
+  { label: "Open the objective", caption: "Tool tracking error opened: the per-sample error that the RMS (dashed) summarises. It grows during each move and vanishes at stops.", sol: K.pop[0].id, open: ["err"], i: 1990, target: '[data-toggle="err"]' },
+  { label: "Joints, open", caption: "Torque vs cap opened into its six joints, each with the 98 % saturation line: lots of headroom.", sol: K.pop[0].id, open: ["sat"], i: 1150, target: '[data-toggle="sat"]' },
+  { label: "Which gate, when", caption: "Another solution: red flags mark the stop error failing at all five stops; click a flag to jump there.", sol: "menagerie_stock", open: ["stop"], i: 1426, target: ".flags" },
+  { label: "Why: the lag", caption: "Its tool speed (ink) trails the target (grey) by 144 ms: the arm is still moving when the stop window closes.", sol: "menagerie_stock", open: ["stop", "lag"], i: 1426, target: '[data-toggle="lag"]' },
+], (s) => { state.open = new Set(s.open); if (s.sol !== state.sol) { load(s.sol); setPick(s.sol); } else render(); setI(s.i); });
+K.footer(document.getElementById("inputs"), {
+  reads: ["target trajectory", "measured joint states", "applied torques", "deployment", "ruler v1"],
+  generalises: "Very well: a lane is (a per-sample signal, a threshold, a reduction), so any black box with time series out (other robots, other joint counts, other metrics) gets the same recorder; a new metric is one lane object. The mini 3D arm is optional (needs FK); everything else is robot-agnostic.",
+});
+load(state.sol);
+setPick(state.sol);
+if (h.step) guide.show(+h.step - 1); else { guide.show(-1); setI(tr.peak_err_i); }
+</script>
+</body>
+</html>

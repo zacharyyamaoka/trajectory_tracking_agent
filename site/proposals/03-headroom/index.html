@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Headroom Gauges</title>
+<link rel="stylesheet" href="../_shared/kit.css">
+<style>
+  .app { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; padding: 16px; min-height: calc(100vh - 96px); align-items: start; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); }
+  .gauges { padding: 16px 18px; }
+  .verdict { font-size: 17px; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 12px; font-size: 13px; }
+  .objrow { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 10px 12px; border-radius: 10px; background: var(--surface-2); margin-bottom: 14px; cursor: pointer; border: 1px solid transparent; }
+  .objrow[aria-pressed="true"] { border-color: var(--accent); }
+  .objrow .big { font: 600 22px var(--mono); }
+  .objrow svg { grid-column: 1 / 3; width: 100%; height: 40px; }
+  .axis { display: grid; grid-template-columns: 190px minmax(0, 1fr) 92px; gap: 10px; font: 10.5px var(--mono); color: var(--muted); margin: 6px 0 2px; }
+  .axis svg { width: 100%; height: 18px; overflow: visible; }
+  .row { display: grid; grid-template-columns: 190px minmax(0, 1fr) 92px; gap: 10px; align-items: center; width: 100%; text-align: left; border: 1px solid transparent; background: none; border-radius: 10px; padding: 7px 0; cursor: pointer; }
+  .row:hover { background: var(--surface-2); }
+  .row[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 7%, var(--surface)); border-color: var(--accent); }
+  .row .name { padding-left: 10px; }
+  .row .name b { display: block; font-size: 13.5px; }
+  .row .name span { color: var(--muted); font-size: 12px; }
+  .row svg { width: 100%; height: 26px; overflow: visible; }
+  .row .hr { font: 600 13px var(--mono); text-align: right; padding-right: 10px; }
+  .row.fail .hr { color: var(--fail); }
+  .group { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 14px 0 2px; }
+  .moment { padding: 16px 18px; position: sticky; top: 12px; }
+  .moment h2 { font-size: 15px; margin: 0 0 2px; }
+  .moment .when { font: 12.5px var(--mono); color: var(--muted); margin-bottom: 8px; }
+  .moment .say { font-size: 13.5px; margin: 8px 0; }
+  .moment svg.elev { width: 100%; height: auto; display: block; background: var(--surface-2); border-radius: 10px; }
+  .moment svg.spark { width: 100%; height: 86px; display: block; cursor: crosshair; touch-action: none; margin-top: 8px; }
+  .key { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .key i { display: inline-block; width: 14px; height: 3px; vertical-align: middle; margin-right: 4px; }
+  .ax { fill: var(--muted); font: 10px var(--mono); }
+  @media (max-width: 900px) {
+    .app { grid-template-columns: 1fr; padding: 10px; }
+    .row, .axis { grid-template-columns: 120px minmax(0, 1fr) 70px; }
+    .moment { position: static; }
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="who"><span class="no">03</span><h1>Headroom Gauges</h1><span class="thesis">Every gate as how much of its limit was used, on one scale with one fail line; click one to see the moment it came closest.</span></div>
+  <div class="picker" id="picker"></div>
+  <button class="iconbtn" id="theme">☾ Dark</button>
+</header>
+<nav class="guide" id="guide"></nav>
+<div class="app">
+  <section class="card gauges" id="gauges"></section>
+  <aside class="card moment" id="moment"></aside>
+</div>
+<footer class="inputs" id="inputs"></footer>
+<script src="../_data/fixture.js"></script>
+<script src="../_shared/kit.js"></script>
+<script>
+const K = window.Kit, F = K.F, T = F.thresholds;
+const state = { sol: K.pop[0].id, row: null, i: null };
+const h = K.hash();
+if (h.s && K.byId[h.s]) state.sol = h.s;
+let tr, rowsCache;
+
+/* each row: how much of its limit was used at the worst moment, and when that moment was */
+function rows() {
+  const k = tr.kpis, J = F.deployment.joints;
+  const peak = (m) => { let b = [0, 0, 0]; m.forEach((r, kk) => r.forEach((v, j) => { if (Math.abs(v) > b[0]) b = [Math.abs(v), j, kk]; })); return b; };
+  const [tq, tj, tk] = peak(tr.tau_pct), [vq, vj, vk] = peak(tr.qd_pct);
+  const posPct = tr.q_deg.map((r) => r.map((v, j) => (Math.abs(v) / F.deployment.q_limit_deg[j]) * 100));
+  const [pq, pj, pk] = peak(posPct);
+  const ws = tr.stop_errors_mm.indexOf(Math.max(...tr.stop_errors_mm));
+  const stopEnd = Math.round((tr.stops[ws][1] - tr.t0) / tr.dt);
+  return [
+    { id: "stop", gate: "stop_error_max_mm", name: "Stop error", what: `worst of ${tr.stops.length} stops`, used: k.stop_error_max_mm / T.stop_error_max_mm,
+      i: stopEnd, joint: null, value: `${K.fmt.mm(k.stop_error_max_mm)} of ${T.stop_error_max_mm} mm`,
+      say: () => `At stop ${ws + 1} the arm rests ${K.fmt.mm(k.stop_error_max_mm)} from the target (mean of the last ${T.stop_tail_s} s); the gate allows ${T.stop_error_max_mm} mm.`,
+      series: () => tr.idx.map((i) => (tr.full.err_mm[i] / T.stop_error_max_mm) * 100), seriesNote: "tool error as % of the 1 mm stop limit (it only counts at stops)" },
+    { id: "sat", gate: "saturation_share_pct", name: "Torque saturation", what: `share of samples at the cap (${tr.full.sat.reduce((a, [x, y]) => a + y - x + 1, 0)} saturated)`, used: k.saturation_share_pct / T.saturation_share_pct,
+      i: tr.idx[tk], joint: tj, value: `${K.fmt.pct(k.saturation_share_pct)} of ${T.saturation_share_pct} %`, floorNote: "no sample saturated",
+      say: () => `No sample had a joint at ≥ ${Math.round(100 * T.sat_fraction)} % of its cap; the gate allows ${T.saturation_share_pct} % of samples.`,
+      series: () => tr.tau_pct.map((r) => Math.max(...r.map(Math.abs)) / (100 * T.sat_fraction) * 100), seriesNote: "busiest joint's torque as % of the saturation level" },
+    { id: "torque", gate: "saturation_share_pct", name: "↳ closest torque", what: `${J[tj]}, % of the ${Math.round(100 * T.sat_fraction)} % level`, used: tq / (100 * T.sat_fraction),
+      i: tr.idx[tk], joint: tj, value: `${tq.toFixed(1)} % of cap`,
+      say: () => `At ${K.fmt.s(K.time(tr, tr.idx[tk]))} the ${J[tj]} joint uses ${tq.toFixed(1)} % of its ${F.deployment.tau_cap_nm[tj]} N·m cap; a sample saturates at ${Math.round(100 * T.sat_fraction)} %.`,
+      series: () => tr.tau_pct.map((r) => Math.max(...r.map(Math.abs)) / (100 * T.sat_fraction) * 100), seriesNote: "busiest joint's torque as % of the saturation level" },
+    { id: "vel", gate: "limit_violations", name: "Joint speed", what: `${J[vj]}, % of ${T.vel_margin} × limit`, used: vq / (100 * T.vel_margin),
+      i: tr.idx[vk], joint: vj, value: `${vq.toFixed(1)} % of limit`,
+      say: () => `At ${K.fmt.s(K.time(tr, tr.idx[vk]))} ${J[vj]} turns at ${(vq * F.deployment.qd_max_deg_s[vj] / 100).toFixed(0)}°/s, ${vq.toFixed(1)} % of its ${F.deployment.qd_max_deg_s[vj]}°/s limit; it violates above ${Math.round(100 * T.vel_margin)} %.`,
+      series: () => tr.qd_pct.map((r) => Math.max(...r.map(Math.abs)) / (100 * T.vel_margin) * 100), seriesNote: "fastest joint's speed as % of the violation level" },
+    { id: "pos", gate: "limit_violations", name: "Joint range", what: `${J[pj]}, % of its range`, used: pq / 100,
+      i: tr.idx[pk], joint: pj, value: `${pq.toFixed(1)} % of range`,
+      say: () => `At ${K.fmt.s(K.time(tr, tr.idx[pk]))} ${J[pj]} is at ${(pq * F.deployment.q_limit_deg[pj] / 100).toFixed(0)}°, ${pq.toFixed(1)} % of its ±${F.deployment.q_limit_deg[pj]}° range.`,
+      series: () => posPct.map((r) => Math.max(...r)), seriesNote: "furthest joint as % of its range" },
+    { id: "floor", gate: "floor_clearance", name: "Floor clearance", what: `${F.deployment.links[tr.lowest_link]}, the arm's lowest point`, used: null, mm: k.min_clearance_mm,
+      i: tr.lowest_i, joint: null, value: `${k.min_clearance_mm.toFixed(0)} mm to spare`,
+      say: () => `At ${K.fmt.s(K.time(tr, tr.lowest_i))} the ${F.deployment.links[tr.lowest_link]} is the lowest point of the arm, ${k.min_clearance_mm.toFixed(0)} mm above the floor.`,
+      series: () => tr.idx.map((i) => tr.full.lowest_mm[i]), seriesNote: "lowest point of the arm above the floor, mm", mmSeries: true },
+    { id: "done", gate: "completed", name: "Completed", what: "reached the end and settled", used: null, binary: tr.gates.completed,
+      i: tr.n - 1, joint: null, value: tr.gates.completed ? "yes" : "no",
+      say: () => `The run reaches ${K.fmt.s(K.time(tr, tr.n - 1))} and ends inside its final stop (${tr.stops.at(-1).map((v) => v.toFixed(2)).join("–")} s).`,
+      series: () => tr.idx.map((i) => tr.full.err_mm[i]), seriesNote: "tool error, mm (for orientation)" },
+  ];
+}
+
+/* log scale of "share of the limit used": 0.01 % … 100 % (the fail line) … 3000 % */
+const LO = -4, HI = Math.log10(30);
+const ux = (u, w) => ((Math.max(LO, Math.min(HI, Math.log10(Math.max(u, 1e-9)))) - LO) / (HI - LO)) * w;
+function bar(r) {
+  const W = 400, fx = ux(1, W);
+  let body = "";
+  if (r.used !== null) {
+    const x = ux(r.used, W), bad = r.used > 1;
+    body = `<rect x="0" y="9" width="${Math.max(2, x)}" height="8" rx="4" fill="${bad ? "var(--fail)" : "var(--ink)"}" opacity="${bad ? 0.9 : 0.55}"/>` +
+      `<circle cx="${Math.max(3, x)}" cy="13" r="5" fill="${bad ? "var(--fail)" : "var(--ink)"}"/>` +
+      "";
+  } else if (r.mm !== undefined) {
+    // distance gate: the dot sits left of the fail line by the clearance, on a log mm scale (1 mm … 1000 mm)
+    const x = fx - (Math.log10(Math.max(1, r.mm)) / 3) * fx;
+    body = `<line x1="${x}" x2="${fx}" y1="13" y2="13" stroke="var(--ink)" stroke-dasharray="3 3" opacity=".6"/><circle cx="${x}" cy="13" r="5" fill="${r.mm < 0 ? "var(--fail)" : "var(--ink)"}"/>`;
+  } else {
+    body = `<circle cx="${fx - 10}" cy="13" r="5" fill="${r.binary ? "var(--pass)" : "var(--fail)"}"/>`;
+  }
+  return `<svg viewBox="0 0 ${W} 26" preserveAspectRatio="none"><rect x="0" y="12" width="${W}" height="2" fill="var(--line)"/><rect x="${fx}" y="0" width="${W - fx}" height="26" fill="var(--fail-bg)" opacity=".6"/><line x1="${fx}" x2="${fx}" y1="0" y2="26" stroke="var(--fail)" stroke-width="1.5"/>${body}</svg>`;
+}
+function headroom(r) {
+  if (r.used === null) return r.mm !== undefined ? `${r.mm.toFixed(0)} mm` : r.binary ? "✓" : "✗";
+  if (r.used <= 0) return "∞";
+  const x = 1 / r.used;
+  return r.used > 1 ? `${r.used.toFixed(1)}× over` : `${x >= 100 ? Math.round(x).toLocaleString("en-US") : x.toFixed(1)}×`;
+}
+
+function render() {
+  rowsCache = rows();
+  const s = K.byId[state.sol], failed = K.failed(tr);
+  const ratio = rowsCache.filter((r) => r.used !== null && r.used > 0).sort((a, b) => b.used - a.used);
+  const closest = ratio[0];
+  const W = 400, ticks = [1e-4, 1e-3, 1e-2, 1e-1, 1, 10].map((u) => `<span style="position:absolute;left:${(ux(u, W) / W) * 100}%;transform:translateX(-50%)">${+(u * 100).toPrecision(2)} %</span>`).join("");
+  const verdict = failed.length
+    ? `<span class="bad">✗ ${failed.map((g) => g.label).join(", ")}: ${closest.used.toFixed(1)}× over its limit</span>`
+    : `<span class="ok">✓ All gates pass</span> · closest to failing: <b>${closest.name.replace("↳ ", "")}</b>, ${(closest.used * 100).toFixed(0)} % of its limit (${headroom(closest)} headroom)`;
+  const others = K.pop.map((x) => x.objective);
+  document.getElementById("gauges").innerHTML = `
+    <p class="verdict">${verdict}</p>
+    <p class="sub">${state.sol} on task <code>${tr.task}</code> · ${s.admissible ? "admissible" : "not admissible"} over ${F.tasks_used} tasks · headroom = limit ÷ what was used</p>
+    <div class="objrow" data-row="objective" aria-pressed="${state.row === "objective"}"><div><b>${K.OBJECTIVE.label}</b> <span style="color:var(--muted)">(no limit; lower is better)</span><br><span style="color:var(--muted);font-size:12.5px">this task ${K.fmt.mm(tr.kpis.tool_track_rms_mm)} · objective (median of ${F.tasks_used}) ${K.fmt.mm(s.objective)} · rank ${s.rank} of ${K.pop.length}</span></div><div class="big">${K.sig(s.objective, 3)} mm</div>${popStrip()}</div>
+    <div class="group">Share of each limit used · log scale · fail line at 100 %</div>
+    <div class="axis"><span></span><div style="position:relative;height:14px">${ticks}</div><span style="text-align:right;padding-right:10px">headroom</span></div>
+    ${rowsCache.map((r) => `<button class="row ${r.used > 1 || r.binary === false || r.mm < 0 ? "fail" : ""}" data-row="${r.id}" aria-pressed="${state.row === r.id}">
+        <span class="name"><b>${r.name}</b><span>${r.what}</span></span>${bar(r)}<span class="hr">${headroom(r)}</span></button>`).join("")}
+    <p class="sub" style="margin-top:12px">Gate ids: ${K.GATES.map((g) => `<code>${g.id}</code>`).join(" · ")}. Floor clearance sits left of the line by its clearance (log mm scale, 1 mm at the line).</p>`;
+  renderMoment();
+}
+function popStrip() {
+  const v = K.pop.map((x) => x.objective), lo = Math.min(...v) / 2, hi = Math.max(...v) * 2, W = 400;
+  const x = (u) => ((Math.log(u) - Math.log(lo)) / (Math.log(hi) - Math.log(lo))) * (W - 20) + 10;
+  return `<svg viewBox="0 0 ${W} 40" preserveAspectRatio="none" style="height:28px"><line x1="10" x2="${W - 10}" y1="20" y2="20" stroke="var(--line)"/>${K.pop.map((p) =>
+    `<circle cx="${x(p.objective)}" cy="20" r="${p.id === state.sol ? 6 : 4}" fill="${p.admissible ? (p.id === state.sol ? "var(--accent)" : "var(--faint)") : "var(--surface)"}" stroke="${p.admissible ? "none" : "var(--fail)"}" stroke-width="2"><title>${p.id} ${K.sig(p.objective, 3)} mm</title></circle>`).join("")}
+    </svg><div style="grid-column:1/3;display:flex;justify-content:space-between;font:10.5px var(--mono);color:var(--muted);margin-top:-6px"><span>← better</span><span>all ${K.pop.length} solutions · log scale</span><span>worse →</span></div>`;
+}
+
+/* the side elevation: every point drawn at (distance from the base axis, height) — the plane the UR moves in */
+function elevation(k, r) {
+  const W = 420, H = 300, pad = 24;
+  const R = (p) => [Math.hypot(p[0], p[1]), p[2]];
+  const all = [...tr.arm_mm, ...tr.target_arm_mm].flat().map(R);
+  const rmax = Math.max(...all.map((p) => p[0])) * 1.1, zmax = Math.max(...all.map((p) => p[1])) * 1.1, zmin = Math.min(0, ...all.map((p) => p[1]));
+  const s = Math.min((W - 2 * pad) / rmax, (H - 2 * pad) / (zmax - zmin));
+  const X = (p) => pad + p[0] * s, Y = (p) => H - pad - (p[1] - zmin) * s;
+  const path = (pts, cls) => `<polyline points="${pts.map((p) => `${X(R(p))},${Y(R(p))}`).join(" ")}" ${cls}/>`;
+  const m = tr.arm_mm[k], t = tr.target_arm_mm[k];
+  let mark = "";
+  if (r.joint !== null && r.joint !== undefined) { const p = R(m[r.joint + 1]); mark = `<circle cx="${X(p)}" cy="${Y(p)}" r="11" fill="none" stroke="var(--accent)" stroke-width="2.5"/>`; }
+  if (r.id === "floor") { const p = R(m[tr.lowest_link]); mark = `<line x1="${X(p)}" x2="${X(p)}" y1="${Y(p)}" y2="${Y([0, 0])}" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 3"/><text class="ax" x="${X(p) + 6}" y="${(Y(p) + Y([0, 0])) / 2}">${tr.kpis.min_clearance_mm.toFixed(0)} mm</text><circle cx="${X(p)}" cy="${Y(p)}" r="6" fill="var(--accent)"/>`; }
+  if (r.id === "stop") { const p = R(m[7]); mark = `<circle cx="${X(p)}" cy="${Y(p)}" r="11" fill="none" stroke="${tr.gates.stop_error_max_mm ? "var(--accent)" : "var(--fail)"}" stroke-width="2.5"/>`; }
+  const toolPath = tr.target_tool_mm.filter((_, j) => j % 2 === 0);
+  return `<svg class="elev" viewBox="0 0 ${W} ${H}" role="img" aria-label="Side elevation of the arm at ${K.fmt.s(K.time(tr, tr.idx[k]))}">
+    <line x1="0" x2="${W}" y1="${Y([0, 0])}" y2="${Y([0, 0])}" stroke="var(--ink)" stroke-width="1.5"/><text class="ax" x="${W - 6}" y="${Y([0, 0]) + 14}" text-anchor="end">floor</text>
+    <polyline points="${toolPath.map((p) => `${X(R(p))},${Y(R(p))}`).join(" ")}" fill="none" stroke="var(--target)" stroke-dasharray="3 3" opacity=".7"/>
+    ${path(t, 'fill="none" stroke="var(--target)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity=".35"')}
+    ${path(m, 'fill="none" stroke="var(--ink)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"')}
+    ${m.slice(1, 7).map((p) => `<circle cx="${X(R(p))}" cy="${Y(R(p))}" r="4" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/>`).join("")}
+    ${mark}</svg>`;
+}
+function spark(r, k) {
+  const W = 420, H = 70, ser = r.series();
+  const mx = r.mmSeries ? Math.max(...ser) * 1.1 : Math.max(110, ...ser) * 1.05;
+  const X = (j) => (tr.idx[j] / (tr.n - 1)) * W, Y = (v) => H - (v / mx) * H;
+  const d = ser.map((v, j) => `${j ? "L" : "M"}${X(j).toFixed(1)},${Y(v).toFixed(1)}`).join("");
+  const lim = r.mmSeries ? 0 : 100;
+  return `<svg class="spark" viewBox="0 0 ${W} ${H + 14}" preserveAspectRatio="none" id="spark">
+    <path d="${d}" fill="none" stroke="var(--ink)" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+    <line x1="0" x2="${W}" y1="${Y(lim)}" y2="${Y(lim)}" stroke="var(--fail)" stroke-dasharray="4 3" vector-effect="non-scaling-stroke"/>
+    <line x1="${X(k)}" x2="${X(k)}" y1="0" y2="${H}" stroke="var(--accent)" stroke-width="2" vector-effect="non-scaling-stroke"/>
+    <text class="ax" x="2" y="${H + 12}">0 s</text><text class="ax" x="${W - 2}" y="${H + 12}" text-anchor="end">${K.time(tr, tr.n - 1).toFixed(2)} s</text></svg>`;
+}
+function renderMoment() {
+  const el = document.getElementById("moment");
+  const r = state.row === "objective" || !state.row ? null : rowsCache.find((x) => x.id === state.row);
+  if (!r) {
+    const k = K.near(tr, tr.peak_err_i);
+    el.innerHTML = `<h2>${state.row === "objective" ? "Tracking error at its peak" : "Pick a gauge"}</h2><div class="when">${K.fmt.s(K.time(tr, tr.peak_err_i))} · peak tool error ${K.fmt.mm(tr.full.err_mm[tr.peak_err_i])}</div>
+      ${elevation(k, { joint: null, id: "tool" })}<div class="key"><span><i style="background:var(--ink)"></i>measured arm</span><span><i style="background:var(--target)"></i>target arm and tool path</span></div>
+      <p class="say">${state.row === "objective" ? `The objective has no limit, so it has no headroom; it is ranked against the other solutions (strip on the left). This is the instant of this task's largest tool error.` : "Click any gauge on the left: this panel jumps to the moment that gate came closest to failing, in a side view of the arm."}</p>`;
+    return;
+  }
+  const i = state.i ?? r.i, k = K.near(tr, i);
+  el.innerHTML = `<h2>${r.name.replace("↳ ", "")}: the closest moment</h2><div class="when">${K.fmt.s(K.time(tr, tr.idx[k]))} · ${r.value} · headroom ${headroom(r)}</div>
+    ${elevation(k, r)}<div class="key"><span><i style="background:var(--ink)"></i>measured</span><span><i style="background:var(--target)"></i>target</span><span><i style="background:var(--accent)"></i>what this gate looks at</span></div>
+    <p class="say">${r.say()}</p>${spark(r, k)}<div class="key"><span>${r.seriesNote}; <span style="color:var(--fail)">dashed = fail level</span>. Drag along it to move the instant.</span></div>`;
+  const sp = document.getElementById("spark");
+  const move = (e) => { const b = sp.getBoundingClientRect(); state.i = Math.round(Math.max(0, Math.min(1, (e.clientX - b.left) / b.width)) * (tr.n - 1)); renderMoment(); };
+  sp.addEventListener("pointerdown", (e) => { move(e); window.onpointermove = (ev) => ev.buttons && move(ev); });
+}
+document.getElementById("gauges").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-row]"); if (!b) return;
+  state.row = b.dataset.row; state.i = null; render();
+  guide.sync((s) => s.row === state.row && s.sol === state.sol);
+});
+
+function load(sol) { state.sol = sol; tr = K.trace(sol); state.i = null; render(); }
+const setPick = K.picker(document.getElementById("picker"), state.sol, (sol) => { load(sol); setPick(sol); guide.sync((s) => s.row === state.row && s.sol === state.sol); });
+K.theme(document.getElementById("theme"), () => render());
+const guide = K.guide(document.getElementById("guide"), [
+  { label: "One scale", caption: "Every gate as the share of its limit used, log scale, one fail line. The verdict line names the gate closest to failing.", row: null, sol: K.pop[0].id, target: ".verdict" },
+  { label: "Closest call", caption: "The gate nearest its limit (here the elbow's range). The side view shows that instant and rings the joint that set it.", row: "closest", sol: K.pop[0].id, target: '[aria-pressed="true"].row' },
+  { label: "Scrub the margin", caption: "The sparkline is that margin over the whole run; drag along it to move the instant.", row: "vel", sol: K.pop[0].id, target: "#spark" },
+  { label: "A failing gate", caption: "Another solution: stop error is 14× over its limit, the bar crosses into red. The side view shows where.", row: "stop", sol: "menagerie_stock", target: '[data-row="stop"]' },
+  { label: "Distance to spare", caption: "Floor clearance is a distance, not a share: the dot sits left of the line by its millimetres.", row: "floor", sol: "menagerie_stock", target: '[data-row="floor"]' },
+], (s) => {
+  if (s.sol !== state.sol) { tr = K.trace(s.sol); state.sol = s.sol; setPick(s.sol); }
+  state.row = s.row === "closest" ? rows().filter((r) => r.used > 0).sort((a, b) => b.used - a.used)[0].id : s.row;
+  state.i = null; render();
+});
+K.footer(document.getElementById("inputs"), {
+  reads: ["target trajectory", "measured joint states", "applied torques", "deployment", "ruler v1"],
+  generalises: "Very well for gates: any threshold metric becomes one more row (value ÷ limit), for any robot or any black box, and the sort answers 'what fails next'. The side elevation needs FK points (any serial arm); a non-arm black box keeps the gauges and the sparkline. It says little about the objective, which has no limit.",
+});
+tr = K.trace(state.sol);
+setPick(state.sol);
+render();
+if (h.step) guide.show(+h.step - 1); else guide.show(-1);
+</script>
+</body>
+</html>

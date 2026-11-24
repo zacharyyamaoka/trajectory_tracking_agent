@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evidence Lens</title>
+<link rel="stylesheet" href="../_shared/kit.css">
+<style>
+  .app { display: grid; grid-template-columns: 340px 1fr; height: calc(100vh - 96px); min-height: 560px; }
+  .scores { border-right: 1px solid var(--line); background: var(--surface); padding: 14px; display: flex; flex-direction: column; gap: 10px; overflow: auto; }
+  .answer { font-size: 13.5px; padding: 8px 10px; border-radius: 8px; background: var(--surface-2); }
+  .answer b { font-size: 14px; }
+  .sec { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 6px 0 -4px; }
+  .score { display: grid; grid-template-columns: 18px 1fr auto; gap: 2px 8px; align-items: baseline; width: 100%; text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: 9px; padding: 8px 10px; cursor: pointer; }
+  .score:hover { border-color: var(--accent); }
+  .score[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); background: color-mix(in srgb, var(--accent) 6%, var(--surface)); }
+  .score .ic { font-weight: 700; }
+  .score .nm { font-weight: 600; }
+  .score .val { font-family: var(--mono); font-size: 13px; }
+  .score .rule { grid-column: 2 / 4; color: var(--muted); font-size: 12px; }
+  .score.fail { border-color: var(--fail); }
+  .score.fail .val { color: var(--fail); font-weight: 600; }
+  .objective .val { font-size: 22px; font-weight: 600; }
+  .objective .nm { font-size: 15px; }
+  .stage { position: relative; display: flex; flex-direction: column; min-height: 0; }
+  .viewport { position: relative; flex: 1; min-height: 420px; background: radial-gradient(ellipse at 50% 30%, var(--surface), var(--bg)); }
+  .lens { position: absolute; left: 12px; top: 12px; max-width: min(420px, calc(100% - 24px)); background: color-mix(in srgb, var(--surface) 92%, transparent); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; box-shadow: var(--shadow); font-size: 13px; z-index: 2; }
+  .lens h2 { font-size: 14px; margin: 0 0 4px; }
+  .lens .how { color: var(--muted); margin: 0 0 6px; }
+  .lens .read { font-family: var(--mono); font-size: 13px; }
+  .legend { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+  .ramp { width: 120px; height: 8px; border-radius: 4px; }
+  .sw { display: inline-block; width: 18px; height: 3px; vertical-align: middle; margin-right: 4px; border-radius: 2px; }
+  .mag { position: absolute; right: 12px; top: 12px; z-index: 2; font: 600 12px var(--mono); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 4px 8px; }
+  .closeups { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .closeups figure { margin: 0; text-align: center; font: 11px var(--mono); color: var(--muted); }
+  .closeups svg { width: 64px; height: 64px; display: block; background: var(--surface-2); border-radius: 8px; }
+  .lbl3d { position: absolute; left: 0; top: 0; white-space: nowrap; font: 600 11.5px var(--mono); background: color-mix(in srgb, var(--surface) 88%, transparent); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; color: var(--ink); }
+  .lbl3d.bad { color: var(--fail); border-color: var(--fail); }
+  .lbl3d.ok { color: var(--pass); }
+  .timeline { border-top: 1px solid var(--line); background: var(--surface); padding: 8px 12px 10px; display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; }
+  .timeline canvas { width: 100%; height: 56px; display: block; cursor: ew-resize; touch-action: none; }
+  .tl-time { font: 12px var(--mono); color: var(--muted); min-width: 120px; text-align: right; }
+  .score { min-width: 0; } .score .rule { overflow-wrap: anywhere; }
+  @media (max-width: 860px) {
+    .app { grid-template-columns: minmax(0, 1fr); height: auto; }
+    .scores { border-right: 0; border-top: 1px solid var(--line); }
+    .stage { order: -1; }
+    .score .rule { display: none; }
+    .objective .rule { display: block; }
+    .stage { min-height: 520px; }
+    .viewport { min-height: 380px; }
+    .lens { font-size: 12px; position: relative; left: 0; top: 0; max-width: none; margin: 8px; }
+  }
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body>
+<header class="topbar">
+  <div class="who"><span class="no">01</span><h1>Evidence Lens</h1><span class="thesis">Click a score; the 3D replay redraws to show only the samples that number was computed from.</span></div>
+  <div class="picker" id="picker"></div>
+  <button class="iconbtn" id="theme">☾ Dark</button>
+</header>
+<nav class="guide" id="guide"></nav>
+<div class="app">
+  <aside class="scores" id="scores"></aside>
+  <section class="stage">
+    <div class="viewport" id="vp">
+      <div class="lens" id="lens"></div>
+      <div class="mag" id="mag" title="Errors are far smaller than the arm; the measured arm and path are drawn this many times further from the target than they are."></div>
+    </div>
+    <div class="timeline">
+      <button class="iconbtn" id="play" aria-label="Play">▶</button>
+      <canvas id="tl" aria-label="Timeline: tool error per sample; drag to scrub"></canvas>
+      <span class="tl-time" id="tlt"></span>
+    </div>
+  </section>
+</div>
+<footer class="inputs" id="inputs"></footer>
+<script src="../_data/fixture.js"></script>
+<script src="../_shared/kit.js"></script>
+<script src="../_shared/arm3d.js"></script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+const createArmView = (el, opts) => window.ArmView.create(THREE, OrbitControls, el, opts);
+const K = window.Kit, F = K.F;
+const state = { sol: K.pop[0].id, lens: "objective", k: 0 };
+const h = K.hash();
+if (h.s && K.byId[h.s]) state.sol = h.s;
+if (h.lens) state.lens = h.lens;
+
+const view = createArmView(document.getElementById("vp"));
+const vpEl = document.getElementById("vp");
+let tr, err, moving, M, Mstop, maxErr, sat, lim, below;
+const magOf = (id) => (!LENSES[id].magnify ? 1 : id === "stop_error_max_mm" ? Mstop : M);
+
+/* ── the lenses: what each number is computed from, drawn in the motion ── */
+const LENSES = {
+  objective: { title: "Tool tracking error", frame: () => tr.peak_err_i, magnify: true,
+    how: () => `Distance from the target tool point (ghost) to the measured one, every sample. Grey samples are at rest and not counted; the RMS of the coloured ones is the score.`,
+    read: () => `RMS over ${K.fmt.int(tr.kpis.moving_samples)} of ${K.fmt.int(tr.n)} samples = <b>${K.fmt.mm(tr.kpis.tool_track_rms_mm)}</b>`, legend: "err" },
+  stop_error_max_mm: { title: "Stop error", frame: () => worstStopEnd(), magnify: true,
+    how: () => `At each stop (target at rest ≥ ${F.thresholds.stop_min_s} s), the mean measured tool point over the stop's last ${F.thresholds.stop_tail_s} s must sit inside a ${F.thresholds.stop_error_max_mm} mm ball around the target.`,
+    read: () => `${tr.stops.length} stops · worst <b class="${tr.gates.stop_error_max_mm ? "" : "bad"}">${K.fmt.mm(tr.kpis.stop_error_max_mm)}</b> ${tr.gates.stop_error_max_mm ? "≤" : ">"} ${F.thresholds.stop_error_max_mm} mm`, legend: "stop" },
+  saturation_share_pct: { title: "Torque saturation", frame: () => peakIndex(tr.tau_pct), magnify: false,
+    how: () => `Each joint coloured by its torque as a share of its cap. A sample counts as saturated when any joint reaches ${Math.round(F.thresholds.sat_fraction * 100)} % of its cap.`,
+    read: () => `${K.fmt.int(count(sat))} saturated samples = <b>${K.fmt.pct(tr.kpis.saturation_share_pct)}</b> (gate ≤ ${F.thresholds.saturation_share_pct} %) · peak ${tr.kpis.torque_peak_pct.toFixed(1)} % of cap`, legend: "pct" },
+  limit_violations: { title: "Joint limits", frame: () => peakIndex(tr.qd_pct), magnify: false,
+    how: () => `Each joint coloured by its speed as a share of its velocity limit (180°/s). A violation is a speed above ${F.thresholds.vel_margin} × the limit or a position outside its range.`,
+    read: () => `<b>${K.fmt.int(tr.kpis.limit_violations)}</b> violating samples · peak speed ${tr.kpis.velocity_peak_pct.toFixed(1)} % of limit (fails above ${Math.round(F.thresholds.vel_margin * 100)} %)`, legend: "pct" },
+  floor_clearance: { title: "Floor clearance", frame: () => tr.lowest_i, magnify: false,
+    how: () => `The lowest of the tool point and every link origin, at every sample. Any sample below the floor plane (z = 0) fails the gate.`,
+    read: () => `<b>${K.fmt.int(tr.kpis.floor_clearance)}</b> samples below · closest ${tr.kpis.min_clearance_mm.toFixed(0)} mm (${F.deployment.links[tr.lowest_link]} at ${K.fmt.s(K.time(tr, tr.lowest_i))})`, legend: "floor" },
+  completed: { title: "Completed", frame: () => tr.n - 1, magnify: false,
+    how: () => `No crash, no NaN command, the run reaches the trajectory's end and settles in its final stop.`,
+    read: () => `<b class="${tr.gates.completed ? "" : "bad"}">${tr.gates.completed ? "reached the end" : "did not finish"}</b> at ${K.fmt.s(K.time(tr, tr.n - 1))} · final stop ${tr.stops.at(-1).map((v) => v.toFixed(2)).join("–")} s`, legend: "" },
+  tool_lag_ms: { title: "Tool lag (diagnostic)", frame: () => tr.peak_err_i, magnify: false,
+    how: () => `How late the measured motion runs. The highlighted stretch of the target path is where the target was over the last lag; a lagging arm sits at its start.`,
+    read: () => `measured runs <b>${K.fmt.ms(tr.kpis.tool_lag_ms)}</b> behind the target`, legend: "lag" },
+  joint_track_rms_deg: { title: "Joint tracking (diagnostic)", frame: () => tr.peak_err_i, magnify: true,
+    how: () => `Each joint coloured by its angle error at this instant. The score is the worst joint's RMS over the moving samples.`,
+    read: () => `worst joint RMS <b>${K.fmt.deg(tr.kpis.joint_track_rms_deg)}</b> (${F.deployment.joints[argmax(tr.joint_rms_deg)]})`, legend: "deg" },
+  energy_j: { title: "Motor energy (diagnostic)", frame: () => peakIndex(tr.power_w, true), magnify: false,
+    how: () => `Each joint coloured by the mechanical power it delivers now (torque × speed, positive part). The score integrates it over the run.`,
+    read: () => `<b>${tr.kpis.energy_j.toFixed(1)} J</b> positive work over ${K.fmt.s(K.time(tr, tr.n - 1))}`, legend: "w" },
+};
+
+function count(m) { let c = 0; for (const v of m) c += v; return c; }
+function argmax(a) { let b = 0; a.forEach((v, i) => { if (v > a[b]) b = i; }); return b; }
+function peakIndex(rows, positive) {
+  let best = 0, bi = 0;
+  rows.forEach((r, k) => r.forEach((v) => { const x = positive ? v : Math.abs(v); if (x > best) { best = x; bi = k; } }));
+  return tr.idx[bi];
+}
+function worstStopEnd() {
+  const i = argmax(tr.stop_errors_mm);
+  return Math.round((tr.stops[i][1] - tr.t0) / tr.dt);
+}
+function nice(x) { const p = Math.pow(10, Math.floor(Math.log10(x))); for (const m of [5, 2, 1]) if (m * p <= x) return m * p; return p; }
+
+function load(sol) {
+  state.sol = sol;
+  tr = K.trace(sol);
+  err = tr.full.err_mm;
+  moving = K.mask(tr.full.moving, tr.n);
+  sat = K.mask(tr.full.sat, tr.n); lim = K.mask(tr.full.lim, tr.n); below = K.mask(tr.full.below, tr.n);
+  maxErr = 0; for (let i = 0; i < tr.n; i++) if (moving[i] && err[i] > maxErr) maxErr = err[i];
+  M = Math.max(1, nice(30 / Math.max(maxErr, 1e-6)));
+  // the stop lens draws the 1 mm ball about 25 mm across, whatever the tracking error
+  Mstop = Math.max(1, nice(25 / Math.max(F.thresholds.stop_error_max_mm, ...tr.stop_errors_mm)));
+  renderScores();
+  setLens(state.lens, true);
+}
+
+/* measured points drawn M times further from the target than they are (only in magnifying lenses) */
+function disp(meas, targ, m) { return meas.map((p, j) => p.map((v, a) => targ[j][a] + m * (v - targ[j][a]))); }
+
+function renderScores() {
+  const s = K.byId[state.sol], k = tr.kpis, failed = K.failed(tr);
+  const ans = failed.length
+    ? `<b class="bad">✗ Fails ${failed.map((g) => g.label.toLowerCase()).join(", ")}</b> on task <code>${tr.task}</code>`
+    : `<b class="ok">✓ Passes all ${K.GATES.length} gates</b> on task <code>${tr.task}</code>`;
+  const btn = (id, cls, ic, nm, val, rule) =>
+    `<button class="score ${cls}" data-lens="${id}" aria-pressed="${state.lens === id}"><span class="ic ${cls === "fail" ? "bad" : cls === "pass" ? "ok" : ""}">${ic}</span><span class="nm">${nm}</span><span class="val">${val}</span><span class="rule">${rule}</span></button>`;
+  document.getElementById("scores").innerHTML =
+    `<div class="answer">${ans}<br><span style="color:var(--muted)">${s.admissible ? "Admissible" : "Not admissible"} over ${F.tasks_used} tasks · rank ${s.rank} of ${K.pop.length}</span></div>` +
+    `<div class="sec">Objective · lower is better</div>` +
+    btn("objective", "objective", "", K.OBJECTIVE.label, K.fmt.mm(k.tool_track_rms_mm), `this task, RMS · <code>${K.OBJECTIVE.id}</code><br>median over ${F.tasks_used} tasks = <b>${K.fmt.mm(s.objective)}</b>`) +
+    `<div class="sec">Gates · every task must pass every gate</div>` +
+    K.GATES.map((g) => btn(g.id, tr.gates[g.id] ? "pass" : "fail", tr.gates[g.id] ? "✓" : "✗", g.label, g.show(k), `${g.rule} · <code>${g.id}</code>`)).join("") +
+    `<div class="sec">Diagnostics · reported, not scored</div>` +
+    K.DIAGNOSTICS.map((d) => btn(d.id, "", "·", d.label, d.show(k), `<code>${d.id}</code>`)).join("");
+}
+document.getElementById("scores").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-lens]");
+  if (b) { setLens(b.dataset.lens, true); guide.sync((s) => s.lens === state.lens && (s.sol || state.sol) === state.sol); }
+});
+
+function ramp(stops) { return `linear-gradient(90deg, ${stops.join(",")})`; }
+function setLens(id, jump = true) {
+  state.lens = id;
+  document.querySelectorAll("[data-lens]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lens === id)));
+  const L = LENSES[id];
+  let legend = "";
+  if (L.legend === "err") legend = `<span class="ramp" style="background:${ramp([0, .25, .5, .75, 1].map(K.errColor))}"></span><span class="num">0 – ${K.sig(maxErr, 2)} mm</span><span><span class="sw" style="background:var(--rest)"></span>at rest (not counted)</span><span><span class="sw" style="background:var(--target)"></span>target</span>`;
+  if (L.legend === "pct") legend = `<span class="ramp" style="background:${ramp([0, .25, .5, .75, 1].map(K.errColor))}"></span><span class="num">0 – 100 % of limit</span><span><span class="sw" style="background:var(--fail)"></span>≥ fail level</span>`;
+  if (L.legend === "stop") legend = `<span><span class="sw" style="background:var(--pass)"></span>${F.thresholds.stop_error_max_mm} mm ball (drawn ×${Mstop})</span><span><span class="sw" style="background:var(--ink)"></span>measured rest point</span>`;
+  if (L.legend === "floor") legend = `<span><span class="sw" style="background:var(--accent)"></span>path of the lowest point</span>`;
+  if (L.legend === "lag") legend = `<span><span class="sw" style="background:var(--accent)"></span>target over the last ${K.fmt.ms(Math.max(0, tr.kpis.tool_lag_ms))}</span>`;
+  if (L.legend === "deg" || L.legend === "w") legend = `<span class="ramp" style="background:${ramp([0, .25, .5, .75, 1].map(K.errColor))}"></span><span class="num">0 – max over the run</span>`;
+  document.getElementById("lens").innerHTML = `<h2>${L.title}</h2><p class="how">${L.how()}</p><div class="read">${L.read()}</div><div class="legend">${legend}</div>${id === "stop_error_max_mm" ? closeups() : ""}`;
+  document.getElementById("mag").textContent = magOf(id) > 1 ? `error drawn ×${magOf(id)}` : "true scale";
+  drawEvidence();
+  if (jump) state.k = K.near(tr, L.frame());
+  setFrame(state.k);
+}
+
+/* close-ups: each stop's 1 mm ball and the rest point, at a scale that shows both (the 3D view cannot) */
+function closeups() {
+  const R = F.thresholds.stop_error_max_mm;
+  return `<div class="closeups">` + tr.stop_points_mm.map((sp, j) => {
+    const d = sp.rest.map((v, a) => v - sp.target[a]);
+    const e = tr.stop_errors_mm[j], ok = e <= R;
+    const span = Math.max(R, e) * 1.25;                   // the panel shows ±span mm
+    const px = (mm) => (mm / span) * 28;                  // 28 px = span
+    const h = Math.hypot(d[0], d[1]) || 1e-9;             // seen from above, the rest point's horizontal offset
+    const ang = Math.atan2(d[1], d[0]);
+    const rx = 32 + px(e) * Math.cos(ang), ry = 32 - px(e) * Math.sin(ang);
+    return `<figure><svg viewBox="0 0 64 64" aria-label="Stop ${j + 1}: ${K.fmt.mm(e)} from target, ball ${R} mm">
+      <circle cx="32" cy="32" r="${px(R)}" fill="${ok ? "var(--pass-bg)" : "var(--fail-bg)"}" stroke="${ok ? "var(--pass)" : "var(--fail)"}"/>
+      <line x1="32" y1="32" x2="${rx}" y2="${ry}" stroke="var(--muted)" stroke-dasharray="2 2"/>
+      <circle cx="32" cy="32" r="2" fill="var(--target)"/><circle cx="${rx}" cy="${ry}" r="2.6" fill="var(--ink)"/>
+      </svg><span class="${ok ? "" : "bad"}">S${j + 1} ${K.sig(e, 2)}</span></figure>`;
+  }).join("") + `</div><div style="font-size:11.5px;color:var(--muted);margin-top:4px">Close-ups: the ${R} mm ball (circle) and the rest point (dot), each scaled to fit.</div>`;
+}
+
+function drawEvidence() {
+  const L = LENSES[state.lens], m = magOf(state.lens);
+  view.clear("ev");
+  const g = view.layer("ev");
+  const tgt = tr.target_tool_mm, tool = tr.tool_mm;
+  const ink = K.css("--ink"), target = K.css("--target"), rest = K.css("--rest"), accent = K.css("--accent");
+  g.add(view.line(tgt, target, { opacity: 0.9 }));
+  const labels = [];
+  if (state.lens === "objective" || state.lens === "joint_track_rms_deg") {
+    const pts = tool.map((p, k) => p.map((v, a) => tgt[k][a] + m * (v - tgt[k][a])));
+    const cols = tr.idx.map((i) => (moving[i] ? K.errColor(err[i] / maxErr) : rest));
+    g.add(view.tube(pts, cols, 2.2));
+    const pairs = [], pc = [];
+    tr.idx.forEach((i, k) => { if (moving[i] && k % 3 === 0) { pairs.push([tgt[k], pts[k]]); pc.push(cols[k]); } });
+    g.add(view.segments(pairs, pc));
+    const pk = K.near(tr, tr.peak_err_i);
+    g.add(view.sphere(pts[pk], 9, K.errColor(1)));
+    labels.push({ pos: pts[pk], html: `peak ${K.fmt.mm(err[tr.peak_err_i])} · ${K.fmt.s(K.time(tr, tr.peak_err_i))}` });
+  }
+  if (state.lens === "stop_error_max_mm") {
+    tr.stop_points_mm.forEach((sp, j) => {
+      const ok = tr.stop_errors_mm[j] <= F.thresholds.stop_error_max_mm;
+      const restp = sp.rest.map((v, a) => sp.target[a] + m * (v - sp.target[a]));
+      g.add(view.sphere(sp.target, F.thresholds.stop_error_max_mm * m, ok ? K.css("--pass") : K.css("--fail"), { opacity: 0.22 }));
+      g.add(view.sphere(sp.target, F.thresholds.stop_error_max_mm * m, ok ? K.css("--pass") : K.css("--fail"), { wire: true, opacity: 0.5 }));
+      g.add(view.sphere(sp.target, 4, target));
+      g.add(view.sphere(restp, 5, ink));
+      g.add(view.segments([[sp.target, restp]], ok ? K.css("--pass") : K.css("--fail")));
+      labels.push({ pos: sp.target, html: `S${j + 1} ${K.fmt.mm(tr.stop_errors_mm[j])}`, cls: ok ? "ok" : "bad" });
+    });
+  }
+  if (state.lens === "floor_clearance") {
+    const low = tr.arm_mm.map((pts) => pts.slice(1).reduce((a, b) => (b[2] < a[2] ? b : a)));
+    g.add(view.line(low, accent, { opacity: 0.8 }));
+    const k = K.near(tr, tr.lowest_i), p = tr.arm_mm[k][tr.lowest_link];
+    g.add(view.segments([[p, [p[0], p[1], 0]]], accent));
+    g.add(view.sphere([p[0], p[1], 0], 6, accent));
+    labels.push({ pos: [p[0], p[1], p[2] / 2], html: `${tr.kpis.min_clearance_mm.toFixed(0)} mm to the floor` });
+  }
+  if (state.lens === "tool_lag_ms" && tr.kpis.tool_lag_ms > 0.5) {
+    // drawn per frame in setFrame (it follows the playhead)
+  }
+  view.setLabels(labels);
+  evLabels = labels;
+}
+let evLabels = [];
+
+function setFrame(k) {
+  state.k = Math.max(0, Math.min(tr.idx.length - 1, k));
+  const L = LENSES[state.lens], m = magOf(state.lens);
+  const i = tr.idx[state.k];
+  const tp = tr.target_arm_mm[state.k];
+  view.setPose(disp(tr.arm_mm[state.k], tp, m), tp);
+  const pctLens = { saturation_share_pct: tr.tau_pct, limit_violations: tr.qd_pct, joint_track_rms_deg: tr.err_deg, energy_j: tr.power_w }[state.lens];
+  if (pctLens) {
+    const row = pctLens[state.k];
+    let scale = 100, failAt = state.lens === "saturation_share_pct" ? 100 * F.thresholds.sat_fraction : 100 * F.thresholds.vel_margin;
+    if (state.lens === "joint_track_rms_deg" || state.lens === "energy_j") {
+      scale = Math.max(1e-9, ...pctLens.flat().map((v) => (state.lens === "energy_j" ? Math.max(0, v) : Math.abs(v))));
+      failAt = Infinity;
+    }
+    const cols = row.map((v) => { const x = state.lens === "energy_j" ? Math.max(0, v) : Math.abs(v); return x >= failAt ? K.css("--fail") : K.errColor(x / scale); });
+    view.segColors([null, ...cols].map((c) => c || (K.css("--measured") === "#ecebe7" ? "#c9c8c4" : "#3a3c40")));
+    view.jointColors(cols);
+    const j = argmax(row.map(Math.abs));
+    const unit = state.lens === "joint_track_rms_deg" ? `${K.sig(Math.abs(row[j]), 2)}° error` : state.lens === "energy_j" ? `${Math.max(0, row[j]).toFixed(0)} W` : `${Math.abs(row[j]).toFixed(0)} % of ${state.lens === "saturation_share_pct" ? "cap" : "limit"}`;
+    view.setLabels([...evLabels, { pos: disp(tr.arm_mm[state.k], tp, m)[j + 1], html: `${F.deployment.joints[j]} ${unit}` }]);
+  } else {
+    view.segColors(null); view.jointColors(null);
+    if (state.lens === "tool_lag_ms") {
+      view.clear("lag");
+      const lagS = Math.max(0, tr.kpis.tool_lag_ms) / 1000;
+      const k0 = K.near(tr, Math.max(0, i - lagS / tr.dt));
+      const g = view.layer("lag");
+      if (state.k > k0) g.add(view.line(tr.target_tool_mm.slice(k0, state.k + 1), K.css("--accent")));
+      g.add(view.sphere(tr.tool_mm[state.k], 8, K.css("--ink")));
+      view.setLabels([{ pos: tr.tool_mm[state.k], html: `measured tool · ${K.fmt.ms(tr.kpis.tool_lag_ms)} behind` }]);
+    } else view.setLabels(evLabels);
+  }
+  if (state.lens !== "tool_lag_ms") view.clear("lag");
+  view.render();
+  drawTimeline();
+}
+
+/* ── timeline: per-sample error strip + the lens's evidence; drag to scrub ── */
+const tl = document.getElementById("tl"), tlt = document.getElementById("tlt");
+function drawTimeline() {
+  const dpr = window.devicePixelRatio || 1, w = tl.clientWidth, hgt = tl.clientHeight;
+  tl.width = w * dpr; tl.height = hgt * dpr;
+  const c = tl.getContext("2d"); c.scale(dpr, dpr);
+  c.clearRect(0, 0, w, hgt);
+  const x = (i) => (i / (tr.n - 1)) * w;
+  // stops
+  c.fillStyle = K.css("--surface-2");
+  tr.stops.forEach(([a, b]) => c.fillRect(x((a - tr.t0) / tr.dt), 0, x((b - a) / tr.dt), hgt));
+  const base = hgt - 14;
+  for (let i = 0; i < tr.n; i++) {
+    const hh = moving[i] ? Math.max(1, (err[i] / maxErr) * (base - 4)) : 1.5;
+    c.fillStyle = moving[i] ? K.errColor(err[i] / maxErr) : K.css("--rest");
+    c.fillRect(x(i), base - hh, Math.max(1, w / tr.n + 0.3), hh);
+  }
+  const marks = { saturation_share_pct: sat, limit_violations: lim, floor_clearance: below }[state.lens];
+  if (marks) { c.fillStyle = K.css("--fail"); for (let i = 0; i < tr.n; i++) if (marks[i]) c.fillRect(x(i), base + 3, 2, 8); }
+  if (state.lens === "stop_error_max_mm") tr.stops.forEach(([a, b], j) => {
+    const ok = tr.stop_errors_mm[j] <= F.thresholds.stop_error_max_mm;
+    c.fillStyle = ok ? K.css("--pass") : K.css("--fail");
+    c.fillRect(x((b - F.thresholds.stop_tail_s - tr.t0) / tr.dt), base + 3, x(F.thresholds.stop_tail_s / tr.dt), 8);
+  });
+  c.fillStyle = K.css("--muted"); c.font = "10px " + K.css("--mono");
+  tr.stops.forEach(([a, b], j) => c.fillText(`S${j + 1}`, x((a - tr.t0) / tr.dt) + 3, 10));
+  const px = x(tr.idx[state.k]);
+  c.fillStyle = K.css("--accent"); c.fillRect(px - 1, 0, 2, hgt);
+  const i = tr.idx[state.k];
+  tlt.innerHTML = `${K.fmt.s(K.time(tr, i))} · ${moving[i] ? K.fmt.mm(err[i]) : "at rest"}`;
+}
+function scrub(e) {
+  const r = tl.getBoundingClientRect();
+  const f = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+  setFrame(K.near(tr, f * (tr.n - 1)));
+}
+tl.addEventListener("pointerdown", (e) => { tl.setPointerCapture(e.pointerId); scrub(e); tl.onpointermove = scrub; });
+tl.addEventListener("pointerup", () => (tl.onpointermove = null));
+let timer = null;
+document.getElementById("play").addEventListener("click", (e) => {
+  if (timer) { clearInterval(timer); timer = null; e.target.textContent = "▶"; return; }
+  e.target.textContent = "❚❚";
+  if (state.k >= tr.idx.length - 1) state.k = 0;
+  timer = setInterval(() => { if (state.k >= tr.idx.length - 1) { clearInterval(timer); timer = null; e.target.textContent = "▶"; return; } setFrame(state.k + 2); }, 20);
+});
+
+/* ── camera: a three-quarter view over the task's workspace ── */
+function frameCamera() {
+  const pts = tr.target_arm_mm.filter((_, k) => k % 10 === 0).flat();
+  view.shift(innerWidth > 860 ? 0.12 : 0);
+  view.fit(pts, [0.55, -0.75, 0.38], 0.92);
+}
+
+const setPick = K.picker(document.getElementById("picker"), state.sol, (sol) => { load(sol); setPick(sol); guide.sync((s) => s.lens === state.lens && (s.sol || state.sol) === state.sol); });
+K.theme(document.getElementById("theme"), () => { view.applyTheme(); drawEvidence(); setFrame(state.k); });
+
+const guide = K.guide(document.getElementById("guide"), [
+  { label: "The score", caption: "The objective is drawn where it comes from: each whisker is one sample's target-to-measured distance (magnified). Grey = at rest, not counted.", lens: "objective", sol: K.pop[0].id, target: '[data-lens="objective"]' },
+  { label: "A gate", caption: "Stop error: every stop's last 0.1 s, its 1 mm ball and where the arm actually rested.", lens: "stop_error_max_mm", sol: K.pop[0].id, target: '[data-lens="stop_error_max_mm"]' },
+  { label: "Headroom", caption: "Torque saturation: joints coloured by torque as a share of cap at the busiest instant: far from the 98 % line.", lens: "saturation_share_pct", sol: K.pop[0].id, target: '[data-lens="saturation_share_pct"]' },
+  { label: "Swap the black box", caption: "Same view, another solution: menagerie_stock misses every stop's 1 mm ball, at true scale.", lens: "stop_error_max_mm", sol: "menagerie_stock", target: '[data-sol="menagerie_stock"]' },
+  { label: "Where it came from", caption: "Its tracking error in the motion: the error builds along each move and peaks mid-move.", lens: "objective", sol: "menagerie_stock", target: '[data-lens="objective"]' },
+], (s) => { if (s.sol !== state.sol) { load(s.sol); setPick(s.sol); } setLens(s.lens, true); });
+
+K.footer(document.getElementById("inputs"), {
+  reads: ["target trajectory", "measured joint states", "applied torques", "deployment", "ruler v1"],
+  generalises: "Any arm with a kinematic chain: the stick figure needs only FK link points, so another robot is a new FK table. Each lens is a pair (which samples, which reduction) and a 3D glyph; a new metric needs a new glyph (≈ 30 lines). Non-spatial black boxes (a pendulum, a conveyor) lose the 3D half and keep the score list + timeline.",
+});
+
+tr = K.trace(state.sol);
+load(state.sol);
+frameCamera();
+setPick(state.sol);
+if (h.step) guide.show(+h.step - 1); else guide.show(-1);
+window.__ready = true;
+</script>
+</body>
+</html>
