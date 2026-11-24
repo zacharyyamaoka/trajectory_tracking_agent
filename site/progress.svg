@@ -42,7 +42,7 @@
 </g>
 <text x="400.0" y="350" fill="#8c8c8c" text-anchor="middle">solution number (creation order)</text>
 <text transform="translate(16 183.0) rotate(-90)" fill="#8c8c8c" text-anchor="middle">tool_track_rms_mm (dev, mm, log)</text>
-<path d="M73.9,120.3H93.6V138.2H152.9V144.5H192.5V150.1H251.8V153.9H330.8V154.7H390.1V169.5H409.9V187.7H429.6V208.4H449.4V208.7H469.2V249.4H488.9V258.1H508.7V273.6H528.5V281.8H548.2V284.6H568.0V298.7H647.1V298.7H666.8V299.0H736.0" fill="none" stroke="#f28c28" stroke-width="2"/>
+<path d="M73.9,120.3H93.6V138.2H152.9V144.5H192.5V150.1H251.8V153.9H330.8V154.7H390.1V169.5H409.9V187.7H429.6V208.4H449.4V208.7H469.2V249.4H488.9V258.1H508.7V273.6H528.5V281.8H548.2V284.6H568.0V298.7H666.8V299.0H736.0" fill="none" stroke="#f28c28" stroke-width="2"/>
 <g><title>p5s-pass3: dev 0.031 mm, holdout 0.031 mm (reporting only)</title><line x1="666.8" y1="299.0" x2="676.8" y2="299.9" stroke="#6aa9e9" stroke-width="1.2" stroke-dasharray="3 2"/><path d="M676.8,294.9l5,5l-5,5l-5,-5z" fill="#6aa9e9" fill-opacity="0.7"/></g>
 <circle cx="73.9" cy="120.3" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#1 p2: 1.820 mm, new best</title></circle>
 <text x="73.9" y="111.3" fill="#8c8c8c" text-anchor="middle" font-size="11">p2</text>
@@ -89,8 +89,7 @@
 <circle cx="587.8" cy="263.7" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#27 p5s-fric2-pass2: 0.070 mm, admissible</title></circle>
 <circle cx="607.5" cy="294.7" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#28 p5s-kd15: 0.035 mm, admissible</title></circle>
 <circle cx="627.3" cy="294.3" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#29 p5s-kd25: 0.035 mm, admissible</title></circle>
-<circle cx="647.1" cy="298.7" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#30 p5s-onefit: 0.032 mm, new best</title></circle>
-<text x="647.1" y="289.7" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-onefit</text>
+<circle cx="647.1" cy="298.7" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#30 p5s-onefit: 0.032 mm, admissible</title></circle>
 <circle cx="666.8" cy="299.0" r="5.5" fill="#2ca02c" stroke="#2ca02c"><title>#31 p5s-pass3: 0.031 mm, new best</title></circle>
 <text x="666.8" y="290.0" fill="#8c8c8c" text-anchor="middle" font-size="11">p5s-pass3</text>
 <circle cx="686.6" cy="228.2" r="4.5" fill="#9e9e9e" stroke="#9e9e9e"><title>#32 p5s-pass3-g1: 0.156 mm, admissible</title></circle>

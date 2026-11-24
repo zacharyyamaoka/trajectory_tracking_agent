@@ -40,6 +40,8 @@ FONT = "system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif"
 LOG_RANGE = 20.0
 
 
+NEW_BEST_RTOL = 1e-9  # a new best beats the previous best by more than this fraction
+
 def _finite(value: Any) -> float | None:
     if value is None or isinstance(value, bool):
         return None
@@ -77,7 +79,9 @@ def chart_points() -> tuple[list[dict[str, Any]], dict[str, Any] | None]:
             continue
         objective = _finite(row.get("objective"))
         admissible = row.get("admissible") is True and objective is not None
-        new_best = admissible and objective < best_so_far
+        # WHY a relative tolerance (2026-11-24): p5s-onefit merged p5s-pass2's fits exactly and scored 1e-14 mm lower,
+        # which a bare < drew as a "new best"; a new best must beat the last one by more than float rounding.
+        new_best = admissible and objective < best_so_far * (1.0 - NEW_BEST_RTOL)
         if new_best:
             best_so_far = objective
         failed = {g: int(n) for g, n in (row.get("failed_gates") or {}).items() if n}
