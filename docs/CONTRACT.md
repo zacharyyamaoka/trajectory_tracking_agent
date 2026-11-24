@@ -58,3 +58,30 @@ ledger row; time-boxed: a task over 10× its trajectory duration in wall time fa
 ## 5. Machine
 
 Sim only: nothing here opens a serial port, CAN, a camera or moteus. Evaluations run with at most 4 worker processes.
+
+## 6. The ruler's frozen signatures (lane T tests them; lane E implements them; neither changes them)
+
+`src/trajectory_tracking_agent/ruler/metrics.py`, numpy only, SI in, the unit in the name out:
+
+```python
+moving_mask(t, target_tool_xyz, target_qd) -> np.ndarray[bool]          # OBJECTIVES §4 "moving"
+stop_windows(t, moving) -> list[tuple[float, float]]                    # target at rest >= 0.2 s -> (t0, t1)
+tool_track_rms_mm(target_tool_xyz, measured_tool_xyz, moving) -> float  # (N,3) m, (N,3) m, (N,) -> mm
+tool_track_max_mm(target_tool_xyz, measured_tool_xyz, moving) -> float
+stop_error_max_mm(t, target_tool_xyz, measured_tool_xyz, stops) -> float  # mean over each stop's last 0.1 s
+saturation_share_pct(torque, caps) -> float                             # (N,n) N·m, (n,) N·m; |tau| >= 0.98 cap
+limit_violations(q, qd, q_lo, q_hi, qd_max) -> int                      # samples, 1.05 x velocity limit
+floor_clearance_violations(points_z, floor_z=0.0) -> int                # (N,k) m: tool + link origins
+```
+
+`src/trajectory_tracking_agent/ruler/gates.py`:
+
+```python
+GATES = ("completed", "stop_error_max_mm", "saturation_share_pct", "limit_violations", "floor_clearance")
+gate_verdicts(task_kpis: Mapping[str, float | bool | None]) -> dict[str, bool]   # fail closed: None / NaN -> False
+admissible(verdicts_per_task: Sequence[Mapping[str, bool]]) -> bool             # every task, every gate
+objective(task_objectives: Sequence[float]) -> float                            # median; any NaN -> NaN
+```
+
+A task with no moving samples returns `nan` from the tracking metrics (it then fails nothing by itself; `completed`
+decides). A task with no stops has `stop_error_max_mm = 0.0` and passes that gate.
