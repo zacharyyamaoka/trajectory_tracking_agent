@@ -5,18 +5,18 @@
   "remit": "make robots track a given trajectory more accurately, inside the gates (ruler v1, OBJECTIVES.md)",
   "kpi": {
     "name": "tool_track_rms_mm (best admissible, dev)",
-    "value": 0.8197031663048935,
+    "value": 0.595447162071153,
     "unit": "mm",
     "direction": "down",
     "target": null,
-    "level": "13 of 16 admissible",
+    "level": "14 of 17 admissible",
     "level_name": "ruler v1 \u00b7 ur5e_alone \u00b7 workspace/v2 dev",
-    "next_gate": "an admissible solution below 0.820 mm",
+    "next_gate": "an admissible solution below 0.595 mm",
     "on_track": true
   },
   "counter_kpi": {
     "name": "holdout - dev of the best (mm; reporting only, never selected on)",
-    "value": 0.1630566916003977,
+    "value": -0.061463249891891,
     "unit": "mm",
     "owner": "Trajectory Tracking Agent"
   },
@@ -36,5 +36,5 @@
     "wandb": "Trajectory Tracking",
     "vault": null
   },
-  "updated_t": 1795536742.5538366
+  "updated_t": 1795537113.3997662
 }

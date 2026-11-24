@@ -1,0 +1,12 @@
+{
+  "id": "p5s-bus",
+  "parent": "p5s",
+  "change": "lookahead = the deployment's bus command delay per joint, not the friction-inflated calibration (Coulomb is already in the ff)",
+  "proposed_by": {
+    "agent": "Claude Code (Trajectory Tracking Agent, gen-1 lane)",
+    "model": "claude-opus-5-5",
+    "session": "dispatched from 7cf66f6e"
+  },
+  "created": "2026-11-24T09:18:12-07:00",
+  "tags": []
+}
