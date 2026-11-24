@@ -1,155 +1,158 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="691" height="772" viewBox="0 0 691 772" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#8c8c8c" role="img" aria-label="Gates on dev · 33 solutions · 30 admissible · 42 dev tasks">
-<title>Gates on dev · 33 solutions · 30 admissible · 42 dev tasks</title>
-<text x="12.0" y="20.0" font-size="13.5" font-weight="600">Gates on dev · 33 solutions · 30 admissible · 42 dev tasks</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="712" height="790" viewBox="0 0 712 790" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#8c8c8c" role="img" aria-label="Gates on dev · 34 solutions · 31 admissible · 42 dev tasks">
+<title>Gates on dev · 34 solutions · 31 admissible · 42 dev tasks</title>
+<text x="12.0" y="20.0" font-size="13.5" font-weight="600">Gates on dev · 34 solutions · 31 admissible · 42 dev tasks</text>
 <text x="12.0" y="37.0" font-size="10">cell = dev tasks failing that gate (of 42; blank = none, ? = no count, which fails closed) · bar = tool_track_rms_mm, newest dev row each</text>
-<g transform="translate(188.0 120.0) rotate(-45)"><title>completed</title><text x="0" y="0">completed</text></g>
-<g transform="translate(234.0 120.0) rotate(-45)"><title>stop_error_max_mm</title><text x="0" y="0">stop error ≤ 1 mm</text></g>
-<g transform="translate(280.0 120.0) rotate(-45)"><title>saturation_share_pct</title><text x="0" y="0">saturation ≤ 2 %</text></g>
-<g transform="translate(326.0 120.0) rotate(-45)"><title>limit_violations</title><text x="0" y="0">within limits</text></g>
-<g transform="translate(372.0 120.0) rotate(-45)"><title>floor_clearance</title><text x="0" y="0">above the floor</text></g>
-<text x="155.0" y="120.0" font-size="10.5" text-anchor="end">solution</text>
-<text x="409.0" y="104.0" font-size="10.5">objective (dev mm)</text>
-<line x1="409.0" x2="409.0" y1="124.0" y2="722.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
-<text x="409.0" y="120.0" font-size="9.5" text-anchor="middle">0</text>
-<line x1="456.5" x2="456.5" y1="124.0" y2="722.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
-<text x="456.5" y="120.0" font-size="9.5" text-anchor="middle">0.5</text>
-<line x1="504.0" x2="504.0" y1="124.0" y2="722.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
-<text x="504.0" y="120.0" font-size="9.5" text-anchor="middle">1</text>
-<line x1="551.5" x2="551.5" y1="124.0" y2="722.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
-<text x="551.5" y="120.0" font-size="9.5" text-anchor="middle">1.5</text>
-<line x1="599.0" x2="599.0" y1="124.0" y2="722.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
-<text x="599.0" y="120.0" font-size="9.5" text-anchor="middle">2</text>
-<line x1="412.0" x2="412.0" y1="124.0" y2="722.0" stroke="#f28c28" stroke-width="1.2" stroke-dasharray="3 2"><title>best p5s-pass3 0.031 mm</title></line>
-<rect x="12.0" y="128" width="667" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
+<g transform="translate(209.0 120.0) rotate(-45)"><title>completed</title><text x="0" y="0">completed</text></g>
+<g transform="translate(255.0 120.0) rotate(-45)"><title>stop_error_max_mm</title><text x="0" y="0">stop error ≤ 1 mm</text></g>
+<g transform="translate(301.0 120.0) rotate(-45)"><title>saturation_share_pct</title><text x="0" y="0">saturation ≤ 2 %</text></g>
+<g transform="translate(347.0 120.0) rotate(-45)"><title>limit_violations</title><text x="0" y="0">within limits</text></g>
+<g transform="translate(393.0 120.0) rotate(-45)"><title>floor_clearance</title><text x="0" y="0">above the floor</text></g>
+<text x="176.0" y="120.0" font-size="10.5" text-anchor="end">solution</text>
+<text x="430.0" y="104.0" font-size="10.5">objective (dev mm)</text>
+<line x1="430.0" x2="430.0" y1="124.0" y2="740.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
+<text x="430.0" y="120.0" font-size="9.5" text-anchor="middle">0</text>
+<line x1="477.5" x2="477.5" y1="124.0" y2="740.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
+<text x="477.5" y="120.0" font-size="9.5" text-anchor="middle">0.5</text>
+<line x1="525.0" x2="525.0" y1="124.0" y2="740.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
+<text x="525.0" y="120.0" font-size="9.5" text-anchor="middle">1</text>
+<line x1="572.5" x2="572.5" y1="124.0" y2="740.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
+<text x="572.5" y="120.0" font-size="9.5" text-anchor="middle">1.5</text>
+<line x1="620.0" x2="620.0" y1="124.0" y2="740.0" stroke="#8c8c8c" stroke-opacity="0.25"/>
+<text x="620.0" y="120.0" font-size="9.5" text-anchor="middle">2</text>
+<line x1="433.0" x2="433.0" y1="124.0" y2="740.0" stroke="#f28c28" stroke-width="1.2" stroke-dasharray="3 2"><title>best p5s-pass3 0.031 mm</title></line>
+<rect x="12.0" y="128" width="688" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="141.0" font-size="9.5" text-anchor="end">#1</text>
-<text x="155.0" y="141.0" text-anchor="end">p2</text>
-<rect x="409" y="132" width="172.9" height="10" rx="2" fill="#2a78d6"><title>p2: 1.820 mm, admissible</title></rect><text x="586.9" y="141.0" font-size="10">1.820</text>
+<text x="176.0" y="141.0" text-anchor="end">p2</text>
+<rect x="430" y="132" width="172.9" height="10" rx="2" fill="#2a78d6"><title>p2: 1.820 mm, admissible</title></rect><text x="607.9" y="141.0" font-size="10">1.820</text>
 <text x="40.0" y="159.0" font-size="9.5" text-anchor="end">#2</text>
-<text x="155.0" y="159.0" text-anchor="end">p8</text>
-<rect x="409" y="150" width="115.1" height="10" rx="2" fill="#2a78d6"><title>p8: 1.212 mm, admissible</title></rect><text x="529.1" y="159.0" font-size="10">1.212</text>
-<rect x="12.0" y="164" width="667" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
+<text x="176.0" y="159.0" text-anchor="end">p8</text>
+<rect x="430" y="150" width="115.1" height="10" rx="2" fill="#2a78d6"><title>p8: 1.212 mm, admissible</title></rect><text x="550.1" y="159.0" font-size="10">1.212</text>
+<rect x="12.0" y="164" width="688" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="177.0" font-size="9.5" text-anchor="end">#3</text>
-<text x="155.0" y="177.0" text-anchor="end">p9</text>
-<g><title>p9: completed fails on 25 of 42 dev tasks</title><rect x="163" y="166" width="42" height="14" rx="2" fill="#bf4e1e"/><text x="184.0" y="177.0" fill="#ffffff" font-size="10.5" text-anchor="middle">25</text></g>
-<g><title>p9: stop_error_max_mm fails on 11 of 42 dev tasks</title><rect x="209" y="166" width="42" height="14" rx="2" fill="#e96733"/><text x="230.0" y="177.0" fill="#111111" font-size="10.5" text-anchor="middle">11</text></g>
-<g><title>p9: saturation_share_pct fails on 17 of 42 dev tasks</title><rect x="255" y="166" width="42" height="14" rx="2" fill="#d65b29"/><text x="276.0" y="177.0" fill="#ffffff" font-size="10.5" text-anchor="middle">17</text></g>
-<g><title>p9: limit_violations fails on 33 of 42 dev tasks</title><rect x="301" y="166" width="42" height="14" rx="2" fill="#a74117"/><text x="322.0" y="177.0" fill="#ffffff" font-size="10.5" text-anchor="middle">33</text></g>
-<rect x="409.8" y="168.8" width="188.4" height="8.4" rx="2" fill="none" stroke="#d62728" stroke-width="1.4"><title>p9: 3.671 mm, not admissible</title></rect><text x="604.0" y="177.0" font-size="10">3.671›</text>
+<text x="176.0" y="177.0" text-anchor="end">p9</text>
+<g><title>p9: completed fails on 25 of 42 dev tasks</title><rect x="184" y="166" width="42" height="14" rx="2" fill="#bf4e1e"/><text x="205.0" y="177.0" fill="#ffffff" font-size="10.5" text-anchor="middle">25</text></g>
+<g><title>p9: stop_error_max_mm fails on 11 of 42 dev tasks</title><rect x="230" y="166" width="42" height="14" rx="2" fill="#e96733"/><text x="251.0" y="177.0" fill="#111111" font-size="10.5" text-anchor="middle">11</text></g>
+<g><title>p9: saturation_share_pct fails on 17 of 42 dev tasks</title><rect x="276" y="166" width="42" height="14" rx="2" fill="#d65b29"/><text x="297.0" y="177.0" fill="#ffffff" font-size="10.5" text-anchor="middle">17</text></g>
+<g><title>p9: limit_violations fails on 33 of 42 dev tasks</title><rect x="322" y="166" width="42" height="14" rx="2" fill="#a74117"/><text x="343.0" y="177.0" fill="#ffffff" font-size="10.5" text-anchor="middle">33</text></g>
+<rect x="430.8" y="168.8" width="188.4" height="8.4" rx="2" fill="none" stroke="#d62728" stroke-width="1.4"><title>p9: 3.671 mm, not admissible</title></rect><text x="625.0" y="177.0" font-size="10">3.671›</text>
 <text x="40.0" y="195.0" font-size="9.5" text-anchor="end">#4</text>
-<text x="155.0" y="195.0" text-anchor="end">p10</text>
-<g><title>p10: completed fails on 28 of 42 dev tasks</title><rect x="163" y="184" width="42" height="14" rx="2" fill="#b6491b"/><text x="184.0" y="195.0" fill="#ffffff" font-size="10.5" text-anchor="middle">28</text></g>
-<g><title>p10: stop_error_max_mm fails on 17 of 42 dev tasks</title><rect x="209" y="184" width="42" height="14" rx="2" fill="#d65b29"/><text x="230.0" y="195.0" fill="#ffffff" font-size="10.5" text-anchor="middle">17</text></g>
-<g><title>p10: saturation_share_pct fails on 19 of 42 dev tasks</title><rect x="255" y="184" width="42" height="14" rx="2" fill="#d05726"/><text x="276.0" y="195.0" fill="#ffffff" font-size="10.5" text-anchor="middle">19</text></g>
-<g><title>p10: limit_violations fails on 32 of 42 dev tasks</title><rect x="301" y="184" width="42" height="14" rx="2" fill="#aa4318"/><text x="322.0" y="195.0" fill="#ffffff" font-size="10.5" text-anchor="middle">32</text></g>
-<rect x="409.8" y="186.8" width="188.4" height="8.4" rx="2" fill="none" stroke="#d62728" stroke-width="1.4"><title>p10: 3.721 mm, not admissible</title></rect><text x="604.0" y="195.0" font-size="10">3.721›</text>
-<rect x="12.0" y="200" width="667" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
+<text x="176.0" y="195.0" text-anchor="end">p10</text>
+<g><title>p10: completed fails on 28 of 42 dev tasks</title><rect x="184" y="184" width="42" height="14" rx="2" fill="#b6491b"/><text x="205.0" y="195.0" fill="#ffffff" font-size="10.5" text-anchor="middle">28</text></g>
+<g><title>p10: stop_error_max_mm fails on 17 of 42 dev tasks</title><rect x="230" y="184" width="42" height="14" rx="2" fill="#d65b29"/><text x="251.0" y="195.0" fill="#ffffff" font-size="10.5" text-anchor="middle">17</text></g>
+<g><title>p10: saturation_share_pct fails on 19 of 42 dev tasks</title><rect x="276" y="184" width="42" height="14" rx="2" fill="#d05726"/><text x="297.0" y="195.0" fill="#ffffff" font-size="10.5" text-anchor="middle">19</text></g>
+<g><title>p10: limit_violations fails on 32 of 42 dev tasks</title><rect x="322" y="184" width="42" height="14" rx="2" fill="#aa4318"/><text x="343.0" y="195.0" fill="#ffffff" font-size="10.5" text-anchor="middle">32</text></g>
+<rect x="430.8" y="186.8" width="188.4" height="8.4" rx="2" fill="none" stroke="#d62728" stroke-width="1.4"><title>p10: 3.721 mm, not admissible</title></rect><text x="625.0" y="195.0" font-size="10">3.721›</text>
+<rect x="12.0" y="200" width="688" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="213.0" font-size="9.5" text-anchor="end">#5</text>
-<text x="155.0" y="213.0" text-anchor="end">p3</text>
-<rect x="409" y="204" width="99.9" height="10" rx="2" fill="#2a78d6"><title>p3: 1.051 mm, admissible</title></rect><text x="513.9" y="213.0" font-size="10">1.051</text>
+<text x="176.0" y="213.0" text-anchor="end">p3</text>
+<rect x="430" y="204" width="99.9" height="10" rx="2" fill="#2a78d6"><title>p3: 1.051 mm, admissible</title></rect><text x="534.9" y="213.0" font-size="10">1.051</text>
 <text x="40.0" y="231.0" font-size="9.5" text-anchor="end">#6</text>
-<text x="155.0" y="231.0" text-anchor="end">p2s</text>
-<rect x="409" y="222" width="169.3" height="10" rx="2" fill="#2a78d6"><title>p2s: 1.782 mm, admissible</title></rect><text x="583.3" y="231.0" font-size="10">1.782</text>
-<rect x="12.0" y="236" width="667" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
+<text x="176.0" y="231.0" text-anchor="end">p2s</text>
+<rect x="430" y="222" width="169.3" height="10" rx="2" fill="#2a78d6"><title>p2s: 1.782 mm, admissible</title></rect><text x="604.3" y="231.0" font-size="10">1.782</text>
+<rect x="12.0" y="236" width="688" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="249.0" font-size="9.5" text-anchor="end">#7</text>
-<text x="155.0" y="249.0" text-anchor="end">p3s</text>
-<rect x="409" y="240" width="88.0" height="10" rx="2" fill="#2a78d6"><title>p3s: 0.926 mm, admissible</title></rect><text x="502.0" y="249.0" font-size="10">0.926</text>
+<text x="176.0" y="249.0" text-anchor="end">p3s</text>
+<rect x="430" y="240" width="88.0" height="10" rx="2" fill="#2a78d6"><title>p3s: 0.926 mm, admissible</title></rect><text x="523.0" y="249.0" font-size="10">0.926</text>
 <text x="40.0" y="267.0" font-size="9.5" text-anchor="end">#8</text>
-<text x="155.0" y="267.0" text-anchor="end">p1</text>
-<g><title>p1: completed fails on 41 of 42 dev tasks</title><rect x="163" y="256" width="42" height="14" rx="2" fill="#923611"/><text x="184.0" y="267.0" fill="#ffffff" font-size="10.5" text-anchor="middle">41</text></g>
-<g><title>p1: stop_error_max_mm fails on 41 of 42 dev tasks</title><rect x="209" y="256" width="42" height="14" rx="2" fill="#923611"/><text x="230.0" y="267.0" fill="#ffffff" font-size="10.5" text-anchor="middle">41</text></g>
-<rect x="409.8" y="258.8" width="188.4" height="8.4" rx="2" fill="none" stroke="#d62728" stroke-width="1.4"><title>p1: 6.258 mm, not admissible</title></rect><text x="604.0" y="267.0" font-size="10">6.258›</text>
-<rect x="12.0" y="272" width="667" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
+<text x="176.0" y="267.0" text-anchor="end">p1</text>
+<g><title>p1: completed fails on 41 of 42 dev tasks</title><rect x="184" y="256" width="42" height="14" rx="2" fill="#923611"/><text x="205.0" y="267.0" fill="#ffffff" font-size="10.5" text-anchor="middle">41</text></g>
+<g><title>p1: stop_error_max_mm fails on 41 of 42 dev tasks</title><rect x="230" y="256" width="42" height="14" rx="2" fill="#923611"/><text x="251.0" y="267.0" fill="#ffffff" font-size="10.5" text-anchor="middle">41</text></g>
+<rect x="430.8" y="258.8" width="188.4" height="8.4" rx="2" fill="none" stroke="#d62728" stroke-width="1.4"><title>p1: 6.258 mm, not admissible</title></rect><text x="625.0" y="267.0" font-size="10">6.258›</text>
+<rect x="12.0" y="272" width="688" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="285.0" font-size="9.5" text-anchor="end">#9</text>
-<text x="155.0" y="285.0" text-anchor="end">p4</text>
-<rect x="409" y="276" width="95.9" height="10" rx="2" fill="#2a78d6"><title>p4: 1.009 mm, admissible</title></rect><text x="509.9" y="285.0" font-size="10">1.009</text>
+<text x="176.0" y="285.0" text-anchor="end">p4</text>
+<rect x="430" y="276" width="95.9" height="10" rx="2" fill="#2a78d6"><title>p4: 1.009 mm, admissible</title></rect><text x="530.9" y="285.0" font-size="10">1.009</text>
 <text x="40.0" y="303.0" font-size="9.5" text-anchor="end">#10</text>
-<text x="155.0" y="303.0" text-anchor="end">p4s</text>
-<rect x="409" y="294" width="80.5" height="10" rx="2" fill="#2a78d6"><title>p4s: 0.848 mm, admissible</title></rect><text x="494.5" y="303.0" font-size="10">0.848</text>
-<rect x="12.0" y="308" width="667" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
+<text x="176.0" y="303.0" text-anchor="end">p4s</text>
+<rect x="430" y="294" width="80.5" height="10" rx="2" fill="#2a78d6"><title>p4s: 0.848 mm, admissible</title></rect><text x="515.5" y="303.0" font-size="10">0.848</text>
+<rect x="12.0" y="308" width="688" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="321.0" font-size="9.5" text-anchor="end">#11</text>
-<text x="155.0" y="321.0" text-anchor="end">p5</text>
-<rect x="409" y="312" width="109.0" height="10" rx="2" fill="#2a78d6"><title>p5: 1.147 mm, admissible</title></rect><text x="523.0" y="321.0" font-size="10">1.147</text>
+<text x="176.0" y="321.0" text-anchor="end">p5</text>
+<rect x="430" y="312" width="109.0" height="10" rx="2" fill="#2a78d6"><title>p5: 1.147 mm, admissible</title></rect><text x="544.0" y="321.0" font-size="10">1.147</text>
 <text x="40.0" y="339.0" font-size="9.5" text-anchor="end">#12</text>
-<text x="155.0" y="339.0" text-anchor="end">p5s</text>
-<rect x="409" y="330" width="92.5" height="10" rx="2" fill="#2a78d6"><title>p5s: 0.974 mm, admissible</title></rect><text x="506.5" y="339.0" font-size="10">0.974</text>
-<rect x="12.0" y="344" width="667" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
+<text x="176.0" y="339.0" text-anchor="end">p5s</text>
+<rect x="430" y="330" width="92.5" height="10" rx="2" fill="#2a78d6"><title>p5s: 0.974 mm, admissible</title></rect><text x="527.5" y="339.0" font-size="10">0.974</text>
+<rect x="12.0" y="344" width="688" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="357.0" font-size="9.5" text-anchor="end">#13</text>
-<text x="155.0" y="357.0" text-anchor="end">p6</text>
-<rect x="409" y="348" width="97.5" height="10" rx="2" fill="#2a78d6"><title>p6: 1.026 mm, admissible</title></rect><text x="511.5" y="357.0" font-size="10">1.026</text>
+<text x="176.0" y="357.0" text-anchor="end">p6</text>
+<rect x="430" y="348" width="97.5" height="10" rx="2" fill="#2a78d6"><title>p6: 1.026 mm, admissible</title></rect><text x="532.5" y="357.0" font-size="10">1.026</text>
 <text x="40.0" y="375.0" font-size="9.5" text-anchor="end">#14</text>
-<text x="155.0" y="375.0" text-anchor="end">p6s</text>
-<rect x="409" y="366" width="82.5" height="10" rx="2" fill="#2a78d6"><title>p6s: 0.868 mm, admissible</title></rect><text x="496.5" y="375.0" font-size="10">0.868</text>
-<rect x="12.0" y="380" width="667" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
+<text x="176.0" y="375.0" text-anchor="end">p6s</text>
+<rect x="430" y="366" width="82.5" height="10" rx="2" fill="#2a78d6"><title>p6s: 0.868 mm, admissible</title></rect><text x="517.5" y="375.0" font-size="10">0.868</text>
+<rect x="12.0" y="380" width="688" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="393.0" font-size="9.5" text-anchor="end">#15</text>
-<text x="155.0" y="393.0" text-anchor="end">p7</text>
-<rect x="409" y="384" width="104.9" height="10" rx="2" fill="#2a78d6"><title>p7: 1.104 mm, admissible</title></rect><text x="518.9" y="393.0" font-size="10">1.104</text>
+<text x="176.0" y="393.0" text-anchor="end">p7</text>
+<rect x="430" y="384" width="104.9" height="10" rx="2" fill="#2a78d6"><title>p7: 1.104 mm, admissible</title></rect><text x="539.9" y="393.0" font-size="10">1.104</text>
 <text x="40.0" y="411.0" font-size="9.5" text-anchor="end">#16</text>
-<text x="155.0" y="411.0" text-anchor="end">p7s</text>
-<rect x="409" y="402" width="85.9" height="10" rx="2" fill="#2a78d6"><title>p7s: 0.904 mm, admissible</title></rect><text x="499.9" y="411.0" font-size="10">0.904</text>
-<rect x="12.0" y="416" width="667" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
+<text x="176.0" y="411.0" text-anchor="end">p7s</text>
+<rect x="430" y="402" width="85.9" height="10" rx="2" fill="#2a78d6"><title>p7s: 0.904 mm, admissible</title></rect><text x="520.9" y="411.0" font-size="10">0.904</text>
+<rect x="12.0" y="416" width="688" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="429.0" font-size="9.5" text-anchor="end">#17</text>
-<text x="155.0" y="429.0" text-anchor="end">p5s-bus</text>
-<rect x="409" y="420" width="56.6" height="10" rx="2" fill="#2a78d6"><title>p5s-bus: 0.595 mm, admissible</title></rect><text x="470.6" y="429.0" font-size="10">0.595</text>
+<text x="176.0" y="429.0" text-anchor="end">p5s-bus</text>
+<rect x="430" y="420" width="56.6" height="10" rx="2" fill="#2a78d6"><title>p5s-bus: 0.595 mm, admissible</title></rect><text x="491.6" y="429.0" font-size="10">0.595</text>
 <text x="40.0" y="447.0" font-size="9.5" text-anchor="end">#18</text>
-<text x="155.0" y="447.0" text-anchor="end">p5s-bus-enc</text>
-<rect x="409" y="438" width="37.4" height="10" rx="2" fill="#2a78d6"><title>p5s-bus-enc: 0.393 mm, admissible</title></rect><text x="451.4" y="447.0" font-size="10">0.393</text>
-<rect x="12.0" y="452" width="667" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
+<text x="176.0" y="447.0" text-anchor="end">p5s-bus-enc</text>
+<rect x="430" y="438" width="37.4" height="10" rx="2" fill="#2a78d6"><title>p5s-bus-enc: 0.393 mm, admissible</title></rect><text x="472.4" y="447.0" font-size="10">0.393</text>
+<rect x="12.0" y="452" width="688" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="465.0" font-size="9.5" text-anchor="end">#19</text>
-<text x="155.0" y="465.0" text-anchor="end">p5s-fric</text>
-<rect x="409" y="456" width="23.3" height="10" rx="2" fill="#2a78d6"><title>p5s-fric: 0.245 mm, admissible</title></rect><text x="437.3" y="465.0" font-size="10">0.245</text>
+<text x="176.0" y="465.0" text-anchor="end">p5s-fric</text>
+<rect x="430" y="456" width="23.3" height="10" rx="2" fill="#2a78d6"><title>p5s-fric: 0.245 mm, admissible</title></rect><text x="458.3" y="465.0" font-size="10">0.245</text>
 <text x="40.0" y="483.0" font-size="9.5" text-anchor="end">#20</text>
-<text x="155.0" y="483.0" text-anchor="end">p5s-chord</text>
-<rect x="409" y="474" width="23.2" height="10" rx="2" fill="#2a78d6"><title>p5s-chord: 0.244 mm, admissible</title></rect><text x="437.2" y="483.0" font-size="10">0.244</text>
-<rect x="12.0" y="488" width="667" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
+<text x="176.0" y="483.0" text-anchor="end">p5s-chord</text>
+<rect x="430" y="474" width="23.2" height="10" rx="2" fill="#2a78d6"><title>p5s-chord: 0.244 mm, admissible</title></rect><text x="458.2" y="483.0" font-size="10">0.244</text>
+<rect x="12.0" y="488" width="688" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="501.0" font-size="9.5" text-anchor="end">#21</text>
-<text x="155.0" y="501.0" text-anchor="end">p5s-grav</text>
-<rect x="409" y="492" width="9.2" height="10" rx="2" fill="#2a78d6"><title>p5s-grav: 0.097 mm, admissible</title></rect><text x="423.2" y="501.0" font-size="10">0.097</text>
+<text x="176.0" y="501.0" text-anchor="end">p5s-grav</text>
+<rect x="430" y="492" width="9.2" height="10" rx="2" fill="#2a78d6"><title>p5s-grav: 0.097 mm, admissible</title></rect><text x="444.2" y="501.0" font-size="10">0.097</text>
 <text x="40.0" y="519.0" font-size="9.5" text-anchor="end">#22</text>
-<text x="155.0" y="519.0" text-anchor="end">p5s-fric2</text>
-<rect x="409" y="510" width="7.5" height="10" rx="2" fill="#2a78d6"><title>p5s-fric2: 0.079 mm, admissible</title></rect><text x="421.5" y="519.0" font-size="10">0.079</text>
-<rect x="12.0" y="524" width="667" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
+<text x="176.0" y="519.0" text-anchor="end">p5s-fric2</text>
+<rect x="430" y="510" width="7.5" height="10" rx="2" fill="#2a78d6"><title>p5s-fric2: 0.079 mm, admissible</title></rect><text x="442.5" y="519.0" font-size="10">0.079</text>
+<rect x="12.0" y="524" width="688" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="537.0" font-size="9.5" text-anchor="end">#23</text>
-<text x="155.0" y="537.0" text-anchor="end">p5s-kp2</text>
-<rect x="409" y="528" width="5.3" height="10" rx="2" fill="#2a78d6"><title>p5s-kp2: 0.056 mm, admissible</title></rect><text x="419.3" y="537.0" font-size="10">0.056</text>
+<text x="176.0" y="537.0" text-anchor="end">p5s-kp2</text>
+<rect x="430" y="528" width="5.3" height="10" rx="2" fill="#2a78d6"><title>p5s-kp2: 0.056 mm, admissible</title></rect><text x="440.3" y="537.0" font-size="10">0.056</text>
 <text x="40.0" y="555.0" font-size="9.5" text-anchor="end">#24</text>
-<text x="155.0" y="555.0" text-anchor="end">p5s-kp4</text>
-<rect x="409" y="546" width="4.4" height="10" rx="2" fill="#2a78d6"><title>p5s-kp4: 0.046 mm, admissible</title></rect><text x="418.4" y="555.0" font-size="10">0.046</text>
-<rect x="12.0" y="560" width="667" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
+<text x="176.0" y="555.0" text-anchor="end">p5s-kp4</text>
+<rect x="430" y="546" width="4.4" height="10" rx="2" fill="#2a78d6"><title>p5s-kp4: 0.046 mm, admissible</title></rect><text x="439.4" y="555.0" font-size="10">0.046</text>
+<rect x="12.0" y="560" width="688" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="573.0" font-size="9.5" text-anchor="end">#25</text>
-<text x="155.0" y="573.0" text-anchor="end">p5s-vlag</text>
-<rect x="409" y="564" width="4.1" height="10" rx="2" fill="#2a78d6"><title>p5s-vlag: 0.043 mm, admissible</title></rect><text x="418.1" y="573.0" font-size="10">0.043</text>
+<text x="176.0" y="573.0" text-anchor="end">p5s-vlag</text>
+<rect x="430" y="564" width="4.1" height="10" rx="2" fill="#2a78d6"><title>p5s-vlag: 0.043 mm, admissible</title></rect><text x="439.1" y="573.0" font-size="10">0.043</text>
 <text x="40.0" y="591.0" font-size="9.5" text-anchor="end">#26</text>
-<text x="155.0" y="591.0" text-anchor="end">p5s-pass2</text>
-<rect x="409" y="582" width="3.0" height="10" rx="2" fill="#2a78d6"><title>p5s-pass2: 0.032 mm, admissible</title></rect><text x="417.0" y="591.0" font-size="10">0.032</text>
-<rect x="12.0" y="596" width="667" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
+<text x="176.0" y="591.0" text-anchor="end">p5s-pass2</text>
+<rect x="430" y="582" width="3.0" height="10" rx="2" fill="#2a78d6"><title>p5s-pass2: 0.032 mm, admissible</title></rect><text x="438.0" y="591.0" font-size="10">0.032</text>
+<rect x="12.0" y="596" width="688" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="609.0" font-size="9.5" text-anchor="end">#27</text>
-<text x="155.0" y="609.0" text-anchor="end">p5s-fric2-pass2</text>
-<rect x="409" y="600" width="6.6" height="10" rx="2" fill="#2a78d6"><title>p5s-fric2-pass2: 0.070 mm, admissible</title></rect><text x="420.6" y="609.0" font-size="10">0.070</text>
+<text x="176.0" y="609.0" text-anchor="end">p5s-fric2-pass2</text>
+<rect x="430" y="600" width="6.6" height="10" rx="2" fill="#2a78d6"><title>p5s-fric2-pass2: 0.070 mm, admissible</title></rect><text x="441.6" y="609.0" font-size="10">0.070</text>
 <text x="40.0" y="627.0" font-size="9.5" text-anchor="end">#28</text>
-<text x="155.0" y="627.0" text-anchor="end">p5s-kd15</text>
-<rect x="409" y="618" width="3.3" height="10" rx="2" fill="#2a78d6"><title>p5s-kd15: 0.035 mm, admissible</title></rect><text x="417.3" y="627.0" font-size="10">0.035</text>
-<rect x="12.0" y="632" width="667" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
+<text x="176.0" y="627.0" text-anchor="end">p5s-kd15</text>
+<rect x="430" y="618" width="3.3" height="10" rx="2" fill="#2a78d6"><title>p5s-kd15: 0.035 mm, admissible</title></rect><text x="438.3" y="627.0" font-size="10">0.035</text>
+<rect x="12.0" y="632" width="688" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="645.0" font-size="9.5" text-anchor="end">#29</text>
-<text x="155.0" y="645.0" text-anchor="end">p5s-kd25</text>
-<rect x="409" y="636" width="3.3" height="10" rx="2" fill="#2a78d6"><title>p5s-kd25: 0.035 mm, admissible</title></rect><text x="417.3" y="645.0" font-size="10">0.035</text>
+<text x="176.0" y="645.0" text-anchor="end">p5s-kd25</text>
+<rect x="430" y="636" width="3.3" height="10" rx="2" fill="#2a78d6"><title>p5s-kd25: 0.035 mm, admissible</title></rect><text x="438.3" y="645.0" font-size="10">0.035</text>
 <text x="40.0" y="663.0" font-size="9.5" text-anchor="end">#30</text>
-<text x="155.0" y="663.0" text-anchor="end">p5s-onefit</text>
-<rect x="409" y="654" width="3.0" height="10" rx="2" fill="#2a78d6"><title>p5s-onefit: 0.032 mm, admissible</title></rect><text x="417.0" y="663.0" font-size="10">0.032</text>
-<rect x="12.0" y="668" width="667" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
+<text x="176.0" y="663.0" text-anchor="end">p5s-onefit</text>
+<rect x="430" y="654" width="3.0" height="10" rx="2" fill="#2a78d6"><title>p5s-onefit: 0.032 mm, admissible</title></rect><text x="438.0" y="663.0" font-size="10">0.032</text>
+<rect x="12.0" y="668" width="688" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="681.0" font-size="9.5" text-anchor="end">#31</text>
-<text x="155.0" y="681.0" text-anchor="end" font-weight="600">p5s-pass3</text>
-<rect x="409" y="672" width="3.0" height="10" rx="2" fill="#2a78d6"><title>p5s-pass3: 0.031 mm, admissible</title></rect><text x="417.0" y="681.0" font-size="10" font-weight="600">0.031</text>
+<text x="176.0" y="681.0" text-anchor="end" font-weight="600">p5s-pass3</text>
+<rect x="430" y="672" width="3.0" height="10" rx="2" fill="#2a78d6"><title>p5s-pass3: 0.031 mm, admissible</title></rect><text x="438.0" y="681.0" font-size="10" font-weight="600">0.031</text>
 <text x="40.0" y="699.0" font-size="9.5" text-anchor="end">#32</text>
-<text x="155.0" y="699.0" text-anchor="end">p5s-pass3-g1</text>
-<rect x="409" y="690" width="14.9" height="10" rx="2" fill="#2a78d6"><title>p5s-pass3-g1: 0.156 mm, admissible</title></rect><text x="428.9" y="699.0" font-size="10">0.156</text>
-<rect x="12.0" y="704" width="667" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
+<text x="176.0" y="699.0" text-anchor="end">p5s-pass3-g1</text>
+<rect x="430" y="690" width="14.9" height="10" rx="2" fill="#2a78d6"><title>p5s-pass3-g1: 0.156 mm, admissible</title></rect><text x="449.9" y="699.0" font-size="10">0.156</text>
+<rect x="12.0" y="704" width="688" height="18" fill="#8c8c8c" fill-opacity="0.07"/>
 <text x="40.0" y="717.0" font-size="9.5" text-anchor="end">#33</text>
-<text x="155.0" y="717.0" text-anchor="end">p5s-kp2-pass2</text>
-<rect x="409" y="708" width="4.3" height="10" rx="2" fill="#2a78d6"><title>p5s-kp2-pass2: 0.045 mm, admissible</title></rect><text x="418.3" y="717.0" font-size="10">0.045</text>
-<path d="M163 130h42v14h-42zM209 130h42v14h-42zM255 130h42v14h-42zM301 130h42v14h-42zM347 130h42v14h-42zM163 148h42v14h-42zM209 148h42v14h-42zM255 148h42v14h-42zM301 148h42v14h-42zM347 148h42v14h-42zM347 166h42v14h-42zM347 184h42v14h-42zM163 202h42v14h-42zM209 202h42v14h-42zM255 202h42v14h-42zM301 202h42v14h-42zM347 202h42v14h-42zM163 220h42v14h-42zM209 220h42v14h-42zM255 220h42v14h-42zM301 220h42v14h-42zM347 220h42v14h-42zM163 238h42v14h-42zM209 238h42v14h-42zM255 238h42v14h-42zM301 238h42v14h-42zM347 238h42v14h-42zM255 256h42v14h-42zM301 256h42v14h-42zM347 256h42v14h-42zM163 274h42v14h-42zM209 274h42v14h-42zM255 274h42v14h-42zM301 274h42v14h-42zM347 274h42v14h-42zM163 292h42v14h-42zM209 292h42v14h-42zM255 292h42v14h-42zM301 292h42v14h-42zM347 292h42v14h-42zM163 310h42v14h-42zM209 310h42v14h-42zM255 310h42v14h-42zM301 310h42v14h-42zM347 310h42v14h-42zM163 328h42v14h-42zM209 328h42v14h-42zM255 328h42v14h-42zM301 328h42v14h-42zM347 328h42v14h-42zM163 346h42v14h-42zM209 346h42v14h-42zM255 346h42v14h-42zM301 346h42v14h-42zM347 346h42v14h-42zM163 364h42v14h-42zM209 364h42v14h-42zM255 364h42v14h-42zM301 364h42v14h-42zM347 364h42v14h-42zM163 382h42v14h-42zM209 382h42v14h-42zM255 382h42v14h-42zM301 382h42v14h-42zM347 382h42v14h-42zM163 400h42v14h-42zM209 400h42v14h-42zM255 400h42v14h-42zM301 400h42v14h-42zM347 400h42v14h-42zM163 418h42v14h-42zM209 418h42v14h-42zM255 418h42v14h-42zM301 418h42v14h-42zM347 418h42v14h-42zM163 436h42v14h-42zM209 436h42v14h-42zM255 436h42v14h-42zM301 436h42v14h-42zM347 436h42v14h-42zM163 454h42v14h-42zM209 454h42v14h-42zM255 454h42v14h-42zM301 454h42v14h-42zM347 454h42v14h-42zM163 472h42v14h-42zM209 472h42v14h-42zM255 472h42v14h-42zM301 472h42v14h-42zM347 472h42v14h-42zM163 490h42v14h-42zM209 490h42v14h-42zM255 490h42v14h-42zM301 490h42v14h-42zM347 490h42v14h-42zM163 508h42v14h-42zM209 508h42v14h-42zM255 508h42v14h-42zM301 508h42v14h-42zM347 508h42v14h-42zM163 526h42v14h-42zM209 526h42v14h-42zM255 526h42v14h-42zM301 526h42v14h-42zM347 526h42v14h-42zM163 544h42v14h-42zM209 544h42v14h-42zM255 544h42v14h-42zM301 544h42v14h-42zM347 544h42v14h-42zM163 562h42v14h-42zM209 562h42v14h-42zM255 562h42v14h-42zM301 562h42v14h-42zM347 562h42v14h-42zM163 580h42v14h-42zM209 580h42v14h-42zM255 580h42v14h-42zM301 580h42v14h-42zM347 580h42v14h-42zM163 598h42v14h-42zM209 598h42v14h-42zM255 598h42v14h-42zM301 598h42v14h-42zM347 598h42v14h-42zM163 616h42v14h-42zM209 616h42v14h-42zM255 616h42v14h-42zM301 616h42v14h-42zM347 616h42v14h-42zM163 634h42v14h-42zM209 634h42v14h-42zM255 634h42v14h-42zM301 634h42v14h-42zM347 634h42v14h-42zM163 652h42v14h-42zM209 652h42v14h-42zM255 652h42v14h-42zM301 652h42v14h-42zM347 652h42v14h-42zM163 670h42v14h-42zM209 670h42v14h-42zM255 670h42v14h-42zM301 670h42v14h-42zM347 670h42v14h-42zM163 688h42v14h-42zM209 688h42v14h-42zM255 688h42v14h-42zM301 688h42v14h-42zM347 688h42v14h-42zM163 706h42v14h-42zM209 706h42v14h-42zM255 706h42v14h-42zM301 706h42v14h-42zM347 706h42v14h-42z" fill="none" stroke="#8c8c8c" stroke-opacity="0.3"/>
-<rect x="409" y="735.0" width="14" height="10" rx="2" fill="#2a78d6"/>
-<text x="427.0" y="744.0" font-size="10">admissible</text>
-<rect x="489" y="735.0" width="14" height="10" rx="2" fill="none" stroke="#d62728" stroke-width="1.4"/>
-<text x="507.0" y="744.0" font-size="10">not admissible</text>
-<text x="12.0" y="760.0" font-size="10"># = creation order (the progress chart's x axis) · dashed orange = the best · › = past the axis</text>
+<text x="176.0" y="717.0" text-anchor="end">p5s-kp2-pass2</text>
+<rect x="430" y="708" width="4.3" height="10" rx="2" fill="#2a78d6"><title>p5s-kp2-pass2: 0.045 mm, admissible</title></rect><text x="439.3" y="717.0" font-size="10">0.045</text>
+<text x="40.0" y="735.0" font-size="9.5" text-anchor="end">#34</text>
+<text x="176.0" y="735.0" text-anchor="end">p5s-pass3-g1-nolag</text>
+<rect x="430" y="726" width="13.3" height="10" rx="2" fill="#2a78d6"><title>p5s-pass3-g1-nolag: 0.141 mm, admissible</title></rect><text x="448.3" y="735.0" font-size="10">0.141</text>
+<path d="M184 130h42v14h-42zM230 130h42v14h-42zM276 130h42v14h-42zM322 130h42v14h-42zM368 130h42v14h-42zM184 148h42v14h-42zM230 148h42v14h-42zM276 148h42v14h-42zM322 148h42v14h-42zM368 148h42v14h-42zM368 166h42v14h-42zM368 184h42v14h-42zM184 202h42v14h-42zM230 202h42v14h-42zM276 202h42v14h-42zM322 202h42v14h-42zM368 202h42v14h-42zM184 220h42v14h-42zM230 220h42v14h-42zM276 220h42v14h-42zM322 220h42v14h-42zM368 220h42v14h-42zM184 238h42v14h-42zM230 238h42v14h-42zM276 238h42v14h-42zM322 238h42v14h-42zM368 238h42v14h-42zM276 256h42v14h-42zM322 256h42v14h-42zM368 256h42v14h-42zM184 274h42v14h-42zM230 274h42v14h-42zM276 274h42v14h-42zM322 274h42v14h-42zM368 274h42v14h-42zM184 292h42v14h-42zM230 292h42v14h-42zM276 292h42v14h-42zM322 292h42v14h-42zM368 292h42v14h-42zM184 310h42v14h-42zM230 310h42v14h-42zM276 310h42v14h-42zM322 310h42v14h-42zM368 310h42v14h-42zM184 328h42v14h-42zM230 328h42v14h-42zM276 328h42v14h-42zM322 328h42v14h-42zM368 328h42v14h-42zM184 346h42v14h-42zM230 346h42v14h-42zM276 346h42v14h-42zM322 346h42v14h-42zM368 346h42v14h-42zM184 364h42v14h-42zM230 364h42v14h-42zM276 364h42v14h-42zM322 364h42v14h-42zM368 364h42v14h-42zM184 382h42v14h-42zM230 382h42v14h-42zM276 382h42v14h-42zM322 382h42v14h-42zM368 382h42v14h-42zM184 400h42v14h-42zM230 400h42v14h-42zM276 400h42v14h-42zM322 400h42v14h-42zM368 400h42v14h-42zM184 418h42v14h-42zM230 418h42v14h-42zM276 418h42v14h-42zM322 418h42v14h-42zM368 418h42v14h-42zM184 436h42v14h-42zM230 436h42v14h-42zM276 436h42v14h-42zM322 436h42v14h-42zM368 436h42v14h-42zM184 454h42v14h-42zM230 454h42v14h-42zM276 454h42v14h-42zM322 454h42v14h-42zM368 454h42v14h-42zM184 472h42v14h-42zM230 472h42v14h-42zM276 472h42v14h-42zM322 472h42v14h-42zM368 472h42v14h-42zM184 490h42v14h-42zM230 490h42v14h-42zM276 490h42v14h-42zM322 490h42v14h-42zM368 490h42v14h-42zM184 508h42v14h-42zM230 508h42v14h-42zM276 508h42v14h-42zM322 508h42v14h-42zM368 508h42v14h-42zM184 526h42v14h-42zM230 526h42v14h-42zM276 526h42v14h-42zM322 526h42v14h-42zM368 526h42v14h-42zM184 544h42v14h-42zM230 544h42v14h-42zM276 544h42v14h-42zM322 544h42v14h-42zM368 544h42v14h-42zM184 562h42v14h-42zM230 562h42v14h-42zM276 562h42v14h-42zM322 562h42v14h-42zM368 562h42v14h-42zM184 580h42v14h-42zM230 580h42v14h-42zM276 580h42v14h-42zM322 580h42v14h-42zM368 580h42v14h-42zM184 598h42v14h-42zM230 598h42v14h-42zM276 598h42v14h-42zM322 598h42v14h-42zM368 598h42v14h-42zM184 616h42v14h-42zM230 616h42v14h-42zM276 616h42v14h-42zM322 616h42v14h-42zM368 616h42v14h-42zM184 634h42v14h-42zM230 634h42v14h-42zM276 634h42v14h-42zM322 634h42v14h-42zM368 634h42v14h-42zM184 652h42v14h-42zM230 652h42v14h-42zM276 652h42v14h-42zM322 652h42v14h-42zM368 652h42v14h-42zM184 670h42v14h-42zM230 670h42v14h-42zM276 670h42v14h-42zM322 670h42v14h-42zM368 670h42v14h-42zM184 688h42v14h-42zM230 688h42v14h-42zM276 688h42v14h-42zM322 688h42v14h-42zM368 688h42v14h-42zM184 706h42v14h-42zM230 706h42v14h-42zM276 706h42v14h-42zM322 706h42v14h-42zM368 706h42v14h-42zM184 724h42v14h-42zM230 724h42v14h-42zM276 724h42v14h-42zM322 724h42v14h-42zM368 724h42v14h-42z" fill="none" stroke="#8c8c8c" stroke-opacity="0.3"/>
+<rect x="430" y="753.0" width="14" height="10" rx="2" fill="#2a78d6"/>
+<text x="448.0" y="762.0" font-size="10">admissible</text>
+<rect x="510" y="753.0" width="14" height="10" rx="2" fill="none" stroke="#d62728" stroke-width="1.4"/>
+<text x="528.0" y="762.0" font-size="10">not admissible</text>
+<text x="12.0" y="778.0" font-size="10"># = creation order (the progress chart's x axis) · dashed orange = the best · › = past the axis</text>
 </svg>

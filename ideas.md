@@ -23,10 +23,16 @@ never delete it.
 - [x] ~~Fold the four identification passes into one model~~ → `p5s-onefit`: one model.json (exact merge, commands equal within 1.4e-14) and `identify_pass.py`, one command per further pass.
 - [x] ~~Pass 3 with identify_pass.py~~ → `p5s-pass3` 0.0313 mm dev (−0.7 %, better on 20/42; holdout 0.0307 vs 0.0302): converged. Further passes are noise; the joint error is a fifth of an encoder count.
 - [x] ~~Transfer check: the stiff line's identified model at the configured gains~~ → `p5s-pass3-g1` 0.156 mm, worse than the x1-fitted `p5s-fric2-pass2` (0.070) on 42/42 tasks. Joint-error identification learns the closed loop as well as the plant: refit at the gains you run.
+- [x] ~~…and without the kd·1.3 ms·qdd term~~ → `p5s-pass3-g1-nolag` 0.141 mm: that term is a tenth of the loss; the rest is friction, which in this twin depends on the loop around it.
+- [ ] Make the identification gain-portable: fit the plant torque M(q)·ë + kd·ė + kp·e (the full inverse of the board loop, M from the given model) instead of kp·e + kd·ė, then check by running one fit at x1 and x4. Expect: if it works, one model for every rung; if not, friction here is loop-dependent and each rung keeps its own fit.
 - [x] ~~Middle rung: the same pass at kp ×2~~ → `p5s-kp2-pass2` 0.045 mm. Frontier fitted at each gain: x1 0.070 · x2 0.045 · x4 0.031 mm.
 - [ ] Identify from a dedicated calibration run (a rich excitation trajectory, its own runs only) instead of the dev records, so the identified model never sees the tasks it is scored on. Needs a way to run a non-dataset trajectory through the boundary without `deployment.plant()` (see Suggestions for Zach).
 
 ## Suggestions for Zach
+
+- [ ] Which gain rung should graduate to the real arm? Frontier, each rung identified at its own gains (dev mm): x1 `p5s-fric2-pass2` 0.070 (same energy as p4s, 12× better than p4s's 0.848) · x2 `p5s-kp2-pass2` 0.045 · x4 `p5s-pass3` 0.031 (energy +24 %, saturation 0.014 %). The twin cannot say how much stiffness the real UR5e/moteus loop tolerates; recommendation: x1 or x2.
+- [ ] Ruler or tooling: a sanctioned *calibration run* (an excitation trajectory a solution may run through the boundary before the tasks, without `deployment.plant()`), so identification stops being fitted on the dev tasks it is scored on. Today the only data are dev run records; holdout says it transfers (dev 0.031 / holdout 0.031) but the scheme reads as fitting on the test set.
+- [ ] `tests/test_site_static.py::test_leaderboard_numbers_are_the_scorecards` fails whenever an agent adds a solution (site/data is built by lane W's tool, not by `tta progress`). Either `tta progress` rebuilds site/data or the test reads the ledger.
 
 - [ ] Ruler v2: the twin has no link/gearbox compliance or structural resonance, so board stiffness costs nothing here but the kd-noise energy (+8.6 % at kp ×2). Without a gain-related gate (a resonance mode in the plant, an energy or torque-ripple gate, or a cap on sent stiffness), the search will drift to the stiffest gains the saturation gate allows. `p5s-kp2` and anything stiffer should be read with that in mind.
 
