@@ -8,6 +8,7 @@
   "home": "blackbox",
   "repo": "https://github.com/zacharyyamaoka/trajectory_tracking_agent"
  },
+ "landing": {"evidence": {"picker": true}, "why": "244 saved runs: the stock landing's replay draws its run row only when this is on (blackbox_agent CONTRACT §18.1, package 0.1.4+)"},
  "groups": [
   {"id": "box", "label": "Black box", "kind": "box"},
   {"id": "trajectory", "label": "Trajectory", "kind": "domain", "color": "#0e7c86", "color_dark": "#4cc2c4"}

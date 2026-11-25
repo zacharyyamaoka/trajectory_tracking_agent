@@ -100,6 +100,20 @@ def test_the_landing_is_the_stock_one_and_its_hero_plays_the_saved_runs():
     assert state["playback"]["runs"], "the hero would fall back to the Ticker: run tools/build_site.py build"
 
 
+def test_the_landing_replay_has_its_run_picker_and_the_lock_is_the_package_ci_builds():
+    """244 saved runs: the landing's replay is useless without its run row. blackbox-agent 0.1.4 (the v0 tag CI's
+    site.yml@v0 builds with) turned the picker off unless nav.json says "landing": {"evidence": {"picker": true}}
+    (CONTRACT §18.1); found by the PKG audit 2026-11-25: the CI build drew 0 chips, so 243 runs were unreachable.
+    The lock must be that release too, or tools/build_site.py parity/shoot check a page CI never deploys."""
+    nav = json.loads((SITE / "nav.json").read_text())
+    assert ((nav.get("landing") or {}).get("evidence") or {}).get("picker") is True, "the replay would draw no run row"
+    html = LANDING.read_text()
+    assert "(nav.landing || {}).evidence || {}).picker === true" in html, "the package's landing no longer reads the setting"
+    from importlib.metadata import version
+
+    assert tuple(int(x) for x in version("blackbox-agent").split(".")[:3]) >= (0, 1, 4), version("blackbox-agent")
+
+
 @pytest.mark.skipif(shutil.which("node") is None, reason="node not installed")
 def test_the_package_bar_model_places_every_page_under_its_own_dashboard():
     """The package's bar model (bb-site-nav.model.js) on each page's URL and include: the dashboard it marks open is
