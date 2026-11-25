@@ -16,7 +16,7 @@ and keeps a scored population of every solution it tried.
 | [`ideas.md`](ideas.md) | The experiment queue |
 | [`REFERENCES.md`](REFERENCES.md) | Prior art, the packages it builds on, related repos |
 | [`solutions/`](solutions/) | The population: one folder per solution, with its lineage and scorecard |
-| [`site/`](site/) | The landing page: saved runs played back, scored by the ruler at evaluation time |
+| [`site/`](site/) | What the live page adds to blackbox_agent's stock landing and dashboard: the saved runs it plays back (scored by the ruler at evaluation time), the domain dashboards and the site bar's `nav.json` |
 
 ```bash
 uv run tta evaluate p7s --split dev

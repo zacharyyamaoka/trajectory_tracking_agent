@@ -1,5 +1,6 @@
 """site/data/junit.xml: the test run the Spec page reads, committed by `tools/build_site.py build` because CI cannot
-run the tests (the deps are local path deps) and folds the committed file instead (.github/workflows/pages.yml). It is
+run the tests (the deps are local path deps) and folds the committed file instead (.github/workflows/pages.yml, which
+calls blackbox_agent's site.yml: `blackbox build` refuses a junit that names a host or a home path). It is
 public, so it names no host and no local path, and state.json was folded from exactly this run."""
 
 from __future__ import annotations
@@ -15,7 +16,7 @@ import pytest
 REPO = Path(__file__).resolve().parent.parent
 DATA = REPO / "site" / "data"
 JUNIT = DATA / "junit.xml"
-RELATIVE = "../../../site/data/junit.xml"  # relative to tools/bb/viewer/, as build_site and ci_refold.py hand it
+RELATIVE = "site/data/junit.xml"  # relative to the repo, as build_site and `blackbox build` hand it to the fold
 
 
 def _build_site():

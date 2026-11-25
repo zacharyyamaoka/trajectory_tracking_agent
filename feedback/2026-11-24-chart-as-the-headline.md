@@ -8,7 +8,7 @@ model: claude-opus-5-5
 words: exact
 tracks: [trajectory-tracking-agent]
 specs: []
-source: [site/index.html]
+source: [tests/test_site_headliner.py]
 reacting_to: "the headliner proposals for the landing page (he picked Ticker v1)"
 became: "013e521"
 ---

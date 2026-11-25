@@ -1033,7 +1033,9 @@ def resolves(base: Path, link: str) -> bool:
     target = link.split("#", 1)[0].split("?", 1)[0]
     if not target:
         return True
-    return (base.parent / target).resolve().is_file()
+    # WHY site_bar.built (2026-11-25, lane PKG): the landing (index.html) and the bar's module (dashboard/...) are written
+    # by blackbox_agent's `blackbox build`, not kept in site/
+    return site_bar.built((base.parent / target).resolve())
 
 
 def our_files() -> list[Path]:

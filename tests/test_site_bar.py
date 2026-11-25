@@ -1,15 +1,20 @@
-"""The site's one bar and its dashboard (lane SHIP, 2026-11-24; blackbox_agent viewer CONTRACT §18).
+"""The site's one bar and its dashboard (lane SHIP, 2026-11-24; lane PKG, 2026-11-25; blackbox_agent viewer CONTRACT §18).
 
 Zach, 2026-11-24: "I 100% like the separate landing page and then the open the dashboard button." "So right now we want a
 tab for Trajectory Coverage and Trajectory Comparison. And also one for Model x Dataset." Every dashboard page carries the
-viewer's <bb-site-nav> reading the one site/nav.json; the dashboard itself (site/dashboard/) is the blackbox_agent viewer,
-vendored by blackbox_agent's tools/vendor_viewer.py and held here to its VENDOR.json; the landing (site/index.html) keeps
-its own bar with "Open the dashboard →". These read the committed files; `tools/build_site.py`'s headless checks drive them.
+viewer's <bb-site-nav> reading the one site/nav.json. Since 2026-11-25 the landing and the dashboard are blackbox_agent's
+own (`blackbox build`, run by .github/workflows/pages.yml through its site.yml@v0): the box keeps no copy of either, and
+these tests hold the box's side of that contract against the installed package (the `site` extra, pinned in uv.lock).
+`tools/build_site.py`'s headless checks drive the built site.
+
+Replaced 2026-11-25 (lane PKG): `test_the_dashboard_is_the_viewer_as_vendored_never_edited` (site/dashboard/ held to its
+VENDOR.json) became `test_the_box_keeps_no_copy_of_the_package_and_the_package_has_the_dashboard`; the landing test
+reads the package's stock landing instead of site/index.html; the node model test runs the package's bar model; the
+AGENTS.md test asserts the package workflow instead of the re-vendor command.
 """
 
 from __future__ import annotations
 
-import hashlib
 import json
 import re
 import shutil
@@ -21,34 +26,32 @@ import pytest
 
 REPO = Path(__file__).resolve().parent.parent
 SITE = REPO / "site"
-DASHBOARD = SITE / "dashboard"
 sys.path.insert(0, str(REPO / "tools"))
 import site_bar  # noqa: E402
 
-pytestmark = pytest.mark.skipif(not (DASHBOARD / "VENDOR.json").exists(), reason="site/dashboard not vendored")
+blackbox_site = pytest.importorskip("blackbox_agent.site", reason="the `site` extra: uv run --all-extras")
+DASHBOARD = blackbox_site.DASHBOARD  # what `blackbox build` writes to <site>/dashboard/
+LANDING = blackbox_site.TEMPLATE / "site" / "index.html"  # what it writes to <site>/index.html (no override here)
 
 
 def _bar_pages() -> list[Path]:
-    """Every page of the site's dashboards: the vendored dashboard and each drop-in page."""
-    return [DASHBOARD / "index.html", SITE / "deployments" / "index.html", *sorted((SITE / "datasets").glob("*/index.html")),
+    """Every drop-in page of the site's dashboards (the Black box's own page is the package's)."""
+    return [SITE / "deployments" / "index.html", *sorted((SITE / "datasets").glob("*/index.html")),
             SITE / "comparison" / "index.html", *sorted((SITE / "comparison").glob("runs/*/report.html")),
             SITE / "models-datasets" / "index.html"]
 
 
-def test_the_dashboard_is_the_viewer_as_vendored_never_edited():
-    """site/dashboard/ is blackbox_agent's viewer at one commit: every file its VENDOR.json lists, byte for byte, and no
-    other (re-vendor with blackbox_agent's tools/vendor_viewer.py; never edit the copy)."""
-    meta = json.loads((DASHBOARD / "VENDOR.json").read_text())
-    assert re.fullmatch(r"[0-9a-f]{40}", meta["commit"]) and meta["source"].endswith("/blackbox_agent")
-    assert meta["reads"] == {"nav": "../nav.json", "state": "../data/state.json"}
-    listed = {row["path"]: row["sha256"] for row in meta["files"]}
-    problems = [f"edited or missing: {path}" for path, digest in listed.items()
-                if not (DASHBOARD / path).is_file() or hashlib.sha256((DASHBOARD / path).read_bytes()).hexdigest() != digest]
-    problems += [f"not vendored: {p.relative_to(DASHBOARD)}" for p in DASHBOARD.rglob("*")
-                 if p.is_file() and p.name != "VENDOR.json" and p.relative_to(DASHBOARD).as_posix() not in listed]
-    assert not problems, problems[:20]
-    for need in ("index.html", "viewer/site/dashboard.js", "viewer/src/components/bb-site-nav.js", "viewer/pages/site/overview.json"):
-        assert need in listed, need
+def test_the_box_keeps_no_copy_of_the_package_and_the_package_has_the_dashboard():
+    """No vendored viewer, fold or landing in the box: the package's build would drop the first and the last, and a copy
+    drifts. The package has what the site bar and the nav links rely on."""
+    for copy in ("site/dashboard", "site/index.html", "site/overrides/index.html", "tools/bb",
+                 "site/vendor/bb-evidence.js", "site/vendor/bb-headliner.js"):
+        assert not (REPO / copy).exists(), f"{copy} is the package's: delete it (blackbox check names it)"
+    for need in ("index.html", "viewer/site/dashboard.js", "viewer/src/components/bb-site-nav.js",
+                 "viewer/src/components/bb-site-nav.model.js", "viewer/pages/site/overview.json"):
+        assert (DASHBOARD / need).is_file(), need
+    dash = (DASHBOARD / "index.html").read_text()
+    assert 'data-state="../data/state.json"' in dash and 'src="../nav.json"' in dash, "the dashboard reads the site's files"
 
 
 def test_nav_json_is_bb_site_nav_and_every_link_is_a_page_of_the_site():
@@ -57,14 +60,17 @@ def test_nav_json_is_bb_site_nav_and_every_link_is_a_page_of_the_site():
     assert [d["label"] for d in doc["dashboards"]] == ["Black box", "Trajectory coverage", "Trajectory comparison", "Model × Dataset"]
     assert doc["site"]["landing"] == "index.html" and doc["site"]["home"] == "blackbox"
     box = next(d for d in doc["dashboards"] if d["id"] == "blackbox")
-    assert box["href"] == "dashboard/" and box["tabs"] == "viewer", "the Black box is the vendored viewer"
+    assert box["href"] == "dashboard/" and box["tabs"] == "viewer", "the Black box is the package's viewer"
+    for d in doc["dashboards"]:  # in-site paths only (blackbox check: a link that leaves the site is a problem)
+        for item in [d, *d.get("pages", [])]:
+            assert not re.match(r"^(?:[a-z][a-z0-9+.-]*:|/)", item["href"]) and ".." not in item["href"].split("/"), item
 
 
 def test_every_dashboard_page_carries_exactly_one_bar_and_no_interim_bar():
     pages = _bar_pages()
     runs = list((SITE / "comparison").glob("runs/*/report.html"))
-    assert len(runs) == 42 and len(pages) == 5 + len(runs), len(pages)  # the dashboard, 2 coverage, comparison + 42 runs, M×D
-    assert site_bar.page_problems(pages[1:]) == []
+    assert len(runs) == 42 and len(pages) == 4 + len(runs), len(pages)  # 2 coverage, comparison + 42 runs, M×D
+    assert site_bar.page_problems(pages) == []
     # the dashboard's own page loads the bar with the viewer (its host module imports every component, bb-site-nav too)
     dash = (DASHBOARD / "index.html").read_text()
     assert site_bar.TAG.findall(dash) == ['<bb-site-nav src="../nav.json" current="blackbox" href="#{page}"></bb-site-nav>']
@@ -79,27 +85,26 @@ def test_every_dashboard_page_carries_exactly_one_bar_and_no_interim_bar():
         assert not (SITE / retired).exists(), f"site/{retired} is retired"
 
 
-def test_the_landing_keeps_its_own_bar_and_opens_the_dashboard():
-    """proposals-landing 02 (Zach's pick): a page of its own; "Open the dashboard →" in its bar and under the goal opens
-    the Black box Overview; its footer lists every dashboard of nav.json, in order."""
-    html = (SITE / "index.html").read_text()
+def test_the_landing_is_the_stock_one_and_its_hero_plays_the_saved_runs():
+    """proposals-landing 02 (Zach's pick), now the package's stock landing: its own bar, "Open the dashboard →" in the bar
+    and under the goal opens the Black box Overview, the footer lists nav.json's dashboards; its hero swaps the Ticker for
+    <bb-evidence> when state.json's playback slice lists runs, which this box's export writes (tools/build_site.py)."""
+    html = LANDING.read_text()
     assert "<bb-site-nav" not in html
     opens = re.findall(r'<a class="btn btn-primary[^"]*" href="([^"]+)" data-open-dashboard>', html)
     assert opens == ["dashboard/#overview", "dashboard/#overview"], opens
     assert "Open the dashboard" in html and html.index('id="goal"') < html.index("<bb-headliner")
-    doc = json.loads(site_bar.NAV.read_text())
-    footer = html[html.index('<footer'):]
-    listed = re.findall(r'<li><a href="([^"]+)">([^<]+)</a>', footer.split("<h4>This project</h4>")[0])
-    assert [label for _, label in listed] == [d["label"] for d in doc["dashboards"]]
-    for (href, _), d in zip(listed, doc["dashboards"]):
-        assert href.split("#")[0] == d["href"], (href, d["href"])
+    assert "json('nav.json')" in html, "the footer lists every dashboard of nav.json"
+    assert "s.playback && s.playback.runs" in html and "components/bb-evidence.js" in html
+    state = json.loads((SITE / "data" / "state.json").read_text())
+    assert state["playback"]["runs"], "the hero would fall back to the Ticker: run tools/build_site.py build"
 
 
 @pytest.mark.skipif(shutil.which("node") is None, reason="node not installed")
-def test_the_vendored_model_places_every_page_under_its_own_dashboard():
-    """The vendored bar's own model (bb-site-nav.model.js) on each page's URL and include: the dashboard it marks open is
+def test_the_package_bar_model_places_every_page_under_its_own_dashboard():
+    """The package's bar model (bb-site-nav.model.js) on each page's URL and include: the dashboard it marks open is
     the one the include names, and a drop-in page is one of that dashboard's pages (or under its match prefix)."""
-    pages = [p for p in _bar_pages() if p != DASHBOARD / "index.html"]
+    pages = _bar_pages()
     asks = []
     for page in pages:
         tag = site_bar.TAG.search(page.read_text()).group(0)
@@ -120,6 +125,10 @@ def test_the_vendored_model_places_every_page_under_its_own_dashboard():
         assert dash == ask["current"] and tab, (ask, dash, tab)
 
 
-def test_agents_md_says_how_to_re_vendor():
+def test_agents_md_and_the_workflow_say_the_package_builds_the_page():
     text = (REPO / "AGENTS.md").read_text()
-    assert "tools/vendor_viewer.py" in text and "site/dashboard/" in text
+    assert "blackbox build" in text and "site.yml@v0" in text and "site/index.html" in text
+    assert "vendor_viewer" not in text and "tools/bb/" not in text
+    workflow = (REPO / ".github" / "workflows" / "pages.yml").read_text()
+    assert "uses: zacharyyamaoka/blackbox_agent/.github/workflows/site.yml@v0" in workflow
+    assert "permissions: {contents: read, pages: write, id-token: write}" in workflow

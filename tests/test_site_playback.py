@@ -158,7 +158,8 @@ def test_the_rule(index):
 
 
 def test_every_picker_option_has_a_listed_valid_record(index, state, run_schema, playback_schema):
-    """The pickers offer index.solutions and each one's tasks (assets/app.js); every such run has a bb-run/1 record
+    """The run row (the stock landing's <bb-evidence>, one chip per listed run) offers index.solutions and each one's
+    tasks; every such run has a bb-run/1 record
     that state.json's playback slice lists (so bb-evidence's context may load it), and the record validates against
     the viewer's run-record.schema.json, read where it lives; the slice validates against its own schema."""
     assert not schema_errors(state["playback"], playback_schema), schema_errors(state["playback"], playback_schema)[:5]

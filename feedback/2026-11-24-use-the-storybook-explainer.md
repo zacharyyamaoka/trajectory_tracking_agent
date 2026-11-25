@@ -8,7 +8,7 @@ model: claude-opus-5-5
 words: paraphrase
 tracks: [trajectory-tracking-agent]
 specs: []
-source: [site/README.md, site/index.html]
+source: [site/README.md]
 reacting_to: "the landing page's own 3D playback stage, score cards and joint plots"
 ---
 

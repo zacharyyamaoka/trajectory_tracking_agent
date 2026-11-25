@@ -5,6 +5,11 @@ Replaced 2026-11-24 when the page moved from a live in-browser runtime (Pyodide 
 runs: the wheel / manifest / mirror / shim checks became `test_no_live_runtime_is_shipped_or_loaded`, and the size
 limit went from 40 MB to 15 MB. Later that day (lane EV) the runs became bb-run/1 JSON records played by the viewer's
 <bb-evidence>, and the 15 MB limit is measured as served (gzip, as GitHub Pages sends text; build_site.served_bytes).
+On 2026-11-25 (lane PKG) the landing became blackbox_agent's stock one, built by `blackbox build` around site/: the
+script check of `test_no_live_runtime_is_shipped_or_loaded` reads the stock landing's modules (the package's viewer)
+instead of site/index.html's, and `test_the_vendored_explainer_is_the_viewers_build` became
+`test_the_explainer_is_the_packages_never_a_box_copy`; `test_every_cdn_url_names_an_exact_version` no longer
+requires a CDN URL to exist (the retired landing's were its only ones).
 """
 
 from __future__ import annotations
@@ -21,7 +26,7 @@ SITE = REPO / "site"
 TEXT_SUFFIXES = {".html", ".js", ".css", ".json", ".py", ".svg", ".md", ".xml"}  # .xml: site/data/junit.xml, the test run the Spec page reads
 SIZE_LIMIT_BYTES = 1_000_000_000  # GitHub Pages' published-site limit (cited in tools/build_site.py)
 
-pytestmark = pytest.mark.skipif(not (SITE / "index.html").exists(), reason="site/ not built")
+pytestmark = pytest.mark.skipif(not (SITE / "data" / "state.json").exists(), reason="site/ not built")
 
 OTHER_LANES = (SITE / "proposals", SITE / "progress.svg", SITE / "views")  # lane P's, lane E's and lane V's files
 
@@ -69,7 +74,8 @@ def test_every_cdn_url_names_an_exact_version():
     urls = set()
     for path in _site_text_files():
         urls |= set(re.findall(r"https://cdn\.jsdelivr\.net/[^\s'\"`)]+", path.read_text()))
-    assert urls, "the page loads three.js and highlight.js from jsDelivr"
+    # WHY no `assert urls` (2026-11-25, lane PKG): the retired landing loaded three.js and highlight.js from jsDelivr;
+    # the stock landing loads the package's own modules, so the box's files may name no CDN at all. Any it names is pinned.
     unpinned = [url for url in urls if not re.search(r"@\d+\.\d+\.\d+", url)]
     assert not unpinned, unpinned
 
@@ -79,19 +85,21 @@ def test_no_live_runtime_is_shipped_or_loaded():
     for retired in ("wheels", "runtime", "data/repo"):
         assert not (SITE / retired).exists(), f"site/{retired} is the retired live runtime"
     runtime = re.compile(r"pyodide|@mujoco/|mujoco\.wasm|loadPyodide|new Worker\(|\.whl\b|micropip", re.I)
-    # WHY the dashboard's stock parts may start a worker (lane SHIP, 2026-11-24): data-ui's graph view lays out with elk in
-    # a worker and its mesh view decodes in one, vendored whole and never edited (site/dashboard/viewer/vendor/, held to
-    # its VENDOR.json by tests/test_site_bar.py); neither is a simulator or a scorer. Pyodide and MuJoCo stay refused there.
-    stock = SITE / "dashboard" / "viewer" / "vendor"
     hits = [f"{p.relative_to(REPO)}: {m.group(0)}" for p in _site_text_files() if p.suffix in {".html", ".js"}
-            for m in runtime.finditer(p.read_text()) if not (stock in p.parents and m.group(0) == "new Worker(")]
+            for m in runtime.finditer(p.read_text())]
     assert not hits, hits
-    scripts = re.findall(r"<script[^>]*src=[\"']([^\"']+)", (SITE / "index.html").read_text())
+    from blackbox_agent.site import TEMPLATE
+
+    landing = (TEMPLATE / "site" / "index.html").read_text()
+    scripts = re.findall(r"<script[^>]*src=[\"']([^\"']+)", landing)
+    imports = re.findall(r"import\('([^']+)'\)", landing)
     # WHY the headliner is allowed (2026-11-24): Zach picked the Ticker v1 as the page's headline; it is a static chart
     # module (uPlot) reading data/state.json, not a runtime. WHY bb-evidence (2026-11-24, Zach: "it should use the newer
     # 3D explanation things we designed"): the viewer's metric explainer, playing saved bb-run/1 records with three.js;
-    # it simulates and scores nothing. Anything else, or any Pyodide / MuJoCo load, still fails.
-    assert scripts == ["vendor/bb-headliner.js", "vendor/bb-evidence.js", "assets/app.js"], scripts
+    # it simulates and scores nothing. bb-gates: the gate tiles. Anything else, or any Pyodide / MuJoCo load, still fails.
+    assert scripts == ["dashboard/viewer/src/components/bb-headliner.js", "dashboard/viewer/src/components/bb-gates.js"], scripts
+    assert imports == ["./dashboard/viewer/src/components/bb-evidence.js"], imports
+    assert not runtime.search(landing)
     assert not (SITE / "data" / "playback").exists(), "site/data/playback is the retired binary playback"
 
 
@@ -141,10 +149,10 @@ def test_the_served_size_is_measured_not_assumed(tmp_path):
     assert bs.served_bytes(media) == media.stat().st_size
 
 
-def test_the_vendored_explainer_is_the_viewers_build():
-    """vendor/bb-evidence.js is the viewer's dist build byte for byte under one provenance line (never edited here)."""
-    vendored = (SITE / "vendor" / "bb-evidence.js").read_text()
-    first, _, rest = vendored.partition("\n")
-    assert re.match(r"/\* bb-evidence: vendored from the blackbox_agent viewer \(viewer/dist/bb-evidence\.js\) @ [0-9a-f]{7}", first)
-    assert rest.startswith("/* bb-evidence: standalone build of blackbox_agent/viewer/src/components/bb-evidence.js")
-    assert "customElements.define" in rest or "register(BBEvidence)" in rest
+def test_the_explainer_is_the_packages_never_a_box_copy():
+    """bb-evidence plays the runs from the package's viewer (the stock landing imports it); the box ships no copy."""
+    from blackbox_agent.site import COMPONENTS
+
+    assert not (SITE / "vendor" / "bb-evidence.js").exists() and not (SITE / "assets" / "app.js").exists()
+    source = (COMPONENTS / "bb-evidence.js").read_text()
+    assert "register(BBEvidence)" in source or "customElements.define" in source

@@ -18,13 +18,17 @@ accurately, inside the gates, by proposing better controllers. Read `OBJECTIVES.
    the new scorecards (`tests/test_dropins.py` stays red until it has run), then
    `git add -- solutions/<id> site/data site/comparison site/models-datasets` (a new folder is untracked) and
    `git commit -- solutions/<id> ledger.jsonl PROGRESS.md status.json site/progress.svg site/views site/data site/comparison site/models-datasets ideas.md specs feedback`.
-   CI re-folds `site/data/state.json` from the pushed commit anyway (`.github/workflows/pages.yml`, with the fold
-   vendored in `tools/bb/`: never edit it, re-vendor with blackbox_agent's `tools/vendor_fold.py`), so the live page is
-   never behind `main`. CI cannot re-run the tests (the deps are local path deps), so the Spec page is only as fresh as
-   the `junit.xml` you commit. The dashboard (`site/dashboard/`, the black-box viewer, with the site bar every page
-   includes) is vendored the same way: never edit it, re-vendor with `python3 ~/blackbox_agent/tools/vendor_viewer.py --box .`
-   (`tests/test_site_bar.py` holds it to its `VENDOR.json`). The bar on every page reads `site/nav.json`; a new dashboard
-   is one entry there, and its pages include the bar with `tools/site_bar.py`.
+   The live page is built by the blackbox_agent package, never by a file here: `.github/workflows/pages.yml` calls its
+   `site.yml@v0`, which runs `blackbox build` on the pushed commit: the package's stock landing (its hero plays the runs
+   `state.json`'s `playback` slice lists) and dashboard, around this repo's `site/` (the domain dashboards,
+   `site/nav.json`, `site/data/`), with `state.json` re-folded and the playback slice kept, so the live page is never
+   behind `main`. Never add `site/index.html` or a copy of the viewer or the fold (`blackbox check` flags them).
+   CI cannot re-run the tests (the deps are local path deps), so the Spec page is only as fresh as the `junit.xml` you
+   commit. Preview what the push publishes with
+   `uvx --from git+https://github.com/zacharyyamaoka/blackbox_agent@v0 blackbox serve --box ~/trajectory_tracking_agent`
+   (it builds the last commit); `blackbox check --box ~/trajectory_tracking_agent` must print no problem. The bar on
+   every page reads `site/nav.json` (in-site paths only); a new dashboard is one entry there, and its pages include the
+   bar with `tools/site_bar.py` (from `dashboard/viewer/src/components/bb-site-nav.js`, where the build puts it).
    (`tests/test_site_*` fail until site/data matches the ledger; ablation-tagged solutions don't need the rebuild.)
    `tta verify` must pass before the commit.
 5. Update `ideas.md`: cross off what you tried, add what the result suggests.

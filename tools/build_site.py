@@ -2,8 +2,8 @@
 
     uv run --all-extras python tools/build_site.py build     # site/data/runs/ (bb-run/1 records) + state.json + page.json
     uv run --all-extras python tools/build_site.py check     # every shipped number equals its scorecard row
-    uv run --no-project --with playwright==1.64.1 python tools/build_site.py parity  # headless: every picker option
-    uv run --no-project --with playwright==1.64.1 python tools/build_site.py shoot   # headless screenshots + hero video
+    uv run --all-extras --with playwright==1.64.1 python tools/build_site.py parity  # headless: every saved run, on the built page
+    uv run --all-extras --with playwright==1.64.1 python tools/build_site.py shoot   # headless screenshots + hero video
 
 The page plays back saved runs; nothing is simulated or scored in the browser (Zach, 2026-11-24: "You can just
 playback saved runs"). `tta evaluate <id>` already writes one run record per task (`outputs/runs/<id>/dev/<task>.json`,
@@ -25,8 +25,10 @@ its CONTRACT §4 and §14):
 - **The numbers on the cards are the record's own** `metrics` / `gates` (computed by the ruler when the run was
   scored), at the fold's stated rounding; `check` proves each equals its scorecard's per-task row.
 
-`parity` and `shoot` drive headless Chromium through Playwright (its cached browser; never a visible window) over a
-server on 127.0.0.1 they start and stop themselves.
+The page itself is blackbox_agent's stock landing (its hero plays `state.playback.runs` with `<bb-evidence>`) and
+dashboard, written with this repo's site/ by `blackbox build` (CI: .github/workflows/pages.yml). `parity` and `shoot`
+build HEAD that way (outputs/site/built/) and drive headless Chromium through Playwright (its cached browser; never a
+visible window) over a server on 127.0.0.1 they start and stop themselves.
 """
 
 from __future__ import annotations
@@ -894,13 +896,22 @@ def site_bytes(served: bool = True) -> int:
     return sum(served_bytes(path) if served else path.stat().st_size for path in files)
 
 
-# WHY the vendored fold (2026-11-24): the headliner (bb-headliner, Zach's Ticker v1 pick) and every tab read a bb-state/1
-# state.json, the blackbox_agent viewer's fold of this repo. CI re-folds it from every pushed commit
-# (.github/workflows/pages.yml: tools/bb/tools/ci_refold.py) with the copy in tools/bb/ (blackbox_agent's
-# tools/vendor_fold.py; never edit it here, re-vendor it), so the local build runs that same copy: one fold, the same
-# bytes for the same commit. BB_FOLD overrides the path (e.g. to try ~/blackbox_agent's unvendored fold). Without a
-# fold the committed state.json stays and tests/test_site_headliner.py catches it going stale.
-FOLD = Path(os.environ.get("BB_FOLD", REPO / "tools" / "bb" / "viewer" / "tools" / "fold_state.py"))
+# WHY the package's fold (2026-11-25, lane PKG): the headliner and every tab read a bb-state/1 state.json, blackbox_agent's
+# fold of this repo. CI folds every pushed commit with the same package (.github/workflows/pages.yml calls its
+# site.yml@v0: `blackbox build`), so the local build runs that package's fold too (the `site` extra installs it at the
+# commit uv.lock pins): one fold, the same bytes for the same commit. BB_FOLD overrides the path. Without a fold the
+# committed state.json stays and tests/test_site_headliner.py catches it going stale.
+
+
+def _package_fold() -> Path:
+    try:
+        from blackbox_agent.site import FOLD as package_fold
+    except ImportError:
+        return Path("blackbox_agent/fold/fold_state.py")  # not installed: write_state warns and keeps the committed state
+    return Path(package_fold)
+
+
+FOLD = Path(os.environ["BB_FOLD"]) if os.environ.get("BB_FOLD") else _package_fold()
 # The test run the Spec page reads, committed with site/data: CI cannot run the tests (the deps are local path deps),
 # so it folds this file. It is public (site/), so it is written by public_junit().
 JUNIT = DATA / "junit.xml"
@@ -908,7 +919,7 @@ JUNIT = DATA / "junit.xml"
 # §16.8): the fold never runs a test, so the history is the runs committed with each commit. Seeded 2026-11-24 (lane SHIP)
 # from blackbox_agent's viewer/scenarios/junit/tta/ (the suite on a git archive of each commit, lane G), made public by
 # public_junit(); kept current by archive_junit() (each build archives the run committed with HEAD) and by CI
-# (tools/bb/tools/ci_refold.py adds the pushed commit's own run). ~7 kB a commit, gzipped.
+# (`blackbox build` adds the pushed commit's own run to the built site). ~7 kB a commit, gzipped.
 JUNIT_DIR = DATA / "junit"
 
 
@@ -920,12 +931,12 @@ def write_state(playback: dict[str, Any]) -> None:
         cmd = [sys.executable, str(FOLD), "--repo", str(REPO), "--ref", "HEAD", "--out", str(path)]
         archive_junit()
         if JUNIT_DIR.is_dir():
-            cmd += ["--junit-dir", os.path.relpath(JUNIT_DIR, FOLD.parent.parent)]
+            cmd += ["--junit-dir", JUNIT_DIR.relative_to(REPO).as_posix()]
         if test_run(JUNIT):
-            # relative to the fold's viewer/, as ci_refold.py hands it: the string lands in state.json, so an absolute
-            # path would put a local directory on the public page (it read /tmp/tmp…/junit.xml before 2026-11-24)
-            cmd += ["--junit", os.path.relpath(JUNIT, FOLD.parent.parent)]
-        subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL)
+            # relative to the repo, run from it, as `blackbox build` hands them (site/data/junit.xml): the string lands in
+            # state.json, so an absolute path would put a local directory on the public page
+            cmd += ["--junit", JUNIT.relative_to(REPO).as_posix()]
+        subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, cwd=REPO)
     else:
         print(f"warning: {FOLD} not found: site/data/state.json not re-folded (its playback slice is)", file=sys.stderr)
     state = json.loads(path.read_text())
@@ -1142,15 +1153,31 @@ def check() -> list[str]:
 # ── serving and driving headless Chromium ──────────────────────────────────────────────────────────────────
 
 
+# WHY a build of HEAD (2026-11-25, lane PKG): the page is blackbox_agent's stock landing over this repo's site/, written
+# by `blackbox build` (CI runs the same on every push); there is no landing in site/ to serve. The build reads git at the
+# ref, never the working tree, so commit before `parity` / `shoot` (they say which commit they drove).
+BUILT = OUTPUTS / "built"
+
+
+def built_site(out: Path = BUILT, ref: str = "HEAD") -> dict[str, Any]:
+    """The live page as CI builds it, from `ref`: blackbox_agent's `build` (its record, blackbox-build.json, returned)."""
+    from blackbox_agent.site import build as blackbox_build
+
+    return blackbox_build(REPO, out, ref)
+
+
 class Server:
-    """`python3 -m http.server` on a free 127.0.0.1 port over site/, stopped by PID on exit (never by port)."""
+    """`python3 -m http.server` on a free 127.0.0.1 port over a built site, stopped by PID on exit (never by port)."""
+
+    def __init__(self, root: Path = BUILT) -> None:
+        self.root = root
 
     def __enter__(self) -> Server:
         with socket.socket() as probe:
             probe.bind(("127.0.0.1", 0))
             self.port = probe.getsockname()[1]
         self.process = subprocess.Popen(
-            [sys.executable, "-m", "http.server", str(self.port), "--bind", "127.0.0.1", "--directory", str(SITE)],
+            [sys.executable, "-m", "http.server", str(self.port), "--bind", "127.0.0.1", "--directory", str(self.root)],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         for _ in range(100):
             try:
@@ -1193,12 +1220,23 @@ def _watch(page: Any, errors: list[str], requests: list[str] | None = None) -> N
         page.on("request", lambda request: requests.append(request.url))
 
 
-def _wait_run(page: Any, solution: str | None = None, task: str | None = None, timeout_s: float = 60.0) -> dict[str, Any]:
-    """Wait until the page shows a run (this one, when named) and bb-evidence has drawn it."""
-    page.wait_for_function("""([solution, task]) => { const p = window.__page; return p && p.run && !p.busy
-        && (!solution || (p.run.solution === solution && p.run.task === task)); }""", arg=[solution, task],
-                           timeout=timeout_s * 1e3)
-    return page.evaluate("({...window.__page.run})")
+def _wait_run(page: Any, path: str | None = None, timeout_s: float = 60.0) -> dict[str, Any]:
+    """Wait until the landing's <bb-evidence> shows a run (this record, when named) with its cards or lanes drawn; returns
+    the run's entry in state.json's playback slice."""
+    page.wait_for_function("""(path) => { const e = document.querySelector('bb-evidence');
+        if (!e || !e.rec || !e.path || (path && e.path !== path)) return false;
+        const run = (e.runs || []).find((r) => r.path === e.path), s = e.rec.subject || {};
+        return !!run && s.solution === run.solution && s.task === run.task
+          && !!e.querySelector('.bbe-card, .bbe-lh[data-metric]'); }""", arg=path, timeout=timeout_s * 1e3)
+    return page.evaluate("(() => { const e = document.querySelector('bb-evidence'); "
+                         "return {...e.runs.find((r) => r.path === e.path)}; })()")
+
+
+def _open_run(page: Any, path: str) -> dict[str, Any]:
+    """Pick a run the way a visitor does: its chip in the explainer's run row (scrolled into view by the click)."""
+    if page.evaluate("document.querySelector('bb-evidence').path") != path:
+        page.locator(f"bb-evidence .bbe-runs button[data-run='{path}']").click()
+    return _wait_run(page, path)
 
 
 def _js_fmt(value: Any, digits: int = 3) -> str:
@@ -1232,7 +1270,7 @@ def _value_text(metric: dict[str, Any]) -> str:
 
 
 def _cards(page: Any) -> dict[str, str]:
-    return dict(page.evaluate("[...document.querySelectorAll('#evidence .bbe-card')].map((c) => [c.dataset.metric, "
+    return dict(page.evaluate("[...document.querySelectorAll('bb-evidence .bbe-card')].map((c) => [c.dataset.metric, "
                               "c.querySelector('.val').textContent])"))
 
 
@@ -1241,7 +1279,7 @@ def _shows_its_record(page: Any, run: dict[str, Any]) -> list[str]:
     metric (which `check` proved equals the scorecard)."""
     record = json.loads((DATA / run["path"]).read_text())
     problems = []
-    title = page.evaluate("document.querySelector('#evidence .bbe-title')?.textContent || ''")
+    title = page.evaluate("document.querySelector('bb-evidence .bbe-title')?.textContent || ''")
     if run["solution"] not in title or run["task"] not in title:
         problems.append(f"{run['solution']} {run['task']}: the header reads {title!r}")
     shown = _cards(page)
@@ -1254,47 +1292,46 @@ def _shows_its_record(page: Any, run: dict[str, Any]) -> list[str]:
 
 
 def parity() -> dict[str, Any]:
-    """Every picker option, in headless Chromium: the solution picker is the index, each solution's task picker is its
-    shipped tasks, and each (solution, task) plays its own bb-run/1 record with every card reading the record's number.
-    Also: no page or console error, no request to a Python or MuJoCo runtime."""
+    """Every saved run, in headless Chromium on the page CI builds (blackbox_agent's stock landing, built from HEAD): the
+    explainer's run row lists exactly the runs state.json's playback slice lists, in the index's order, and each one,
+    picked by its chip, plays its own bb-run/1 record with every card reading the record's number. Also: no page or
+    console error, no request to a Python or MuJoCo runtime."""
     from playwright.sync_api import sync_playwright
 
     OUTPUTS.mkdir(parents=True, exist_ok=True)
+    record = built_site()
     index = json.loads((RECORDS / "index.json").read_text())
-    report: dict[str, Any] = {"checks": {}, "failures": []}
+    want = [(row["id"], task, entry["record"]) for row in index["solutions"] for task, entry in row["tasks"].items()]
+    report: dict[str, Any] = {"ref": record["ref"][:7], "package": record["package"], "checks": {}, "failures": []}
     errors: list[str] = []
     requests: list[str] = []
     played = 0
     with Server() as server, sync_playwright() as playwright:
         browser = _browser(playwright)
-        for row in index["solutions"]:
-            # WHY a fresh page per solution: the explainer keeps every record it drew; 244 at once is ~1 GB of JS heap
-            page = browser.new_page(viewport={"width": 1280, "height": 900})
-            _watch(page, errors, requests)
-            page.goto(f"{server.url}/index.html?solution={row['id']}")
-            _wait_run(page)
-            options = page.evaluate("[...document.getElementById('solution').options].map((o) => o.value)")
-            if options != [r["id"] for r in index["solutions"]]:
-                report["failures"].append(f"the solution picker lists {len(options)}, the index {len(index['solutions'])}")
-            tasks = page.evaluate("[...document.getElementById('task').options].map((o) => o.value)")
-            if tasks != [t["id"] for t in index["tasks"] if t["id"] in row["tasks"]]:
-                report["failures"].append(f"{row['id']}: the task picker shows {tasks}")
-            for task_id in tasks:
-                if page.evaluate("document.getElementById('task').value") != task_id:
-                    page.select_option("#task", task_id)
-                run = _wait_run(page, row["id"], task_id)
-                played += 1
-                if run["path"] != row["tasks"][task_id]["record"]:
-                    report["failures"].append(f"{row['id']} {task_id}: plays {run['path']}")
-                report["failures"] += _shows_its_record(page, run)
-            page.close()
+        page = browser.new_page(viewport={"width": 1280, "height": 900})
+        _watch(page, errors, requests)
+        page.goto(f"{server.url}/index.html")
+        _wait_run(page)
+        listed = page.evaluate("document.querySelector('bb-evidence').runs.map((r) => [r.solution, r.task, r.path])")
+        chips = page.evaluate("[...document.querySelectorAll('bb-evidence .bbe-runs button')].map((b) => b.dataset.run)")
+        if sorted(map(tuple, listed)) != sorted(want):
+            report["failures"].append(f"the page lists {len(listed)} runs, the index {len(want)}")
+        if chips != [path for _, _, path in listed]:
+            report["failures"].append(f"the run row has {len(chips)} chips for {len(listed)} listed runs")
+        for solution, task, path in listed:
+            run = _open_run(page, path)
+            played += 1
+            if (run["solution"], run["task"]) != (solution, task):
+                report["failures"].append(f"{path}: plays {run['solution']} {run['task']}")
+            report["failures"] += _shows_its_record(page, run)
+        page.close()
         browser.close()
     report["played"] = played
     report["shipped"] = index["rule"]["count"]
     report["errors"] = errors[:20]
     report["requests"] = {"count": len(requests), "hosts": sorted({u.split('/')[2] for u in requests}),
                           "runtime": [u for u in requests if RUNTIME_URL.search(u)]}
-    report["checks"] = {"every_option_plays_its_record": not report["failures"] and played == index["rule"]["count"],
+    report["checks"] = {"every_run_plays_its_record": not report["failures"] and played == index["rule"]["count"],
                         "no_page_or_console_errors": not errors, "no_runtime_requests": not report["requests"]["runtime"]}
     report["pass"] = all(report["checks"].values())
     (OUTPUTS / "parity.json").write_text(json.dumps(report, indent=1) + "\n")
@@ -1310,11 +1347,12 @@ def _element_png(page: Any, selector: str, path: Path) -> None:
 
 def _scene_png(page: Any) -> bytes:
     page.wait_for_timeout(250)  # the scene draws on the next animation frame
-    return page.locator("#evidence .bbe-scene").first.screenshot()
+    return page.locator("bb-evidence .bbe-scene").first.screenshot()
 
 
 def shoot(media: Path | None = None) -> dict[str, Any]:
-    """Headless checks and media (outputs/site/, or `media`): the default run loads, each metric card changes the scene
+    """Headless checks and media (outputs/site/, or `media`) on the page CI builds (blackbox_agent's stock landing, built
+    from HEAD; commit first): the default run loads, each metric card changes the scene
     and the readout, Lens <-> Recorder keeps the chosen metric, a lane opens its joints; screenshots of the first screen
     and the full page in light and dark and at 390 px (no sideways scroll, measured); a failing run in Recorder; zero
     page or console errors; the hero video."""
@@ -1322,13 +1360,15 @@ def shoot(media: Path | None = None) -> dict[str, Any]:
 
     out = media or OUTPUTS
     out.mkdir(parents=True, exist_ok=True)
+    record = built_site()
     index = json.loads((RECORDS / "index.json").read_text())
-    report: dict[str, Any] = {"checks": {}, "cards": {}}
+    best = index["rule"]["full"]["best"]
+    report: dict[str, Any] = {"ref": record["ref"][:7], "package": record["package"], "checks": {}, "cards": {}}
     errors: list[str] = []
     with Server() as server, sync_playwright() as playwright:
         browser = _browser(playwright)
 
-        # 1. desktop, light: the default (the best solution on the cube); every card clicked
+        # 1. desktop, light: the default (the first run the playback slice lists: the best admissible); every card clicked
         page = browser.new_page(viewport={"width": 1280, "height": 900}, color_scheme="light")
         _watch(page, errors)
         started = time.time()
@@ -1336,32 +1376,31 @@ def shoot(media: Path | None = None) -> dict[str, Any]:
         run = _wait_run(page)
         report["first_run_s"] = round(time.time() - started, 2)
         report["default"] = [run["solution"], run["task"]]
-        report["checks"]["default_is_the_best_on_the_cube"] = run["solution"] == index["rule"]["full"]["best"] \
-            and run["task"] == "workspace-dev-001"
+        report["checks"]["default_is_the_best_admissible"] = run["solution"] == best
         report["checks"]["cards_show_the_record"] = not _shows_its_record(page, run)
-        page.evaluate("document.getElementById('evidence').stop()")
+        page.evaluate("document.querySelector('bb-evidence').stop()")
         page.screenshot(path=str(out / "light-first-screen.png"))
         page.screenshot(path=str(out / "light-full.png"), full_page=True)
         before = _scene_png(page)
         record = json.loads((DATA / run["path"]).read_text())
         for metric in [m["id"] for m in record["metrics"] if m["id"] != "tool_track_rms_mm"] + ["tool_track_rms_mm"]:
-            page.click(f"#evidence .bbe-card[data-metric='{metric}']")
+            page.click(f"bb-evidence .bbe-card[data-metric='{metric}']")
             now = _scene_png(page)
-            explain = page.evaluate("document.querySelector('#evidence .bbe-explain h3')?.textContent || ''")
+            explain = page.evaluate("document.querySelector('bb-evidence .bbe-explain h3')?.textContent || ''")
             report["cards"][metric] = {"scene_changed": now != before, "explains": explain[:60]}
             before = now
         # Lens -> Recorder keeps the chosen metric; a lane opens its joints
-        page.click("#evidence .bbe-card[data-metric='saturation_share_pct']")
-        _element_png(page, "#evidence", out / "lens-torque.png")
-        page.click("#evidence [data-layout='recorder']")
+        page.click("bb-evidence .bbe-card[data-metric='saturation_share_pct']")
+        _element_png(page, "bb-evidence", out / "lens-torque.png")
+        page.click("bb-evidence [data-layout='recorder']")
         page.wait_for_timeout(300)
         report["checks"]["recorder_keeps_the_metric"] = page.evaluate(
-            "document.querySelector(\"#evidence .bbe-lane[data-metric='saturation_share_pct']\")?.getAttribute('aria-selected') === 'true'")
-        page.click("#evidence .bbe-lh[data-metric='tool_track_rms_mm']")
+            "document.querySelector(\"bb-evidence .bbe-lane[data-metric='saturation_share_pct']\")?.getAttribute('aria-selected') === 'true'")
+        page.click("bb-evidence .bbe-lh[data-metric='tool_track_rms_mm']")
         page.wait_for_timeout(300)
         report["checks"]["a_lane_opens_its_joints"] = page.evaluate(
-            "!!document.querySelector(\"#evidence .bbe-lane.open[data-metric='tool_track_rms_mm']\")")
-        _element_png(page, "#evidence", out / "recorder-best.png")
+            "!!document.querySelector(\"bb-evidence .bbe-lane.open[data-metric='tool_track_rms_mm']\")")
+        _element_png(page, "bb-evidence", out / "recorder-best.png")
         page.close()
 
         # 2. a failing run in Recorder: where each number failed, red on the timeline
@@ -1371,17 +1410,18 @@ def shoot(media: Path | None = None) -> dict[str, Any]:
         if failing:
             page = browser.new_page(viewport={"width": 1280, "height": 900}, color_scheme="light")
             _watch(page, errors)
-            page.goto(f"{server.url}/index.html?solution={failing[0]}&task={failing[1]}")
-            run = _wait_run(page, *failing)
+            page.goto(f"{server.url}/index.html")
+            _wait_run(page)
+            run = _open_run(page, next(row for row in index["solutions"] if row["id"] == failing[0])["tasks"][failing[1]]["record"])
             report["failing"] = list(failing)
             report["checks"]["failing_cards_show_the_record"] = not _shows_its_record(page, run)
-            page.evaluate("document.getElementById('evidence').stop()")
-            _element_png(page, "#evidence", out / "lens-failing.png")
-            page.click("#evidence [data-layout='recorder']")
+            page.evaluate("document.querySelector('bb-evidence').stop()")
+            _element_png(page, "bb-evidence", out / "lens-failing.png")
+            page.click("bb-evidence [data-layout='recorder']")
             page.wait_for_timeout(300)
-            _element_png(page, "#evidence", out / "recorder-failing.png")
+            _element_png(page, "bb-evidence", out / "recorder-failing.png")
             report["checks"]["failing_run_flags_red"] = page.evaluate(
-                "document.querySelectorAll('#evidence .bbe-sc .pf.bad').length") > 0
+                "document.querySelectorAll('bb-evidence .bbe-sc .pf.bad').length") > 0
             page.close()
 
         # 3. dark, and the phone (390 px: nothing may scroll sideways)
@@ -1392,7 +1432,7 @@ def shoot(media: Path | None = None) -> dict[str, Any]:
             _watch(page, errors)
             page.goto(f"{server.url}/index.html")
             _wait_run(page)
-            page.evaluate("document.getElementById('evidence').stop()")
+            page.evaluate("document.querySelector('bb-evidence').stop()")
             page.screenshot(path=str(out / f"{name}-first-screen.png"))
             page.screenshot(path=str(out / f"{name}-full.png"), full_page=True)
             width = page.evaluate("""() => ({scroll: document.documentElement.scrollWidth, inner: window.innerWidth,
@@ -1403,9 +1443,9 @@ def shoot(media: Path | None = None) -> dict[str, Any]:
             report[f"{name}_width"] = width
             report["checks"][f"{name}_no_sideways_scroll"] = width["scroll"] <= width["inner"] and not width["wider"]
             if name.startswith("phone"):
-                page.click("#evidence [data-layout='recorder']")
+                page.click("bb-evidence [data-layout='recorder']")
                 page.wait_for_timeout(300)
-                _element_png(page, "#evidence", out / f"{name}-recorder.png")
+                _element_png(page, "bb-evidence", out / f"{name}-recorder.png")
                 width = page.evaluate("({scroll: document.documentElement.scrollWidth, inner: window.innerWidth})")
                 report["checks"][f"{name}_recorder_no_sideways_scroll"] = width["scroll"] <= width["inner"]
             page.close()
@@ -1423,7 +1463,7 @@ def shoot(media: Path | None = None) -> dict[str, Any]:
         page.mouse.move(900, 700)
         _wait_run(page)
         page.wait_for_timeout(700)
-        page.evaluate("window.scrollTo({top: document.getElementById('scored').getBoundingClientRect().top + scrollY - 64, "
+        page.evaluate("window.scrollTo({top: document.querySelector('bb-evidence').getBoundingClientRect().top + scrollY - 64, "
                       "behavior: 'smooth'})")
         page.wait_for_timeout(900)
 
@@ -1434,15 +1474,18 @@ def shoot(media: Path | None = None) -> dict[str, Any]:
             page.mouse.click(x, y)
             page.wait_for_timeout(pause_ms)
 
-        glide("#evidence .bbe-strip .bbe-play", 1800)  # the saved run plays: the arm, its error whiskers, the cursor
-        glide("#evidence .bbe-card[data-metric='stop_error_max_mm']", 1500)
-        glide("#evidence [data-layout='recorder']", 1500)
-        glide("#evidence .bbe-lh[data-metric='saturation_share_pct']", 1400)
-        glide("#evidence [data-layout='lens']", 900)
-        box = page.locator("#task").bounding_box()
+        glide("bb-evidence .bbe-strip .bbe-play", 1800)  # the saved run plays: the arm, its error whiskers, the cursor
+        glide("bb-evidence .bbe-card[data-metric='stop_error_max_mm']", 1500)
+        glide("bb-evidence [data-layout='recorder']", 1500)
+        glide("bb-evidence .bbe-lh[data-metric='saturation_share_pct']", 1400)
+        glide("bb-evidence [data-layout='lens']", 900)
+        # another task of the best solution: its chip in the run row
+        chip = page.locator(f"bb-evidence .bbe-runs button[data-run='runs/{best}/workspace-dev-002.json']")
+        chip.scroll_into_view_if_needed()
+        box = chip.bounding_box()
         page.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2, steps=14)
-        page.select_option("#task", "workspace-dev-002")
-        _wait_run(page, index["rule"]["full"]["best"], "workspace-dev-002")
+        page.mouse.click(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
+        _wait_run(page, f"runs/{best}/workspace-dev-002.json")
         page.wait_for_timeout(1600)
         raw = Path(page.video.path())
         context.close()
