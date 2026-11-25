@@ -1,0 +1,84 @@
+{
+ "schema": "tta.dropins_build/1",
+ "what": "Trajectory Comparison, written by tools/build_dropins.py build from committed files (the tapes, the bb-run/1 records in site/data/runs/, the scorecards); never edit, rebuild.",
+ "made_by": {
+  "repo": {
+   "commit": "797153a",
+   "dirty": true
+  },
+  "traj_compare": {
+   "commit": "d837e75",
+   "dirty": true,
+   "version": "0.1.0"
+  },
+  "robot_msgs": {
+   "commit": "cf3709b",
+   "dirty": true
+  }
+ },
+ "solutions": [
+  {
+   "id": "p5s-pass3",
+   "role": "best admissible"
+  },
+  {
+   "id": "p6s",
+   "role": "best of generation 0"
+  }
+ ],
+ "tasks": [
+  "workspace-dev-000",
+  "workspace-dev-001",
+  "workspace-dev-002",
+  "workspace-dev-003",
+  "workspace-dev-004",
+  "workspace-dev-005",
+  "workspace-dev-006",
+  "workspace-dev-007",
+  "workspace-dev-008",
+  "workspace-dev-009",
+  "workspace-dev-010",
+  "workspace-dev-011",
+  "workspace-dev-012",
+  "workspace-dev-013",
+  "workspace-dev-014",
+  "workspace-dev-015",
+  "workspace-dev-016",
+  "workspace-dev-017",
+  "workspace-dev-018",
+  "workspace-dev-019",
+  "workspace-dev-020",
+  "workspace-dev-021",
+  "workspace-dev-022",
+  "workspace-dev-023",
+  "workspace-dev-024",
+  "workspace-dev-025",
+  "workspace-dev-026",
+  "workspace-dev-027",
+  "workspace-dev-028",
+  "workspace-dev-029",
+  "workspace-dev-030",
+  "workspace-dev-031",
+  "workspace-dev-032",
+  "workspace-dev-033",
+  "workspace-dev-034",
+  "workspace-dev-035",
+  "workspace-dev-036",
+  "workspace-dev-037",
+  "workspace-dev-038",
+  "workspace-dev-039",
+  "workspace-dev-040",
+  "workspace-dev-041"
+ ],
+ "assets": {
+  "uplot.min.css": "df630c6a8d6f8eeaff264b50f73ce5b114f646ffd9a0bb74f049b0a00135fa04",
+  "style.css": "6598b9caa8c5f0651b61df6386dcc4df587e7283a5259d06fcf042da9c477c49",
+  "uplot.iife.min.js": "7f29cd14e36d84141ab49c5e0a806d88e4d855596a9bc0e10799bc2c114b4c4f",
+  "three.min.js": "170c6789f43217c96b3170f4b42fafe135de7f7cd48497a4218f9757ee1d49fa",
+  "viewhelper.js": "3c5e9d7e97247bdac20607053430d7a05a3e49fa1baeacf8283a4c8e7ef80889",
+  "viewer3d.js": "fa138f3c56b17cb95b6d8161efda6afd4b98d81da0bbc9a65c9a31029ef258de",
+  "plots.js": "f0e9c2452670db8733137b001f39518b2aa39ae729f4e8fe50eef78ebf092510"
+ },
+ "fk_check_worst_mm": 0.0019125316353895666,
+ "bytes": 23578357
+}

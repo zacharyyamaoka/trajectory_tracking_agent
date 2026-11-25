@@ -1,0 +1,41 @@
+{
+  "schema": "tta-nav/1",
+  "what": "The header strip across the top of the drop-in pages (site/nav.js draws it): the box's name, then its pages left to right. Hand-written; every href is relative to this file. A page not on the site yet has href null and a note, and is drawn greyed, never as a link. Lane NAV's tabs replace this file and nav.js whole.",
+  "box": {
+    "name": "Trajectory Tracking Agent",
+    "href": "index.html"
+  },
+  "links": [
+    {
+      "id": "landing",
+      "label": "Landing",
+      "href": "index.html"
+    },
+    {
+      "id": "dashboard",
+      "label": "Dashboard",
+      "href": null,
+      "note": "not on the site yet"
+    },
+    {
+      "id": "comparison",
+      "label": "Trajectory Comparison",
+      "href": "comparison/index.html"
+    },
+    {
+      "id": "models-datasets",
+      "label": "Model × Dataset",
+      "href": "models-datasets/index.html"
+    },
+    {
+      "id": "coverage",
+      "label": "Trajectory Coverage",
+      "href": "datasets/ur5e/index.html"
+    },
+    {
+      "id": "deployments",
+      "label": "Deployments",
+      "href": "deployments/index.html"
+    }
+  ]
+}
