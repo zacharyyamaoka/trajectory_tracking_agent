@@ -60,7 +60,7 @@ generation 0) on the other 37 tasks. The run row lists only what ships. If the p
 
 | Path | What |
 |---|---|
-| `state.json` | bb-state/1, the viewer's fold of this repo at HEAD (the headliner reads it), plus the `playback` slice this build writes: every shipped run's record path (`runs/<solution>/<task>.json`, relative to `state.json`), `schema: "bb-run/1"` and a label |
+| `state.json` | bb-state/1, the viewer's fold of this repo at HEAD (the headliner reads it), plus the `playback` slice this build writes: every shipped run's record path (`runs/<solution>/<task>.json`, relative to `state.json`), `schema: "bb-run/1"`, a label and `admissible` (every gate passed on that task, the verdict the record shows; the run chips colour from it without fetching the record) |
 | `runs/<solution>/<task>.json` | one saved run as a **bb-run/1** record (the viewer's `schemas/run-record.schema.json`): the ruler's metrics with their rules, which samples each counted, where it failed and its peak; the time base and stops; channels (tool error, target and measured tool points and joint angles, torque and speed as a % of each cap, the lowest point's floor clearance, power); the arm's drawn geom poses (target ghost and measured) |
 | `runs/index.json` | per solution its shipped tasks (record, objective, every gate passed?) and what scored it (repo commit, robot_controllers / robot_msgs commits, `solution.py` sha256, date), and the build's honesty checks per run |
 | `page.json` | the black-box contract, the robot_msgs types, the leaderboard (from every scorecard), the best solution's code (the retired landing's; kept as the leaderboard's check) |

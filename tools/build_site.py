@@ -764,8 +764,11 @@ def export_records(index: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any
             (DATA / rel).write_text(text)
             shipped[task_id] = {"record": rel, "bytes": len(text.encode()), "objective": entry["objective"],
                                 "pass": entry["pass"], "checks": entry["checks"], "subset": entry["subset"]}
+            # WHY: blackbox_agent 0.1.5's <bb-evidence> colours each chip from `admissible` without fetching the
+            # record (else it loads every record, or on hover past 24 runs); it is this run's verdict (every gate
+            # passed on this task), the one the record shows, not the solution's.
             listed.append({"solution": row["id"], "task": task_id, "split": "dev", "path": rel, "schema": "bb-run/1",
-                           "label": label})
+                           "label": label, "admissible": entry["pass"]})
         if shipped:
             solutions.append({**{key: row[key] for key in ("id", "parent", "change", "tags", "objective", "admissible",
                                                            "gate_pass_rate", "scored")}, "tasks": shipped})

@@ -178,6 +178,23 @@ def test_every_picker_option_has_a_listed_valid_record(index, state, run_schema,
     assert (SITE / "data" / "solutions" / offered[0][0] / "solution.py").exists()
 
 
+def test_every_listed_run_carries_the_verdict_its_record_shows(index, state):
+    """Each state.playback.runs entry says `admissible`: true when that solution passed every gate on that task, the
+    verdict its record shows (every gate metric `passed`) and its index entry's `pass`. blackbox_agent 0.1.5's
+    <bb-evidence> colours a chip from it without fetching the record (else it loads all of them, or on hover past 24).
+    Both colours occur, so a constant cannot pass."""
+    passes = {(row["id"], task): entry["pass"] for row in index["solutions"] for task, entry in row["tasks"].items()}
+    seen = set()
+    for row in state["playback"]["runs"]:
+        assert isinstance(row.get("admissible"), bool), f"{row['path']}: no admissible verdict on the listed run"
+        record = json.loads((DATA / row["path"]).read_text())
+        gates = [metric["passed"] for metric in record["metrics"] if metric["kind"] == "gate"]
+        assert gates and row["admissible"] == all(gate is True for gate in gates), row["path"]
+        assert row["admissible"] == passes[(row["solution"], row["task"])], row["path"]
+        seen.add(row["admissible"])
+    assert seen == {True, False}
+
+
 def test_the_validator_can_fail(state, run_schema, playback_schema):
     """The validator above rejects what the viewer's ajv rejects: a record missing its time base, a metric of an unknown
     kind, a layer with neither poses nor a chain, a counted set that is two kinds at once, and a slice row whose
