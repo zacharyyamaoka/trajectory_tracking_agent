@@ -10,7 +10,7 @@ tracks: [trajectory-tracking-agent]
 specs: []
 source: [site/proposals/_build/build_data.py, tools/population_views.py]
 reacting_to: "the five proposals for showing what the metrics mean (lane P)"
-became: 53e6e66
+became: "53e6e66"
 ---
 
 # The viz reads the metrics out, never the solution

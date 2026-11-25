@@ -10,7 +10,7 @@ tracks: [trajectory-tracking-agent]
 specs: []
 source: [src/trajectory_tracking_agent/cli.py, tests/test_solutions_provenance.py]
 reacting_to: "17 of 18 generation-1 solutions recording no proposer"
-became: 78b84bd
+became: "78b84bd"
 ---
 
 # Every solution names the agent and model that proposed it

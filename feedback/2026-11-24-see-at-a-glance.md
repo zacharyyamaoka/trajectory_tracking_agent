@@ -10,7 +10,7 @@ tracks: [trajectory-tracking-agent]
 specs: []
 source: [site/proposals/_build/gallery_spec.py]
 reacting_to: "the landing page showing scores without saying what they mean"
-became: 53e6e66
+became: "53e6e66"
 ---
 
 # See at a glance what the metrics mean

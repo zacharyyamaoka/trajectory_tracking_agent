@@ -10,7 +10,7 @@ tracks: [trajectory-tracking-agent]
 specs: []
 source: [site/index.html]
 reacting_to: "the headliner proposals for the landing page (he picked Ticker v1)"
-became: 013e521
+became: "013e521"
 ---
 
 # This chart as the headline

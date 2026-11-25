@@ -10,7 +10,7 @@ tracks: [trajectory-tracking-agent]
 specs: [O1.1, O4.1]
 source: [OBJECTIVES.md]
 reacting_to: "arm_motion_bench's contract, amended v3.1 to v3.16 in four days"
-became: 09e3ba7
+became: "09e3ba7"
 ---
 
 # Freeze the API and the metrics before looking inside

@@ -10,7 +10,7 @@ tracks: [trajectory-tracking-agent]
 specs: []
 source: [site/README.md, tools/build_site.py]
 reacting_to: "the landing page running MuJoCo's WebAssembly build and Pyodide live in the browser"
-became: d693415
+became: "d693415"
 ---
 
 # Play back saved runs

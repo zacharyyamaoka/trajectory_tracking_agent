@@ -10,7 +10,7 @@ tracks: [trajectory-tracking-agent]
 specs: [O4.9]
 source: [tools/progress_chart.py, src/trajectory_tracking_agent/ledger.py, tests/test_ablation_tags.py]
 reacting_to: "PROGRESS.md counting the ablation study's variants as admissible solutions"
-became: f806e8a
+became: "f806e8a"
 ---
 
 # Ablation variants are not search progress

@@ -10,7 +10,7 @@ tracks: [trajectory-tracking-agent]
 specs: [O2.1]
 source: [datasets/ur5e_alone/workspace/v2/station.json]
 reacting_to: "the scene for arm_motion_bench's UR5e dataset (CONTRACT v3.16)"
-became: a38414c
+became: "a38414c"
 ---
 
 # Just the UR, nothing around it

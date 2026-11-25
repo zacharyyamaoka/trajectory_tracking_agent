@@ -10,7 +10,7 @@ tracks: [trajectory-tracking-agent]
 specs: [O4.3, O4.2]
 source: [OBJECTIVES.md, src/trajectory_tracking_agent/ruler/gates.py]
 reacting_to: "a standing rule from before this repo existed"
-became: 09e3ba7
+became: "09e3ba7"
 ---
 
 # A 1 mm tool gate at every stop

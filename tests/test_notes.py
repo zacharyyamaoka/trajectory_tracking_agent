@@ -364,3 +364,13 @@ def test_verify_runs_the_notes_check(monkeypatch, capsys):
     assert cli.main(["verify"]) == 1
     out = capsys.readouterr().out
     assert "FAIL: 1 problem(s) in specs/ and feedback/" in out and "a planted problem" in out
+
+
+def test_a_commit_sha_in_front_matter_is_quoted() -> None:
+    """A bare sha like 013e521 is a YAML 1.2 float (13e521 = infinity) to Obsidian and data-ui, though notes.py keeps it
+    as text; quoting every sha makes all three readers agree (lane TABS found data-ui writing it as null, 2026-11-24)."""
+    sha = re.compile(r'^(\w+):\s*([0-9a-f]{7,40})\s*$')
+    for path in sorted((REPO / "feedback").glob("*.md")) + sorted((REPO / "specs").glob("*.md")):
+        head = path.read_text().split("\n---", 1)[0]
+        bare = [line for line in head.splitlines() if sha.match(line)]
+        assert not bare, f"{path.name}: quote the sha: {bare}"
