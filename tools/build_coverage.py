@@ -23,6 +23,13 @@ What it writes, and from where (nothing is typed by hand; every number is read f
   `coverage.base`, `trajectories.json` and `parts.json` as it writes them) over the ruler's datasets of that robot, run in
   traj_compare's own venv (this repo does not depend on traj_compare). `index.html` is this site's host page around the
   writer's one `<data-workbench src="coverage.base">` element: the site bar on top, the same element under it.
+  Every trajectory's recording ships beside it (`rrd-<deployment>-<task>.rrd`, traj_compare's `write_trajectory_rrd`
+  with `robot=`: robot_msgs' stock JointTrajectory viewer, the arm on the left, tabs of q / qd / qdd / qddd / % of limit /
+  TCP on the right, no start / end ghosts), its record offering "Open in the Rerun web viewer" (app.rerun.io at the SDK
+  version that wrote it, `?url=` the file on GitHub Pages) and the download. The arm is `robot/<deployment>.urdf`
+  (tools/ruler_urdf.py: the ruler's own kinematics dressed in ur_description's meshes, BSD licence beside them); its tool
+  is the ruler's tool point (OBJECTIVES §2). `rrd_inputs.json` digests what each file was written from, so a rebuild
+  rewrites only the recordings whose inputs changed (tests/test_coverage_robot.py).
 - **site/vendor/data-ui/**: data-ui at a pinned commit, vendored by data-ui's own `vendor` command with only the views
   these pages draw (table, cards, chart, coverage), shared by both pages (the writer's `kit=`).
 - **The site bar** on both pages is the one include of the viewer's stock `<bb-site-nav>` reading site/nav.json
@@ -61,9 +68,10 @@ DATA_UI = Path(os.environ.get("TTA_DATA_UI", SIBLINGS / "data-ui"))
 LOCAL_OUT = REPO / "outputs" / "coverage-site"
 PUBLIC_URL = "https://zacharyyamaoka.github.io/trajectory_tracking_agent/"
 
-# data-ui at a pinned commit (main on 2026-11-24, with the coverage views §52 and the workbench §53). WHY pinned, not
+# data-ui at a pinned commit (main on 2026-11-25: the coverage views §52, the workbench §53, drill links keeping a
+# relative path's '/', the rail's URL encoding a value once and the pills' labels at 4.5:1, lane COV2). WHY pinned, not
 # "main": a rebuild must not change the kit underneath the committed pages; bump it here on purpose.
-DATA_UI_REF = "e8c73dc7f709af825ed88414b3586fa4f448958c"
+DATA_UI_REF = "1f7c0047aca1c68368ac684826d543c4177d2ef0"
 KIT = SITE / "vendor" / "data-ui"
 KIT_VIEWS = ("table", "cards", "chart", "coverage")
 # WHY these left out: like-obsidian/ (3.8 MB) opens a notes folder's record and python/ is the checker, neither used
@@ -395,25 +403,28 @@ def thumb_name(row: dict) -> str | None:
 # ── the Deployments page ────────────────────────────────────────────────────────────────────────────────────────────
 
 PAGE_CSS = """
-  :root { --bg: #f7f7f5; --surface: #ffffff; --surface-2: #f0f1ef; --ink: #1b1e23; --muted: #5e6570; --line: #e1e3e1;
-    --accent: #2c64d1; --accent-soft: #2c64d11f; --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  /* WHY --page-*: data-ui reads shadcn's token names from its host (--muted = a soft background, --accent = a hover
+     fill; site/vendor/data-ui/data-ui.css), so a host --muted text grey painted the "Showing" pills, the count, the
+     picked view tab and the group bands grey on grey (lane COV2, 2026-11-25). The page's own colours never use those names. */
+  :root { --bg: #f7f7f5; --surface: #ffffff; --surface-2: #f0f1ef; --ink: #1b1e23; --page-muted: #5e6570; --line: #e1e3e1;
+    --page-accent: #2c64d1; --page-accent-soft: #2c64d11f; --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color-scheme: light dark; }
   @media (prefers-color-scheme: dark) {
-    :root { --bg: #111317; --surface: #181b20; --surface-2: #1f2329; --ink: #e6e8eb; --muted: #a0a7b1; --line: #2a2f36;
-      --accent: #6c9cf0; --accent-soft: #6c9cf026; }
+    :root { --bg: #111317; --surface: #181b20; --surface-2: #1f2329; --ink: #e6e8eb; --page-muted: #a0a7b1; --line: #2a2f36;
+      --page-accent: #6c9cf0; --page-accent-soft: #6c9cf026; }
   }
   html, body { margin: 0; }
   body { background: var(--bg); color: var(--ink); font: 14px/1.45 var(--sans); }
   .page-head { padding: 14px 16px 10px; max-width: 1400px; }
   .page-head h1 { margin: 0 0 4px; font-size: 20px; }
-  .page-head p { margin: 0; color: var(--muted); max-width: 980px; }
+  .page-head p { margin: 0; color: var(--page-muted); max-width: 980px; }
   .page-head p + p { margin-top: 4px; }
-  .page-head p.small, .page-head details.small { font-size: 12.5px; color: var(--muted); }
+  .page-head p.small, .page-head details.small { font-size: 12.5px; color: var(--page-muted); }
   .page-head details.small { margin-top: 4px; max-width: 980px; }
   .page-head details.small summary { cursor: pointer; width: max-content; }
-  .page-head a { color: var(--accent); }
+  .page-head a { color: var(--page-accent); }
   .page-head code { font: 12.5px var(--mono); }
-  .notice { margin: 8px 0 0; padding: 8px 12px; border: 1px solid var(--line); border-left: 3px solid var(--muted);
+  .notice { margin: 8px 0 0; padding: 8px 12px; border: 1px solid var(--line); border-left: 3px solid var(--page-muted);
     border-radius: 6px; background: var(--surface); color: var(--ink); max-width: 980px; }
   .notice[hidden] { display: none; }
   main { padding: 0 16px 16px; min-width: 0; }
@@ -650,7 +661,12 @@ def workbench_main(argv: list[str]) -> None:
     parser.add_argument("--kit", required=True, help="the vendored data-ui kit's href, relative to --out")
     parser.add_argument("--thumbs", type=Path, required=True)
     parser.add_argument("--rrd", action="store_true", help="also write a .rrd per trajectory and the record's Rerun actions")
+    parser.add_argument("--urdf", action="append", default=[],
+                        help="<deployment>=<path>: draw that deployment's trajectories as this URDF arm (repeatable; with --tools)")
+    parser.add_argument("--tools", type=Path, default=None,
+                        help="the ruler's tool poses per trajectory in the URDF's root (an .npz the build writes)")
     parser.add_argument("--public-url", default=None)
+    parser.add_argument("--served-at", default="")
     parser.add_argument("--rerun-server", action="store_true")
     args = parser.parse_args(argv)
 
@@ -660,9 +676,10 @@ def workbench_main(argv: list[str]) -> None:
     from robot_msgs.std import Header
     from robot_msgs.trajectory import PoseTrajectory
     from traj_compare.coverage import analyze
-    from traj_compare.coverage.workbench import write_trajectory_rrd, write_workbench
+    from traj_compare.coverage.workbench import write_workbench
 
-    trajectories, tools, tags, rrd = {}, {}, {}, {}
+    urdfs = dict(item.split("=", 1) for item in args.urdf)
+    trajectories, tools, tags, rrd, tape_digest = {}, {}, {}, {}, {}
     counts = {}
     for key in args.dataset:
         folder = RULER_DATASETS / key
@@ -687,6 +704,7 @@ def workbench_main(argv: list[str]) -> None:
             # WHY a flat file name: the record's "Download the .rrd" fills {rrd} URL-encoded, so a "/" would reach a
             # static host as %2F, which GitHub Pages does not read as a folder
             rrd[name] = f"rrd-{deployment}-{row['task_id']}.rrd"
+            tape_digest[name] = listed[f"tapes/{tape.name}"]
         counts[key] = len(rows)
     n = len(trajectories)
     subtitle = (f"{len(args.dataset)} dataset{'s' if len(args.dataset) != 1 else ''} in ruler v1 · dev + holdout at speed "
@@ -694,22 +712,117 @@ def workbench_main(argv: list[str]) -> None:
     coverage = analyze(trajectories, tool=tools, tags=tags, group_by="dataset", title=args.title, subtitle=subtitle)
     out = args.out
     out.mkdir(parents=True, exist_ok=True)
-    for stale in list(out.glob("rrd-*.rrd")) + [out / "embed.html"]:
-        if stale.exists():
+    for stale in [*out.glob("rrd-*.rrd"), out / "embed.html"]:
+        if stale.exists() and not (args.rrd and stale.name in rrd.values()):
             stale.unlink()
-    if args.rrd:
-        for name, path in rrd.items():
-            write_trajectory_rrd(out / path, name, trajectories[name], tool=tools[name])
+    written = write_recordings(out, rrd, trajectories, tags, tape_digest, urdfs, args.tools) if args.rrd else {}
+    # WHY pages=False: this site brings its own page around the writer's one <data-workbench src="coverage.base">
+    # (write_datasets_host); WHY no Rerun server: GitHub Pages is static, so a record offers the Rerun web viewer at the
+    # SDK version that wrote the file (public_url: where Pages serves out_dir) and the download
     write_workbench(coverage, trajectories, out, tool=tools, title=args.title, subtitle=subtitle,
                     rrd_for=rrd if args.rrd else None, dataset="dataset", facets=("split", "kind"), lead=("deployment",),
                     kit=args.kit, public_url=args.public_url if args.rrd else None,
-                    rerun_server=bool(args.rrd and args.rerun_server))
-    # the writer's host shells: index.html is replaced by this site's host page (build), embed.html (its 1000 x 680
-    # demo host) is not shipped
-    (out / "embed.html").unlink(missing_ok=True)
+                    rerun_server=bool(args.rrd and args.rerun_server), served_at=args.served_at, pages=False)
     pictures = write_thumbs(out / "parts.json", out / "trajectories.json", args.thumbs, args.robot)
-    print(json.dumps({"trajectories": n, "datasets": counts, "thumbs": pictures,
+    print(json.dumps({"trajectories": n, "datasets": counts, "thumbs": pictures, **written,
                       "rrd_bytes": sum((out / p).stat().st_size for p in rrd.values()) if args.rrd else 0}))
+
+
+RRD_INPUTS = "rrd_inputs.json"
+
+
+def _viewer_sources() -> dict:
+    """What decides a recording's bytes besides its inputs: the Rerun SDK and the two files that write it (robot_msgs'
+    stock viewer, traj_compare's write_trajectory_rrd), by content. A change to either rewrites every .rrd; nothing else
+    does. WHY not their git commits: an unrelated commit in either repo would rewrite all 54 files (seen 2026-11-25)."""
+    import rerun
+    import robot_msgs.viz.rerun as viewer
+    import traj_compare.coverage.workbench as workbench
+
+    return {"rerun_sdk": rerun.__version__, "robot_msgs.viz.rerun": sha256(Path(viewer.__file__)),
+            "traj_compare.coverage.workbench": sha256(Path(workbench.__file__))}
+
+
+def write_recordings(out: Path, rrd: dict, trajectories: dict, tags: dict, tape_digest: dict, urdfs: dict,
+                     tools_npz: Path | None) -> dict:
+    """One .rrd per trajectory: robot_msgs' stock JointTrajectory viewer (traj_compare's write_trajectory_rrd with
+    robot=), the deployment's URDF arm on the left, the ruler's tool point as its tool, no start / end ghosts.
+
+    WHY only what changed is rewritten: a recording's bytes differ on every write (Rerun stamps ids and times), and the
+    54 files are ~90 MB of a public repo's history; so each file's inputs (its tape, the URDF folder, the tool poses, the
+    viewer's sources) are digested into rrd_inputs.json and an unchanged file is kept. Every file written is read back
+    with Rerun's own reader and refused if any string in it names a private path."""
+    import numpy as np
+    from robot_msgs.geometry.rotations import quat_from_matrix
+    from robot_msgs.std import Header
+    from robot_msgs.trajectory import PoseTrajectory
+    from traj_compare.coverage.workbench import write_trajectory_rrd
+
+    if tools_npz is None or not urdfs:
+        raise SystemExit("workbench --rrd needs --urdf <deployment>=<path> and --tools (the build passes both)")
+    viewer = _viewer_sources()
+    folder_digest = {}
+    for deployment, urdf in urdfs.items():
+        folder = Path(urdf).parent
+        folder_digest[deployment] = hashlib.sha256("".join(
+            f"{p.relative_to(folder).as_posix()}:{sha256(p)}\n" for p in sorted(folder.rglob("*")) if p.is_file()
+        ).encode()).hexdigest()
+    with np.load(tools_npz) as arrays:
+        names = json.loads(str(arrays["names"]))
+        poses = {name: (arrays[f"t_{i}"], arrays[f"p_{i}"], arrays[f"R_{i}"]) for i, name in enumerate(names)}
+    record_path = out / RRD_INPUTS
+    before = json.loads(record_path.read_text())["files"] if record_path.exists() else {}
+    files, wrote, kept = {}, [], []
+    for name, file in rrd.items():
+        deployment = tags[name]["deployment"]
+        t, positions, rotations = poses[name]
+        digest = hashlib.sha256(json.dumps({
+            "name": name, "tape": tape_digest[name], "robot": folder_digest[deployment], "ghosts": False,
+            "tool": hashlib.sha256(b"".join(np.ascontiguousarray(a, dtype="<f8").tobytes() for a in (t, positions, rotations))).hexdigest(),
+            "viewer": viewer}, sort_keys=True).encode()).hexdigest()
+        files[file] = digest
+        if before.get(file) == digest and (out / file).exists():
+            kept.append(file)
+            continue
+        # the ruler's tool point (OBJECTIVES §2), in the URDF's root link: the arm's tool path and its TCP tab
+        tool = PoseTrajectory(t=np.asarray(t, float), positions=np.asarray(positions, float),
+                              orientations=quat_from_matrix(np.asarray(rotations, float)), header=Header(frame_id=""))
+        write_trajectory_rrd(out / file, name, trajectories[name], tool=tool, robot=urdfs[deployment], ghosts=False)
+        hits = rrd_private_hits(out / file)
+        if hits:
+            (out / file).unlink()
+            raise SystemExit(f"{file}: private strings in the recording: {hits[:5]}")
+        wrote.append(file)
+    write_json(record_path, {
+        "about": "what each .rrd was written from (tools/build_coverage.py write_recordings): a file whose digest still "
+                 "matches its inputs is kept, never rewritten",
+        **viewer, "ghosts": False, "robot": {d: f"robot/{Path(u).name}" for d, u in urdfs.items()}, "files": files})
+    return {"rrd_written": len(wrote), "rrd_kept": len(kept)}
+
+
+def rrd_private_hits(path: Path) -> list[str]:
+    """Every string a recording holds (entity paths, string columns, field metadata; Rerun's own reader) and its raw
+    bytes, against PRIVATE. Runs in traj_compare's venv (rerun)."""
+    from rerun.chunk import RrdReader
+
+    # the raw bytes (latin-1, so every byte is one character) against the paths only: an e-mail-shaped run of bytes
+    # can occur by chance in compressed data
+    raw = sorted({match.group(0) for match in PRIVATE_PATHS.finditer(path.read_bytes().decode("latin-1"))})
+    strings = set()
+    for chunk in RrdReader(path).stream():
+        strings.add(chunk.entity_path)
+        batch = chunk.to_record_batch()
+        for field, column in zip(batch.schema, batch.columns, strict=True):
+            strings.add(field.name)
+            strings.update(f"{k!r}={v!r}" for k, v in (field.metadata or {}).items())
+            if "string" in str(column.type) or "utf8" in str(column.type):
+                strings.update(str(value) for value in column.to_pylist())
+    return raw + sorted({match.group(0) for text in strings for match in PRIVATE.finditer(text)})
+
+
+def scan_rrd_main(argv: list[str]) -> None:
+    """`scan-rrd <file>...` (runs in traj_compare's venv): print {file: [private strings]} for every recording given."""
+    print(json.dumps({path: rrd_private_hits(Path(path)) for path in argv}))
 
 
 def write_thumbs(parts_path: Path, trajectories_path: Path, out: Path, robot: str) -> list[str]:
@@ -774,6 +887,8 @@ DATASETS_HTML = """<!doctype html>
   #frame {{ min-width: 0; }}
   /* the element's own height: the window less what sits above it (set by the script below), never less than 560 px */
   data-workbench {{ display: block; --data-height: max(560px, calc(100vh - var(--above, 160px))); }}
+  .page-foot {{ padding: 6px 16px; font-size: 12px; color: var(--page-muted); border-top: 1px solid var(--line); }}
+  .page-foot a {{ color: var(--page-accent); }}
 </style>
 </head>
 <body>
@@ -787,12 +902,16 @@ DATASETS_HTML = """<!doctype html>
 </header>
 </div>
 <data-workbench id="coverage" src="coverage.base" aria-label="{robot_title}: trajectory coverage"></data-workbench>
+{foot}
 <script type="module" src="{kit}/data-ui.js"></script>
 <script type="module">
-  // the workbench's height: the window less the site bar and the header above it
+  // the workbench's height: the window less the site bar and the header above it, and the credit line under it
   const frame = document.getElementById('frame');
-  const fit = () => document.documentElement.style.setProperty('--above', frame.offsetHeight + 'px');
+  const foot = document.querySelector('.page-foot');
+  const fit = () => document.documentElement.style.setProperty('--above',
+    frame.offsetHeight + (foot ? foot.offsetHeight : 0) + 'px');
   new ResizeObserver(fit).observe(frame);
+  if (foot) new ResizeObserver(fit).observe(foot);
   fit();
   // a deep link to a deployment or dataset this page does not hold (deferred, not in the ruler) says why, from the
   // Deployments page's own rows, instead of showing an unexplained "0 of N"
@@ -823,6 +942,15 @@ DATASETS_HTML = """<!doctype html>
 """
 
 
+# WHY a credit on the page and the licence beside the meshes: ur_description is BSD-3-Clause, whose binary
+# redistribution (every .rrd embeds the meshes) must reproduce its notice in the materials that ship with it
+def robot_credit(out: Path) -> str:
+    urdfs = ", ".join(f'<a href="robot/{p.name}">{html.escape(p.name)}</a>' for p in sorted((out / "robot").glob("*.urdf")))
+    return ("The arm in each recording: the ruler's UR5e kinematics (robot_controllers' MuJoCo Menagerie model) dressed in "
+            "Universal Robots' ur_description collision meshes, BSD-3-Clause "
+            f'(<a href="robot/LICENSE.ur_description">licence</a>; the URDF: {urdfs}).')
+
+
 def write_datasets_host(out: Path, kit: str, robot_row: dict, rows: list[dict], rrd: bool) -> None:
     robot = robot_row["key"]
     mine = [row for row in rows if row["robot"] == robot]
@@ -842,16 +970,58 @@ def write_datasets_host(out: Path, kit: str, robot_row: dict, rows: list[dict], 
                             f"{html.escape(row['status_label'].lower())}{', ' + row['spec'] if row['spec'] else ''})"
                             for row in others)
                 + ". See <a href=\"../../deployments/\">Deployments</a>.")
-    if not rrd:
-        also += (" A trajectory's Rerun recording is not on the public site yet (about 8 MB of .rrd for this robot); "
-                 "its record copies the name.")
+    if rrd:
+        version = json.loads((out / RRD_INPUTS).read_text())["rerun_sdk"] if (out / RRD_INPUTS).exists() else "?"
+        also += (f" A trajectory's record opens its recording in the Rerun web viewer (Rerun {html.escape(version)}, "
+                 "the version that wrote it) or downloads the .rrd: the arm moving through the trajectory, the ruler's "
+                 "tool point (flange + 0.1 m) and its path, and tabs of q, qd, qdd, qddd, % of limit and TCP, in degrees. "
+                 + robot_credit(out))
+        foot = f'<footer class="page-foot">{robot_credit(out)}</footer>'
+    else:
+        also += " A trajectory's Rerun recording is not built here; its record copies the name."
+        foot = ""
     (out / "index.html").write_text(DATASETS_HTML.format(
         robot_title=html.escape(robot_row["name"]), kit=kit, css=PAGE_CSS, lede=lede, also=also.strip(),
-        bar=site_bar.tag(out / "index.html", "coverage")))
+        bar=site_bar.tag(out / "index.html", "coverage"), foot=foot))
+
+
+def write_robot(out: Path, datasets: list[str]) -> dict[str, Path]:
+    """The URDF arm each deployment's recordings draw (tools/ruler_urdf.py: the ruler's kinematics, ur_description's
+    meshes and BSD licence) into <out>/robot/, and the ruler's tool poses of every trajectory (its tool point in the
+    URDF's root) into outputs/coverage-build/<robot>-tools.npz. Returns {deployment: urdf path} and the .npz."""
+    import numpy as np
+    from robot_msgs import load_npz
+
+    import ruler_urdf
+
+    folder = out / "robot"
+    deployments = sorted({key.split("/")[0] for key in datasets})
+    files: dict[str, str] = {}
+    for deployment in deployments:
+        files.update(ruler_urdf.write(folder, deployment))
+    for stale in folder.glob("*.urdf"):
+        if stale.stem not in deployments:
+            stale.unlink()
+    arrays, names = {}, []
+    for key in datasets:
+        deployment = key.split("/")[0]
+        folder_in = RULER_DATASETS / key
+        for row in read_rows(folder_in / "tasks.jsonl"):
+            tape = folder_in / "tapes" / f"{row['task_id']}.npz"
+            trajectory = load_npz(tape)
+            positions, rotations = ruler_urdf.tool_poses(deployment, np.asarray(trajectory.positions, float))
+            index = len(names)
+            names.append(f"{deployment}/{row['task_id']}")
+            arrays.update({f"t_{index}": np.asarray(trajectory.t, float), f"p_{index}": positions, f"R_{index}": rotations})
+    scratch = REPO / "outputs" / "coverage-build"
+    scratch.mkdir(parents=True, exist_ok=True)
+    tools = scratch / f"{out.name}-tools.npz"
+    np.savez(tools, names=json.dumps(names), **arrays)
+    return {"urdf": {d: folder / f"{d}.urdf" for d in deployments}, "tools": tools, "files": files}
 
 
 def run_workbench(robot_row: dict, rows: list[dict], out: Path, kit: str, thumbs: Path, *, rrd: bool,
-                  public_url: str | None, rerun_server: bool) -> dict:
+                  public_url: str | None, rerun_server: bool, served_at: str = "") -> dict:
     datasets = [row["key"] for row in rows if row["robot"] == robot_row["key"] and row["level"] == "Dataset"
                 and row["status"] == "ruler-v1"]
     if not TRAJ_COMPARE_PYTHON.exists():
@@ -862,7 +1032,10 @@ def run_workbench(robot_row: dict, rows: list[dict], out: Path, kit: str, thumbs
     for key in datasets:
         command += ["--dataset", key]
     if rrd:
-        command.append("--rrd")
+        robot = write_robot(out, datasets)
+        command += ["--rrd", "--tools", str(robot["tools"]), "--served-at", served_at]
+        for deployment, urdf in robot["urdf"].items():
+            command += ["--urdf", f"{deployment}={urdf}"]
         if public_url:
             command += ["--public-url", public_url]
         if rerun_server:
@@ -911,15 +1084,17 @@ def build(args) -> None:
     workbench = {}
     for robot_row in [row for row in first if row["level"] == "Robot" and row["status"] == "ruler-v1"]:
         out = SITE / "datasets" / robot_row["key"]
-        made = run_workbench(robot_row, first, out, "../../vendor/data-ui", thumbs, rrd=args.rrd,
-                             public_url=f"{PUBLIC_URL}datasets/{robot_row['key']}/" if args.rrd else None,
-                             rerun_server=False)
+        # WHY every trajectory's recording ships (lane COV2, 2026-11-25; Zach picked the stock Rerun viewer, R3): the
+        # record opens it in the Rerun web viewer straight from GitHub Pages, and downloads it
+        made = run_workbench(robot_row, first, out, "../../vendor/data-ui", thumbs, rrd=True,
+                             public_url=f"{PUBLIC_URL}datasets/{robot_row['key']}/", rerun_server=False,
+                             served_at=f"/datasets/{robot_row['key']}/")
         print(f"datasets/{robot_row['key']}: {made}")
         workbench[robot_row["key"]] = json.loads((out / "trajectories.json").read_text())["rows"]
     rows = facts(workbench=workbench)
     write_deployments(rows, robots)
     for robot_row in [row for row in rows if row["level"] == "Robot" and row["in_workbench"]]:
-        write_datasets_host(SITE / "datasets" / robot_row["key"], "../../vendor/data-ui", robot_row, rows, rrd=args.rrd)
+        write_datasets_host(SITE / "datasets" / robot_row["key"], "../../vendor/data-ui", robot_row, rows, rrd=True)
     problems = check()
     report_sizes()
     if problems:
@@ -949,14 +1124,10 @@ def local(args) -> None:
     rows = json.loads((SITE / "deployments" / "deployments.json").read_text())["rows"]
     for robot_row in [row for row in rows if row["level"] == "Robot" and row["in_workbench"]]:
         target = out / "datasets" / robot_row["key"]
+        # served_at: Open in Rerun POSTs {rrd} to traj_compare.serve, which reads it against the served root
         made = run_workbench(robot_row, rows, target, "../../vendor/data-ui", out / "scratch-thumbs", rrd=True,
-                             public_url=None, rerun_server=True)
+                             public_url=None, rerun_server=True, served_at=f"/datasets/{robot_row['key']}/")
         write_datasets_host(target, "../../vendor/data-ui", robot_row, rows, rrd=True)
-        # WHY a link per .rrd at the served root: the record's Open in Rerun POSTs {rrd} to traj_compare.serve, which
-        # reads it against the served ROOT, while "Download the .rrd" reads it against the page (datasets/<robot>/);
-        # the two agree only for a workbench served at the root (asked of traj_compare, 2026-11-24)
-        for recording in target.glob("rrd-*.rrd"):
-            (out / recording.name).symlink_to(recording.relative_to(out))
         print(f"{target}: {made}")
     shutil.rmtree(out / "scratch-thumbs", ignore_errors=True)
     print(f"serve it: {TRAJ_COMPARE_PYTHON} -m traj_compare.serve {out} --port 8790   then /deployments/")
@@ -975,6 +1146,7 @@ def report_sizes() -> dict:
 
 
 PRIVATE = re.compile(r"/home/|bam_ws|zach_brain|\.claude|[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}")
+PRIVATE_PATHS = re.compile(r"/home/|/Users/|bam_ws|zach_brain|\.claude")
 
 
 def our_files() -> list[Path]:
@@ -1008,6 +1180,63 @@ def check() -> list[str]:
         problems += link_problems(row)
     problems += bar_problems()
     problems += [f"private: {hit}" for hit in private_hits(our_files())]
+    problems += recording_problems()
+    return problems
+
+
+FILE_LIMIT_BYTES = 100 * 1024 * 1024  # GitHub's per-file limit (tests/test_site_static.py cites it)
+
+
+def recording_problems() -> list[str]:
+    """Each Datasets page's recordings: one .rrd per trajectory row, on Pages at the row's rrd_url, listed in
+    rrd_inputs.json, under GitHub's per-file limit; the record's web viewer is the Rerun version that wrote them; the
+    URDF folder is what tools/ruler_urdf.py writes now (when arm_motion_bench is beside this repo) and ships its licence;
+    no recording holds a private string (read with Rerun's own reader, in traj_compare's venv, when it is there)."""
+    problems = []
+    for data in sorted((SITE / "datasets").glob("*/trajectories.json")):
+        out, robot = data.parent, data.parent.name
+        rows = json.loads(data.read_text())["rows"]
+        if not any(row.get("rrd") for row in rows):
+            continue
+        record = json.loads((out / RRD_INPUTS).read_text()) if (out / RRD_INPUTS).exists() else {"files": {}}
+        shipped = sorted(p.name for p in out.glob("*.rrd"))
+        if sorted(record["files"]) != shipped or sorted(row.get("rrd") or "" for row in rows) != shipped:
+            problems.append(f"datasets/{robot}: the .rrd files, {RRD_INPUTS} and the rows' rrd disagree")
+        for row in rows:
+            if row.get("rrd_url") != f"{PUBLIC_URL}datasets/{robot}/{row.get('rrd')}":
+                problems.append(f"datasets/{robot}: {row['name']}: rrd_url {row.get('rrd_url')!r} is not its file on Pages")
+        problems += [f"datasets/{robot}/{p.name}: over GitHub's 100 MiB per file" for p in out.glob("*.rrd")
+                     if p.stat().st_size > FILE_LIMIT_BYTES]
+        base = (out / "coverage.base").read_text()
+        viewer = f"https://app.rerun.io/version/{record.get('rerun_sdk')}/index.html?url={{rrd_url}}"
+        if viewer not in base:
+            problems.append(f"datasets/{robot}/coverage.base: no 'Open in the Rerun web viewer' at {viewer}")
+        folder = out / "robot"
+        if not (folder / "LICENSE.ur_description").exists():
+            problems.append(f"datasets/{robot}/robot: the meshes ship without ur_description's BSD licence")
+        try:
+            import ruler_urdf
+
+            for urdf in sorted(folder.glob("*.urdf")):
+                if urdf.read_text() != ruler_urdf.urdf_text(urdf.stem):
+                    problems.append(f"datasets/{robot}/robot/{urdf.name} differs from what tools/ruler_urdf.py writes: rebuild")
+            for mesh in sorted((folder / "meshes").glob("*")):
+                if mesh.read_bytes() != (ruler_urdf.UR_DESCRIPTION / "meshes" / mesh.name).read_bytes():
+                    problems.append(f"datasets/{robot}/robot/meshes/{mesh.name} differs from ur_description's")
+        except (FileNotFoundError, ImportError) as error:
+            print(f"note: the URDF folder is not re-derived ({error})")
+        if TRAJ_COMPARE_PYTHON.exists():
+            files = [str(p) for p in sorted(out.glob("*.rrd"))]
+            result = subprocess.run([str(TRAJ_COMPARE_PYTHON), str(Path(__file__).resolve()), "scan-rrd", *files],
+                                    capture_output=True, text=True, cwd=REPO,
+                                    env={k: v for k, v in os.environ.items() if k != "VIRTUAL_ENV"})
+            if result.returncode != 0:
+                problems.append(f"datasets/{robot}: could not read the recordings back: {result.stderr[-500:]}")
+            else:
+                for path, hits in json.loads(result.stdout.strip().splitlines()[-1]).items():
+                    problems += [f"private in {Path(path).name}: {hit}" for hit in hits]
+        else:
+            print(f"note: no traj_compare venv at {TRAJ_COMPARE_PYTHON}: the recordings' strings are not read back")
     return problems
 
 
@@ -1048,10 +1277,13 @@ def main() -> None:
     if len(sys.argv) > 1 and sys.argv[1] == "workbench":
         workbench_main(sys.argv[2:])
         return
+    if len(sys.argv) > 1 and sys.argv[1] == "scan-rrd":
+        scan_rrd_main(sys.argv[2:])
+        return
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = parser.add_subparsers(dest="command", required=True)
     b = sub.add_parser("build", help="facts -> site/deployments; traj_compare's workbench -> site/datasets; check")
-    b.add_argument("--rrd", action="store_true", help="also ship a .rrd per trajectory and 'Open in the Rerun web viewer'")
+    b.add_argument("--rrd", action="store_true", help="(the default since 2026-11-25: every trajectory's .rrd ships)")
     b.add_argument("--revendor", action="store_true", help="vendor data-ui again even when the pinned commit is there")
     sub.add_parser("check", help="the committed pages against their sources")
     sub.add_parser("pages", help="only the host pages (index.html: the site bar, the lede) from the committed rows")

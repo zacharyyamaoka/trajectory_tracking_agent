@@ -9,25 +9,28 @@
 <meta name="description" content="Every deployment (a robot and its scene) and its datasets: what ruler v1 scores, what is deferred and why. Pick one to open its datasets' trajectory coverage.">
 <link rel="stylesheet" href="../vendor/data-ui/data-ui.css">
 <style>
-  :root { --bg: #f7f7f5; --surface: #ffffff; --surface-2: #f0f1ef; --ink: #1b1e23; --muted: #5e6570; --line: #e1e3e1;
-    --accent: #2c64d1; --accent-soft: #2c64d11f; --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  /* WHY --page-*: data-ui reads shadcn's token names from its host (--muted = a soft background, --accent = a hover
+     fill; site/vendor/data-ui/data-ui.css), so a host --muted text grey painted the "Showing" pills, the count, the
+     picked view tab and the group bands grey on grey (lane COV2, 2026-11-25). The page's own colours never use those names. */
+  :root { --bg: #f7f7f5; --surface: #ffffff; --surface-2: #f0f1ef; --ink: #1b1e23; --page-muted: #5e6570; --line: #e1e3e1;
+    --page-accent: #2c64d1; --page-accent-soft: #2c64d11f; --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color-scheme: light dark; }
   @media (prefers-color-scheme: dark) {
-    :root { --bg: #111317; --surface: #181b20; --surface-2: #1f2329; --ink: #e6e8eb; --muted: #a0a7b1; --line: #2a2f36;
-      --accent: #6c9cf0; --accent-soft: #6c9cf026; }
+    :root { --bg: #111317; --surface: #181b20; --surface-2: #1f2329; --ink: #e6e8eb; --page-muted: #a0a7b1; --line: #2a2f36;
+      --page-accent: #6c9cf0; --page-accent-soft: #6c9cf026; }
   }
   html, body { margin: 0; }
   body { background: var(--bg); color: var(--ink); font: 14px/1.45 var(--sans); }
   .page-head { padding: 14px 16px 10px; max-width: 1400px; }
   .page-head h1 { margin: 0 0 4px; font-size: 20px; }
-  .page-head p { margin: 0; color: var(--muted); max-width: 980px; }
+  .page-head p { margin: 0; color: var(--page-muted); max-width: 980px; }
   .page-head p + p { margin-top: 4px; }
-  .page-head p.small, .page-head details.small { font-size: 12.5px; color: var(--muted); }
+  .page-head p.small, .page-head details.small { font-size: 12.5px; color: var(--page-muted); }
   .page-head details.small { margin-top: 4px; max-width: 980px; }
   .page-head details.small summary { cursor: pointer; width: max-content; }
-  .page-head a { color: var(--accent); }
+  .page-head a { color: var(--page-accent); }
   .page-head code { font: 12.5px var(--mono); }
-  .notice { margin: 8px 0 0; padding: 8px 12px; border: 1px solid var(--line); border-left: 3px solid var(--muted);
+  .notice { margin: 8px 0 0; padding: 8px 12px; border: 1px solid var(--line); border-left: 3px solid var(--page-muted);
     border-radius: 6px; background: var(--surface); color: var(--ink); max-width: 980px; }
   .notice[hidden] { display: none; }
   main { padding: 0 16px 16px; min-width: 0; }

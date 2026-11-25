@@ -9,22 +9,25 @@
 <meta name="description" content="Every solution on every dev task: the ruler's per-task tool tracking error, nested by family, rolled up per task kind and per dataset (median, mean or mean rank). Click a cell for its run.">
 <link rel="stylesheet" href="../vendor/data-ui/data-ui.css">
 <style>
-  :root { --bg: #f7f7f5; --surface: #ffffff; --ink: #1b1e23; --muted: #5e6570; --line: #e1e3e1; --accent: #2c64d1;
+  /* WHY --page-*: data-ui reads shadcn's token names from its host (--muted = a soft background, --accent = a hover
+     fill; site/vendor/data-ui/data-ui.css), so a host --muted text grey painted the "Showing" pills, the count, the
+     picked view tab and the group bands grey on grey (lane COV2, 2026-11-25). The page's own colours never use those names. */
+  :root { --bg: #f7f7f5; --surface: #ffffff; --ink: #1b1e23; --page-muted: #5e6570; --line: #e1e3e1; --page-accent: #2c64d1;
     --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color-scheme: light dark; }
   @media (prefers-color-scheme: dark) {
-    :root { --bg: #111317; --surface: #181b20; --ink: #e6e8eb; --muted: #a0a7b1; --line: #2a2f36; --accent: #6c9cf0; }
+    :root { --bg: #111317; --surface: #181b20; --ink: #e6e8eb; --page-muted: #a0a7b1; --line: #2a2f36; --page-accent: #6c9cf0; }
   }
   html, body { margin: 0; }
   body { background: var(--bg); color: var(--ink); font: 14px/1.45 var(--sans); }
   .page-head { padding: 14px 16px 10px; max-width: 1100px; }
   .page-head h1 { margin: 0 0 4px; font-size: 20px; }
-  .page-head p { margin: 0; color: var(--muted); }
+  .page-head p { margin: 0; color: var(--page-muted); }
   .page-head p + p { margin-top: 4px; }
-  .page-head a { color: var(--accent); }
+  .page-head a { color: var(--page-accent); }
   .page-head code { font: 12.5px var(--mono); }
   .page-head .small { font-size: 12.5px; }
-  .page-head details { margin-top: 4px; font-size: 12.5px; color: var(--muted); }
+  .page-head details { margin-top: 4px; font-size: 12.5px; color: var(--page-muted); }
   .page-head summary { cursor: pointer; width: max-content; max-width: 100%; }
   .frame { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: 0 16px; padding: 0 16px 16px; }
   .frame aside { min-width: 0; border-right: 1px solid var(--line); padding-right: 12px; }

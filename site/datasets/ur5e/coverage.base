@@ -26,7 +26,15 @@ style:
   families: { property: dataset, colors: { ur5e_alone/workspace/v2: 1 } }
   heatmap: { colormap: viridis, reverse: false, scale: linear }
 settings: [heatmap.colormap, heatmap.reverse, heatmap.scale]
-drill: { actions: [{ label: Copy its name, copy: '{name}', title: 'Copies {name}' }] }
+drill:
+  actions:
+    - label: Open in the Rerun web viewer
+      href: 'https://app.rerun.io/version/0.40.0/index.html?url={rrd_url}'
+      title: 'Opens {rrd} in Rerun 0.40.0''s web viewer (app.rerun.io)'
+    - label: Download the .rrd
+      href: '{rrd|path}'
+      title: 'For a Rerun 0.40.0 viewer: uvx --from rerun-sdk==0.40.0 rerun <file>'
+    - { label: Copy its name, copy: '{name}', title: 'Copies {name}' }
 datasets: { parts: { data: parts.json, label: Coverage parts } }
 links: [{ from: trajectories.id, to: parts.trajectory, direction: one-way }]
 pages:
