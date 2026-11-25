@@ -23,5 +23,5 @@ export default {
   events: ['bb-gate-select', 'bb-gate-view'],
   blocks: [],
   presets: [{ name: 'Gate history' }, { name: 'Gate history by commit', settings: { x: 'commit' } }, { name: 'Failures only', settings: { only_failing: true } }],
-  empty: 'No solution scored yet.',
+  empty: 'No solution scored yet. Each scored solution becomes a column here, a cell per gate: its ledger row\'s failed gates and the ruler\'s verdict on each.',
 };

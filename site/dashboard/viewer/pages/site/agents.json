@@ -19,7 +19,8 @@
         "slice": "agents.proposers",
         "base": "agents.base",
         "view": "Agents",
-        "height": 480
+        "height": 480,
+        "empty": "No agents yet. Each agent that proposed a solution appears here, from the proposed_by {agent, model} in solutions/*/meta.json (or one .md per agent in agents/)."
       }
     }
   },

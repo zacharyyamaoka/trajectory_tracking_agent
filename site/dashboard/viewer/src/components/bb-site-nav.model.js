@@ -8,11 +8,19 @@
    open tab never folding. Shipped with three changes from the prototype: every dashboard has an `href` (its entry page;
    NAV's `src`); the box's viewer is `tabs: "viewer"` (its tabs are the viewer's own, so a viewer that adds a tab needs no
    edit here); a drop-in lists its `pages` (its own row-2 tabs). No `fallback` and no `hide`: nothing is framed, every
-   page is its own URL and includes the bar itself (deep links, reload and Back are the browser's own). */
+   page is its own URL and includes the bar itself (deep links, reload and Back are the browser's own).
+
+   `layout` (lane NAV2, 2026-11-24 ~21:30): Zach, replying to lane NAV's 07 Title switcher menu on the live site, "Please
+   switch the top tabs to the drop down version I said I liked and that you did. its still the top row tabs but instead of
+   having them spread out its the drop down". So "switcher" (the box's name / the open dashboard ▾, the dashboards in a
+   grouped menu) is the default, a nav.json that names no layout included; "two-rows" (01, the dashboards spread out as
+   tabs) stays a setting. The row below is the same in both. */
 
 import { PAGES, PAGE_LABELS } from '../core/slices.js';
 
 export const SCHEMA = 'bb-site-nav/1';
+/** The top row's two looks; the first is the default (a nav.json without `layout`). */
+export const LAYOUTS = ['switcher', 'two-rows'];
 /** The fold order of the viewer's tabs (lane NAV's nav.json, measured at 1280 / 1024 / 390): 1 folds last. */
 export const BOX_PRIORITY = { overview: 1, spec: 2, feedback: 2, iterations: 2, ablation: 3, analysis: 3, ideas: 3,
   agents: 4, activity: 4, audits: 4, references: 4, notes: 4 };
@@ -35,6 +43,7 @@ export function validate(doc) {
     if (site.landing !== undefined && !(str(site.landing) && REL.test(site.landing))) out.push(`site.landing: ${JSON.stringify(site.landing)} is not a relative path inside the site`);
     if (site.repo !== undefined && !/^https?:\/\/\S+$/.test(String(site.repo))) out.push(`site.repo: ${JSON.stringify(site.repo)} is not an http(s) URL`);
   }
+  if (doc.layout !== undefined && !LAYOUTS.includes(doc.layout)) out.push(`layout: ${JSON.stringify(doc.layout)} is ${LAYOUTS.map((l) => `"${l}"`).join(' or ')}`);
   const groups = Array.isArray(doc.groups) ? doc.groups : [];
   if (!Array.isArray(doc.groups) || !groups.length) out.push('groups: at least one {id, label, kind}');
   const gids = new Set();
@@ -117,7 +126,7 @@ export function makeModel(doc, navUrl, { own = [] } = {}) {
   });
   const home = dashboards.find((d) => d.id === doc.site.home) || dashboards[0];
   return { site: { name: doc.site.name, landing: at(doc.site.landing || 'index.html'), repo: doc.site.repo || null, home: home.id },
-    groups: doc.groups, dashboards, overflow: { label: 'More', ...(doc.overflow || {}) } };
+    layout: doc.layout || LAYOUTS[0], groups: doc.groups, dashboards, overflow: { label: 'More', ...(doc.overflow || {}) } };
 }
 
 /** Where a page is: {dash, tab}. `current` (a dashboard id) and `page` (a tab or page id) win; else the URL picks: the
@@ -146,4 +155,18 @@ export function locate(model, { url = null, current = '', page = '' } = {}) {
     left; the open item never folds (lane NAV's rule, nav.json `overflow.fold`). */
 export function foldOrder(items, keepId) {
   return items.filter((t) => t.id !== keepId).slice().sort((a, b) => (b.priority - a.priority) || (b.index - a.index)).map((t) => t.id);
+}
+
+/** The switcher's menu: [{id, label, kind, color, items: [{id, label, icon, about, by, href, group, current}]}], one entry
+    per group that has a dashboard, in the order its first dashboard comes in `order`, its dashboards in `order` (a group
+    split by `order` still gets one heading). `currentId` = the open dashboard ('' on the landing: nothing checked). */
+export function switcherMenu(model, currentId = '') {
+  const out = [];
+  const byGroup = new Map();
+  for (const d of model.dashboards) {
+    const g = d.group || { id: '', label: '' };
+    if (!byGroup.has(g.id)) { const entry = { id: g.id, label: g.label, kind: g.kind, color: g.color || null, items: [] }; byGroup.set(g.id, entry); out.push(entry); }
+    byGroup.get(g.id).items.push({ id: d.id, label: d.label, icon: d.icon, about: d.about, by: d.by, href: d.href, group: d.group, current: d.id === currentId });
+  }
+  return out;
 }

@@ -10,5 +10,5 @@ export default {
   ],
   blocks: [],
   presets: [{ name: 'Page' }],
-  empty: 'This page has no sections.',
+  empty: 'This page has no sections. Each section listed in page.json\'s order draws here.',
 };

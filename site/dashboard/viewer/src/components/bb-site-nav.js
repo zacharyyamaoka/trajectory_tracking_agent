@@ -1,9 +1,15 @@
-/* <bb-site-nav>: the box's site bar, the same on every page (viewer/CONTRACT.md §18). Lane NAV's pick, 01 Two rows
-   (PICKS.md 2026-11-24 ~21:30; proposals-nav/): the brand row names the box (a link to its landing page) and holds the
-   dashboards; the row below holds the open dashboard's own tabs: the viewer's tabs with their counts on the box's own
-   dashboard, a drop-in's pages (and where in it you are) on a drop-in. A row that does not fit folds into More ▾
-   (priority-plus: short labels first, then the highest priority number, right to left); the open tab never folds.
-   Nothing on the left (Zach, 2026-11-24: "Out of scope is things that require things going on the left").
+/* <bb-site-nav>: the box's site bar, the same on every page (viewer/CONTRACT.md §18). The brand row names the box (a link
+   to its landing page) and the dashboards; the row below holds the open dashboard's own tabs: the viewer's tabs with their
+   counts on the box's own dashboard, a drop-in's pages (and where in it you are) on a drop-in. A row that does not fit
+   folds into More ▾ (priority-plus: short labels first, then the highest priority number, right to left); the open tab
+   never folds. Nothing on the left (Zach, 2026-11-24: "Out of scope is things that require things going on the left").
+
+   Two looks for the brand row, nav.json `layout` (§18.2):
+   - "switcher", the default (lane NAV2): lane NAV's 07 Title switcher, "Box name / Black box ▾", the ▾ opening every
+     dashboard under its group's heading (icon, name, the one-line about, a check on the open one). WHY: Zach, replying to
+     07's menu on the live site (2026-11-24 ~21:30), "Please switch the top tabs to the drop down version I said I liked
+     and that you did. its still the top row tabs but instead of having them spread out its the drop down".
+   - "two-rows": lane NAV's 01 (PICKS.md 2026-11-24 ~21:30), the dashboards spread out as tabs in the brand row.
 
    One include per page, right after <body>, and every page of the site reads the same nav.json:
      <bb-site-nav src="../nav.json" current="comparison"></bb-site-nav>
@@ -12,8 +18,9 @@
    (?deployment=…#tab=…, runs/<task>/report.html#tab=track) survive a reload and are shareable, Back is the browser's, and
    nothing is symlinked (GitHub Pages serves one site/ folder).
 
-   The bar's heights are fixed per width band (46 + 36 px from 761 px; 78 + 36 px below), so it is the same height on
-   every page whatever the page's own CSS; it sets its own font, spacing and resets for the same reason. */
+   The bar's heights are fixed per width band (46 + 36 px from 761 px; 78 + 36 px below), the same for both layouts, so it
+   is the same height on every page whatever the page's own CSS; it sets its own font, spacing and resets for the same
+   reason. */
 import { BBElement, esc } from '../core/element.js';
 import { register } from '../core/registry.js';
 import { fill } from '../core/context.js';
@@ -21,7 +28,7 @@ import { customTabs } from '../core/tabs.js';
 import { APPEARANCES, APPEARANCE_KEY, currentAppearance, setAppearance, restoreAppearance, storedAppearance } from '../core/appearance.js';
 import { GITHUB, GEAR } from '../core/icons.js';
 import { BBNav } from './bb-nav.js';
-import { makeModel, locate, foldOrder } from './bb-site-nav.model.js';
+import { makeModel, locate, foldOrder, switcherMenu } from './bb-site-nav.model.js';
 import schema from './bb-site-nav.schema.js';
 
 const svg = (d, extra = '') => `<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"${extra}>${d}</svg>`;
@@ -32,6 +39,7 @@ export const SITE_ICONS = {
   comparison: svg('<path d="M1.8 11.5c2.3 0 3-6.5 6.2-6.5s3.6 4 6.2 4"/><path d="M1.8 12.8c2.6 0 3.4-5.2 6.2-5.2 2.4 0 3.4 2.6 6.2 2.6" stroke-dasharray="1.6 1.6"/>'),
   grid: svg('<rect x="1.8" y="1.8" width="12.4" height="12.4" rx="2"/><path d="M1.8 6h12.4M1.8 10h12.4M6 1.8v12.4M10 1.8v12.4"/>'),
   chevron: svg('<path d="m4.5 6.2 3.5 3.5 3.5-3.5"/>', ' class="bbs-chev"'),
+  check: svg('<path d="m3.5 8.4 3 3 6-6.6"/>'),
 };
 const ATTRS = ['src', 'current', 'page', 'here', 'href', 'theme'];
 
@@ -75,7 +83,7 @@ bb-site-nav .is-short .bbs-tab .s { display: inline; }
 bb-site-nav .bbs-dash .bbs-tab { height: 40px; padding: 0 12px; gap: 7px; font-size: 14.5px; border-bottom-width: 3px; }
 bb-site-nav .bbs-dash .bbs-tab[aria-current="page"] { color: var(--bb-accent); border-bottom-color: var(--bb-accent); font-weight: 600; }
 bb-site-nav .bbs-dash .bbs-tab[aria-current="page"]:hover { background: none; }
-bb-site-nav .bbs-dash .bbs-tab .dot { width: 7px; height: 7px; border-radius: 2px; background: var(--g, var(--bb-accent)); flex: none; }
+bb-site-nav .dot { width: 7px; height: 7px; border-radius: 2px; background: var(--g, var(--bb-accent)); flex: none; }
 bb-site-nav .bbs-right { align-self: center; margin-left: auto; display: flex; gap: 4px; align-items: center; flex: none; }
 bb-site-nav .bbs-pill { display: inline-flex; gap: 6px; align-items: center; height: 28px; padding: 0 10px; border-radius: 14px; font-size: 13px; white-space: nowrap;
   border: 1px solid var(--bb-border); color: var(--bb-muted); }
@@ -114,6 +122,23 @@ bb-site-nav .bbs-menu a { display: flex; align-items: center; gap: 10px; padding
 bb-site-nav .bbs-menu a .c { margin-left: auto; color: var(--bb-muted); font-size: 12.5px; font-variant-numeric: tabular-nums; }
 bb-site-nav .bbs-menu a:hover, bb-site-nav .bbs-menu a:focus { background: var(--bb-hover); outline: none; }
 bb-site-nav .bbs-menu a[aria-current="page"] { background: var(--bb-subtle); font-weight: 600; }
+/* the switcher (layout "switcher"): "Box name / Black box ▾" (lane NAV's 07, proposals-nav/_shared/nav-styles.js) */
+bb-site-nav .bbs-slash { align-self: center; flex: none; margin: 0 -4px; color: var(--bb-border); font-size: 20px; font-weight: 300; line-height: 1; }
+bb-site-nav .bbs-switch-wrap { align-self: center; display: flex; flex: 0 1 auto; min-width: 0; }
+bb-site-nav .bbs-switch { display: inline-flex; align-items: center; gap: 7px; height: 32px; max-width: 100%; min-width: 0; padding: 0 9px 0 8px; overflow: hidden;
+  border: 1px solid var(--bb-border); border-radius: var(--bb-radius); background: var(--bb-bg); color: var(--bb-fg); font-size: 14.5px; font-weight: 600;
+  white-space: nowrap; cursor: pointer; }
+bb-site-nav .bbs-switch:hover, bb-site-nav .bbs-switch[aria-expanded="true"] { background: var(--bb-hover); }
+bb-site-nav .bbs-switch .lbl { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+bb-site-nav .bbs-switch[aria-expanded="true"] .bbs-chev { transform: rotate(180deg); }
+bb-site-nav .bbs-menu.is-switcher { min-width: 300px; max-width: min(660px, calc(100vw - 16px)); }
+bb-site-nav .bbs-menu.is-switcher a { align-items: flex-start; white-space: normal; }
+bb-site-nav .bbs-menu.is-switcher a > svg { margin-top: 2px; color: var(--bb-muted); }
+bb-site-nav .bbs-menu.is-switcher a > .dot { margin: 6px 4px 0; }
+bb-site-nav .bbs-menu.is-switcher .t { display: grid; gap: 1px; min-width: 0; }
+bb-site-nav .bbs-menu.is-switcher .t small { color: var(--bb-muted); font-size: 12.5px; font-weight: 400; line-height: 1.35; }
+bb-site-nav .bbs-menu.is-switcher .ck { flex: none; margin-left: auto; padding-left: 8px; color: var(--bb-accent); visibility: hidden; }
+bb-site-nav .bbs-menu.is-switcher a[aria-current="page"] .ck { visibility: visible; }
 bb-site-nav .bbn-pop { position: fixed; z-index: 60; width: 280px; max-width: calc(100vw - 16px); background: var(--bb-bg); color: var(--bb-fg);
   border: 1px solid var(--bb-border); border-radius: calc(var(--bb-radius) + 4px); box-shadow: 0 10px 30px rgba(0, 0, 0, .14); padding: 12px 14px; font-size: 13.5px; line-height: 1.4; }
 bb-site-nav .bbn-pop h2 { font-size: 13px; font-weight: 650; margin: 0 0 10px; color: var(--bb-fg); letter-spacing: normal; }
@@ -125,13 +150,18 @@ bb-site-nav .bbn-seg button[aria-checked="true"] { background: var(--bb-subtle);
 bb-site-nav .bbn-pop .note { color: var(--bb-muted); font-size: 12px; margin: 8px 0 0; }
 bb-site-nav .bbs-fail { align-self: center; color: var(--bb-muted); font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 @media (max-width: 760px) {
-  bb-site-nav .bbs-head { flex-wrap: wrap; height: auto; padding: 0 8px; gap: 0 8px; }
+  bb-site-nav .bbs-head { flex-wrap: wrap; height: auto; min-height: 78px; padding: 0 8px; gap: 0 8px; }
   bb-site-nav .bbs-brand { height: 40px; line-height: 40px; flex: 1 1 0; max-width: none; }
   bb-site-nav .bbs-right { height: 40px; }
   bb-site-nav .bbs-dash { order: 3; flex: 1 1 100%; height: 38px; padding-left: 0; }
   bb-site-nav .bbs-dash .bbs-tab, bb-site-nav .bbs-dash .bbs-more { height: 36px; padding: 0 8px; font-size: 13.5px; }
   bb-site-nav .bbs-sub { padding: 0 8px; }
   bb-site-nav .bbs-sub .bbs-tab, bb-site-nav .bbs-sub .bbs-more, bb-site-nav .bbs-crumb { padding: 0 8px; }
+  /* the switcher on a phone: the ▾ gets its own full-width row under the box's name (07's phone layout), 40 + 38 px */
+  bb-site-nav .bbs-head.is-switcher .bbs-slash { display: none; }
+  bb-site-nav .bbs-head.is-switcher .bbs-switch-wrap { order: 3; flex: 1 1 100%; align-self: stretch; height: 38px; align-items: flex-start; }
+  bb-site-nav .bbs-head.is-switcher .bbs-switch { flex: 1 1 auto; justify-content: flex-start; }
+  bb-site-nav .bbs-head.is-switcher .bbs-switch .bbs-chev { margin-left: auto; }
 }
 @media (max-width: 480px) {
   /* WHY tighter here: the four dashboards stay one click away on a 390 px phone with the open one in bold (lane NAV
@@ -241,7 +271,7 @@ bb-site-nav .bbs-fail { align-self: center; color: var(--bb-muted); font-size: 1
       const icon = SITE_ICONS[x.icon] || (x.group && x.group.kind === 'domain' ? `<span class="dot"${groupVars(x.group)}></span>` : '');
       return `<a class="bbs-tab" href="${esc(href)}" data-item="${esc(x.id)}"${open ? ' aria-current="page"' : ''}${x.short !== x.label ? ` title="${esc(x.label)}"` : ''}>${icon}${label(x)}</a>`;
     }).join('');
-    const more = (row) => `<span class="bbs-more-wrap" data-more-wrap hidden><button type="button" class="bbs-more" data-more="${row}" aria-haspopup="menu" aria-expanded="false"><span class="ml">${esc(model.overflow.label || 'More')}</span>${SITE_ICONS.chevron}</button></span>`;
+    const more = (row) => `<span class="bbs-more-wrap" data-more-wrap hidden><button type="button" class="bbs-more" data-more="${row}" aria-haspopup="menu" aria-expanded="false" aria-controls="${this.popId('menu')}"><span class="ml">${esc(model.overflow.label || 'More')}</span>${SITE_ICONS.chevron}</button></span>`;
     const needs = s.needs_pill && dash && dash.kind === 'viewer' && Array.isArray(d.needs) ? d.needs.length : null;
     const pillHref = onViewer ? fill(s.href, { page: 'overview' }) : (dash ? `${dash.href}#overview` : '');
     const pill = needs !== null ? `<a class="bbs-pill${needs ? ' on' : ''}" href="${esc(pillHref)}" data-need title="${needs ? 'open asks only Zach can answer' : 'nothing is waiting on Zach'}">Needs you <b>${needs}</b></a>` : '';
@@ -249,9 +279,22 @@ bb-site-nav .bbs-fail { align-self: center; color: var(--bb-muted); font-size: 1
     const repoName = repo ? (() => { try { return new URL(repo).pathname.replace(/^\/|\/$|\.git$/g, ''); } catch { return repo; } })() : '';
     const gh = repo ? `<a class="bbs-icon" href="${esc(repo)}" target="_blank" rel="noopener" data-github aria-label="${esc(repoName)} on GitHub" title="${esc(repoName)} on GitHub">${GITHUB}</a>` : '';
     const gear = `<button type="button" class="bbs-icon" data-settings aria-haspopup="dialog" aria-expanded="false" aria-controls="${this.popId('settings')}" aria-label="Settings" title="Settings">${GEAR}</button>`;
-    const head = `<div class="bbs-head"><a class="bbs-brand" href="${esc(model.site.landing)}" title="${esc(model.site.name)}: the landing page">${esc(model.site.name)}</a>`
-      + `<div class="bbs-row bbs-dash" data-fit="dash" role="navigation" aria-label="Dashboards">${dashes}${more('dash')}</div>`
-      + `<div class="bbs-right">${pill}${gh}${gear}</div></div>`;
+    const brand = `<a class="bbs-brand" href="${esc(model.site.landing)}" title="${esc(model.site.name)}: the landing page">${esc(model.site.name)}</a>`;
+    const right = `<div class="bbs-right">${pill}${gh}${gear}</div>`;
+    let head;
+    if (model.layout === 'switcher') {
+      // "Box name / Black box ▾": a WAI-ARIA menu button; the menu (every dashboard by group) is drawn when it opens
+      const icon = dash ? SITE_ICONS[dash.icon] || (dash.group && dash.group.kind === 'domain' ? `<span class="dot"${groupVars(dash.group)}></span>` : '') : '';
+      const name = dash ? dash.label : 'Dashboards';
+      head = `<div class="bbs-head is-switcher">${brand}<span class="bbs-slash" aria-hidden="true">/</span>`
+        + `<div class="bbs-switch-wrap" role="navigation" aria-label="Dashboards"><button type="button" class="bbs-switch" data-switch aria-haspopup="menu" aria-expanded="false" aria-controls="${this.popId('menu')}"`
+        + ` aria-label="${esc(dash ? `Dashboard: ${name}. Switch dashboard` : 'Dashboards')}" title="Switch dashboard">${icon}<span class="lbl">${esc(name)}</span>${SITE_ICONS.chevron}</button></div>`
+        + `${right}</div>`;
+    } else {
+      head = `<div class="bbs-head">${brand}`
+        + `<div class="bbs-row bbs-dash" data-fit="dash" role="navigation" aria-label="Dashboards">${dashes}${more('dash')}</div>`
+        + `${right}</div>`;
+    }
     // the row below: the open dashboard's own tabs (the viewer's, with counts) or pages (a drop-in's), where in it, what it is
     let sub = '<div class="bbs-sub"></div>';
     if (dash) {
@@ -260,7 +303,7 @@ bb-site-nav .bbs-fail { align-self: center; color: var(--bb-muted); font-size: 1
       const about = dash.kind === 'pages' && (dash.about || dash.by) ? `<span class="bbs-about" title="${esc([dash.about, dash.by].filter(Boolean).join(' · '))}">${esc(dash.about)}${dash.by ? ` <span style="opacity:.8">· ${esc(dash.by)}</span>` : ''}</span>` : '';
       sub = `<div class="bbs-sub"><div class="bbs-row" data-fit="tabs" role="navigation" aria-label="${esc(dash.label)}">${tabs}${more('tabs')}</div>${here}${about}</div>`;
     }
-    this.innerHTML = head + sub + this.sitePop() + `<div class="bbs-menu" data-menu role="menu" hidden></div>`;
+    this.innerHTML = head + sub + this.sitePop() + `<div class="bbs-menu" data-menu id="${this.popId('menu')}" role="menu" hidden></div>`;
     this.wire();
     this.fit();
   }
@@ -278,10 +321,17 @@ bb-site-nav .bbs-fail { align-self: center; color: var(--bb-muted); font-size: 1
       const go = this.context.open(this, { kind: 'need', id: 'needs', href: pill.getAttribute('href') });
       if (!go) e.preventDefault();
     });
-    this.querySelectorAll('[data-more]').forEach((b) => {
-      b.addEventListener('click', (e) => { e.stopPropagation(); this.toggleMenu(b); });
-      b.addEventListener('keydown', (e) => { if (e.key === 'ArrowDown' && b.getAttribute('aria-expanded') !== 'true') { e.preventDefault(); this.toggleMenu(b); } });
-    });
+    // a menu button (More ▾, the switcher): Enter / Space / a click toggle it; ↓ opens it on the open item (else the
+    // first), ↑ on the last
+    const menuButton = (b, open) => {
+      b.addEventListener('click', (e) => { e.stopPropagation(); open(b); });
+      b.addEventListener('keydown', (e) => {
+        if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && b.getAttribute('aria-expanded') !== 'true') { e.preventDefault(); open(b, e.key === 'ArrowUp' ? 'last' : 'current'); }
+      });
+    };
+    this.querySelectorAll('[data-more]').forEach((b) => menuButton(b, (x, focus) => this.toggleMenu(x, focus)));
+    const sw = this.querySelector('[data-switch]');
+    if (sw) menuButton(sw, (x, focus) => this.toggleSwitch(x, focus));
   }
 
   /** Priority-plus, per row: short labels first, then fold (the highest priority number first, right to left) until the
@@ -320,30 +370,70 @@ bb-site-nav .bbs-fail { align-self: center; color: var(--bb-muted); font-size: 1
   }
 
   /** More ▾: the folded items as a menu under the button (WAI-ARIA menu button: arrows, Home/End, Escape). */
-  toggleMenu(btn) {
-    const menu = this.querySelector('[data-menu]');
-    if (!menu) return;
-    const open = btn.getAttribute('aria-expanded') === 'true';
-    this.closePops();
-    if (open) { btn.focus({ preventScroll: true }); return; }
+  toggleMenu(btn, focus = 'current') {
     const { dash } = this._m;
     const counts = this.settings.counts && dash && dash.kind === 'viewer' ? this.counts() : {};
     const s = this.settings;
     const onViewer = !!(dash && dash.kind === 'viewer' && s.href);
     const heading = btn._kind === 'dash' ? 'Dashboards' : dash.label;
-    menu.innerHTML = `<div class="h">${esc(heading)}</div>` + (btn._folded || []).map((t) => {
+    const html = `<div class="h" role="presentation">${esc(heading)}</div>` + (btn._folded || []).map((t) => {
       const href = btn._kind === 'tabs' && onViewer ? fill(s.href, { page: t.id }) : t.href;
       const cur = t.id === btn._keep;
       return `<a role="menuitem" href="${esc(href)}" data-item="${esc(t.id)}"${cur ? ' aria-current="page"' : ''}><span>${esc(t.label)}</span>${counts[t.id] ? `<span class="c">${esc(counts[t.id].text)}</span>` : ''}</a>`;
     }).join('');
+    this.openMenu(btn, html, { label: heading, focus });
+  }
+
+  /** The switcher's menu: every dashboard under its group's heading (BLACK BOX, TRAJECTORY …), each with its icon, its
+      name, its one-line about and a check on the open one; a dashboard's link is its entry page. */
+  toggleSwitch(btn, focus = 'current') {
+    const { model, dash } = this._m;
+    const s = this.settings;
+    const onViewer = !!(dash && dash.kind === 'viewer' && s.href);
+    const html = switcherMenu(model, dash ? dash.id : '').map((g, gi) => {
+      const hid = this.popId(`g${gi}`);
+      const items = g.items.map((d, di) => {
+        const href = d.current && onViewer ? fill(s.href, { page: dash.tabs[0].id }) : d.href;
+        const icon = SITE_ICONS[d.icon] || (d.group && d.group.kind === 'domain' ? `<span class="dot"${d.group.color ? ` style="--g:${esc(d.group.color)}"` : ''}></span>` : SITE_ICONS.box);
+        const about = [d.about, d.by].filter(Boolean).join(' · ');
+        const nid = this.popId(`d${gi}-${di}`);
+        return `<a role="menuitem" href="${esc(href)}" data-item="${esc(d.id)}" aria-labelledby="${nid}"${about ? ` aria-describedby="${nid}a"` : ''}${d.current ? ' aria-current="page"' : ''}>`
+          + `${icon}<span class="t"><span id="${nid}">${esc(d.label)}</span>${about ? `<small id="${nid}a">${esc(about)}</small>` : ''}</span><span class="ck" aria-hidden="true">${SITE_ICONS.check}</span></a>`;
+      }).join('');
+      return `<div role="group" aria-labelledby="${hid}"><div class="h" id="${hid}" role="presentation">${esc(g.label)}</div>${items}</div>`;
+    }).join('');
+    this.openMenu(btn, html, { label: 'Dashboards', cls: 'is-switcher', focus });
+  }
+
+  /** One menu under its button (More ▾ or the switcher; a second click closes it and gives the button its focus back):
+      ↑ ↓ wrap, Home / End, Enter or Space follows the item, Escape closes it and focuses the button, Tab or a click
+      anywhere else closes it. `focus`: 'current' (the open item, else the first) or 'last'. */
+  openMenu(btn, html, { label = '', cls = '', focus = 'current' } = {}) {
+    const menu = this.querySelector('[data-menu]');
+    if (!menu) return;
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    this.closePops();
+    if (open) { btn.focus({ preventScroll: true }); return; }
+    menu.className = `bbs-menu${cls ? ` ${cls}` : ''}`;
+    menu.setAttribute('aria-label', label);
+    menu.innerHTML = html;
+    // WHY back to 0,0 before measuring: a fixed menu left where the last one was (More ▾ at the right edge) would measure
+    // squeezed into what is left of the viewport there
+    menu.style.left = '0px';
+    menu.style.top = '0px';
+    menu.style.maxHeight = '';
     menu.hidden = false;
     btn.setAttribute('aria-expanded', 'true');
     const r = btn.getBoundingClientRect();
     const w = Math.min(menu.offsetWidth || 220, innerWidth - 16);
-    menu.style.top = `${Math.round(r.bottom + 4)}px`;
+    const top = Math.round(r.bottom + 4);
+    menu.style.top = `${top}px`;
     menu.style.left = `${Math.round(Math.max(8, Math.min(r.left, innerWidth - w - 8)))}px`;
-    const items = () => [...menu.querySelectorAll('a')];
-    (menu.querySelector('a[aria-current="page"]') || items()[0])?.focus({ preventScroll: true });
+    // fits the viewport: it scrolls inside itself rather than run off the bottom of a short window
+    menu.style.maxHeight = `${Math.max(120, innerHeight - top - 8)}px`;
+    const items = () => [...menu.querySelectorAll('a[role="menuitem"]')];
+    const first = focus === 'last' ? items()[items().length - 1] : (menu.querySelector('a[aria-current="page"]') || items()[0]);
+    first?.focus({ preventScroll: true });
     const key = (e) => {
       const list = items();
       const at = list.indexOf(document.activeElement);
@@ -352,22 +442,26 @@ bb-site-nav .bbs-fail { align-self: center; color: var(--bb-muted); font-size: 1
       else if (e.key === 'ArrowUp' && list.length) { e.preventDefault(); list[(at - 1 + list.length) % list.length].focus(); }
       else if (e.key === 'Home' && list.length) { e.preventDefault(); list[0].focus(); }
       else if (e.key === 'End' && list.length) { e.preventDefault(); list[list.length - 1].focus(); }
+      // a link follows Enter by itself; Space would scroll the page instead, so it follows the link here
+      else if ((e.key === ' ' || e.key === 'Spacebar') && at >= 0) { e.preventDefault(); list[at].click(); }
       else if (e.key === 'Tab') this.closePops();
     };
     const away = (e) => { if (!menu.contains(e.target) && !btn.contains(e.target)) this.closePops(); };
     const closeAll = () => this.closePops();
+    // the page scrolling moves the button away from a fixed menu: close; the menu scrolling inside itself does not
+    const scrolled = (e) => { if (!(e.target instanceof Node && menu.contains(e.target))) this.closePops(); };
     const picked = (e) => { if (e.target.closest('a')) this.closePops(); };
     menu.addEventListener('keydown', key);
     menu.addEventListener('click', picked);
     document.addEventListener('pointerdown', away, true);
     addEventListener('resize', closeAll);
-    addEventListener('scroll', closeAll, true);
+    addEventListener('scroll', scrolled, true);
     this._menuOff = () => {
       menu.removeEventListener('keydown', key);
       menu.removeEventListener('click', picked);
       document.removeEventListener('pointerdown', away, true);
       removeEventListener('resize', closeAll);
-      removeEventListener('scroll', closeAll, true);
+      removeEventListener('scroll', scrolled, true);
     };
   }
 

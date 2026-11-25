@@ -1,12 +1,15 @@
-// bb-site-nav: the site's one bar (CONTRACT §18; lane NAV's pick 01 Two rows, PICKS.md 2026-11-24 ~21:30). The brand row
-// names the box (a link to its landing page) and holds the dashboards (the box's viewer, then each drop-in: Trajectory
-// coverage, comparison, Model × Dataset on trajectory_tracking_agent); the row below holds the open dashboard's own tabs,
-// folding into More ▾ (the open tab never folds). Top right: Needs you (where the state is loaded), GitHub, the settings
-// gear (Appearance, CONTRACT §17.4). It reads the site's nav.json (bb-site-nav/1) and, on the viewer's own page, the state
-// for the tabs' counts and the box's own tabs. Pure: no DOM.
+// bb-site-nav: the site's one bar (CONTRACT §18). The brand row names the box (a link to its landing page) and the
+// dashboards (the box's viewer, then each drop-in: Trajectory coverage, comparison, Model × Dataset on
+// trajectory_tracking_agent), in one of two looks, nav.json `layout`: "switcher", the default (lane NAV's 07, Zach's ruling
+// 2026-11-24 ~21:30: "its still the top row tabs but instead of having them spread out its the drop down"), "Box name /
+// Black box ▾" opening every dashboard under its group's heading; or "two-rows" (lane NAV's 01), the dashboards spread out
+// as tabs. The row below holds the open dashboard's own tabs, folding into More ▾ (the open tab never folds). Top right:
+// Needs you (where the state is loaded), GitHub, the settings gear (Appearance, CONTRACT §17.4). It reads the site's
+// nav.json (bb-site-nav/1) and, on the viewer's own page, the state for the tabs' counts and the box's own tabs. Pure: no
+// DOM.
 export default {
   tag: 'bb-site-nav', name: 'Site bar', version: 1, wave: 3,
-  description: "The box's site bar on every page: the box's name (to its landing page) and its dashboards in the top row, the open dashboard's own tabs below with counts, folding into More ▾ as the width shrinks (the open tab never folds); Needs you, a GitHub button and the settings gear top right. Drawn from one site/nav.json (bb-site-nav/1).",
+  description: "The box's site bar on every page: the box's name (to its landing page) then the open dashboard with ▾ in the top row, its menu listing every dashboard under its group's heading (nav.json \"layout\": \"switcher\", the default; \"two-rows\" spreads the dashboards out as tabs instead), the open dashboard's own tabs below with counts, folding into More ▾ as the width shrinks (the open tab never folds); Needs you, a GitHub button and the settings gear top right. Drawn from one site/nav.json (bb-site-nav/1).",
   // the same slices bb-nav reads for its counts and the box's own tabs (+ about for the repo when nav.json names none)
   reads: ['spec', 'feedback', 'iterations', 'ablations', 'unscored', 'agents', 'activity', 'audits', 'reports', 'analysis', 'needs', 'ideas',
     'references', 'notes', 'tabs'],

@@ -26,5 +26,5 @@ export default {
   presets: [{ name: 'Gates' }, { name: 'Gates by commit', settings: { x: 'commit' } }, { name: 'Problems first', settings: { view: 'problems' } },
     { name: 'Spec history', settings: { preset: 'spec-matrix' } }, { name: 'Gate tiles', settings: { view: 'tiles', toggle: false } },
     { name: 'Gate tiles and table', settings: { view: 'tiles-table' } }],
-  empty: 'No gates declared (OBJECTIVES.md has no gate table).',
+  empty: 'No gates declared yet. Each gate appears here with its pass state once OBJECTIVES.md has a gate table (| Gate | Pass when | Why |) and a solution is scored against it.',
 };

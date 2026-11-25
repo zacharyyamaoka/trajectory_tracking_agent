@@ -23,6 +23,7 @@
      the iteration whose suite it is (the commit that added the solution; HEAD for the newest commit when it added
      none). */
 import { leadOrder, solutionsOf, cellOf } from './bb-gate-matrix.model.js';
+import { splitOf } from '../core/slices.js';
 
 export const SEP = ' › ';
 const CHAR = { P: 'pass', F: 'fail', S: 'skipped' };
@@ -41,6 +42,8 @@ export function rulerRows(data) {
   if (!gates.length || !sols.length) return [];
   const direction = data.objective?.direction === 'higher' ? 'higher' : 'lower';
   const rank = new Map(sols.slice().sort(leadOrder(direction)).map((s, k) => [s.id, k + 1]));
+  // "dev tasks" where the box ranks on a dev split; plain "tasks" where its rows name none (robot_sdk_agent, lane ES)
+  const tasksWord = splitOf(data.objective) ? `${splitOf(data.objective)} tasks` : 'tasks';
   // every task a gate fails somewhere, in task order (dev-000 before dev-010)
   const tasks = Object.fromEntries(gates.map((g) => [g.id, [...new Set(sols.flatMap((s) => ((s.row.gate_results || {})[g.id]?.failed || []).map((f) => f.task)))].sort(natural)]));
   const rows = [];
@@ -52,13 +55,15 @@ export function rulerRows(data) {
     };
     const failing = gates.filter((g) => cellOf(s, g.id).state === 'fail').map((g) => g.id);
     rows.push({ ...base, id: `r|${s.id}`, trail: 'Admissible', order: 0, state: s.admissible ? 'pass' : 'fail',
-      note: s.admissible ? 'admissible: every gate passes on every dev task' : `not admissible${failing.length ? `: fails ${failing.join(', ')}` : ''}` });
+      note: s.admissible ? `admissible: every gate passes${splitOf(data.objective) ? ` on every ${splitOf(data.objective)} task` : ''}` : `not admissible${failing.length ? `: fails ${failing.join(', ')}` : ''}` });
     gates.forEach((g, gi) => {
       const c = cellOf(s, g.id);
       const res = (it.gate_results || {})[g.id] || null;
       const of = res && fin(res.tasks) ? ` of ${res.tasks}` : '';
-      const note = c.state === 'fail' ? `fails on ${res && fin(res.failed_tasks) ? res.failed_tasks : c.tasks ?? '?'}${of} dev tasks`
-        : c.state === 'pass' ? `passes${res && fin(res.tasks) ? ` on all ${res.tasks} dev tasks` : ''}` : 'not recorded for this solution';
+      // a pass/fail gate whose scorecard counts no task (failed_tasks null with a why): "fails", never an invented count
+      const uncounted = res && res.failed_tasks === null && res.why_null;
+      const note = c.state === 'fail' ? (uncounted ? 'fails (one pass/fail verdict: no task count recorded)' : `fails on ${res && fin(res.failed_tasks) ? res.failed_tasks : c.tasks ?? '?'}${of} ${tasksWord}`)
+        : c.state === 'pass' ? `passes${res && fin(res.tasks) ? ` on all ${res.tasks} ${tasksWord}` : ''}` : 'not recorded for this solution';
       rows.push({ ...base, id: `r|${s.id}|${g.id}`, trail: ['Admissible', g.id].join(SEP), order: 1 + gi * 1000,
         state: c.state === 'none' ? 'not_run' : c.state, note });
       const named = res && Array.isArray(res.failed) ? new Map(res.failed.map((f) => [f.task, f])) : null;

@@ -13,6 +13,7 @@ import { makeDetail, idFromUrl, pct } from './bb-solution-detail.model.js';
 import './bb-evidence.js';
 import schema from './bb-solution-detail.schema.js';
 import css from './bb-solution-detail.css.js';
+import { splitOf } from '../core/slices.js';
 
 const dtf = new Intl.DateTimeFormat('en-CA', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
 const date = (iso) => { const t = Date.parse(iso); return Number.isFinite(t) ? dtf.format(new Date(t)) : '—'; };
@@ -57,6 +58,8 @@ export class BBSolutionDetail extends BBElement {
   render() {
     const id = this.settings.id || idFromUrl(typeof location === 'undefined' ? null : location);
     const D = this.detail = makeDetail(this.data, id);
+    const waiting = !D && id ? (this.data.unscored || []).find((u) => u && u.id === id) : null;
+    if (waiting) return this.unscoredPage(waiting);
     if (!D) return this.empty(schema.empty, id ? `Asked for <b class="bb-mono">${esc(id)}</b>.` : 'No id given: open this page as <span class="bb-mono">?id=&lt;solution&gt;</span> or <span class="bb-mono">#solution=&lt;id&gt;</span>.');
     const d = this.data, o = d.objective || {}, r = D.row;
     const unit = o.unit || '', obj = o.label || o.name || 'objective';
@@ -73,8 +76,9 @@ export class BBSolutionDetail extends BBElement {
       + (isBest ? '<span class="badge best">best</span>' : '');
     const verdict = this.verdictLine(D, Ut);
 
+    const split = splitOf(o);
     const cards = `<div class="nums">
-      <div class="num"><div class="l">${esc(obj)} · dev</div><div class="v" title="${exact(r.objective)}">${U(r.objective)}</div>
+      <div class="num"><div class="l">${esc(obj)}${split ? ` · ${esc(split)}` : ''}</div><div class="v" title="${exact(r.objective)}">${U(r.objective)}</div>
         <div class="s">${r.admissible ? '<span class="badge ok">admissible</span>' : '<span class="badge no">not admissible</span>'}${fin(r.gate_pass_rate) ? ` gate pass rate ${fmt(100 * r.gate_pass_rate, 3)} %` : ''}</div></div>
       <div class="num"><div class="l">holdout (reporting only)</div><div class="v" title="${exact(r.holdout)}">${fin(r.holdout) ? U(r.holdout) : '— <small>not scored</small>'}</div>
         <div class="s">${fin(r.holdout) ? `${pctTxt(D.holdoutVsDev)} vs dev` : 'not scored on holdout'}</div></div>
@@ -83,7 +87,9 @@ export class BBSolutionDetail extends BBElement {
       <div class="num"><div class="l">vs parent${D.parent ? ` ${esc(D.parent.id)}` : ''}</div><div class="v ${tone(D.vsParent)}">${D.parent ? (D.vsParent === null ? '—' : pctTxt(D.vsParent)) : '— <small>no parent</small>'}</div>
         <div class="s">${D.parent ? (D.parent.missing ? 'the parent is not in this state' : `parent ${Ut(D.parent.objective)}`) : 'a root solution'}</div></div>
     </div>`;
-    const fails = failed.length ? `<div class="fails"><b class="bad">Fails ${failed.length} gate${failed.length === 1 ? '' : 's'}:</b> ${failed.map(([g, n]) => `${esc(gname(g))} on ${esc(n)} task${n === 1 ? '' : 's'}`).join(', ')}. A gate failure never moves the best line.</div>` : '';
+    // a pass/fail gate the scorecard counts no task for (gate_results failed_tasks null): its name, never "on 1 task"
+    const counted = (g) => !(r.gate_results && r.gate_results[g] && r.gate_results[g].failed_tasks === null);
+    const fails = failed.length ? `<div class="fails"><b class="bad">Fails ${failed.length} gate${failed.length === 1 ? '' : 's'}:</b> ${failed.map(([g, n]) => (counted(g) ? `${esc(gname(g))} on ${esc(n)} task${n === 1 ? '' : 's'}` : esc(gname(g)))).join(', ')}. A gate failure never moves the best line.</div>` : '';
 
     this.innerHTML = `<div class="bbs">
       <div class="kicker">${kicker}</div>
@@ -105,6 +111,23 @@ export class BBSolutionDetail extends BBElement {
     </div>`;
     this.wire();
     if (D.runs.length) this.evidence(D);
+  }
+
+  /** A solution the box registered (its folder's meta.json) that has no ranking score on the current ruler yet: what
+      the state knows (its change, parent, created), and what will fill the rest. Never "no solution with that id". */
+  unscoredPage(u) {
+    const d = this.data, o = d.objective || {};
+    const known = new Set([...(d.iterations || []), ...(d.ablations || []), ...(d.unscored || [])].map((r) => r && r.id));
+    const parent = u.parent ? (known.has(u.parent) ? this.link(u.parent, esc(u.parent), 'parent') : `${esc(u.parent)} <span class="faint">(not in this state)</span>`) : '— <span class="faint">a root solution</span>';
+    this.innerHTML = `<div class="bbs bbs-unscored">
+      <div class="kicker">${esc(d.box || '')} · registered, not scored yet · created ${date(u.created)}</div>
+      <h1>${esc(u.id)}</h1>
+      <div class="change">${esc(u.change || '')}</div>
+      <div class="bb-empty" data-empty="bb-solution-detail"><b>Not scored yet${o.ruler ? ` on ruler ${esc(o.ruler)}` : ''}.</b>
+        <div class="bb-fills">Its ${esc(o.name || 'objective')}, its gates and its rank appear here once the box's evaluation scores it: the ledger gets its row, and the fold of the next commit reads it.</div></div>
+      <section class="blk"><h2>Lineage</h2><dl class="prov"><dt>parent</dt><dd>${parent}</dd></dl></section>
+    </div>`;
+    this.wire();
   }
 
   verdictLine(D, Ut) {
@@ -163,7 +186,7 @@ export class BBSolutionDetail extends BBElement {
       return `<tr><td><div class="gname">${esc(g.id)}</div>${g.pass_when ? `<div class="sub">${esc(g.pass_when)}</div>` : ''}</td><td class="state">${state}${margin}</td></tr>`;
     }).join('');
     const judged = D.gates.some((g) => g.judged);
-    return `<div class="scroll"><table><thead><tr><th>gate</th><th>this solution (dev)</th></tr></thead><tbody>${rows}</tbody></table></div>
+    return `<div class="scroll"><table><thead><tr><th>gate</th><th>this solution${splitOf(this.data.objective) ? ` (${esc(splitOf(this.data.objective))})` : ''}</th></tr></thead><tbody>${rows}</tbody></table></div>
       ${judged ? '' : '<div class="faint" style="font-size:12px;margin-top:4px">Worst values and margins are recorded for the solution the gate table judges (the best), not for this one.</div>'}`;
   }
 

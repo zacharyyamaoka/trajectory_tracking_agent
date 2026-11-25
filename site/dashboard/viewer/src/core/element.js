@@ -101,9 +101,18 @@ export class BBElement extends HTMLElement {
 
   render() {}
 
-  /** The standard empty state: the schema's sentence (or a specific one), never a blank box. */
+  /** The standard empty state, never a blank box: what will appear here (bold), then what fills it (.bb-fills: the box
+      file or command). The schema's `empty` holds both as sentences, "What appears. What fills it."; with no `hint`,
+      its first sentence is the what and the rest the fills (bb-data-page's rule for a page's `empty` setting). `hint`
+      is trusted HTML (a component's own markup); the text is escaped. WHY both parts (Zach, 2026-11-24: "even if the
+      data is not there then I think it should like render empty.... at least"): a bare "No rows yet" leaves a new box's
+      reader with nothing to do. */
   empty(text = this.schema.empty, hint = '') {
-    this.innerHTML = `<div class="bb-empty" data-empty="${this.localName}"><b>${esc(text)}</b>${hint ? `<div style="margin-top:4px">${hint}</div>` : ''}</div>`;
+    let what = String(text ?? ''), fills = '';
+    const cut = what.indexOf('. ');
+    if (cut > 0) { fills = esc(what.slice(cut + 2)); what = what.slice(0, cut + 1); }
+    if (hint) fills = fills ? `${fills} ${hint}` : hint;
+    this.innerHTML = `<div class="bb-empty" data-empty="${this.localName}"><b>${esc(what)}</b>${fills ? `<div class="bb-fills">${fills}</div>` : ''}</div>`;
   }
 
   fail(error) {

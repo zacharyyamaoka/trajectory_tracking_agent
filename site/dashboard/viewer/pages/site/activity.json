@@ -19,7 +19,8 @@
         "slice": "activity.recent",
         "base": "activity.base",
         "view": "Activity",
-        "height": 640
+        "height": 640,
+        "empty": "No activity yet. Every commit and every scored row of ledger.jsonl appears here, newest first (or the box's own activity.jsonl)."
       }
     }
   },

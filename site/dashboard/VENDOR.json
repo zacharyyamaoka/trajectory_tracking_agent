@@ -1,14 +1,14 @@
 {
  "what": "The blackbox_agent viewer, vendored so this box's site serves its dashboard (site/dashboard/) and every page's site bar (viewer/src/components/bb-site-nav.js). Never edit it here: re-vendor with blackbox_agent's tools/vendor_viewer.py.",
  "source": "https://github.com/zacharyyamaoka/blackbox_agent",
- "commit": "d0bfcac9fc532c177fb659672e60f768e6b06a84",
- "commit_date": "2026-11-24T21:34:58-07:00",
+ "commit": "0d38db2457b31d95d2e8d2af4947a50c7733b1b5",
+ "commit_date": "2026-11-24T22:59:31-07:00",
  "reads": {
   "nav": "../nav.json",
   "state": "../data/state.json"
  },
- "bytes": 15689531,
- "served_bytes": 4778907,
+ "bytes": 15715495,
+ "served_bytes": 4787789,
  "files": [
   {
    "path": "index.html",
@@ -19,8 +19,8 @@
   {
    "path": "viewer/site/dashboard.js",
    "from": "viewer/site/dashboard.js",
-   "sha256": "6796ad415ef2d31cfae5c9f68a9bf014f5a88ce085c43667895e3427a5641e4c",
-   "bytes": 5776
+   "sha256": "19c7351fe3e00f7d62af350b52dd635d837e78736f7fca76ead454a6e5aa2e42",
+   "bytes": 6145
   },
   {
    "path": "viewer/src/components/bb-ablation.css.js",
@@ -43,8 +43,8 @@
   {
    "path": "viewer/src/components/bb-ablation.schema.js",
    "from": "viewer/src/components/bb-ablation.schema.js",
-   "sha256": "fee306ab53b0b3fd5f51b37fc08adc397d71643a93b4828d72998bfffcc0883f",
-   "bytes": 2957
+   "sha256": "6c661f7d607c7b3e7bc0f178836e9e696f887c0470989a3c13c377e417a2bfae",
+   "bytes": 3171
   },
   {
    "path": "viewer/src/components/bb-ablation.views.js",
@@ -61,20 +61,20 @@
   {
    "path": "viewer/src/components/bb-catalog.schema.js",
    "from": "viewer/src/components/bb-catalog.schema.js",
-   "sha256": "f7ed6ccb444925305483df21cefd20366d5b8fec0cc23265a91b797feb5076b2",
-   "bytes": 1652
+   "sha256": "56eacccda03139725bb26b87a382d45ae3f8b5b02bc76e95e0f787802e1a11b5",
+   "bytes": 1761
   },
   {
    "path": "viewer/src/components/bb-data-page.js",
    "from": "viewer/src/components/bb-data-page.js",
-   "sha256": "1188191523ccffc71b0ee66a326a8b2b852056ece7694ec3f13468af79b0faf6",
-   "bytes": 4959
+   "sha256": "c8d7ba9efa66f132c5e17e13324f74d1613e77d23bdae5d9d44ca4a272f3967e",
+   "bytes": 6557
   },
   {
    "path": "viewer/src/components/bb-data-page.schema.js",
    "from": "viewer/src/components/bb-data-page.schema.js",
-   "sha256": "e3c89b98ebdd3665a2609516e82845bdb64529d5d5353fb6ca809fa1176daf58",
-   "bytes": 1625
+   "sha256": "f72da7b40996371d34d1c7c7ad18033bee0e5fb536df9299286149decb58290d",
+   "bytes": 1741
   },
   {
    "path": "viewer/src/components/bb-evidence.css.js",
@@ -97,8 +97,8 @@
   {
    "path": "viewer/src/components/bb-evidence.schema.js",
    "from": "viewer/src/components/bb-evidence.schema.js",
-   "sha256": "b020fe181b6f52440c3cdf2795c2b1e69ff148744a77e6f3399d9985923b6881",
-   "bytes": 2439
+   "sha256": "5070d2d9fda02f9e0408121348d7b57823bcba3a3bb387f7deca3fb61c70c485",
+   "bytes": 2501
   },
   {
    "path": "viewer/src/components/bb-frontier.css.js",
@@ -109,8 +109,8 @@
   {
    "path": "viewer/src/components/bb-frontier.js",
    "from": "viewer/src/components/bb-frontier.js",
-   "sha256": "c282cb3aff8729c28665a97a867d4d6c864bf54d5eb17f0288696930850080da",
-   "bytes": 24851
+   "sha256": "1339b1be2882d06a928e9945439c6423c7457015a3586d6eef705f067dd919d9",
+   "bytes": 25002
   },
   {
    "path": "viewer/src/components/bb-frontier.model.js",
@@ -121,62 +121,62 @@
   {
    "path": "viewer/src/components/bb-frontier.schema.js",
    "from": "viewer/src/components/bb-frontier.schema.js",
-   "sha256": "a7d44e871adf017f43ad024e67cc232a4204d3e9869a65c7a97f952db7a8e1b7",
-   "bytes": 2556
+   "sha256": "c94333124505a0a2c430e9ee277a08a092b5e40a923daec471c85ea89ce000a9",
+   "bytes": 2779
   },
   {
    "path": "viewer/src/components/bb-gate-matrix.js",
    "from": "viewer/src/components/bb-gate-matrix.js",
-   "sha256": "8fa83f42f5932b27610be454454ad55f9ab104db040e993677fb0b63ecb4ce8e",
-   "bytes": 28458
+   "sha256": "68b9cd4416cd072e922f9e22007ffbc6a2c5b18270210a3027a6469c0e64e071",
+   "bytes": 28452
   },
   {
    "path": "viewer/src/components/bb-gate-matrix.model.js",
    "from": "viewer/src/components/bb-gate-matrix.model.js",
-   "sha256": "7a52088899bc7818e845f3a01f4f9c16744cecb03b9c81ed491d01a833f07ebb",
-   "bytes": 9948
+   "sha256": "b3cbdb89dfa47ca64456222ab9f16ade400006bc306eefaf305b5646d502f5c8",
+   "bytes": 10099
   },
   {
    "path": "viewer/src/components/bb-gate-matrix.schema.js",
    "from": "viewer/src/components/bb-gate-matrix.schema.js",
-   "sha256": "0ea17cb06cdff4943aef3580d006bc73d99d30c1a9acc36e6a8cef3424065e7b",
-   "bytes": 3187
+   "sha256": "53fed90315bd8351c05418b274c7ec22f3686a980cbc0930b12aa4af6b5e4910",
+   "bytes": 3313
   },
   {
    "path": "viewer/src/components/bb-gates.js",
    "from": "viewer/src/components/bb-gates.js",
-   "sha256": "711de01cd5ffcb583a5f7da688f433e787e47305dc01c0c6b867f622781964f6",
-   "bytes": 36452
+   "sha256": "b27a1d176ae7800d26fae6f8444b39dec6ea2924bc94ad971a3129da269d8eab",
+   "bytes": 36571
   },
   {
    "path": "viewer/src/components/bb-gates.model.js",
    "from": "viewer/src/components/bb-gates.model.js",
-   "sha256": "75a7689bdb8a3cb26d00f479d1f17e69f33be2c96e731e1450fb06a564377a39",
-   "bytes": 12037
+   "sha256": "4eced629fc375d0bede045c0ffc0bdf4c8c6a0a01851f2f0b79fa8804df7465b",
+   "bytes": 12214
   },
   {
    "path": "viewer/src/components/bb-gates.rows.js",
    "from": "viewer/src/components/bb-gates.rows.js",
-   "sha256": "9616063a8c5e992b9d80239dbe2cd9eeaf0e0563da8d441628c899163f955f4b",
-   "bytes": 14084
+   "sha256": "902e8bb2b6ca625dbb98221148a7493d563f4cdada89581fe9db0098c9e6f163",
+   "bytes": 14673
   },
   {
    "path": "viewer/src/components/bb-gates.schema.js",
    "from": "viewer/src/components/bb-gates.schema.js",
-   "sha256": "b3236ed2427cf1ef7e105dea77556fcf550374b482950143e1e508b6fe2c4ff6",
-   "bytes": 4732
+   "sha256": "193972ee3f815e1231e0cd5be826cd8635f6a1dd1d9486caf75745d6034df40b",
+   "bytes": 4847
   },
   {
    "path": "viewer/src/components/bb-headliner.css.js",
    "from": "viewer/src/components/bb-headliner.css.js",
-   "sha256": "2da64b5247018c8467eb023b83493512e2370f6afe323e66c01203221879ab52",
-   "bytes": 6148
+   "sha256": "c369d60f9182442ecafc99ed594aba2bd349fb08135bdbac8cce46838b5fdbde",
+   "bytes": 6496
   },
   {
    "path": "viewer/src/components/bb-headliner.js",
    "from": "viewer/src/components/bb-headliner.js",
-   "sha256": "433d114ce6a39fea834a35580369fb8b30352a9a632f23e4ce01638997be74f2",
-   "bytes": 21368
+   "sha256": "c100919cdf90e3c59bdcb3e05622101091a1d4a07a999502525c075ab4bf3759",
+   "bytes": 25877
   },
   {
    "path": "viewer/src/components/bb-headliner.model.js",
@@ -187,8 +187,8 @@
   {
    "path": "viewer/src/components/bb-headliner.schema.js",
    "from": "viewer/src/components/bb-headliner.schema.js",
-   "sha256": "c4442d0ccc5f9cd1ba07512a8b5c3de8e24ac0f98666e01f120178c382d29e6b",
-   "bytes": 1652
+   "sha256": "b42a004b37071a422c24e9c51a79cca162bfd0eb4d0f3516dec8e81bd54c55ad",
+   "bytes": 1889
   },
   {
    "path": "viewer/src/components/bb-idea-preview.js",
@@ -199,20 +199,20 @@
   {
    "path": "viewer/src/components/bb-idea-preview.schema.js",
    "from": "viewer/src/components/bb-idea-preview.schema.js",
-   "sha256": "33cfeb8092897539addef26d93e3cddbdabe83df62956072f537920ade44007c",
-   "bytes": 829
+   "sha256": "7c5a012ab478b3e530ef208cdfa125526cc48edb060d2dac401284b081d37c42",
+   "bytes": 918
   },
   {
    "path": "viewer/src/components/bb-idea-views.js",
    "from": "viewer/src/components/bb-idea-views.js",
-   "sha256": "5d016fcf420653d155e5178a07910f7c13637bad3e2150bf99fd1b386eeb0819",
-   "bytes": 60528
+   "sha256": "d0caaa9e257d1a69b001d7120be3a7706130fda828ed577ad8aa56b30cbad3cb",
+   "bytes": 60632
   },
   {
    "path": "viewer/src/components/bb-idea-views.schema.js",
    "from": "viewer/src/components/bb-idea-views.schema.js",
-   "sha256": "b7def71904ea686c6282b29364da18ed64b0e0df119bd787511b8d589ea70bf4",
-   "bytes": 2209
+   "sha256": "3664d1f9f194ac7543ddb422be512e45775c369ebc6f3f4f07408cb0df08e349",
+   "bytes": 2328
   },
   {
    "path": "viewer/src/components/bb-kpi-strip.js",
@@ -223,8 +223,8 @@
   {
    "path": "viewer/src/components/bb-kpi-strip.schema.js",
    "from": "viewer/src/components/bb-kpi-strip.schema.js",
-   "sha256": "14d1acaeedf2a2c07280a2f93239f19b3fd9d80dda45a82f21519bee73ed1a2f",
-   "bytes": 1949
+   "sha256": "e53fc3f2dbc2f0b734025aa9c22eb4b7e175d0e70adf5d023cc37d9a76776a33",
+   "bytes": 2067
   },
   {
    "path": "viewer/src/components/bb-lineage.js",
@@ -235,8 +235,8 @@
   {
    "path": "viewer/src/components/bb-lineage.schema.js",
    "from": "viewer/src/components/bb-lineage.schema.js",
-   "sha256": "5fcb4aafaadc3c5577f69ebb788b36debc3854def1e60d09b9ea7c7ecbc61798",
-   "bytes": 1958
+   "sha256": "45e06d4584144ac819b07417fc9ef53e692033e24066943156b3ed5eb813ee25",
+   "bytes": 2040
   },
   {
    "path": "viewer/src/components/bb-markdown.js",
@@ -247,14 +247,14 @@
   {
    "path": "viewer/src/components/bb-markdown.schema.js",
    "from": "viewer/src/components/bb-markdown.schema.js",
-   "sha256": "b99d5dd9aa0583ecca110c8cbfcf70c21e15a74213aa3f390d7de65ed41ac400",
-   "bytes": 1110
+   "sha256": "0faa921015dd9527e581105386bd6ff038b58f80229e890775ce69e69cdd8858",
+   "bytes": 1168
   },
   {
    "path": "viewer/src/components/bb-nav.js",
    "from": "viewer/src/components/bb-nav.js",
-   "sha256": "4687d8ed2554d1bc8008d1a5b907620991267c85ba7407621fc9b52b2bca134c",
-   "bytes": 17902
+   "sha256": "d604f8d43770dafc341a118e85c6c25f0fb92b4fe207c1adc3fdd078a77ab271",
+   "bytes": 18388
   },
   {
    "path": "viewer/src/components/bb-nav.schema.js",
@@ -271,8 +271,8 @@
   {
    "path": "viewer/src/components/bb-needs-you.schema.js",
    "from": "viewer/src/components/bb-needs-you.schema.js",
-   "sha256": "5e599a7f7731e2484b38357089a6132a894e2755597b2b2657f8bfedfc7e5c48",
-   "bytes": 925
+   "sha256": "65117e28343327609905c699286619d58d34739bb2ac4a50892ddcdb3f15de1f",
+   "bytes": 1033
   },
   {
    "path": "viewer/src/components/bb-notes.js",
@@ -295,26 +295,26 @@
   {
    "path": "viewer/src/components/bb-page.schema.js",
    "from": "viewer/src/components/bb-page.schema.js",
-   "sha256": "95493869a7d76d33cda421efd4e2b213fec99c0804e4dd35207b811494aa492a",
-   "bytes": 746
+   "sha256": "cb77402ecd07bf61f2cbd11ee943be49abdc77c95e49e953d03809d82c5f5f30",
+   "bytes": 800
   },
   {
    "path": "viewer/src/components/bb-site-nav.js",
    "from": "viewer/src/components/bb-site-nav.js",
-   "sha256": "d6fae8820f2eb8484339fe9a79702a186273cfe53d62eae067d49a514a512c11",
-   "bytes": 30552
+   "sha256": "3301a4fdc0c56f9ee15565675cda7b0505b0d08b8528c968ab17b9e572971be6",
+   "bytes": 38274
   },
   {
    "path": "viewer/src/components/bb-site-nav.model.js",
    "from": "viewer/src/components/bb-site-nav.model.js",
-   "sha256": "8b38dd5f2736c47f86b02256a75e07370f679186f076cfb4d631763b3fe943f1",
-   "bytes": 10514
+   "sha256": "f713574a4a9a39532bdac742c493b459b57a0c1f27441fdc7f4381832a731f57",
+   "bytes": 12303
   },
   {
    "path": "viewer/src/components/bb-site-nav.schema.js",
    "from": "viewer/src/components/bb-site-nav.schema.js",
-   "sha256": "107455b03c973958d1d63783979fab5a27ce73374902079dc24a02ea57661a75",
-   "bytes": 2961
+   "sha256": "206d4dea1d5185f7c298485d2b5288dbc5e2784ba0e551b6a0bf6db90de095c6",
+   "bytes": 3431
   },
   {
    "path": "viewer/src/components/bb-solution-detail.css.js",
@@ -325,8 +325,8 @@
   {
    "path": "viewer/src/components/bb-solution-detail.js",
    "from": "viewer/src/components/bb-solution-detail.js",
-   "sha256": "57b78784c43258bc83d6b91c6444eddfbd89c8204ff9f3750dd14f28ce160905",
-   "bytes": 16429
+   "sha256": "d468373b25278e97c2524c8b954f335f047ee40f0ca823a40ff5dbda6586e572",
+   "bytes": 18397
   },
   {
    "path": "viewer/src/components/bb-solution-detail.model.js",
@@ -337,20 +337,20 @@
   {
    "path": "viewer/src/components/bb-solution-detail.schema.js",
    "from": "viewer/src/components/bb-solution-detail.schema.js",
-   "sha256": "6bff80736e658b38d99be960c17b1da277f13fa02920a4b81c68f2fb5982a613",
-   "bytes": 960
+   "sha256": "41f1ea91ccf3a5dbb1dc18b13a8d657a535b7b445960f479806c4d6aa9d6239f",
+   "bytes": 1188
   },
   {
    "path": "viewer/src/components/bb-spec.js",
    "from": "viewer/src/components/bb-spec.js",
-   "sha256": "71bd14fc0ba4570a19a060d208106733bc80dd6f4f505c176f904913085a7bdd",
-   "bytes": 16812
+   "sha256": "24fcd92df9e3f633965f8fbcd5d738423ab01116857152355951be61a92309db",
+   "bytes": 16984
   },
   {
    "path": "viewer/src/components/bb-spec.schema.js",
    "from": "viewer/src/components/bb-spec.schema.js",
-   "sha256": "08958999ec41a2fc3c7ad22b7e4a5ee87dd172a790f437e89829c0ea8d96e01c",
-   "bytes": 1977
+   "sha256": "68ff75bbc0ebdba8b1263cbe403bd06f13dc8cc5533df71e4d109250240c9da4",
+   "bytes": 2149
   },
   {
    "path": "viewer/src/components/custom-html.js",
@@ -361,8 +361,8 @@
   {
    "path": "viewer/src/components/custom-html.schema.js",
    "from": "viewer/src/components/custom-html.schema.js",
-   "sha256": "d972e565d77865f6289a54d9d4563163d8c8d6a668fa5aae8e5cef2481ab4016",
-   "bytes": 1086
+   "sha256": "041307612e20b9e932ebe7f746760bfa0dd6b31504c6f19c41551eefc1f43b8f",
+   "bytes": 1140
   },
   {
    "path": "viewer/src/components/index.js",
@@ -391,8 +391,8 @@
   {
    "path": "viewer/src/core/element.js",
    "from": "viewer/src/core/element.js",
-   "sha256": "18566911667f0aa8b6d435b2966238d185d07fc8f6b8a76eaae3282cccf435ae",
-   "bytes": 5678
+   "sha256": "2aeb21bee69d4399f18c6df68190113b3853300156dc1ce4b48b048abc568d3a",
+   "bytes": 6435
   },
   {
    "path": "viewer/src/core/icons.js",
@@ -433,8 +433,8 @@
   {
    "path": "viewer/src/core/slices.js",
    "from": "viewer/src/core/slices.js",
-   "sha256": "bda3c59d751c278ba3074527d9f8ea9c165f28c293a675d62ac5f0e62c238f07",
-   "bytes": 3649
+   "sha256": "314bf261a4a29a38b29a5b45fd1e4d16eb18cd6361c044317326f737255ca77c",
+   "bytes": 4780
   },
   {
    "path": "viewer/src/core/tabs.js",
@@ -445,8 +445,8 @@
   {
    "path": "viewer/src/core/tokens.js",
    "from": "viewer/src/core/tokens.js",
-   "sha256": "2e3638e994d18fa056548f905e6573b6c3c86d12e3ec3f8747cb2013796507c1",
-   "bytes": 5196
+   "sha256": "d5de6f1ff2b7bbeefae703bc77aceca7a4b4afc5966f7ec517721971c4141902",
+   "bytes": 5313
   },
   {
    "path": "viewer/src/core/validate.js",
@@ -2097,8 +2097,8 @@
   {
    "path": "viewer/pages/site/activity.json",
    "from": "viewer/pages/site/activity.json",
-   "sha256": "8ee980545a3e08e487f399c5e7a286702bcc35d33e94571404bf07ed000cad36",
-   "bytes": 519
+   "sha256": "e4c79bf4d381ce313b2a597cc3c27c394615d52efdcf14396dec420be3d487f0",
+   "bytes": 668
   },
   {
    "path": "viewer/pages/site/agents.base",
@@ -2109,8 +2109,8 @@
   {
    "path": "viewer/pages/site/agents.json",
    "from": "viewer/pages/site/agents.json",
-   "sha256": "79def3b900bbcc95f2e80b18daf1412527f5ea3dc5ced7e17d2c3f637cd2e785",
-   "bytes": 510
+   "sha256": "e90cbff52200da0ac54d62cd7a26b17222214aa05a07daf6f87377adb475bb22",
+   "bytes": 691
   },
   {
    "path": "viewer/pages/site/analysis.base",
@@ -2133,8 +2133,8 @@
   {
    "path": "viewer/pages/site/audits.json",
    "from": "viewer/pages/site/audits.json",
-   "sha256": "d9b0e8b6d853f997dd443a7e857c0f20041569e355d1b45edfba85d26f0f1bb6",
-   "bytes": 500
+   "sha256": "8a433443a3bf4169f054692e847020dd45b2cf14d5e6a098fe20563c8a4fd20c",
+   "bytes": 689
   },
   {
    "path": "viewer/pages/site/feedback.base",
@@ -2145,8 +2145,8 @@
   {
    "path": "viewer/pages/site/feedback.json",
    "from": "viewer/pages/site/feedback.json",
-   "sha256": "d958977d13a4e62fe728ca16da68332193bf1f034cad5d4c706f36127a5c8639",
-   "bytes": 512
+   "sha256": "a8d5407de5a1e1a57f94df3ba0af95941b45cc819d9b16b610edd3375a16163d",
+   "bytes": 701
   },
   {
    "path": "viewer/pages/site/frontier.base",
@@ -2175,8 +2175,8 @@
   {
    "path": "viewer/pages/site/iterations.json",
    "from": "viewer/pages/site/iterations.json",
-   "sha256": "c14f20fd172ba2897c1af42bb77f18be8d4776466bd8e517d5f49b5b643436cf",
-   "bytes": 524
+   "sha256": "34aa485457594df19f0dd544cee273cd5c39ccff5f393e8b72657678a334cb9e",
+   "bytes": 775
   },
   {
    "path": "viewer/pages/site/kpis.base",

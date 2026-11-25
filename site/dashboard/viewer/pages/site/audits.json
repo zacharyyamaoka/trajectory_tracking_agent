@@ -19,7 +19,8 @@
         "slice": "audits",
         "base": "audits.base",
         "view": "Rounds",
-        "height": 400
+        "height": 400,
+        "empty": "No audits yet. Each audit appears here as a row at the next commit: one .md per audit in audits/, its front matter naming the auditor, model, scope, verdict and commit."
       }
     }
   },

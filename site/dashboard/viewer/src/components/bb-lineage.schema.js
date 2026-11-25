@@ -18,5 +18,5 @@ export default {
   ],
   blocks: [],
   presets: [{ name: 'Lineage' }],
-  empty: 'No parents recorded.',
+  empty: 'No parents recorded. The family tree appears here once solutions name their parent in their meta.json.',
 };

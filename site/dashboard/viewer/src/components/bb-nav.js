@@ -6,7 +6,7 @@
    repo) and a settings gear: Appearance, Light / Dark / System (src/core/appearance.js), remembered in this browser. */
 import { BBElement, esc } from '../core/element.js';
 import { register } from '../core/registry.js';
-import { PAGES, PAGE_LABELS, pageId } from '../core/slices.js';
+import { PAGES, PAGE_LABELS, pageId, specTested } from '../core/slices.js';
 import { fill } from '../core/context.js';
 import { customTabs, ADD_TAB } from '../core/tabs.js';
 import { APPEARANCES, currentAppearance, setAppearance, restoreAppearance, storedAppearance } from '../core/appearance.js';
@@ -92,7 +92,13 @@ bb-nav .bbn-pop li code { margin-right: 6px; }
   counts() {
     const d = this.data;
     const c = {};
-    if (d.spec && Number.isInteger(d.spec.shall_active)) c.spec = { text: `${d.spec.shall_pass}/${d.spec.shall_active}`, title: 'shalls passing / active' };
+    // passing / active only when a test run was folded; else how many have a test yet (never "null/41", lane ES)
+    if (d.spec && Number.isInteger(d.spec.shall_active)) {
+      const A = d.spec.shall_active, t = specTested(d.spec);
+      c.spec = Number.isInteger(d.spec.shall_pass) ? { text: `${d.spec.shall_pass}/${A}`, title: 'shalls passing / active' }
+        : t ? { text: `${t.tested} of ${A} tested`, title: `${t.tested} of ${A} requirements have a test yet; no test run folded, so none is known to pass` }
+          : { text: String(A), title: `${A} shalls active; no test run folded, so none is known to pass` };
+    }
     if (Array.isArray(d.feedback)) c.feedback = { text: String(d.feedback.length), title: 'feedback files' };
     if (Array.isArray(d.iterations)) c.iterations = { text: String(d.iterations.length),
       title: `${d.iterations.length} iterations${d.unscored?.length ? `, ${d.unscored.length} waiting for a score` : ''}` };

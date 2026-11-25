@@ -24,5 +24,5 @@ export default {
   presets: [{ name: 'Energy', settings: { cost: 'energy_j' } }, { name: 'Compute', settings: { cost: 'host_compute_ms_p95' } },
     { name: 'Code size', settings: { cost: 'code_lines' } }],
   events: ['bb-open'],
-  empty: 'No cost recorded per solution.',
+  empty: 'No cost recorded per solution yet. Each solution appears here as a dot, its objective against what it cost (motor energy, host compute, code size), once the ruler records its diagnostics in the ledger or the box commits its own costs tool in ablations/.',
 };

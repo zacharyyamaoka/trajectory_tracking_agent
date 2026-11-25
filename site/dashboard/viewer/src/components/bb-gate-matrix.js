@@ -168,7 +168,7 @@ bb-gate-matrix .bbm-tracker data-views { display: block; }
     const controls = s.controls ? `<div class="bbm-bar"><span>x <span class="seg" role="group" aria-label="columns (x)">${X_AXES.map((a) => `<button data-x="${a.id}" aria-pressed="${a.id === this.ui.x}" title="${esc(a.long)}">${esc(a.label)}</button>`).join('')}</span></span>
       <label title="Keep a column when any of its solutions failed a gate"><input type="checkbox" data-only ${this.ui.only ? 'checked' : ''}><span>Only where a gate failed</span></label>
       ${nAbl ? `<label title="Ablation runs remove or add one part of the best solution to measure what it is worth: study variants, not search steps"><input type="checkbox" data-abl ${this.ui.abl ? 'checked' : ''}><span>Show the <b>${nAbl}</b> ablation run${nAbl === 1 ? '' : 's'}</span></label>` : ''}</div>` : '';
-    const body = empty ? `<div class="bb-empty" data-empty="bb-gate-matrix"><b>${esc(empty.text)}</b>${empty.hint ? `<div style="margin-top:4px">${esc(empty.hint)}</div>` : ''}</div>`
+    const body = empty ? `<div class="bb-empty" data-empty="bb-gate-matrix"><b>${esc(empty.text)}</b>${empty.hint ? `<div class="bb-fills">${esc(empty.hint)}</div>` : ''}</div>`
       : s.draw === 'tracker' ? `<div class="bbm-tracker"></div>` : this.grid(m);
     this.innerHTML = `<div class="bbm" data-x="${esc(m.x)}">
       <div class="bbm-head"><h3>${esc(s.title)}</h3><span class="sum">${sum}</span></div>

@@ -22,5 +22,5 @@ export default {
   ],
   blocks: [],
   presets: [{ name: 'Idea views' }],
-  empty: 'The idea queue is empty.',
+  empty: 'The idea queue is empty. Every idea appears here from ideas.md, one - [ ] line each under ## I\'ll try (with - Rung: and - Needs: sub-bullets).',
 };

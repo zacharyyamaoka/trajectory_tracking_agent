@@ -10,5 +10,5 @@ export default {
   ],
   blocks: [],
   presets: [{ name: 'Idea preview' }],
-  empty: 'The idea queue is empty.',
+  empty: 'The idea queue is empty. The next ideas to try appear here from ideas.md, one - [ ] line each under ## I\'ll try.',
 };

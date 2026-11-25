@@ -91,6 +91,9 @@ async function main() {
     view.replaceChildren(el);
     if (!first) window.scrollTo(0, 0);
     for (let i = 0; i < 400 && !view.querySelector('section.bb-section'); i++) await new Promise((ok) => requestAnimationFrame(ok));
+    // a Markdown tab (site/tabs/*.md, the Notes reader) opens its note after the section exists: ready waits for it, so
+    // a headless check never reads "Opening the note…" (lane ES, robot_sdk_agent's Scoreboard tab); ≤ 10 s, then ready
+    for (let i = 0; i < 100 && view.querySelector('.dv-note-loading'); i++) await new Promise((ok) => setTimeout(ok, 100));
     view.querySelectorAll('section.bb-section[data-section]').forEach((s) => { if (!s.id) s.id = s.dataset.section; });
     if (wantNeeds) { await new Promise((ok) => setTimeout(ok, 150)); scrollNeeds(); }
     window.__dash.ready = true;

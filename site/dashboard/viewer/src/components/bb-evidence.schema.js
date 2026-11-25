@@ -22,5 +22,5 @@ export default {
   limit: null,
   presets: [{ name: 'Lens', settings: { layout: 'lens' } }, { name: 'Recorder', settings: { layout: 'recorder' } }],
   events: ['bb-evidence-select', 'bb-evidence-layout'],
-  empty: 'No saved run: the box\'s export writes bb-run/1 records and lists them in playback.runs (CONTRACT §4, §14).',
+  empty: 'No saved run yet. A run plays here, explained metric by metric, once the box\'s export writes bb-run/1 records and lists them in playback.runs (viewer CONTRACT §4, §14).',
 };

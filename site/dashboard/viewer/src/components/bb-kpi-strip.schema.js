@@ -21,5 +21,5 @@ export default {
     { id: 'label', type: 'text', label: 'Label (empty = the KPI\'s own)', default: '' }] }],
   max_blocks: 12,
   presets: [{ name: 'All KPIs' }, { name: 'Best and admissible', blocks: [{ type: 'kpi', settings: { id: 'best' } }, { type: 'kpi', settings: { id: 'admissible' } }] }],
-  empty: 'No KPIs yet.',
+  empty: 'No KPIs yet. The best objective, the admissible share and the open ideas appear here once the box commits its ledger and ideas.md.',
 };

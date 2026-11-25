@@ -18,6 +18,7 @@ import { loadViews } from '../core/kit.js';
 import { noteRows, notePages } from '../core/notes.js';
 import schema from './bb-spec.schema.js';
 import { gatesBase, gatesDataset, PRESETS } from './bb-gates.rows.js';
+import { specTested } from '../core/slices.js';
 
 let uid = 0;
 
@@ -86,7 +87,9 @@ export function headerText(spec, { showTests = true } = {}) {
   const kinds = [spec.should ? `${n(spec.should)} should` : '', spec.deferred ? `${n(spec.deferred)} deferred` : ''].filter(Boolean).join(', ');
   if (!ranOf(spec) || spec.shall_pass === null || spec.shall_pass === undefined) {
     const shalls = Number.isFinite(spec.shall_active) ? `${n(spec.shall_active)} shall${spec.shall_active === 1 ? '' : 's'}${kinds ? `, ${kinds}` : ''}` : '';
-    return [shalls, spec.why || 'no test run folded'].filter(Boolean).join(' · ');
+    const t = specTested(spec);
+    const tested = t && t.of ? `${n(t.tested)} of ${n(t.of)} have a test yet` : '';
+    return [shalls, tested, spec.why || 'no test run folded'].filter(Boolean).join(' · ');
   }
   const parts = [`${n(spec.shall_pass)} of ${n(spec.shall_active)} shalls pass`];
   if (spec.shall_fail) parts.push(`${n(spec.shall_fail)} fail`);

@@ -16,5 +16,5 @@ export default {
   ],
   blocks: [],
   presets: [{ name: 'Spec' }],
-  empty: 'No test run folded.',
+  empty: 'No spec yet. Each requirement appears here with the tests that check it, once the box commits specs/*.md (one note per requirement) and site/data/junit.xml (a test run the site build writes).',
 };

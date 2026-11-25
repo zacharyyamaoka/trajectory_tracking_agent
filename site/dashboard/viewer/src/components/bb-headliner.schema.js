@@ -2,7 +2,8 @@
 export default {
   tag: 'bb-headliner', name: 'Headliner (Ticker)', version: 1, wave: 1,
   description: 'One big number (the best admissible objective in the window) and the best-so-far curve: admissible only on the line, red rings for gate failures, log or linear, x = iteration, date or commit, range chips, click a dot to open the solution.',
-  reads: ['iterations', 'ablations'],
+  // `gates` (lane ES): how many gates a not-admissible solution fails OF, in the none-admissible-yet note
+  reads: ['iterations', 'ablations', 'gates'],
   settings: [
     { id: 'x', type: 'select', label: 'x axis', default: 'number',
       options: [{ value: 'number', label: 'Solution #' }, { value: 'date', label: 'Date' }, { value: 'commit', label: 'Commit' }] },
@@ -19,5 +20,5 @@ export default {
   limit: 2,
   presets: [{ name: 'Ticker' }],
   events: ['bb-open'],
-  empty: 'No solution scored yet: the line starts at the first admissible solution.',
+  empty: 'No solution scored yet. Its empty state names the objective as the box declares it (name, unit, direction, target, ruler); every scored solution will be a dot, the best admissible so far a line.',
 };

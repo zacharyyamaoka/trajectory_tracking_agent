@@ -20,6 +20,7 @@ import { adoptCss, onTheme, cssVar } from '../core/tokens.js';
 import { makeFrontier, costMeta, logTicks, fmt, tickFmt } from './bb-frontier.model.js';
 import schema from './bb-frontier.schema.js';
 import css from './bb-frontier.css.js';
+import { splitOf } from '../core/slices.js';
 
 const dtf = new Intl.DateTimeFormat('en-CA', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
 const dayf = new Intl.DateTimeFormat('en-CA', { month: 'short', day: 'numeric' });
@@ -68,7 +69,7 @@ export class BBFrontier extends BBElement {
     if (this.u) { this.u.destroy(); this.u = null; }
     this.ui = null;
     const m = this.model = makeFrontier(this.data);
-    if (!m.costIds.length) return this.empty();
+    if (!m.costIds.length) return this.empty(schema.empty, `This chart: ${esc(costMeta(s.cost).long || s.cost)}.`);
     const pick = m.pickCost(s.cost);
     if (pick.unknown) {
       return this.empty(schema.empty, `This box records no cost named <b class="bb-mono">${esc(s.cost)}</b>. It records: ${m.costIds.map((c) => `${esc(costMeta(c).chip)} (<span class="bb-mono">${esc(c)}</span>)`).join(', ')}.`);
@@ -107,7 +108,7 @@ export class BBFrontier extends BBElement {
       `<div>Not recorded in this state: ${cs.map((c) => `<b>${esc(costMeta(c).chip)}</b>`).join(' and ')} (${esc(why)}).</div>`).join('')}</div>` : '';
     const objName = esc(o.label || o.name || 'objective');
     this.innerHTML = `<div class="bbf" data-cost="${esc(cid)}" data-drawn="${v.drawn.length}" data-front="${v.front.length}" data-off="${v.offCount}">
-      <div class="bbf-box"><b>${esc(d.box || '')}</b> · y: ${objName} on dev${unit ? ` (${esc(unit)}` : ' ('}${unit ? ', ' : ''}${m.direction} is better) · ${plural(m.N, 'solution')}, ${m.admissible} admissible${timeNote && has ? ` · ${timeNote}` : ''}</div>
+      <div class="bbf-box"><b>${esc(d.box || '')}</b> · y: ${objName}${splitOf(o) ? ` on ${esc(splitOf(o))}` : ''}${unit ? ` (${esc(unit)}` : ' ('}${unit ? ', ' : ''}${m.direction} is better) · ${plural(m.N, 'solution')}, ${m.admissible} admissible${timeNote && has ? ` · ${timeNote}` : ''}</div>
       <h3 class="bbf-title">${title}</h3>
       ${chips || toggle ? `<div class="bbf-bar">${chips}${toggle}</div>` : ''}${nilNote}
       ${has ? `<div class="bbf-front"></div>

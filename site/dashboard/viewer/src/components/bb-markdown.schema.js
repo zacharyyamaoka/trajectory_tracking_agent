@@ -14,5 +14,5 @@ export default {
   ],
   blocks: [],
   presets: [{ name: 'Text' }],
-  empty: 'Empty markdown section.',
+  empty: 'Empty markdown section. Its text is the section\'s markdown setting in page.json.',
 };

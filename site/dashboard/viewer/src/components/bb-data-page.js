@@ -5,7 +5,7 @@
    names, and no other. */
 import { BBElement, esc } from '../core/element.js';
 import { register } from '../core/registry.js';
-import { get } from '../core/slices.js';
+import { get, splitOf } from '../core/slices.js';
 import { loadViews } from '../core/kit.js';
 import { noteRows, notePages } from '../core/notes.js';
 import schema from './bb-data-page.schema.js';
@@ -54,13 +54,15 @@ bb-data-page .bbd > data-views { flex: 1 1 auto; min-width: 0; }
     if (!Array.isArray(list) || !list.length) {
       // the page's sentence: its first sentence as the headline, the rest (how to add a row) under it
       const cut = s.empty.indexOf('. ');
-      return cut > 0 ? this.empty(s.empty.slice(0, cut + 1), esc(s.empty.slice(cut + 2))) : this.empty(s.empty || `No rows in ${s.slice} yet.`);
+      return cut > 0 ? this.empty(s.empty.slice(0, cut + 1), esc(s.empty.slice(cut + 2)))
+        : this.empty(s.empty || `No rows in ${s.slice} yet.`, s.empty ? '' : `The fold fills <span class="bb-mono">${esc(s.slice)}</span> from the box's committed files at its next commit (viewer/CONTRACT.md §3.2 says which file).`);
     }
     this.innerHTML = `<div class="bb-muted" style="font-size:13px">Loading the ${esc(s.slice)} row view…</div>`;
     const core = await loadViews();
     let text = s.base_text || (s.base ? await this.context.asset(s.base) : '');
     const doc = text ? core.parseBase(text) : stockBase(list, s.slice);
     delete doc.data; // WHY: hosted unchanged; the rows are the slice's, whatever file the preset was written against
+    if (relabelObjective(doc, this.data.objective)) text = core.stringifyBase(doc);
     // CONTRACT §16.3: the page's own filter ANDed with the file's (data-ui's andFilters), so a preset written against
     // iterations-only data is hosted unchanged over a slice that also holds ablation runs (costs: kind == "iteration")
     if (s.filters) doc.filters = core.andFilters(doc.filters, s.filters);
@@ -94,3 +96,23 @@ bb-data-page .bbd > data-views { flex: 1 1 auto; min-width: 0; }
   }
 }
 register(BBDataPage);
+
+/** A stock preset names the objective in trajectory_tracking_agent's words ("Dev error", "Dev error (mm)"). Where those
+    words do not fit the box (its objective is not ranked on a dev split, or its unit is not the one the preset names),
+    the `objective` column and its facet take the box's own name and unit instead; a box they fit keeps the preset as
+    picked. WHY (lane ES, 2026-11-24): robot_sdk_agent's max_stale_hours, in hours, was headed "Dev error (mm)", and
+    a private box's unitless count too. Returns true when it changed the preset. The views' chart titles inside
+    the preset are left as written (a follow-up: presets that name the objective from the state). */
+export function relabelObjective(doc, o) {
+  const prop = doc && doc.properties && doc.properties.objective;
+  if (!prop || !o || !o.name) return false;
+  const facets = (doc.facets || []).filter((f) => f && typeof f === 'object' && f.property === 'objective');
+  const units = facets.map((f) => (/\(([^)]*)\)\s*$/.exec(String(f.label || '')) || [])[1]).filter(Boolean);
+  const fits = splitOf(o) === 'dev' && units.every((u) => u === (o.unit || ''));
+  if (fits) return false;
+  const name = o.label || o.name;
+  prop.displayName = name;
+  for (const f of facets) f.label = `${name}${o.unit ? ` (${o.unit})` : ''}`;
+  return true;
+}
+

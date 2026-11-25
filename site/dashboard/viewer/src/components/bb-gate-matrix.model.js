@@ -132,9 +132,10 @@ export function buildMatrix(data, { x = 'iteration', only_failing = false, limit
 /** The empty sentence for a state, or null when there is a matrix to draw (the order of the checks is the spec's). */
 export function emptyOf(data, m, { only_failing = false } = {}) {
   const none = `This box declares no gate table (no gates slice) and none of its ${m.solutions} solutions records a gate.`;
-  if (!(data.iterations || []).length && !m.solutions) return { text: 'No solution scored yet.', hint: '' };
+  const fills = 'Each scored solution becomes a column here, a cell per gate: its ledger row\'s failed gates and the ruler\'s verdict on each.';
+  if (!(data.iterations || []).length && !m.solutions) return { text: 'No solution scored yet.', hint: fills };
   if (only_failing && !m.everFailed) return { text: 'No gates failed.', hint: m.gates.length ? `Every gate passed on ${m.solutions === 1 ? 'the one solution' : `all ${m.solutions} solutions`}; turn off "only where a gate failed" to see ${m.solutions === 1 ? 'it' : 'them'}.` : none };
   if (!m.gates.length) return { text: 'No gates to draw.', hint: none };
-  if (!m.columns.length) return { text: 'No solution scored yet.', hint: '' };
+  if (!m.columns.length) return { text: 'No solution scored yet.', hint: fills };
   return null;
 }

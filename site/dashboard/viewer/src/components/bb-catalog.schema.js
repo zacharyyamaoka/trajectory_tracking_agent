@@ -17,5 +17,5 @@ export default {
   ],
   blocks: [],
   presets: [{ name: 'Iterations catalogue' }],
-  empty: 'No iterations yet.',
+  empty: 'No solution scored yet. Each solution appears here once it is scored: its folder\'s meta.json and its row in the box\'s ledger.',
 };

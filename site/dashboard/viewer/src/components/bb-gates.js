@@ -26,6 +26,7 @@ import schema from './bb-gates.schema.js';
 import { timelineView, timelineOf, whyOf, messageOf, fmt } from './bb-gates.model.js';
 import { gatesBase, gatesDataset, PRESETS, X_AXIS, AXIS_X } from './bb-gates.rows.js';
 import './bb-evidence.js';
+import { splitOf } from '../core/slices.js';
 
 let uid = 0;
 const VIEWS = [{ id: 'timeline', label: 'Matrix' }, { id: 'problems', label: 'Problems' }, { id: 'tiles', label: 'Tiles' }, { id: 'table', label: 'Table' }, { id: 'tiles-table', label: 'Both' }];
@@ -205,7 +206,7 @@ bb-gates .bbg-none code { font-size: 12px; }
     const core = table ? await loadViews() : null;
     if (token !== this._token) return; // the reader flipped again meanwhile
     const toggle = s.toggle ? this.switchHtml(view) : '';
-    this.innerHTML = `<div class="bbg-head"><h3>${esc(s.title)}</h3><span class="of">${judged ? `${passed} of ${gates.length} pass · judged on <span class="bb-mono">${esc(of)}</span> (dev)` : 'not judged yet: no solution scored'}</span>${toggle}</div>
+    this.innerHTML = `<div class="bbg-head"><h3>${esc(s.title)}</h3><span class="of">${judged ? `${passed} of ${gates.length} pass · judged on <span class="bb-mono">${esc(of)}</span>${splitOf(this.data.objective) ? ` (${esc(splitOf(this.data.objective))})` : ''}` : 'not judged yet: no solution scored'}</span>${toggle}</div>
       ${tiles ? this.tiles(gates) : ''}${table ? '<div class="bbg-table"></div>' : ''}`;
     this.wireSwitch();
     if (!table) { this.dataset.drew = 'tiles'; return; }

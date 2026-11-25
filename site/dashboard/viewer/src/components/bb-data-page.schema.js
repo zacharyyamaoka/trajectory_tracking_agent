@@ -20,5 +20,5 @@ export default {
   ],
   blocks: [],
   presets: [{ name: 'Row view' }],
-  empty: 'No rows in this slice yet.',
+  empty: 'No rows in this slice yet. The fold fills each slice from the box\'s committed files at its next commit (viewer/CONTRACT.md §3.2 says which).',
 };

@@ -19,7 +19,8 @@
         "slice": "iterations",
         "base": "iterations.base",
         "view": "Iterations",
-        "height": 640
+        "height": 640,
+        "empty": "No solution scored yet. Each scored solution appears here, one row in the order it was first scored (its objective, gates, verdict and proposer), from its solutions/<id>/meta.json and its rows in ledger.jsonl on the current ruler."
       }
     }
   },

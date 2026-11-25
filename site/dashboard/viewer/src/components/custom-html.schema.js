@@ -13,5 +13,5 @@ export default {
   ],
   blocks: [],
   presets: [{ name: 'Custom HTML' }],
-  empty: 'Empty custom HTML section.',
+  empty: 'Empty custom HTML section. Its HTML is the section\'s html setting in page.json.',
 };

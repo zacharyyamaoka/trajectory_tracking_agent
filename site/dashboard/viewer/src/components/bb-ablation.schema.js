@@ -23,5 +23,5 @@ export default {
   ],
   blocks: [],
   presets: [{ name: 'Ablation study' }],
-  empty: 'No ablation study yet.',
+  empty: 'No ablation study yet. The study appears here, what each part of the best solution is worth, once the box commits a study file in ablations/ (ablations/<study>.md, read by the box\'s own parser) and scores the solutions tagged ablation.',
 };

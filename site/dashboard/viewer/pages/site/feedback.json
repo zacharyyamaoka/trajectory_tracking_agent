@@ -19,7 +19,8 @@
         "slice": "feedback",
         "base": "feedback.base",
         "view": "Feedback",
-        "height": 640
+        "height": 640,
+        "empty": "No feedback yet. Each note in feedback/ appears here as a row at the next commit: one .md per piece of feedback (front matter, then ## Observed, ## Desired and ## Why)."
       }
     }
   },

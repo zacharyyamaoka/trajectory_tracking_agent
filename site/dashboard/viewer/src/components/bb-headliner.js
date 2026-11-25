@@ -18,12 +18,15 @@ import { register } from '../core/registry.js';
 import { adoptCss, onTheme, cssVar } from '../core/tokens.js';
 import { makeModel, RANGES, AXES, logTicks, fmt, pctNum } from './bb-headliner.model.js';
 import schema from './bb-headliner.schema.js';
+import { splitOf } from '../core/slices.js';
 import css from './bb-headliner.css.js';
 
 const dtf = new Intl.DateTimeFormat('en-CA', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
 const fmtDate = (t) => (t ? dtf.format(new Date(t)) : '—');
 const sha7 = (c) => (c && c.sha && c.sha !== 'none' ? String(c.sha).slice(0, 7) : '—');
 const sign = (v) => (v > 0 ? '+' : v < 0 ? '−' : '±');
+/** "target ≤ 24 h" from what the box declares (status.json's kpi target), else '' (never a made-up target). */
+const targetText = (o) => (Number.isFinite(o?.target) ? `target ${o.direction === 'higher' ? '≥' : '≤'} ${fmt(o.target)}${o.unit ? ` ${o.unit}` : ''}` : '');
 
 /** What an ablation run did, from its meta.json words and tags ("− chord correction: … (ablation, frozen: …)"). */
 export function ablationFacts(s) {
@@ -76,12 +79,13 @@ export class BBHeadliner extends BBElement {
     this.ui = { x: s.x, r: s.range, y: s.y, ab: s.ablations };
     this.zoom = null;
     if (this.u) { this.u.destroy(); this.u = null; }
-    if (!this.model.search.some((q) => q.y !== null)) return this.empty();
+    if (!this.model.search.some((q) => q.y !== null)) return this.nothingToPlot();
     const d = this.data;
     const o = d.objective || {};
     const nAbl = this.model.ablations.length;
+    const split = splitOf(o);
     const box = s.title ? esc(s.title)
-      : `<b>${esc(d.box || '')}</b> · ${esc(o.name || 'objective')} (dev${o.unit ? `, ${esc(o.unit)}` : ''}, ${o.direction === 'higher' ? 'higher' : 'lower'} is better)${o.ruler ? ` · ruler ${esc(o.ruler)}` : ''}`;
+      : `<b>${esc(d.box || '')}</b> · ${esc(o.name || 'objective')} (${[split, o.unit].filter(Boolean).map(esc).join(', ')}${split || o.unit ? ', ' : ''}${o.direction === 'higher' ? 'higher' : 'lower'} is better${targetText(o) ? `, ${esc(targetText(o))}` : ''})${o.ruler ? ` · ruler ${esc(o.ruler)}` : ''}`;
     this.innerHTML = `<div class="bbh">
       <div class="bbh-box">${box}</div>
       <div class="bbh-headline" aria-live="polite"></div>
@@ -96,6 +100,37 @@ export class BBHeadliner extends BBElement {
     </div>`;
     this.querySelector('[data-abl]')?.addEventListener('change', (e) => { this.ui.ab = e.target.checked; this.draw(); });
     this.draw();
+  }
+
+  /** Nothing to plot yet: the objective as the box declares it (name, unit, direction, target, ruler), what is missing,
+      and what fills it. WHY (Zach, 2026-11-24): a new box's landing "should like render empty.... at least": the
+      reader sees what the line will measure before the first solution is scored. Never a number the box did not write. */
+  nothingToPlot() {
+    const d = this.data, o = d.objective || {};
+    const n = this.model.search.length;
+    const dir = o.direction === 'higher' ? 'higher' : 'lower';
+    const unit = o.unit ? `${o.unit}` : '';
+    const target = targetText(o) || 'no target declared';
+    const what = [unit && `in ${unit}`, `${dir} is better`, target].filter(Boolean).join(', ');
+    const missing = n ? `${n} solution${n === 1 ? '' : 's'} scored, none with a value yet` : 'no scored solution yet';
+    const ruler = o.ruler ? ` · ruler ${esc(o.ruler)}${o.frozen ? `, frozen ${esc(o.frozen)}` : ''}` : '';
+    // WHY the chart's own height and axes (coordinator, 2026-11-24): a box with nothing scored keeps the hero's room, so
+    // the page does not collapse to one line; the target, when declared, is the dashed line the dots will be read against
+    const h = Math.max(150, this.settings.height || 330);
+    const ty = Math.round(h * 0.3);
+    const tgt = Number.isFinite(o.target)
+      ? `<line x1="44" x2="100%" y1="${ty}" y2="${ty}" class="bbh-ph-target"/><text x="50" y="${ty - 6}" class="bbh-ph-label">${esc(targetText(o))}</text>` : '';
+    this.innerHTML = `<div class="bb-empty bbh-empty" data-empty="bb-headliner">
+      <div class="bbh-box"><b>${esc(d.box || '')}</b>${ruler}</div>
+      <b><span class="bb-mono">${esc(o.name || 'The objective')}</span> (${esc(what)}): ${esc(missing)}.</b>
+      <div class="bb-fills">Every scored solution will be a dot here, and the best admissible one so far a line. Scoring a
+        solution adds its row to the box's ledger; the fold of the next commit plots it.</div>
+      <svg class="bbh-ph" width="100%" height="${h}" role="img" aria-label="${esc(`An empty chart: ${o.name || 'the objective'} against solution number`)}">
+        <line x1="44" x2="44" y1="8" y2="${h - 28}" class="bbh-ph-axis"/><line x1="44" x2="100%" y1="${h - 28}" y2="${h - 28}" class="bbh-ph-axis"/>
+        ${tgt}
+        <text x="50" y="20" class="bbh-ph-label">${esc(o.name || 'objective')}${unit ? ` (${esc(unit)})` : ''} ${dir === 'lower' ? '↓' : '↑'} better</text>
+        <text x="100%" dx="-4" y="${h - 10}" text-anchor="end" class="bbh-ph-label">Solution # →</text>
+      </svg></div>`;
   }
 
   yIsLog() {
@@ -162,6 +197,12 @@ export class BBHeadliner extends BBElement {
       return;
     }
     const label = this.zoom ? 'in the zoomed range' : this.ui.r === 'All' ? 'since the first admissible' : `in ${this.ui.r}`;
+    if (!m.best) {
+      el.innerHTML = `<span class="value">—</span><span class="why">none admissible yet</span>`;
+      sub.innerHTML = this.noneAdmissible();
+      sub.querySelector('[data-open]')?.addEventListener('click', (e) => { e.preventDefault(); this.open(e.currentTarget.dataset.open); });
+      return;
+    }
     el.innerHTML = html(v.endBest, v.change, label);
     const b = v.bestSol;
     const hold = b && b.hold !== null ? ` · holdout ${fmtU(b.hold)}` : '';
@@ -169,6 +210,19 @@ export class BBHeadliner extends BBElement {
       + ` · ${v.shown.length} solution${v.shown.length === 1 ? '' : 's'} in window, ${v.admissibleShown} admissible`
       + (v.prevClose ? ` · window opened at ${fmtU(v.prevClose.y)} (${esc(v.prevClose.id)})` : '') : '';
     sub.querySelector('[data-open]')?.addEventListener('click', (e) => { e.preventDefault(); this.open(b.id); });
+  }
+
+  /** No admissible solution in the whole search: how many are scored and what the newest fails, from its own row
+      ("none admissible yet: 2 scored; s0 fails 5 of 10 gates: ci_green, …"). WHY (Zach, 2026-11-24, robot_sdk_agent's
+      page: "no hero image of the things showing"): the chart still draws every scored solution as a red ring. */
+  noneAdmissible() {
+    const search = this.model.search;
+    const last = search.slice().sort((a, b) => a.n - b.n).at(-1);
+    if (!last) return '';
+    const failed = Object.keys(last.failed || {});
+    const of = Array.isArray(this.data.gates) && this.data.gates.length ? ` of ${this.data.gates.length}` : '';
+    const names = failed.length ? `: ${failed.slice(0, 5).map(esc).join(', ')}${failed.length > 5 ? ` +${failed.length - 5}` : ''}` : '';
+    return `${search.length} solution${search.length === 1 ? '' : 's'} scored, none passes every gate yet · <a href="${esc(this.context.href('solution', { id: last.id }))}" class="who" data-open="${esc(last.id)}">${esc(last.id)}</a> (#${last.n}, the newest) fails ${failed.length}${of} gate${failed.length === 1 && !of ? '' : 's'}${names}`;
   }
 
   /** bb-open {kind: 'solution', id}; the context follows links.solution unless a listener prevented it. */

@@ -74,7 +74,8 @@ export function verdictOf(data, sol) {
     const def = defs[id];
     const res = (sol.row.gate_results || {})[id] || null;
     const cell = cellOf(sol, id);
-    const failed = res && fin(res.failed_tasks) ? res.failed_tasks : cell.tasks;
+    // a pass/fail gate whose scorecard counts no task (failed_tasks null with a why): no count, never failed_gates' 1
+    const failed = res && fin(res.failed_tasks) ? res.failed_tasks : res && res.failed_tasks === null && res.why_null ? null : cell.tasks;
     const state = cell.state;
     const margin = res && fin(res.margin) ? res.margin : null;
     // worst first: how far over the limit relative to it; a pass/fail failure is one limit over

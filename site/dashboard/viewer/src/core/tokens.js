@@ -60,6 +60,8 @@ export const TOKENS_CSS = `
 .bb-h { font-size: 13px; font-weight: 600; letter-spacing: .02em; color: var(--bb-muted); margin: 0 0 10px; text-transform: uppercase; }
 .bb-empty { border: 1px dashed var(--bb-border); border-radius: calc(var(--bb-radius) + 4px); padding: 18px; color: var(--bb-muted); font-size: 14px; }
 .bb-empty b { color: var(--bb-fg); font-weight: 600; }
+.bb-empty .bb-fills { margin-top: 4px; }
+.bb-empty .bb-fills code { font-family: var(--bb-mono); font-size: .92em; }
 .bb-error { border: 1px solid var(--bb-bad); border-radius: calc(var(--bb-radius) + 4px); padding: 12px 14px; font-size: 13px; color: var(--bb-fg);
   background: color-mix(in srgb, var(--bb-bad) 8%, var(--bb-bg)); }
 .bb-error pre { white-space: pre-wrap; font: 12px/1.5 var(--bb-mono); margin: 6px 0 0; }

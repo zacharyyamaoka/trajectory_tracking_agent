@@ -12,5 +12,5 @@ export default {
   ],
   blocks: [],
   presets: [{ name: 'Needs you' }],
-  empty: 'Nothing needs you.',
+  empty: 'Nothing needs you. An ask appears here from an open line under Suggestions for Zach in ideas.md, or status.json\'s blocked_on.',
 };

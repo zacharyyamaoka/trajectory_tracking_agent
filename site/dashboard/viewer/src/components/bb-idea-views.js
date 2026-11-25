@@ -17,6 +17,7 @@ import { register } from '../core/registry.js';
 import { loadViews, loadKpi } from '../core/kit.js';
 import { md } from '../core/inline.js';
 import schema from './bb-idea-views.schema.js';
+import { splitOf } from '../core/slices.js';
 
 /* ── the Oct 3 lens board's layout engine (proposals-ideas-v2/_shared/lanes/graph.js, verbatim from here to the next
    rule; its own header says where it came from) ─────────────────────────────────────────────────────────────────── */
@@ -790,7 +791,7 @@ export function laneStates(rows, data) {
     const of = gates.find((g) => g.of)?.of;
     out[name] = {
       text: ['climbing', gatesText].filter(Boolean).join(' · '),
-      title: [`climbing: ${best}`, gatesText && `${gatesText}${of ? ` (judged on ${of}, dev)` : ''}`,
+      title: [`climbing: ${best}`, gatesText && `${gatesText}${of ? ` (judged on ${of}${splitOf(data.objective) ? `, ${splitOf(data.objective)}` : ''})` : ''}`,
         failed.length ? `failing: ${failed.map((g) => g.id).join(', ')}` : ''].filter(Boolean).join(' · '),
       tone: failed.length ? 'bad' : 'climb',
     };

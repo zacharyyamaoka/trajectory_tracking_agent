@@ -57,3 +57,18 @@ export function pick(state, reads = []) {
 export function allowedKeys(reads = []) {
   return new Set([...HEADER, ...reads.filter((r) => r !== '*').map((r) => r.split('.')[0])]);
 }
+
+/** The split the box ranks its solutions on, as its objective names it (CONTRACT §3.1 + lane ES): "dev" for a box whose
+    ledger rows say so, null for one whose rows name none (robot_sdk_agent) or a population graded at once
+    (robot_controllers). A state folded before the field existed has no key: "dev", what every box then was. */
+export const splitOf = (objective) => (objective && Object.prototype.hasOwnProperty.call(objective, 'split') ? objective.split ?? null : 'dev');
+
+/** How many active shall requirements name a test yet (their note's `tests:` patterns), out of how many: {tested, of},
+    or null when the spec slice lists no requirements. What the Spec counts can say with no test run folded (lane ES:
+    a private box's tab read "Spec null/41"). */
+export function specTested(spec) {
+  const reqs = spec && Array.isArray(spec.requirements) ? spec.requirements : null;
+  if (!reqs) return null;
+  const shalls = reqs.filter((r) => r && r.kind === 'objective' && r.verb === 'shall');
+  return { tested: shalls.filter((r) => Array.isArray(r.patterns) && r.patterns.length > 0).length, of: shalls.length };
+}
