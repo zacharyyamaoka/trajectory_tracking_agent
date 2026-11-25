@@ -1,5 +1,7 @@
 # Trajectory Tracking Agent
 
+**[▶ Live landing page](https://zacharyyamaoka.github.io/trajectory_tracking_agent/)**, redeployed from `main` on every push · a black-box agent repo in the [blackbox_agent](https://github.com/zacharyyamaoka/blackbox_agent) format
+
 An agent that makes robots follow a given trajectory more accurately. The trajectory and the robot are given; the
 agent searches over controllers (what is fed forward, what is fed back, where each runs and how far ahead it samples)
 and keeps a scored population of every solution it tried.
