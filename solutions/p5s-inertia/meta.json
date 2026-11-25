@@ -1,0 +1,18 @@
+{
+  "id": "p5s-inertia",
+  "parent": "p5s-onefit",
+  "change": "Add the given model’s inertial torque from acceleration error to the next identification pass",
+  "proposed_by": {
+    "agent": "Codex (Trajectory Tracking Agent)",
+    "model": "gpt-6.2-sol",
+    "session": "01a214e8-7cf0-7411-93c0-de3d5044293c"
+  },
+  "created": "2026-11-25T16:44:23-07:00",
+  "tags": [
+    "transfer-risk:stiffness"
+  ],
+  "name": "P5.s.inertia",
+  "summary": "Fit the feedforward correction using PD error torque and the given inertia matrix.",
+  "description": "Apply one residual fit to p5s-onefit at its current gains. Use the same dev records, basis, and ridge as p5s-pass3, adding M(q) times the derivative of velocity error to the fit target.",
+  "expect": "At kp x4, pass all five dev gates on all 42 tasks and keep median tool RMS within 5% of the 0.03133 mm PD-only fit."
+}

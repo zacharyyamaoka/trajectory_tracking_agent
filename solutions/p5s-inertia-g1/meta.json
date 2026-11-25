@@ -1,0 +1,16 @@
+{
+  "id": "p5s-inertia-g1",
+  "parent": "p5s-inertia",
+  "change": "Evaluate the same inertia-augmented model at the configured board gains",
+  "proposed_by": {
+    "agent": "Codex (Trajectory Tracking Agent)",
+    "model": "gpt-6.2-sol",
+    "session": "01a214e8-7cf0-7411-93c0-de3d5044293c"
+  },
+  "created": "2026-11-25T16:45:07-07:00",
+  "tags": [],
+  "name": "P5.s.inertia.G1",
+  "summary": "Transfer the stiff-gain inertia-augmented fit to the board’s configured gains.",
+  "description": "Run the exact same fitted weights at the board’s configured kp and kd. Compare with p5s-pass3-g1, which transplants the matched PD-only fit to those gains.",
+  "expect": "Improve the 0.15645 mm PD-only transfer baseline by at least 10%, to at most 0.14080 mm, and pass all five gates on all 42 dev tasks."
+}
