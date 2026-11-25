@@ -23,6 +23,47 @@
 var TrajCompare = (function () {
   'use strict';
 
+  // ── ink: the dark theme's colour of a light one (traj_compare._theme.dark_colour, role "other", ported; a test holds
+  // the port equal to it and this block identical in plots.js and dataset.js). WHY: the stylesheets go dark by
+  // themselves (their generated dark block); a canvas (uPlot axes, the three.js scene, the SVG charts) is painted
+  // with colours from code, so its few neutral ones go through here. Data colours come back unchanged.
+  function themeIsDark() {
+    var pinned = document.documentElement.getAttribute('data-theme');
+    if (pinned === 'dark') return true;
+    if (pinned === 'light') return false;
+    return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  }
+  function darkInk(colour) {
+    var digits = String(colour).replace('#', '');
+    if (digits.length === 3 || digits.length === 4) digits = digits.split('').map(function (ch) { return ch + ch; }).join('');
+    var rgb = [0, 2, 4].map(function (i) { return parseInt(digits.slice(i, i + 2), 16); });
+    var lin = rgb.map(function (c) { c /= 255; return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); });
+    var f = function (t) { return t > 0.008856 ? Math.pow(t, 1 / 3) : 7.787 * t + 16 / 116; };
+    var x = (0.4124 * lin[0] + 0.3576 * lin[1] + 0.1805 * lin[2]) / 0.95047;
+    var y = 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
+    var z = (0.0193 * lin[0] + 0.1192 * lin[1] + 0.9505 * lin[2]) / 1.08883;
+    var L = 116 * f(y) - 16, a = 500 * (f(x) - f(y)), b = 200 * (f(y) - f(z));
+    if (Math.hypot(a, b) >= 15 && L <= 70) return colour;
+    var mapped = L >= 94 ? 10 + (L - 94) : 18 + (94 - L) * 77 / 91;
+    var inv = function (t) { return t * t * t > 0.008856 ? t * t * t : (t - 16 / 116) / 7.787; };
+    for (var step = 0; step <= 20; step++) {
+      var scale = 1 - step / 20, fy = (mapped + 16) / 116;
+      var X = 0.95047 * inv(fy + 0.7 * a * scale / 500), Y = inv(fy), Z = 1.08883 * inv(fy - 0.7 * b * scale / 200);
+      var out = [3.2406 * X - 1.5372 * Y - 0.4986 * Z, -0.9689 * X + 1.8758 * Y + 0.0415 * Z, 0.0557 * X - 0.2040 * Y + 1.0570 * Z];
+      if (out.some(function (v) { return v < -1e-4 || v > 1 + 1e-4; })) continue;
+      var hex = out.map(function (v) {
+        v = Math.min(1, Math.max(0, v));
+        v = v <= 0.0031308 ? 12.92 * v : 1.055 * Math.pow(v, 1 / 2.4) - 0.055;
+        return ('0' + Math.round(v * 255).toString(16)).slice(-2);
+      }).join('');
+      return hex === rgb.map(function (v) { return ('0' + v.toString(16)).slice(-2); }).join('') ? colour : '#' + hex + digits.slice(6, 8);
+    }
+    return colour;
+  }
+  function ink(colour) { return themeIsDark() ? darkInk(colour) : colour; }
+  // ── ink end
+
+
   var RAD2DEG = 180 / Math.PI;
 
   // kind -> {angle: uses the global rad/deg toggle, scale: fixed multiplier}
@@ -518,8 +559,8 @@ var TrajCompare = (function () {
           sync: { key: 'tc-page-' + page.index },
         },
         axes: [
-          { stroke: '#8a8983', grid: { stroke: '#e6e5e0', width: 0.5 }, ticks: { stroke: '#c9c8c2' }, size: 28 },
-          { stroke: '#8a8983', grid: { stroke: '#e6e5e0', width: 0.5 }, ticks: { stroke: '#c9c8c2' }, size: 44 },
+          { stroke: ink('#8a8983'), grid: { stroke: ink('#e6e5e0'), width: 0.5 }, ticks: { stroke: ink('#c9c8c2') }, size: 28 },
+          { stroke: ink('#8a8983'), grid: { stroke: ink('#e6e5e0'), width: 0.5 }, ticks: { stroke: ink('#c9c8c2') }, size: 44 },
         ],
         hooks: {
           setScale: [function (u, key) {
@@ -821,7 +862,7 @@ var TrajCompare = (function () {
   var TORQUE_FEEDFORWARD = '#3b82f6';
   var TORQUE_FEEDBACK = '#f97316';
   var TORQUE_FEEDBACK_FILL = 'rgba(249, 115, 22, 0.12)';
-  var TORQUE_TARGET = '#8a8983';
+  var TORQUE_TARGET = ink('#8a8983');
 
   // Legend order. ``key`` is the payload plot key (the target's τ is its own ``tau``; a run's ``tau`` is applied).
   var TORQUE_COMPONENTS = [
@@ -907,7 +948,7 @@ var TrajCompare = (function () {
     var legend = el('div', 'tc-torque-legend', body);
     el('span', 'grouplabel', legend, 'Components');
     var runColors = runs.map(function (sit) { return sit.color; });
-    var runPaint = runColors.length > 1 ? 'linear-gradient(90deg, ' + runColors.join(', ') + ')' : (runColors[0] || '#52514e');
+    var runPaint = runColors.length > 1 ? 'linear-gradient(90deg, ' + runColors.join(', ') + ')' : (runColors[0] || ink('#52514e'));
     TORQUE_COMPONENTS.forEach(function (component) {
       if (!present[component.id]) return;
       var chip = el('button', 'chip', legend);
@@ -1485,7 +1526,9 @@ var TrajCompare = (function () {
     });
     var maximum = values.length ? Math.max.apply(null, values) : 1;
     if (!(maximum > 0)) maximum = 1;
-    var colors = ['#2a78d6', '#eb6834', '#2f9e44', '#8e5bd1', '#c22f6e'];
+    // report.py's SITUATION_PALETTE: a bar chart with more than five series no longer wraps to blue
+    var colors = ['#2a78d6', '#eb6834', '#2f9e44', '#8e5bd1', '#c22f6e', '#17a2b8', '#a67c00', '#6b7a8f',
+      '#d17c7b', '#336a3a', '#7d4b8b', '#974811', '#f356b8', '#ac28ab', '#b81b36', '#9d86da'];
     chart.categories.forEach(function (category, categoryIndex) {
       var group = el('div', 'tc-bar-group', section);
       el('div', 'tc-bar-category', group, category);
@@ -1826,7 +1869,32 @@ var TrajCompare = (function () {
   }
 
   function writeHash(id) {
-    try { history.replaceState(null, '', '#tab=' + encodeURIComponent(id)); } catch (error) {}
+    var run = /(?:^#|&)(run=[^&]+)/.exec(location.hash || '');  // a #run= deep link stays in the address
+    try { history.replaceState(null, '', '#tab=' + encodeURIComponent(id) + (run ? '&' + run[1] : '')); } catch (error) {}
+  }
+
+  // ``report.html#run=<label>`` (a run's name or title, any case; with ``#tab=<id>&run=<label>`` too) opens the page
+  // with only that run shown beside its reference, and is not remembered: the next plain visit shows the runs as left.
+  // An unknown label changes nothing. WHY (TTA ask, 2026-11-24): a Model × Dataset cell links one solution's run of a
+  // task, and the task's report holds every solution.
+  function runFromHash() {
+    var match = /(?:^#|&)run=([^&]+)/.exec(location.hash || '');
+    if (!match) return null;
+    try { return decodeURIComponent(match[1]); } catch (error) { return match[1]; }
+  }
+  function focusedRun(data) {
+    var wanted = runFromHash();
+    if (!wanted || !data || !data.situations) return null;
+    wanted = wanted.toLowerCase();
+    var hit = data.situations.filter(function (sit) {
+      return sit.role !== 'target' && (String(sit.name).toLowerCase() === wanted || String(sit.title || '').toLowerCase() === wanted);
+    })[0];
+    return hit ? hit.name : null;
+  }
+  function sitWanted(page, sit) {
+    var focus = focusedRun(page.data);
+    if (focus) return sit.role === 'target' || sit.name === focus;
+    return state.prefs.get('sit:' + sit.name, true);
   }
 
   function resizeChartsIn(page, host) {
@@ -2237,6 +2305,12 @@ var TrajCompare = (function () {
   function buildTrackPanel(page, panel) {
     var data = page.data;
     buildAnswer(page, panel);
+    if (data.stats_mask) {
+      // Comparison.stats_mask: every error statistic is over these samples; the plots still draw every sample
+      el('p', 'tc-desc tc-stats-mask', panel, 'Error statistics are over ' + data.stats_mask.n + ' of ' + data.stats_mask.of +
+        ' samples' + (data.stats_mask.label ? ' (' + data.stats_mask.label + ')' : '') + '; the plots draw every sample.')
+        .setAttribute('data-tc-stats-mask', '');
+    }
     if (data.statistics) buildTable(panel, data.statistics, true);
     buildWorstOverTime(page, panel);
     buildVerdictDetails(panel, data);
@@ -2427,7 +2501,7 @@ var TrajCompare = (function () {
         }
         page.sitChips.push({ sit: sit, apply: apply });
         chip.onclick = function () { apply(page.visible[sit.name] === false, true); };
-        apply(state.prefs.get('sit:' + sit.name, true), false);
+        apply(sitWanted(page, sit), false);
       });
     });
 
@@ -2530,7 +2604,7 @@ var TrajCompare = (function () {
         if (want !== section.on) setSection(page, section, want, false);
       });
       page.sitChips.forEach(function (entry) {
-        var want = state.prefs.get('sit:' + entry.sit.name, true);
+        var want = sitWanted(page, entry.sit);
         if (want !== (page.visible[entry.sit.name] !== false)) entry.apply(want, false);
       });
       page.errChips.forEach(function (entry) {
@@ -2641,6 +2715,8 @@ var TrajCompare = (function () {
     // Robot link meshes are stored once per report; links carry an index.
     var meshLibrary = payload.mesh_library || [];
     payload.comparisons.forEach(function (data) {
+      // the target's grey in the page's theme; every run's colour is a data colour and stays
+      (data.situations || []).forEach(function (sit) { if (sit.role === 'target' && sit.color) sit.color = ink(sit.color); });
       (data.robots || []).forEach(function (model) {
         model.links.forEach(function (link) {
           if (typeof link.tris === 'number') link.tris = meshLibrary[link.tris];
@@ -2725,6 +2801,12 @@ var TrajCompare = (function () {
       var id = tabFromHash();
       var page = state.pages[state.activePage];
       if (id && page && page.builtPage && page.tabs && page.el.classList.contains('active')) activateTab(page, id, false);
+      if (page && page.builtPage && page.sitChips) {
+        page.sitChips.forEach(function (entry) {
+          var want = sitWanted(page, entry.sit);
+          if (want !== (page.visible[entry.sit.name] !== false)) entry.apply(want, false);
+        });
+      }
     });
 
     activatePage(0);
@@ -2737,6 +2819,7 @@ var TrajCompare = (function () {
 
   return {
     boot: boot,
+    ink: ink,
     renderReportPage: renderReportPage,
     state: state,
     buildTransportBar: buildTransportBar,

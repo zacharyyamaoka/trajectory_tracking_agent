@@ -6,9 +6,9 @@ headless Chromium.
 The one relation that is not an equality, said exactly: traj_compare's tool error e(t) = |target − run| at each of the
 run's samples (robot_msgs.compare) is the ruler's per-sample tool error (both are the distance between the target and the
 measured tool point at the same instant). The ruler's per-task number is the RMS of e over the samples where the target
-moves (`ruler.metrics.moving_mask`); traj_compare's own position RMS (`error_metrics["position"]["rms"]`, the number
-its hovers and tables use) is the RMS of e over every sample, rests included. So the report's e restricted to the
-ruler's moving samples gives the scorecard's number, and over all samples gives traj_compare's.
+moves (`ruler.metrics.moving_mask`). The build hands traj_compare that mask (`Comparison(stats_mask=)`), so its own
+position RMS (`error_metrics["position"]["rms"]`, the number its hovers and tables use) is taken over the same samples
+and is the scorecard's number; its plots still draw every sample, rests included.
 """
 
 from __future__ import annotations
@@ -86,10 +86,11 @@ def test_the_pages_are_current():
 
 @pytest.mark.parametrize("sid", ["best", "gen0_best"])
 def test_report_tool_rms_is_the_scorecards(sid):
-    """For every dev task, in the run report: the statistics table shows the scorecard's per-task tool_track_rms_mm, and
+    """For every dev task, in the run report: the statistics table shows the scorecard's per-task tool_track_rms_mm;
     traj_compare's own tool error series, restricted to the ruler's moving samples, re-takes that number (the oracle:
     the ruler's moving_mask over the target tape and the deployment's tool point, both read here, not from the build);
-    over all samples it re-takes traj_compare's own position RMS. Run for the best and the best of generation 0."""
+    and traj_compare's own position RMS, the number its tables and hovers show, IS that number: its stats mask is the
+    ruler's moving samples, sample for sample in count. Run for the best and the best of generation 0."""
     import trajectory_tracking_agent as tta
     from robot_msgs import load_npz
     from trajectory_tracking_agent.ruler.metrics import moving_mask
@@ -114,9 +115,12 @@ def test_report_tool_rms_is_the_scorecards(sid):
         ruler_mm = math.sqrt(np.mean(error_m[moving] ** 2)) * 1e3
         assert abs(ruler_mm - scored) <= TOLERANCE_MM, (task, ruler_mm, scored)
         worst = max(worst, abs(ruler_mm - scored))
-        every_mm = math.sqrt(np.mean(error_m ** 2)) * 1e3
-        own_mm = situation["error_metrics"]["position"]["rms"] * 1e3
-        assert abs(every_mm - own_mm) <= TOLERANCE_MM, (task, every_mm, own_mm)
+        assert comparison["stats_mask"] == {"label": "moving samples", "n": int(moving.sum()), "of": int(moving.size)}
+        position = situation["error_metrics"]["position"]
+        assert position["n"] == int(moving.sum()), (task, position["n"])
+        own_mm = position["rms"] * 1e3
+        assert abs(own_mm - scored) <= TOLERANCE_MM, (task, own_mm, scored)
+        worst = max(worst, abs(own_mm - scored))
     assert worst < TOLERANCE_MM
 
 
@@ -194,16 +198,43 @@ def test_models_datasets_families_follow_the_stated_rule():
 
 
 def test_models_datasets_cells_open_their_run():
-    """A cell's link is its run: the Comparison report of its task when the solution ships on every task, the landing
-    page's player when its record ships, else the task's Comparison (and the record says so)."""
+    """A cell's link is its run: the Comparison report of its task, opened on that run, when the solution ships on every
+    task; the landing page's player on that run's record (`?run=<record path from runs/index.json>#run`, which
+    blackbox_agent 0.1.5's landing reads) when its record ships; else the task's Comparison (and the record says so)."""
     full = set(_full())
+    records = {(s["id"], t): e["record"] for s in _runs_index()["solutions"] for t, e in s["tasks"].items()}
     for row in _json(MXD / "cells.json")["rows"]:
         if row["solution"] in full:
-            assert row["url"] == f"../comparison/runs/{row['task']}/report.html#tab=track"
-        elif (SITE / "data" / "runs" / row["solution"] / f"{row['task']}.json").exists():
-            assert row["url"] == f"../index.html?solution={row['solution']}&task={row['task']}#run"
+            assert row["url"] == f"../comparison/runs/{row['task']}/report.html#tab=track&run={row['solution']}"
+        elif (row["solution"], row["task"]) in records:
+            assert row["url"] == f"../index.html?run={records[(row['solution'], row['task'])]}#run"
         else:
             assert row["url"].startswith(f"../comparison/runs/{row['task']}/report.html") and "not saved" in row["opens"]
+
+
+def test_every_landing_link_names_a_shipped_record():
+    """Every Model × Dataset link into the landing page names, in its ?run=, a record runs/index.json lists (the landing
+    matches it against state.json's playback runs, the same list) and that file ships; and every shipped run outside the
+    Comparison has its cell linking there (160 at ruler v1: 34 solutions on 5 tasks, less the 2 in the Comparison)."""
+    from urllib.parse import parse_qs, urlsplit
+
+    index = _runs_index()
+    listed = {e["record"] for s in index["solutions"] for e in s["tasks"].values()}
+    state = {r["path"] for r in _json(SITE / "data" / "state.json")["playback"]["runs"]}
+    full = set(_full())
+    linked = []
+    for row in _json(MXD / "cells.json")["rows"]:
+        parts = urlsplit(row["url"])
+        if parts.path != "../index.html":
+            continue
+        assert parts.fragment == "run" and set(parse_qs(parts.query)) == {"run"}, row["url"]
+        record = parse_qs(parts.query)["run"][0]
+        assert record in listed and record in state, (row["id"], record)
+        assert record == f"runs/{row['solution']}/{row['task']}.json", (row["id"], record)
+        assert (SITE / "data" / record).is_file(), record
+        linked.append(record)
+    outside = {e["record"] for s in index["solutions"] if s["id"] not in full for e in s["tasks"].values()}
+    assert sorted(linked) == sorted(outside) and len(linked) == len(set(linked))
 
 
 def test_every_link_resolves():
@@ -216,9 +247,12 @@ def test_every_link_resolves():
     for page in [MXD / "index.html", COMPARISON / "index.html", *runs]:
         text = page.read_text()
         assert text.count("<bb-site-nav ") == 1 and not re.search(r'src="(?:\.\./)*nav\.js"', text), page
-    # traj_compare's pages have no dark mode, so their bar is light; a run report's bar names the run
+    # traj_compare's pages follow the reader's colour scheme (38b5967's dark mode), so their bar is not pinned light;
+    # a run report's bar names the run
+    dark = '@media (prefers-color-scheme: dark)'
+    assert dark in (COMPARISON / "index.html").read_text() and dark in (COMPARISON / "assets" / "style.css").read_text()
     for page in [COMPARISON / "index.html", *runs]:
-        assert 'theme="light"' in page.read_text(), page
+        assert "<bb-site-nav " in page.read_text() and not re.search(r"<bb-site-nav [^>]*theme=", page.read_text()), page
     for page in runs:
         assert f'here="Run · {page.parent.name}"' in page.read_text(), page
     assert not (SITE / "nav.js").exists(), "site/nav.js (the interim header strip) is retired"

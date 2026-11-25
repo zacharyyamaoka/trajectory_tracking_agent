@@ -18,15 +18,18 @@ What it writes, and from where (every input is committed; nothing is simulated o
   best of generation 0), read from their saved bb-run/1 records (`site/data/runs/<solution>/<task>.json`).
   - The dataset level's league ranks on the ruler's own per-task numbers, passed as run tags from each solution's
     `scorecard.json`, so its median over the 42 tasks *is* the objective. The run report's statistics table is that
-    task's scorecard row. traj_compare's own plots and its joint-error numbers are its own (robot_msgs.compare at every
-    sample, rests included); tests/test_dropins.py holds the relation between the two.
+    task's scorecard row. traj_compare's plots are its own (robot_msgs.compare, every sample drawn, rests included); its
+    error statistics are taken over the ruler's moving samples (`Comparison(stats_mask=)`: `ruler.metrics.moving_mask`),
+    so its tool position RMS is the scorecard's `tool_track_rms_mm`; tests/test_dropins.py holds that equality.
   - traj_compare runs in its own venv (`TTA_TRAJ_COMPARE_PYTHON`, default `../traj_compare/.venv/bin/python`): this
     repo never depends on it. The kinematics (the deployment's MuJoCo model: the tool site's pose, the drawn arm's
     capsules) are computed here first, in this repo's env, into `outputs/dropins/inputs/` (gitignored).
   - What ships is only what a browser opens: the dataset's run folders (manifests, `.npz`), its references and caches
-    stay in `outputs/dropins/comparison-build/`. The run reports' inlined viewer files (uPlot, three.js r160, the
-    viewer) are written once to `site/comparison/assets/` and each report loads them from there (`_share_assets`: an
-    exact, checked substitution of traj_compare's own inline copies); the dataset page stays one self-contained file.
+    stay in `outputs/dropins/comparison-build/`. The run reports' viewer files (uPlot, three.js r160, the viewer) are
+    written once to `site/comparison/assets/` and each report loads them from there (traj_compare's own
+    `write_comparison_report(assets=)`); the dataset page stays one self-contained file. The dataset page's commands name
+    its folder `site/comparison` (`command_root=`), never the build machine's path, and its Rerun actions are the
+    static-host kind (`rerun_server=False`: no POST to a server GitHub Pages does not run).
 - **site/models-datasets/**: data-ui's stock `pivot` (`models-datasets.base` over `cells.json`, one row per solution ×
   dev task, every value a scorecard's) in the data-ui kit lane CV vendored (`site/vendor/data-ui/`; the pivot is in
   its table view). Rows = iterations nested under their family (`FAMILY_RULE`: by lineage), ablations in their own
@@ -35,12 +38,14 @@ What it writes, and from where (every input is committed; nothing is simulated o
   are data-ui's own summaries (median). Presets roll a level up (per task kind, per dataset by median, mean or mean
   rank: `RANK_RULE`) or switch the metric; in any of them data-ui's view settings switch Cell value and Summary in
   place. The left panel is data-ui's `<data-facets>`; "Rows" is the plain list. A cell opens its run: the Comparison
-  report when the run is there, else the landing page's saved-run player when that run ships, else the task's
-  Comparison report (the record says which). WHY (dispatcher, relaying Zach's feedback, 2026-11-24): the stock first
+  report on that run (`#tab=track&run=<solution>`) when the run is there, else the landing page's saved-run player on
+  it (`landing_run_url`: `../index.html?run=<record path from runs/index.json>#run`) when that run ships, else the
+  task's Comparison report (the record says which). WHY (dispatcher, relaying Zach's feedback, 2026-11-24): the stock first
   version; lanes PV and VZ design the full pivot, and what data-ui cannot do is listed, not hand-rolled.
 - **The site bar**: every page gets the one include of the viewer's stock `<bb-site-nav>` reading site/nav.json
   (tools/site_bar.py; blackbox_agent viewer CONTRACT §18). nav.json is hand-written; the build only checks it. The
-  traj_compare pages have no dark mode, so their bar says `theme="light"`; a run report's bar names the run (`here`).
+  traj_compare pages follow the reader's colour scheme (traj_compare 38b5967's dark mode), so their bar does too (no
+  `theme=`); a run report's bar names the run (`here`).
 
 The pages are built here and committed, like the playback runs; CI does not rebuild them.
 """
@@ -57,6 +62,7 @@ import re
 import shutil
 import subprocess
 import sys
+import urllib.parse
 from pathlib import Path
 from typing import Any
 
@@ -81,7 +87,12 @@ INPUTS = WORK / "inputs"
 BUILD = WORK / "comparison-build"
 TRAJ_COMPARE_PYTHON = Path(os.environ.get("TTA_TRAJ_COMPARE_PYTHON",
                                           REPO.parent / "traj_compare" / ".venv" / "bin" / "python"))
-PUBLIC_DIR = "site/comparison"  # what the dataset page's commands name instead of the build's absolute folder
+PUBLIC_DIR = "site/comparison"  # what the dataset page's commands call its folder (write_dataset_report command_root)
+# Where the dataset page is served on the public site: the Rerun web viewer loads each run's .rrd from here
+PUBLIC_URL = "https://zacharyyamaoka.github.io/trajectory_tracking_agent/comparison/"
+# The first traj_compare commit with the stock options this build uses (assets=, command_root=, rerun_server=False,
+# public_url=, stats_mask=, dark mode, #run= deep links); the build refuses an older checkout
+TRAJ_COMPARE_MIN = "38b5967"
 EXCLUDED_TAG = "ablation"
 TOOL_FRAME = "tool point"  # the flange site `tool`, 0.1 m along wrist_3 (OBJECTIVES §2); said once in each report
 # OBJECTIVES §3's words for the task kinds, in the order it lists them
@@ -103,16 +114,6 @@ GATE_WORDS = {
 }
 # The question tab a cell's deep link opens (traj_compare.tabs: "Did it track the target?")
 DEEP_TAB = "track"
-# The traj_compare report's inlined files, as report.py writes them: (tag, asset file name)
-REPORT_ASSETS = (
-    ("style", "uplot.min.css"),
-    ("style", "style.css"),
-    ("script", "uplot.iife.min.js"),
-    ("script", "three.min.js"),
-    ("script", "viewhelper.js"),
-    ("script", "viewer3d.js"),
-    ("script", "plots.js"),
-)
 PRIVATE = re.compile(r"/home/|bam_ws|zach_brain|\.claude|[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}")
 # WHY allowed: three.min.js and uPlot carry their own licence banners; none of these is a private path or a person
 PRIVATE_ALLOWED = re.compile(r"three@|noreply@anthropic\.com")
@@ -342,11 +343,11 @@ def prepare() -> dict[str, Any]:
             if row is None:
                 raise SystemExit(f"solutions/{sid}/scorecard.json has no row for {task_id}")
             situations.append({"id": sid, "record": path.relative_to(REPO).as_posix(), "row": row})
-        np.savez_compressed(INPUTS / f"{task_id}.npz", **arrays)
         target_tool = target_pose[:, :3, 3]
         from trajectory_tracking_agent.ruler.metrics import moving_mask
 
         moving = moving_mask(tape.t, target_tool, tape.velocities)
+        np.savez_compressed(INPUTS / f"{task_id}.npz", **arrays, moving=moving)
         task_entries.append({**task, "tape": (DATASET_DIR / "tapes" / f"{task_id}.npz").as_posix(),
                              "title": f"{task_id} · {task['kind_label']}", "samples": int(len(tape.t)),
                              "moving_samples": int(np.sum(moving)), "situations": situations})
@@ -399,20 +400,24 @@ def _stats_table(task: dict[str, Any], titles: dict[str, str]) -> Any:
                      f"first column is the objective's per-task number: the RMS of the tool error over the "
                      f"{task['moving_samples']} of {task['samples']} samples where the target moves; the objective is "
                      "the median of the 42. The plots below are traj_compare's own (robot_msgs.compare, error = target "
-                     "− run, at every sample, rests included), so the RMS its hovers show is not the ruler's."),
+                     "− run) and draw every sample, rests included; its error statistics are taken over the same "
+                     "moving samples (stats_mask), so its tool position RMS is this first column's number."),
     )
 
 
 def comparison_stage() -> None:
     """Runs under traj_compare's venv: reads outputs/dropins/inputs/, writes outputs/dropins/comparison-build/."""
-    import importlib.resources
-
     import numpy as np
     from robot_msgs import load_npz
     from robot_msgs.trajectory import JointTrajectory
     from traj_compare import (Comparison, Metric, MetricCard, ReportPage, RobotDisplay, Run, Situation, Sweep,
                               write_comparison_report, write_dataset_report)
 
+    import traj_compare
+
+    here = Path(traj_compare.__file__).resolve().parents[2]
+    if subprocess.run(["git", "-C", str(here), "merge-base", "--is-ancestor", TRAJ_COMPARE_MIN, "HEAD"]).returncode:
+        raise SystemExit(f"traj_compare at {here} is older than {TRAJ_COMPARE_MIN} (the stock options this build uses)")
     manifest = _json(INPUTS / "manifest.json")
     joints = tuple(manifest["joint_names"])
     solutions = [s["id"] for s in manifest["solutions"]]
@@ -458,7 +463,8 @@ def comparison_stage() -> None:
                  for s in manifest["solutions"]],
     )
     write_dataset_report(runs, BUILD, title=f"Trajectory Comparison: {DEPLOYMENT} · {DATASET} · {SPLIT}",
-                         target_by="task", sweep=sweep, summary=summary, rows=(), drill_down="lazy")
+                         target_by="task", sweep=sweep, summary=summary, rows=(), drill_down="lazy",
+                         command_root=PUBLIC_DIR, rerun_server=False, public_url=PUBLIC_URL)
     page = (BUILD / "index.html").read_text()
     payload = json.loads(re.search(r'id="traj-compare-dataset">(.*?)</script>', page, re.S).group(1).replace("<\\/", "</"))
     target_slug = {target["key"]: (target["slug"], target["title"]) for target in payload["levels"]["targets"]}
@@ -493,7 +499,8 @@ def comparison_stage() -> None:
         slug, target_title = target_slug[task["id"]]
         comparison = Comparison(
             title=task["title"], name=task["id"], joint_names=list(joints), target=target, situations=situations,
-            tcp_frame=manifest["tcp_frame"], vec_dirs=[], statistics=_stats_table(task, titles),
+            tcp_frame=manifest["tcp_frame"], vec_dirs=[],
+            stats_mask=data["moving"], stats_mask_label="moving samples", statistics=_stats_table(task, titles),
             description=(f"Target: {task['tape']} (the frozen dataset). Runs: the saved records tta evaluate wrote "
                          "(site/data/runs/<solution>/<task>.json): joints, the tool point and the applied torque at the "
                          "target's 100 Hz samples. The tool point is the ruler's: the flange site `tool`, 0.1 m along "
@@ -505,15 +512,11 @@ def comparison_stage() -> None:
             subtitle=(f"{DEPLOYMENT} · {DATASET} · {SPLIT} · {task['duration_s']} s · the target moves on "
                       f"{task['moving_samples']} of {task['samples']} samples"),
             provenance={"task": task["id"], "built by": "tools/build_dropins.py"},
+            assets=BUILD / "assets",
             breadcrumb=[("Comparison: all 42 tasks", "../../index.html#/"),
                         (target_title, f"../../index.html#/target/{slug}"), (task["id"], "")],
         )
-    assets = BUILD / "assets"
-    assets.mkdir()
-    for _, name in REPORT_ASSETS:
-        (assets / name).write_text(importlib.resources.files("traj_compare").joinpath("assets", name).read_text("utf-8"))
     import robot_msgs
-    import traj_compare
 
     _write_json(BUILD / "build.json", {
         "traj_compare": {**_commit(Path(traj_compare.__file__).resolve().parents[2]), "version": traj_compare.__version__},
@@ -528,21 +531,6 @@ def comparison_stage() -> None:
 def _with_bar(page: str, path: Path, current: str, **kw: str) -> str:
     """The site bar's one include right after <body> (tools/site_bar.py: <bb-site-nav> reading site/nav.json)."""
     return site_bar.include(page, path, current, **kw)
-
-
-def _share_assets(page: str, assets: Path, rel: str) -> str:
-    """Each of traj_compare's inlined viewer files, exactly as the report inlines it, becomes a reference to its one
-    copy in site/comparison/assets/. WHY: 42 reports each inlining the same 0.92 MB (three.js r160 is 0.67 MB of it)
-    would ship 39 MB of copies; a missing or changed inline copy stops the build (traj_compare ask: an `assets=` option)."""
-    for tag, name in REPORT_ASSETS:
-        content = (assets / name).read_text()
-        inline = f"<{tag}>{content}</{tag}>"
-        if page.count(inline) != 1:
-            raise SystemExit(f"the report does not inline {name} exactly once as report.py writes it")
-        reference = (f'<link rel="stylesheet" href="{rel}{name}">' if tag == "style"
-                     else f'<script src="{rel}{name}"></script>')
-        page = page.replace(inline, reference, 1)
-    return page
 
 
 # What a rebuild changes even when nothing it shows did: the time it ran and the dataset page's per-write id
@@ -576,22 +564,17 @@ def publish() -> dict[str, Any]:
         shutil.rmtree(COMPARISON)
     (COMPARISON / "targets").mkdir(parents=True)
     (COMPARISON / "assets").mkdir()
-    absolute = str(BUILD.resolve())
     index = (BUILD / "index.html").read_text()
-    # WHY: the dataset page names its own folder in the commands it offers (serve, drill, Rerun); the public copy names
-    # it as this repo does, from the repo root (traj_compare ask: a public_url / relative-commands option)
-    index = index.replace(absolute, PUBLIC_DIR)
-    (COMPARISON / "index.html").write_text(_with_bar(index, COMPARISON / "index.html", "comparison", theme="light"))
+    (COMPARISON / "index.html").write_text(_with_bar(index, COMPARISON / "index.html", "comparison"))
     for slug in build["slugs"]["targets"].values():
         shutil.copy2(BUILD / "targets" / f"{slug}.js", COMPARISON / "targets" / f"{slug}.js")
-    for _, name in REPORT_ASSETS:
-        shutil.copy2(BUILD / "assets" / name, COMPARISON / "assets" / name)
+    for asset in sorted((BUILD / "assets").iterdir()):
+        shutil.copy2(asset, COMPARISON / "assets" / asset.name)
     for slug in build["slugs"]["runs"].values():
         page = (BUILD / "runs" / slug / "report.html").read_text()
-        page = _share_assets(page, BUILD / "assets", "../../assets/")
         out = COMPARISON / "runs" / slug / "report.html"
         out.parent.mkdir(parents=True)
-        out.write_text(_with_bar(page, out, "comparison", here=f"Run · {slug}", theme="light"))
+        out.write_text(_with_bar(page, out, "comparison", here=f"Run · {slug}"))
     _keep_unchanged(old)
     manifest = _json(INPUTS / "manifest.json")
     files = sorted(p for p in COMPARISON.rglob("*") if p.is_file())
@@ -602,7 +585,8 @@ def publish() -> dict[str, Any]:
         "made_by": {"repo": manifest["repo"], "traj_compare": build["traj_compare"], "robot_msgs": build["robot_msgs"]},
         "solutions": [{"id": s["id"], "role": s["role"]} for s in manifest["solutions"]],
         "tasks": [task["id"] for task in manifest["tasks"]],
-        "assets": {name: hashlib.sha256((COMPARISON / "assets" / name).read_bytes()).hexdigest() for _, name in REPORT_ASSETS},
+        "assets": {asset.name: hashlib.sha256(asset.read_bytes()).hexdigest()
+                   for asset in sorted((COMPARISON / "assets").iterdir())},
         "fk_check_worst_mm": manifest["fk_check_worst_mm"],
         "bytes": sum(p.stat().st_size for p in files),
     })
@@ -616,14 +600,38 @@ def _scored_solutions() -> list[str]:
     return sorted(p.parent.name for p in SOLUTIONS.glob("*/scorecard.json"))
 
 
-def _deep_link(solution_id: str, task_id: str, in_comparison: set[str]) -> tuple[str, str]:
+def landing_run_url(record: str) -> str:
+    """The landing page's player opened on one saved run, href relative to site/models-datasets/. ``record`` is the run's
+    path as site/data/runs/index.json lists it (``runs/<solution>/<task>.json``, relative to site/data/). WHY ?run=
+    (lane DROP2, 2026-11-25): blackbox_agent 0.1.5's landing reads ``index.html?run=<record path>#run`` into its replay
+    and says so when the run is not one it ships, never swapping in another run silently."""
+    return f"../index.html?{urllib.parse.urlencode({'run': record}, safe='/')}#run"
+
+
+def landing_run_record(url: str) -> str | None:
+    """The record a landing_run_url names (None for any other link)."""
+    if not url.startswith("../index.html?"):
+        return None
+    query = url.split("?", 1)[1].split("#", 1)[0]
+    return (urllib.parse.parse_qs(query).get("run") or [None])[0]
+
+
+def shipped_records(index: dict[str, Any] | None = None) -> dict[tuple[str, str], str]:
+    """{(solution, task): its record path} for every run site/data/runs/index.json ships."""
+    index = index or runs_index()
+    return {(s["id"], task_id): entry["record"] for s in index["solutions"] for task_id, entry in s["tasks"].items()}
+
+
+def _deep_link(solution_id: str, task_id: str, in_comparison: set[str],
+               records: dict[tuple[str, str], str]) -> tuple[str, str]:
     """(href relative to site/models-datasets/, what it opens, in a few words) for one cell."""
     report = f"../comparison/runs/{task_id}/report.html#tab={DEEP_TAB}"
     if solution_id in in_comparison:
-        return report, "its run in the Comparison"
-    if record_path(solution_id, task_id).exists():
+        # traj_compare's #run=<name> opens that run beside the target (38b5967)
+        return f"{report}&run={urllib.parse.quote(solution_id)}", "its run in the Comparison"
+    if (solution_id, task_id) in records:
         # the Comparison holds the solutions shipped on every task; this one ships on one task per kind
-        return f"../index.html?solution={solution_id}&task={task_id}#run", "its run in the landing page's player"
+        return landing_run_url(records[(solution_id, task_id)]), "its run in the landing page's player"
     return report, "the task's Comparison (this run is not saved, only its score)"
 
 
@@ -674,6 +682,7 @@ def mxd_rows() -> list[dict[str, Any]]:
     """One row per (scored solution, dev task), every number a scorecard's (the rank is counted from them)."""
     index = runs_index()
     in_comparison = set(full_solutions(index))
+    records = shipped_records(index)
     tasks = {task["id"]: task for task in dev_tasks(index)}
     solutions = [sid for sid in _scored_solutions() if scorecard(sid).get("split") == SPLIT]
     metas = {sid: meta(sid) for sid in (p.parent.name for p in SOLUTIONS.glob("*/meta.json"))}
@@ -693,7 +702,7 @@ def mxd_rows() -> list[dict[str, Any]]:
         for task_id, task in tasks.items():
             row = per_task[sid].get(task_id)
             failed = failed_gates(row) if row else list(GATE_WORDS)
-            url, opens = _deep_link(sid, task_id, in_comparison)
+            url, opens = _deep_link(sid, task_id, in_comparison, records)
             value = row["objective"] if row else None
             out = {
                 "id": f"{sid}/{task_id}",
@@ -1074,9 +1083,13 @@ def link_problems() -> list[str]:
         if not resolves(index, f"targets/{target['slug']}.js"):
             problems.append(f"comparison target {target['slug']}: targets/{target['slug']}.js")
     cells = _json(MXD / "cells.json")
+    shipped = set(shipped_records().values())
     for row in cells["rows"]:
         if not resolves(MXD / "cells.json", row["url"]):
             problems.append(f"models-datasets {row['id']}: {row['url']}")
+        record = landing_run_record(row["url"])
+        if row["url"].startswith("../index.html") and (record not in shipped or not (SITE / "data" / record).is_file()):
+            problems.append(f"models-datasets {row['id']}: {row['url']} names no record in runs/index.json")
     problems += site_bar.nav_problems()
     problems += site_bar.page_problems(pages)
     return problems

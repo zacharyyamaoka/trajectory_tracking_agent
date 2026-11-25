@@ -20,6 +20,12 @@ var Viewer3D = (function () {
   'use strict';
 
   var CANVAS_HEIGHT = 540;
+  // a neutral scene colour in the page's theme (TrajCompare.ink, plots.js: unchanged on the light page)
+  function inkNumber(value) {
+    var tc = window.TrajCompare;
+    if (!tc || !tc.ink) return value;
+    return parseInt(tc.ink('#' + ('00000' + value.toString(16)).slice(-6)).slice(1, 7), 16);
+  }
   var GIZMO_SIZE = 128;   // ViewHelper's fixed `dim`
   var ARC_STEPS = 10;
 
@@ -119,11 +125,11 @@ var Viewer3D = (function () {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.autoClear = false;
     var scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xfcfcfb);
+    scene.background = new THREE.Color(inkNumber(0xfcfcfb));
     var camera = new THREE.PerspectiveCamera(50, 1.6, 0.005, 200);
     camera.up.set(0, 0, 1);
 
-    var grid = new THREE.GridHelper(2, 20, 0xd0cfc9, 0xe6e5e0);
+    var grid = new THREE.GridHelper(2, 20, inkNumber(0xd0cfc9), inkNumber(0xe6e5e0));
     grid.rotation.x = Math.PI / 2; // robotics z-up: grid on the XY plane
     scene.add(grid);
     scene.add(new THREE.AxesHelper(0.15));
@@ -476,7 +482,7 @@ var Viewer3D = (function () {
         state.arcSegments = segmentsObject(arcPositions, null, new THREE.LineBasicMaterial({ color: color }));
         state.arcOwn = segmentsObject(ownPositions, null, new THREE.LineBasicMaterial({ color: color }));
         state.arcGhost = segmentsObject(ghostPositions, null,
-          new THREE.LineBasicMaterial({ color: 0x52514e, transparent: true, opacity: 0.65 }));
+          new THREE.LineBasicMaterial({ color: inkNumber(0x52514e), transparent: true, opacity: 0.65 }));
         arcGroup.add(state.arcSegments);
         arcGroup.add(state.arcOwn);
         arcGroup.add(state.arcGhost);
