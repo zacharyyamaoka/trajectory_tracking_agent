@@ -239,7 +239,10 @@ def blockquotes(section_text: str) -> list[str]:
 
 def unquoted(fragment_source: str, haystack: str) -> list[str]:
     """The fragments (split at an ellipsis) of `fragment_source` that are not verbatim in `haystack`."""
-    hay = _squash(haystack)
+    # WHY: a quote may link a path OBJECTIVES.md names unlinked (it is frozen, pinned by sha256), so compare link texts
+    link = re.compile(r"\[([^\]]+)\]\([^)]*\)")
+    hay = _squash(link.sub(r"\1", haystack))
+    fragment_source = link.sub(r"\1", fragment_source)
     return [f for f in (_squash(part) for part in fragment_source.split("…")) if f and f not in hay]
 
 
