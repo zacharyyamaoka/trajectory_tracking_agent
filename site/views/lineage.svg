@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="960" height="916" viewBox="0 0 960 916" font-family="Helvetica, Arial, 'Liberation Sans', 'Nimbus Sans', sans-serif" font-size="11" fill="#8c8c8c" role="img" aria-label="Lineage · 34 solutions in 16 trees · 31 admissible · best p5s-pass3 0.031 mm (dev, tool_track_rms_mm) · 30 ablation variants not shown">
-<title>Lineage · 34 solutions in 16 trees · 31 admissible · best p5s-pass3 0.031 mm (dev, tool_track_rms_mm) · 30 ablation variants not shown</title>
-<text x="12.0" y="20.0" font-size="13.5" font-weight="600">Lineage · 34 solutions in 16 trees · 31 admissible · best p5s-pass3 0.031 mm (dev, tool_track_rms_mm) · 30 ablation variants not shown</text>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="960" height="916" viewBox="0 0 960 916" font-family="Helvetica, Arial, 'Liberation Sans', 'Nimbus Sans', sans-serif" font-size="11" fill="#8c8c8c" role="img" aria-label="Lineage · 36 solutions in 16 trees · 33 admissible · best p5s-pass3 0.031 mm (dev, tool_track_rms_mm) · 30 ablation variants not shown">
+<title>Lineage · 36 solutions in 16 trees · 33 admissible · best p5s-pass3 0.031 mm (dev, tool_track_rms_mm) · 30 ablation variants not shown</title>
+<text x="12.0" y="20.0" font-size="13.5" font-weight="600">Lineage · 36 solutions in 16 trees · 33 admissible · best p5s-pass3 0.031 mm (dev, tool_track_rms_mm) · 30 ablation variants not shown</text>
 <text x="12.0" y="44.0" font-size="10.5">dev mm</text>
 <rect x="58.0" y="32.0" width="42" height="16" rx="3" fill="#184f95"/>
 <text x="79.0" y="44.0" fill="#ffffff" font-size="10" text-anchor="middle">0.0313</text>
@@ -353,44 +353,72 @@
 
 <g class="node best path">
 <a xlink:title="#31 p5s&#45;pass3 · 0.031 mm · admissible · parent p5s&#45;onefit · change: identification pass 3 (identify_pass.py on p5s&#45;onefit&#39;s dev runs), added into model.json">
-<rect fill="#184f95" stroke="#f28c28" stroke-width="3" x="144" y="-133" width="71" height="27" rx="5"/>
-<text x="148" y="-122.2" font-weight="bold" fill="#ffffff">p5s&#45;pass3</text>
-<text x="165.5" y="-112" font-size="10" fill="#ffffff">0.031</text>
+<rect fill="#184f95" stroke="#f28c28" stroke-width="3" x="100" y="-133" width="71" height="27" rx="5"/>
+<text x="104" y="-122.2" font-weight="bold" fill="#ffffff">p5s&#45;pass3</text>
+<text x="121.5" y="-112" font-size="10" fill="#ffffff">0.031</text>
 </a>
 </g>
 
 <g class="edge path">
-<path fill="none" stroke="#f28c28" stroke-width="3" d="M179.5,-158.89C179.5,-152.81 179.5,-145.4 179.5,-138.71"/>
-<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="181.25,-138.32 179.5,-133.32 177.75,-138.32 181.25,-138.32"/>
-<text text-anchor="middle" x="197" y="-143.8" font-size="9" fill="#2ca02c">−0.000</text>
+<path fill="none" stroke="#f28c28" stroke-width="3" d="M167.32,-158.59C165.03,-156.1 162.67,-153.49 160.5,-151 156.64,-146.57 152.56,-141.69 148.85,-137.15"/>
+<polygon fill="#f28c28" stroke="#f28c28" stroke-width="3" points="150.06,-135.88 145.55,-133.11 147.35,-138.09 150.06,-135.88"/>
+<text text-anchor="middle" x="178" y="-143.8" font-size="9" fill="#2ca02c">−0.000</text>
+</g>
+
+<g class="node">
+<a xlink:title="#35 p5s&#45;inertia · 0.032 mm · admissible · parent p5s&#45;onefit · change: Add the given model’s inertial torque from acceleration error to the next identification pass">
+<rect fill="#184f96" stroke="#8c8c8c" x="183" y="-133" width="75" height="27" rx="5"/>
+<text x="187" y="-122.2" font-weight="bold" fill="#ffffff">p5s&#45;inertia</text>
+<text x="206.5" y="-112" font-size="10" fill="#ffffff">0.032</text>
+</a>
+</g>
+
+<g class="edge">
+<path fill="none" stroke="#8c8c8c" d="M189.63,-158.89C194.82,-152.44 201.2,-144.5 206.82,-137.52"/>
+<polygon fill="#8c8c8c" stroke="#8c8c8c" points="208.43,-138.31 210.2,-133.32 205.7,-136.12 208.43,-138.31"/>
+<text text-anchor="middle" x="222" y="-143.8" font-size="9" fill="#8c8c8c">+0.000</text>
 </g>
 
 <g class="node">
 <a xlink:title="#32 p5s&#45;pass3&#45;g1 · 0.156 mm · admissible · parent p5s&#45;pass3 · change: transfer check: the same identified model at the boards&#39; configured gains (kp x1, kd x1) instead of x4 / x2">
-<rect fill="#317bd5" stroke="#8c8c8c" x="134.5" y="-80" width="90" height="27" rx="5"/>
-<text x="138.5" y="-69.2" font-weight="bold" fill="#ffffff">p5s&#45;pass3&#45;g1</text>
-<text x="165.5" y="-59" font-size="10" fill="#ffffff">0.156</text>
+<rect fill="#317bd5" stroke="#8c8c8c" x="77.5" y="-80" width="90" height="27" rx="5"/>
+<text x="81.5" y="-69.2" font-weight="bold" fill="#ffffff">p5s&#45;pass3&#45;g1</text>
+<text x="108.5" y="-59" font-size="10" fill="#ffffff">0.156</text>
 </a>
 </g>
 
 <g class="edge">
-<path fill="none" stroke="#8c8c8c" d="M179.5,-105.89C179.5,-99.81 179.5,-92.4 179.5,-85.71"/>
-<polygon fill="#8c8c8c" stroke="#8c8c8c" points="181.25,-85.32 179.5,-80.32 177.75,-85.32 181.25,-85.32"/>
-<text text-anchor="middle" x="197" y="-90.8" font-size="9" fill="#8c8c8c">+0.125</text>
+<path fill="none" stroke="#8c8c8c" d="M132.29,-105.89C130.7,-99.69 128.77,-92.1 127.04,-85.31"/>
+<polygon fill="#8c8c8c" stroke="#8c8c8c" points="128.7,-84.73 125.77,-80.32 125.31,-85.59 128.7,-84.73"/>
+<text text-anchor="middle" x="148" y="-90.8" font-size="9" fill="#8c8c8c">+0.125</text>
+</g>
+
+<g class="node dead">
+<a xlink:title="#36 p5s&#45;inertia&#45;g1 · 0.157 mm · admissible · parent p5s&#45;inertia · dead end · change: Evaluate the same inertia&#45;augmented model at the configured board gains">
+<rect fill="#317bd5" fill-opacity="0.35" stroke="#8c8c8c" stroke-opacity="0.6" x="175" y="-80" width="95" height="27" rx="5"/>
+<text x="179" y="-69.2" font-weight="bold" fill="#8c8c8c">p5s&#45;inertia&#45;g1</text>
+<text x="208.5" y="-59" font-size="10" fill="#8c8c8c">0.157</text>
+</a>
+</g>
+
+<g class="edge">
+<path fill="none" stroke="#8c8c8c" stroke-dasharray="5,2" d="M220.99,-105.89C221.24,-99.69 221.54,-92.1 221.8,-85.31"/>
+<polygon fill="#8c8c8c" stroke="#8c8c8c" points="223.55,-85.38 222,-80.32 220.05,-85.24 223.55,-85.38"/>
+<text text-anchor="middle" x="240" y="-90.8" font-size="9" fill="#8c8c8c">+0.125</text>
 </g>
 
 <g class="node">
 <a xlink:title="#34 p5s&#45;pass3&#45;g1&#45;nolag · 0.141 mm · admissible · parent p5s&#45;pass3&#45;g1 · change: transfer check, part 2: drop the kd·1.3 ms·qdd term at the configured gains (is it the static prediction the 6 Hz loop never reaches that b…">
-<rect fill="#2f78d1" stroke="#8c8c8c" x="115" y="-27" width="129" height="27" rx="5"/>
-<text x="119" y="-16.2" font-weight="bold" fill="#ffffff">p5s&#45;pass3&#45;g1&#45;nolag</text>
-<text x="165.5" y="-6" font-size="10" fill="#ffffff">0.141</text>
+<rect fill="#2f78d1" stroke="#8c8c8c" x="58" y="-27" width="129" height="27" rx="5"/>
+<text x="62" y="-16.2" font-weight="bold" fill="#ffffff">p5s&#45;pass3&#45;g1&#45;nolag</text>
+<text x="108.5" y="-6" font-size="10" fill="#ffffff">0.141</text>
 </a>
 </g>
 
 <g class="edge">
-<path fill="none" stroke="#2ca02c" d="M179.5,-52.89C179.5,-46.81 179.5,-39.4 179.5,-32.71"/>
-<polygon fill="#2ca02c" stroke="#2ca02c" points="181.25,-32.32 179.5,-27.32 177.75,-32.32 181.25,-32.32"/>
-<text text-anchor="middle" x="197" y="-37.8" font-size="9" fill="#2ca02c">−0.016</text>
+<path fill="none" stroke="#2ca02c" d="M122.5,-52.89C122.5,-46.81 122.5,-39.4 122.5,-32.71"/>
+<polygon fill="#2ca02c" stroke="#2ca02c" points="124.25,-32.32 122.5,-27.32 120.75,-32.32 124.25,-32.32"/>
+<text text-anchor="middle" x="140" y="-37.8" font-size="9" fill="#2ca02c">−0.016</text>
 </g>
 </g></g>
 <g transform="translate(319.0 127.0)"><g class="graph" transform="scale(1 1) rotate(0) translate(4 31)">

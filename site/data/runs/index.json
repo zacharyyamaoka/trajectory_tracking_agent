@@ -48,7 +48,7 @@
     "abl-path7+reid"
    ]
   },
-  "count": 244
+  "count": 254
  },
  "made_by": {
   "export": "tools/build_site.py",
@@ -2353,6 +2353,223 @@
       "stop_error_max_mm": {
        "ruler": 0.0437880049628712,
        "record": 0.043758785658676136,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "p5s-inertia",
+   "parent": "p5s-onefit",
+   "change": "Add the given model\u2019s inertial torque from acceleration error to the next identification pass",
+   "tags": [
+    "transfer-risk:stiffness"
+   ],
+   "objective": 0.031793964713136155,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "5fb6d0eec7394cf9c575d4e3856cb720867c534b",
+    "dirty": false,
+    "evaluated": "2026-11-25T16:45:16-07:00",
+    "solution_sha256": "d105cef6f241bf51ea141d1c6e499a0ebace162826b4d8e27e5708189c4027a2",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "3159fe98d5e7306a46b998bfc2e535485469034e"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "8827f5fa5c4d1714eec3b2f10fd4f35a6497e568"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "record": "runs/p5s-inertia/workspace-dev-000.json",
+     "bytes": 177508,
+     "objective": 0.05209295683681244,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.05209295683681244,
+       "record": 0.0520934611007822,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.08532197540190199,
+       "record": 0.08532786838991024,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-001": {
+     "record": "runs/p5s-inertia/workspace-dev-001.json",
+     "bytes": 213801,
+     "objective": 0.04950903118464312,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.04950903118464312,
+       "record": 0.04950723706428519,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.12557795549499828,
+       "record": 0.12558766718433878,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-002": {
+     "record": "runs/p5s-inertia/workspace-dev-002.json",
+     "bytes": 124085,
+     "objective": 0.030097201513196083,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.030097201513196083,
+       "record": 0.030095230829158975,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.11963153001071733,
+       "record": 0.11963803328479623,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-003": {
+     "record": "runs/p5s-inertia/workspace-dev-003.json",
+     "bytes": 86891,
+     "objective": 0.01692918360831479,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.01692918360831479,
+       "record": 0.016933313910754165,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.10592179304566043,
+       "record": 0.10591766722979705,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-016": {
+     "record": "runs/p5s-inertia/workspace-dev-016.json",
+     "bytes": 115628,
+     "objective": 0.024845189501772242,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.024845189501772242,
+       "record": 0.024844739158011563,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.025557097432404315,
+       "record": 0.025535976889519172,
        "tolerance": 0.001,
        "ok": true
       }
@@ -4718,6 +4935,221 @@
       "stop_error_max_mm": {
        "ruler": 0.029245631202863286,
        "record": 0.029222227756303194,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "p5s-inertia-g1",
+   "parent": "p5s-inertia",
+   "change": "Evaluate the same inertia-augmented model at the configured board gains",
+   "tags": [],
+   "objective": 0.15701159494699796,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "5fb6d0eec7394cf9c575d4e3856cb720867c534b",
+    "dirty": false,
+    "evaluated": "2026-11-25T16:45:28-07:00",
+    "solution_sha256": "6408658bf44e4a4826708fdeb7a1f63c08b5e2affcc636ea30776e2d01982cb5",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "3159fe98d5e7306a46b998bfc2e535485469034e"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "8827f5fa5c4d1714eec3b2f10fd4f35a6497e568"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "record": "runs/p5s-inertia-g1/workspace-dev-000.json",
+     "bytes": 176587,
+     "objective": 0.19248698232628145,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.19248698232628145,
+       "record": 0.19248642220957238,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.057172362679444026,
+       "record": 0.057178642779360155,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-001": {
+     "record": "runs/p5s-inertia-g1/workspace-dev-001.json",
+     "bytes": 214316,
+     "objective": 0.14883758638380315,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.14883758638380315,
+       "record": 0.14883756962015937,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.10190647217583731,
+       "record": 0.10189358652637383,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-002": {
+     "record": "runs/p5s-inertia-g1/workspace-dev-002.json",
+     "bytes": 123295,
+     "objective": 0.1336580633018616,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.1336580633018616,
+       "record": 0.13365089853580192,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.09599901551976904,
+       "record": 0.09598828010418056,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-003": {
+     "record": "runs/p5s-inertia-g1/workspace-dev-003.json",
+     "bytes": 86095,
+     "objective": 0.09495929876815067,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.09495929876815067,
+       "record": 0.09495996545913875,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.11523711631970629,
+       "record": 0.11522122056903773,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-016": {
+     "record": "runs/p5s-inertia-g1/workspace-dev-016.json",
+     "bytes": 114890,
+     "objective": 0.13416220451202884,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.13416220451202884,
+       "record": 0.1341636708841354,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.030824953470506407,
+       "record": 0.030821712053111752,
        "tolerance": 0.001,
        "ok": true
       }
@@ -10563,7 +10995,7 @@
   }
  ],
  "left_out": [],
- "bytes": 32381463,
+ "bytes": 33814559,
  "check_worst_mm": {
   "tool_track_rms_mm": 1.015279042870798e-05,
   "stop_error_max_mm": 6.987847481260134e-05

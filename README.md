@@ -19,6 +19,7 @@ and keeps a scored population of every solution it tried.
 | [`site/`](site/) | What the live page adds to blackbox_agent's stock landing and dashboard: the saved runs it plays back (scored by the ruler at evaluation time), the domain dashboards and the site bar's `nav.json` |
 
 [Controller boundary review](reports/controller-boundary-2026-11-25.html) documents the frozen-tape checks and the UR5e replays.
+[Gain transfer review](reports/gain-transfer-2026-11-25.html) compares the PD-only and inertia-augmented fits on paired UR5e runs.
 
 ```bash
 uv run tta evaluate p7s --split dev

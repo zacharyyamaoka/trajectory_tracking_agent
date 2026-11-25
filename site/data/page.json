@@ -6,7 +6,7 @@
    "unit": "mm",
    "direction": "down",
    "target": null,
-   "level": "31 of 34 admissible",
+   "level": "33 of 36 admissible",
    "level_name": "ruler v1 \u00b7 ur5e_alone \u00b7 workspace/v2 dev",
    "next_gate": "an admissible solution below 0.031 mm",
    "on_track": true
@@ -18,12 +18,10 @@
    "owner": "Trajectory Tracking Agent"
   },
   "todo": {
-   "open": 4,
-   "done_7d": 20,
+   "open": 1,
+   "done_7d": 23,
    "top": [
-    "Make the identification gain-portable: fit the plant torque M(q)\u00b7\u00eb + kd\u00b7\u0117 + kp\u00b7e (the full inverse of the board loop, M from the given model) instead of kp\u00b7e + kd\u00b7\u0117, then check by running one fit at x1 and x4. Expect: if it works, one model for every rung; if not, friction here is loop-dependent and each rung keeps its own fit.",
-    "Identify from a dedicated calibration run (a rich excitation trajectory, its own runs only) instead of the dev records, so the identified model never sees the tasks it is scored on. Needs a way to run a non-dataset trajectory through the boundary without `deployment.plant()` (see Suggestions for Zach).",
-    "Test O1.1, the boundary ([specs/O1.1](specs/O1.1-the-boundary.md) has no test): run one short task with a controller whose `tick` returns a bare array, one whose command leaves out a joint, and a correct one; assert the first two fail `completed` with the wrapper's reason and the third completes, and that `tick` runs at the deployment's host rate (count its calls). Expect: O1.1 unverified \u2192 pass; no score moves."
+    "Identify from a dedicated calibration run (a rich excitation trajectory, its own runs only) instead of the dev records, so the identified model never sees the tasks it is scored on. Needs a way to run a non-dataset trajectory through the boundary without `deployment.plant()` (see Suggestions for Zach)."
    ]
   }
  },
@@ -32,7 +30,7 @@
   {
    "name": "JointTrajectory",
    "module": "robot_msgs.trajectory.joint_trajectory",
-   "url": "https://github.com/zacharyyamaoka/robot_msgs/blob/3023fce51f3158587e721ae3b300a58340da813c/src/robot_msgs/trajectory/joint_trajectory.py#L39-L175",
+   "url": "https://github.com/zacharyyamaoka/robot_msgs/blob/8827f5fa5c4d1714eec3b2f10fd4f35a6497e568/src/robot_msgs/trajectory/joint_trajectory.py#L39-L175",
    "lines": [
     39,
     175
@@ -58,7 +56,7 @@
   {
    "name": "JointState",
    "module": "robot_msgs.sensor.joint_state",
-   "url": "https://github.com/zacharyyamaoka/robot_msgs/blob/3023fce51f3158587e721ae3b300a58340da813c/src/robot_msgs/sensor/joint_state.py#L12-L69",
+   "url": "https://github.com/zacharyyamaoka/robot_msgs/blob/8827f5fa5c4d1714eec3b2f10fd4f35a6497e568/src/robot_msgs/sensor/joint_state.py#L12-L69",
    "lines": [
     12,
     69
@@ -79,7 +77,7 @@
   {
    "name": "JointController",
    "module": "robot_msgs.control.sequence_controller",
-   "url": "https://github.com/zacharyyamaoka/robot_msgs/blob/3023fce51f3158587e721ae3b300a58340da813c/src/robot_msgs/control/sequence_controller.py#L39-L44",
+   "url": "https://github.com/zacharyyamaoka/robot_msgs/blob/8827f5fa5c4d1714eec3b2f10fd4f35a6497e568/src/robot_msgs/control/sequence_controller.py#L39-L44",
    "lines": [
     39,
     44
@@ -93,7 +91,7 @@
   {
    "name": "ServoCommand",
    "module": "robot_msgs.control.servo_command",
-   "url": "https://github.com/zacharyyamaoka/robot_msgs/blob/3023fce51f3158587e721ae3b300a58340da813c/src/robot_msgs/control/servo_command.py#L23-L93",
+   "url": "https://github.com/zacharyyamaoka/robot_msgs/blob/8827f5fa5c4d1714eec3b2f10fd4f35a6497e568/src/robot_msgs/control/servo_command.py#L23-L93",
    "lines": [
     23,
     93
@@ -117,7 +115,7 @@
   {
    "name": "ServoState",
    "module": "robot_msgs.control.servo_state",
-   "url": "https://github.com/zacharyyamaoka/robot_msgs/blob/3023fce51f3158587e721ae3b300a58340da813c/src/robot_msgs/control/servo_state.py#L22-L81",
+   "url": "https://github.com/zacharyyamaoka/robot_msgs/blob/8827f5fa5c4d1714eec3b2f10fd4f35a6497e568/src/robot_msgs/control/servo_state.py#L22-L81",
    "lines": [
     22,
     81
@@ -140,7 +138,7 @@
   {
    "name": "Header",
    "module": "robot_msgs.std.header",
-   "url": "https://github.com/zacharyyamaoka/robot_msgs/blob/3023fce51f3158587e721ae3b300a58340da813c/src/robot_msgs/std/header.py#L13-L81",
+   "url": "https://github.com/zacharyyamaoka/robot_msgs/blob/8827f5fa5c4d1714eec3b2f10fd4f35a6497e568/src/robot_msgs/std/header.py#L13-L81",
    "lines": [
     13,
     81
@@ -242,6 +240,34 @@
      "tool_jerk_rms_m_s3": 11.423125636836396,
      "host_compute_ms_p95": 0.15947000000000003,
      "wall_time_s": 8.15826111997012,
+     "aggregation": "tool_track_max_mm, saturation_share_pct: worst task; energy_j, wall_time_s: sum over tasks; host_compute_ms_p95: over every tick of every task; the rest: median over tasks"
+    }
+   },
+   {
+    "id": "p5s-inertia",
+    "parent": "p5s-onefit",
+    "change": "Add the given model\u2019s inertial torque from acceleration error to the next identification pass",
+    "split": "dev",
+    "objective": 0.031793964713136155,
+    "admissible": true,
+    "gate_pass_rate": 1.0,
+    "failed_gates": {
+     "completed": 0,
+     "stop_error_max_mm": 0,
+     "saturation_share_pct": 0,
+     "limit_violations": 0,
+     "floor_clearance": 0
+    },
+    "diagnostics": {
+     "tool_track_max_mm": 0.2317352352276221,
+     "joint_track_rms_deg": 0.004052583854990433,
+     "tool_lag_ms": -0.00017882582960016889,
+     "stop_error_mm": 0.085153151845938,
+     "saturation_share_pct": 0.02537749016622256,
+     "energy_j": 2240.4281244368794,
+     "tool_jerk_rms_m_s3": 11.407132100625624,
+     "host_compute_ms_p95": 0.24732500000000002,
+     "wall_time_s": 10.215886561898515,
      "aggregation": "tool_track_max_mm, saturation_share_pct: worst task; energy_j, wall_time_s: sum over tasks; host_compute_ms_p95: over every tick of every task; the rest: median over tasks"
     }
    },
@@ -550,6 +576,34 @@
      "tool_jerk_rms_m_s3": 11.500090982216019,
      "host_compute_ms_p95": 0.17565,
      "wall_time_s": 8.282692917156965,
+     "aggregation": "tool_track_max_mm, saturation_share_pct: worst task; energy_j, wall_time_s: sum over tasks; host_compute_ms_p95: over every tick of every task; the rest: median over tasks"
+    }
+   },
+   {
+    "id": "p5s-inertia-g1",
+    "parent": "p5s-inertia",
+    "change": "Evaluate the same inertia-augmented model at the configured board gains",
+    "split": "dev",
+    "objective": 0.15701159494699796,
+    "admissible": true,
+    "gate_pass_rate": 1.0,
+    "failed_gates": {
+     "completed": 0,
+     "stop_error_max_mm": 0,
+     "saturation_share_pct": 0,
+     "limit_violations": 0,
+     "floor_clearance": 0
+    },
+    "diagnostics": {
+     "tool_track_max_mm": 0.6286460541794566,
+     "joint_track_rms_deg": 0.01994484675094757,
+     "tool_lag_ms": 0.005081587710607356,
+     "stop_error_mm": 0.07342989022191718,
+     "saturation_share_pct": 0.0,
+     "energy_j": 1806.9143209455372,
+     "tool_jerk_rms_m_s3": 11.499254631994898,
+     "host_compute_ms_p95": 0.252846,
+     "wall_time_s": 10.20994948130101,
      "aggregation": "tool_track_max_mm, saturation_share_pct: worst task; energy_j, wall_time_s: sum over tasks; host_compute_ms_p95: over every tick of every task; the rest: median over tasks"
     }
    },

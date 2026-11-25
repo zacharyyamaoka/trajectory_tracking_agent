@@ -9,7 +9,7 @@
     "unit": "mm",
     "direction": "down",
     "target": null,
-    "level": "31 of 34 admissible",
+    "level": "33 of 36 admissible",
     "level_name": "ruler v1 \u00b7 ur5e_alone \u00b7 workspace/v2 dev",
     "next_gate": "an admissible solution below 0.031 mm",
     "on_track": true
@@ -23,10 +23,9 @@
   "status": "idle",
   "blocked_on": null,
   "todo": {
-    "open": 2,
-    "done_7d": 22,
+    "open": 1,
+    "done_7d": 23,
     "top": [
-      "Make the identification gain-portable: fit the plant torque M(q)\u00b7\u00eb + kd\u00b7\u0117 + kp\u00b7e (the full inverse of the board loop, M from the given model) instead of kp\u00b7e + kd\u00b7\u0117, then check by running one fit at x1 and x4. Expect: if it works, one model for every rung; if not, friction here is loop-dependent and each rung keeps its own fit.",
       "Identify from a dedicated calibration run (a rich excitation trajectory, its own runs only) instead of the dev records, so the identified model never sees the tasks it is scored on. Needs a way to run a non-dataset trajectory through the boundary without `deployment.plant()` (see Suggestions for Zach)."
     ]
   },
@@ -36,5 +35,5 @@
     "wandb": "Trajectory Tracking",
     "vault": null
   },
-  "updated_t": 1795647453.4986417
+  "updated_t": 1795650748.7582781
 }

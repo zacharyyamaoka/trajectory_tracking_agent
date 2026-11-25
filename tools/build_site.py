@@ -974,12 +974,13 @@ def test_run(out: Path) -> bool:
     """site/data/junit.xml: a junit XML of this tree's test run, for the Spec page's pass/fail per requirement (the fold
     never runs a test), written by public_junit(). No run: the file is removed, so a stale run never reads as this
     tree's (the Spec page then shows 'not run', locally and in CI alike).
-    WHY: tests/test_site_* are left out: they check the very site/data this build is writing, so they are red mid-build
-    by construction; no spec cites them."""
+    WHY: the site tests read the playback slice this build is writing. The drop-in tests also read that slice and the
+    comparison pages built by the separate drop-in command. Run those suites against the finished site."""
     with tempfile.TemporaryDirectory() as tmp:
         raw = Path(tmp) / "junit.xml"
         run = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", f"--junitxml={raw}",
-                              "--ignore-glob=tests/test_site_*"], cwd=REPO, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                              "--ignore-glob=tests/test_site_*", "--ignore=tests/test_dropins.py"],
+                             cwd=REPO, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         if not raw.exists():
             out.unlink(missing_ok=True)
             print(f"warning: no test run (pytest exit {run.returncode}): the Spec page shows 'not run'", file=sys.stderr)
