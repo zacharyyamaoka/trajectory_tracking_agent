@@ -8,7 +8,7 @@ model: claude-opus-5-5
 words: exact
 tracks: [trajectory-tracking-agent]
 specs: []
-source: [tools/build_dropins.py, site/models-datasets/models-datasets.base]
+source: [tests/test_dropins.py, tools/build_dropins.py]
 reacting_to: "the live Model × Dataset page after the leaderboard pivot was merged in data-ui"
 became: "344cfd3"
 ---

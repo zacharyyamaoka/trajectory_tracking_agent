@@ -235,7 +235,11 @@ def test_models_datasets_views_are_the_leaderboard_three():
     """Zach's ruling (2026-11-24 ~21:30, data-ui CONTRACT §57): three views over one .base, Leaderboard first (the
     default, and the page opens it), then Pivot, then Rows; the Leaderboard leaves the ablations out and ranks on the dev
     deployment, the Pivot ranks nothing. When the data-ui checkout is beside this repo, the views are its gallery case's
-    (gallery/examples/models-datasets-tta/views.base) at the vendored commit, byte for byte."""
+    (gallery/examples/models-datasets-tta/views.base) at the vendored commit, byte for byte.
+
+    WHY this test exists (Zach, 2026-11-25, on the live page while the pivot was merged only in data-ui): "I am looking
+    at the model x dataset here on the public landing page but I don't see it being updated! what happaned?" A view
+    change is done when this page ships it (feedback/2026-11-25-model-dataset-page-not-updated.md)."""
     base = (MXD / "models-datasets.base").read_text()
     assert _views(base) == [("pivot", "Leaderboard"), ("pivot", "Pivot"), ("table", "Rows")]
     assert re.search(r'<data-views id="models-datasets" src="models-datasets\.base" view="Leaderboard"',
