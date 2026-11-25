@@ -46,6 +46,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any
 
@@ -886,11 +887,16 @@ def site_bytes(served: bool = True) -> int:
     return sum(served_bytes(path) if served else path.stat().st_size for path in files)
 
 
-# WHY the viewer's fold (2026-11-24): the headliner (bb-headliner, Zach's Ticker v1 pick) reads a bb-state/1 state.json.
-# The fold lives in the blackbox_agent viewer (it imports that repo's idea parser), so it is called where it lives
-# until the template ships as a package; BB_FOLD overrides the path. Without it the committed state.json stays and
-# tests/test_site_headliner.py catches it going stale.
-FOLD = Path(os.environ.get("BB_FOLD", Path.home() / "blackbox_agent" / "viewer" / "tools" / "fold_state.py"))
+# WHY the vendored fold (2026-11-24): the headliner (bb-headliner, Zach's Ticker v1 pick) and every tab read a bb-state/1
+# state.json, the blackbox_agent viewer's fold of this repo. CI re-folds it from every pushed commit
+# (.github/workflows/pages.yml: tools/bb/tools/ci_refold.py) with the copy in tools/bb/ (blackbox_agent's
+# tools/vendor_fold.py; never edit it here, re-vendor it), so the local build runs that same copy: one fold, the same
+# bytes for the same commit. BB_FOLD overrides the path (e.g. to try ~/blackbox_agent's unvendored fold). Without a
+# fold the committed state.json stays and tests/test_site_headliner.py catches it going stale.
+FOLD = Path(os.environ.get("BB_FOLD", REPO / "tools" / "bb" / "viewer" / "tools" / "fold_state.py"))
+# The test run the Spec page reads, committed with site/data: CI cannot run the tests (the deps are local path deps),
+# so it folds this file. It is public (site/), so it is written by public_junit().
+JUNIT = DATA / "junit.xml"
 
 
 def write_state(playback: dict[str, Any]) -> None:
@@ -898,12 +904,12 @@ def write_state(playback: dict[str, Any]) -> None:
     writes (CONTRACT §4: the export lists its bb-run/1 records there)."""
     path = DATA / "state.json"
     if FOLD.exists():
-        with tempfile.TemporaryDirectory() as tmp:
-            cmd = [sys.executable, str(FOLD), "--repo", str(REPO), "--ref", "HEAD", "--out", str(path)]
-            junit = test_run(Path(tmp) / "junit.xml")
-            if junit:
-                cmd += ["--junit", str(junit)]
-            subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL)
+        cmd = [sys.executable, str(FOLD), "--repo", str(REPO), "--ref", "HEAD", "--out", str(path)]
+        if test_run(JUNIT):
+            # relative to the fold's viewer/, as ci_refold.py hands it: the string lands in state.json, so an absolute
+            # path would put a local directory on the public page (it read /tmp/tmp…/junit.xml before 2026-11-24)
+            cmd += ["--junit", os.path.relpath(JUNIT, FOLD.parent.parent)]
+        subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL)
     else:
         print(f"warning: {FOLD} not found: site/data/state.json not re-folded (its playback slice is)", file=sys.stderr)
     state = json.loads(path.read_text())
@@ -918,16 +924,44 @@ def write_state(playback: dict[str, Any]) -> None:
     path.write_text(json.dumps(out, indent=1, ensure_ascii=False) + "\n")
 
 
-def test_run(out: Path) -> Path | None:
-    """A junit XML of this tree's test run, for the Spec page's pass/fail per requirement (the fold never runs a test).
+def test_run(out: Path) -> bool:
+    """site/data/junit.xml: a junit XML of this tree's test run, for the Spec page's pass/fail per requirement (the fold
+    never runs a test), written by public_junit(). No run: the file is removed, so a stale run never reads as this
+    tree's (the Spec page then shows 'not run', locally and in CI alike).
     WHY: tests/test_site_* are left out: they check the very site/data this build is writing, so they are red mid-build
     by construction; no spec cites them."""
-    run = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", f"--junitxml={out}",
-                          "--ignore-glob=tests/test_site_*"], cwd=REPO, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    if not out.exists():
-        print(f"warning: no test run (pytest exit {run.returncode}): the Spec page shows 'not run'", file=sys.stderr)
-        return None
-    return out
+    with tempfile.TemporaryDirectory() as tmp:
+        raw = Path(tmp) / "junit.xml"
+        run = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", f"--junitxml={raw}",
+                              "--ignore-glob=tests/test_site_*"], cwd=REPO, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if not raw.exists():
+            out.unlink(missing_ok=True)
+            print(f"warning: no test run (pytest exit {run.returncode}): the Spec page shows 'not run'", file=sys.stderr)
+            return False
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(public_junit(raw.read_text()))
+    return True
+
+
+def _relative(text: str) -> str:
+    return text.replace(f"{REPO}/", "").replace(str(REPO), ".").replace(str(Path.home()), "~")
+
+
+def public_junit(text: str) -> str:
+    """A junit XML as it is published (site/ is public; Zach's dispatcher, 2026-11-24): pytest's `hostname` dropped and
+    every path relative (this repo's root removed, the home directory written ~), in attributes and text alike. Nothing
+    the fold reads changes: each testcase's classname and name, its failure / error / skipped tags, and the suite's
+    counts and timestamp."""
+    root = ET.fromstring(text)
+    for element in root.iter():
+        element.attrib.pop("hostname", None)
+        for key, value in list(element.attrib.items()):
+            element.set(key, _relative(value))
+        if element.text:
+            element.text = _relative(element.text)
+        if element.tail:
+            element.tail = _relative(element.tail)
+    return '<?xml version="1.0" encoding="utf-8"?>' + ET.tostring(root, encoding="unicode") + "\n"
 
 
 def build() -> dict[str, Any]:

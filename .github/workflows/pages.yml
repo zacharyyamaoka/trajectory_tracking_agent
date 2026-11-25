@@ -1,6 +1,12 @@
-# Publishes site/ (the landing page) to GitHub Pages on every push to main.
-# WHY two jobs (2026-11-24): with upload and deploy in one job, deploy-pages twice found "0 artifacts" 0.3 s after
-# a successful upload; GitHub's own static-site template uploads in a build job and deploys in a second job.
+# Publishes site/ (the landing page) to GitHub Pages on every push to main, re-folding site/data/state.json from the
+# pushed commit first, so the live page is never behind main. From the blackbox_agent template
+# (template/.github/workflows/pages.yml; applied by blackbox_agent's tools/apply_template.py).
+# WHY two jobs (2026-11-24): with upload and deploy in one job, deploy-pages twice found "0 artifacts" 0.3 s after a
+#   successful upload; GitHub's own static-site template uploads in a build job and deploys in a second job.
+# WHY only the fold runs here: a box's Python deps are local path deps (../robot_msgs, ../robot_controllers) that cannot
+#   install on a runner. The fold and this step's script are stdlib + git, vendored at tools/bb/ (blackbox_agent's
+#   tools/vendor_fold.py), so they run on the runner's plain python3. The test run the Spec page reads is site/data/junit.xml, committed by the
+#   local build; it is never re-run here.
 name: pages
 on:
   push:
@@ -18,6 +24,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # WHY: the fold reads git log (each iteration's date and commit, the spec and gate history); the default
+          # shallow clone has one commit
+          fetch-depth: 0
+      # Only for a box whose own fold-run tools import a package (e.g. an ablations/costs.py that needs numpy): list
+      # exactly those in .github/fold-requirements.txt; without the file nothing is installed. WHY setup-python then:
+      # the fold runs a box's tool as `python3 -I`, which never sees a --user install, and the runner's system python
+      # refuses a plain pip install (PEP 668).
+      - if: hashFiles('.github/fold-requirements.txt') != ''
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - if: hashFiles('.github/fold-requirements.txt') != ''
+        run: python3 -m pip install --disable-pip-version-check --no-input -r .github/fold-requirements.txt
+      - name: Re-fold site/data/state.json from the pushed commit
+        # tools/bb/tools/ci_refold.py (vendored from blackbox_agent): checks the vendored copy, refuses a junit.xml that
+        # names a host or a home path, folds HEAD, keeps the box export's own `playback` slice from the committed
+        # state.json, and checks the result is a fold of this exact commit. Any failure fails the deploy: the page stays
+        # on its last good deploy, never a half state.
+        run: python3 tools/bb/tools/ci_refold.py --box .
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

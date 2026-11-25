@@ -11,8 +11,14 @@ accurately, inside the gates, by proposing better controllers. Read `OBJECTIVES.
 3. `tta evaluate <id>` (dev only). It writes `solutions/<id>/scorecard.json`, appends `ledger.jsonl` and refreshes
    `PROGRESS.md` and `site/progress.svg`.
 4. Rebuild the page's data and commit it with the solution, win or lose:
-   `uv run --all-extras python tools/build_site.py build`, then `git add -- solutions/<id> site/data` (a new folder is
-   untracked) and `git commit -- solutions/<id> ledger.jsonl PROGRESS.md status.json site/progress.svg site/views site/data ideas.md specs feedback`.
+   `uv run --all-extras python tools/build_site.py build` writes `site/data/` (the bb-run/1 records, `state.json`, and
+   `junit.xml`, the test run the Spec page reads, with the hostname dropped and paths relative: it is public), then
+   `git add -- solutions/<id> site/data` (a new folder is untracked) and
+   `git commit -- solutions/<id> ledger.jsonl PROGRESS.md status.json site/progress.svg site/views site/data ideas.md specs feedback`.
+   CI re-folds `site/data/state.json` from the pushed commit anyway (`.github/workflows/pages.yml`, with the fold
+   vendored in `tools/bb/`: never edit it, re-vendor with blackbox_agent's `tools/vendor_fold.py`), so the live page is
+   never behind `main`. CI cannot re-run the tests (the deps are local path deps), so the Spec page is only as fresh as
+   the `junit.xml` you commit.
    (`tests/test_site_*` fail until site/data matches the ledger; ablation-tagged solutions don't need the rebuild.)
    `tta verify` must pass before the commit.
 5. Update `ideas.md`: cross off what you tried, add what the result suggests.

@@ -18,7 +18,7 @@ import pytest
 
 REPO = Path(__file__).resolve().parent.parent
 SITE = REPO / "site"
-TEXT_SUFFIXES = {".html", ".js", ".css", ".json", ".py", ".svg", ".md"}
+TEXT_SUFFIXES = {".html", ".js", ".css", ".json", ".py", ".svg", ".md", ".xml"}  # .xml: site/data/junit.xml, the test run the Spec page reads
 SIZE_LIMIT_BYTES = 15 * 1024 * 1024  # all of site/, committed
 
 pytestmark = pytest.mark.skipif(not (SITE / "index.html").exists(), reason="site/ not built")
