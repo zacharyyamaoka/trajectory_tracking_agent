@@ -288,3 +288,15 @@ def test_comparison_ships_only_what_a_browser_opens():
     for report in COMPARISON.glob("runs/*/report.html"):
         text = report.read_text()
         assert len(text) < 2_000_000 and "three.min.js" in text and "THREE.REVISION" not in text, report
+
+
+def test_comparison_offers_no_rerun_link_to_a_file_it_does_not_ship():
+    """No .rrd ships (above), so the runs table must offer no Rerun action: with rerun_server=False + public_url its 84
+    rows each linked app.rerun.io and a .rrd download, all 404s (review 2026-11-25). traj_compare's rerun=False says
+    the site ships none; the page's own script then draws no Rerun action for a row."""
+    page = (COMPARISON / "index.html").read_text()
+    payload = _payload(COMPARISON / "index.html", "traj-compare-dataset")
+    assert payload.get("rerun") is False
+    for key in ("rerun_server", "rerun_sdk", "public_url"):
+        assert key not in payload, key
+    assert "if (D.rerun === false) return '';" in page

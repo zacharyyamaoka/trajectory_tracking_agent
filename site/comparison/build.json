@@ -3,12 +3,12 @@
  "what": "Trajectory Comparison, written by tools/build_dropins.py build from committed files (the tapes, the bb-run/1 records in site/data/runs/, the scorecards); never edit, rebuild.",
  "made_by": {
   "repo": {
-   "commit": "f571795",
+   "commit": "831d3b1",
    "dirty": true
   },
   "traj_compare": {
-   "commit": "006025f",
-   "dirty": false,
+   "commit": "a4c3c79",
+   "dirty": true,
    "version": "0.1.0"
   },
   "robot_msgs": {
@@ -80,5 +80,5 @@
   "viewhelper.js": "3c5e9d7e97247bdac20607053430d7a05a3e49fa1baeacf8283a4c8e7ef80889"
  },
  "fk_check_worst_mm": 0.0019125316353895666,
- "bytes": 23700617
+ "bytes": 23700672
 }

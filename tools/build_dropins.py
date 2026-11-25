@@ -28,8 +28,9 @@ What it writes, and from where (every input is committed; nothing is simulated o
     stay in `outputs/dropins/comparison-build/`. The run reports' viewer files (uPlot, three.js r160, the viewer) are
     written once to `site/comparison/assets/` and each report loads them from there (traj_compare's own
     `write_comparison_report(assets=)`); the dataset page stays one self-contained file. The dataset page's commands name
-    its folder `site/comparison` (`command_root=`), never the build machine's path, and its Rerun actions are the
-    static-host kind (`rerun_server=False`: no POST to a server GitHub Pages does not run).
+    its folder `site/comparison` (`command_root=`), never the build machine's path, and its runs table offers no Rerun
+    action (`rerun=False`): no .rrd ships, so a Rerun link would be a 404 (review 2026-11-25: `rerun_server=False` +
+    `public_url=` drew 168 of them).
 - **site/models-datasets/**: data-ui's stock `pivot` (`models-datasets.base` over `cells.json`, one row per solution ×
   dev task, every value a scorecard's) in the data-ui kit lane CV vendored (`site/vendor/data-ui/`; the pivot is in
   its table view). Rows = iterations nested under their family (`FAMILY_RULE`: by lineage), ablations in their own
@@ -88,11 +89,9 @@ BUILD = WORK / "comparison-build"
 TRAJ_COMPARE_PYTHON = Path(os.environ.get("TTA_TRAJ_COMPARE_PYTHON",
                                           REPO.parent / "traj_compare" / ".venv" / "bin" / "python"))
 PUBLIC_DIR = "site/comparison"  # what the dataset page's commands call its folder (write_dataset_report command_root)
-# Where the dataset page is served on the public site: the Rerun web viewer loads each run's .rrd from here
-PUBLIC_URL = "https://zacharyyamaoka.github.io/trajectory_tracking_agent/comparison/"
-# The first traj_compare commit with the stock options this build uses (assets=, command_root=, rerun_server=False,
-# public_url=, stats_mask=, dark mode, #run= deep links); the build refuses an older checkout
-TRAJ_COMPARE_MIN = "38b5967"
+# The first traj_compare commit with the stock options this build uses (assets=, command_root=, rerun=False,
+# stats_mask=, dark mode, #run= deep links); the build refuses an older checkout
+TRAJ_COMPARE_MIN = "a4c3c79"
 EXCLUDED_TAG = "ablation"
 TOOL_FRAME = "tool point"  # the flange site `tool`, 0.1 m along wrist_3 (OBJECTIVES §2); said once in each report
 # OBJECTIVES §3's words for the task kinds, in the order it lists them
@@ -464,7 +463,7 @@ def comparison_stage() -> None:
     )
     write_dataset_report(runs, BUILD, title=f"Trajectory Comparison: {DEPLOYMENT} · {DATASET} · {SPLIT}",
                          target_by="task", sweep=sweep, summary=summary, rows=(), drill_down="lazy",
-                         command_root=PUBLIC_DIR, rerun_server=False, public_url=PUBLIC_URL)
+                         command_root=PUBLIC_DIR, rerun=False)
     page = (BUILD / "index.html").read_text()
     payload = json.loads(re.search(r'id="traj-compare-dataset">(.*?)</script>', page, re.S).group(1).replace("<\\/", "</"))
     target_slug = {target["key"]: (target["slug"], target["title"]) for target in payload["levels"]["targets"]}
