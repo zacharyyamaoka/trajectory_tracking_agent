@@ -2,8 +2,8 @@
 
 Where the rows come from, first that exists at the ref:
 1. **`specs/*.md`** in the box (Zach, 2026-11-24: spec and feedback come from markdown folders): one row per file, its
-   front matter as fields, its body as `description` (plain text; TODO: data-ui's markdown rows and side panel, lane MD,
-   render it once data-ui is re-vendored), tests mapped by its `tests:` patterns.
+   front matter as fields, its body as `description` (plain text, for the table), its whole text as `_note` (the side
+   panel draws the note in the Obsidian-parity viewer, CONTRACT §17), tests mapped by its `tests:` patterns.
 2. **A spec map** (`blackbox-spec-map/1`; trajectory_tracking_agent's is `proposals-vibetracks/_build/spec_map.json`),
    whose items quote OBJECTIVES.md: matched to tests by `proposals-vibetracks/_build/model.py`'s `spec()`, imported
    read-only (one matcher, one meaning), and each section's title read from OBJECTIVES.md at the ref.
@@ -121,7 +121,8 @@ def fold(facts: dict):
     rows = []
     if files:
         for path in files:
-            meta, body = front_matter(tree.text(path) or "")
+            text = tree.text(path) or ""
+            meta, body = front_matter(text)
             title, lead, parts = sections(body)
             pats = meta.get("tests") or meta.get("proves") or []
             sec = meta.get("section")
@@ -138,7 +139,9 @@ def fold(facts: dict):
                          "name": meta.get("name") or meta.get("title") or title or Path(path).stem,
                          "verb": verb or "shall", "statement": statement or None,
                          "description": body.strip() or None, "sections": parts, "source": path,
-                         "patterns": pats if isinstance(pats, list) else [pats]})
+                         "patterns": pats if isinstance(pats, list) else [pats],
+                         # the file's whole text: the row's side panel opens it in the Obsidian-parity viewer (§17)
+                         "_note": text})
         where = "specs/*.md"
         smap_name = None
     else:

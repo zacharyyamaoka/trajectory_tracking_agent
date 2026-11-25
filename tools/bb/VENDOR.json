@@ -1,17 +1,17 @@
 {
  "what": "The blackbox_agent viewer's fold, vendored so this box's CI re-folds site/data/state.json from every pushed commit. Never edit it here: re-vendor with blackbox_agent's tools/vendor_fold.py.",
  "source": "https://github.com/zacharyyamaoka/blackbox_agent",
- "commit": "9a7afb0bb41038746dc00721cb7850a83378b8d0",
- "commit_date": "2026-11-24T20:04:44-07:00",
+ "commit": "7a966ceaac0de64a5ffe5ddf824f2a5a3c33f541",
+ "commit_date": "2026-11-24T21:21:31-07:00",
  "run": "python3 tools/bb/viewer/tools/fold_state.py --repo . --ref HEAD --out site/data/state.json",
  "check": "python3 tools/bb/tools/vendor_fold.py --check --box .",
  "ci": "python3 tools/bb/tools/ci_refold.py --box .",
- "bytes": 303008,
+ "bytes": 334021,
  "files": [
   {
    "path": "viewer/tools/fold_state.py",
-   "sha256": "ceee7fb6b7d19b2b6927940c7d6c2242fe655c03d4af35009d0e58f69f90b623",
-   "bytes": 47967
+   "sha256": "7a68f875ff06a51466712bb013e2ee011dbd49d42246bc28813273eb5566c186",
+   "bytes": 48107
   },
   {
    "path": "viewer/tools/fold_runs.py",
@@ -19,9 +19,19 @@
    "bytes": 36062
   },
   {
+   "path": "viewer/tools/folds/_notes.py",
+   "sha256": "b337394492c91af122efc5c0efb6e5273569c85397d35a4221db6ed8f92254be",
+   "bytes": 10459
+  },
+  {
    "path": "viewer/tools/folds/ablation_study.py",
    "sha256": "536a205958a178e06ee54df3ef8675add44f18a8d903fd8abb798b5ce1618f44",
    "bytes": 5550
+  },
+  {
+   "path": "viewer/tools/folds/analysis.py",
+   "sha256": "9994eca6c849d670d70fee145be6e9a5230a5438c4bea1ee51d5cdff5fbf4654",
+   "bytes": 3490
   },
   {
    "path": "viewer/tools/folds/costs.py",
@@ -34,14 +44,29 @@
    "bytes": 11252
   },
   {
+   "path": "viewer/tools/folds/notes.py",
+   "sha256": "180a8fce588f3d7d6fe3e2a12dca7c51fd095ab2c2df2c4ea62d2f3b498b4f41",
+   "bytes": 2884
+  },
+  {
+   "path": "viewer/tools/folds/references.py",
+   "sha256": "e325ce08b39a5e07be8aa1f61c86e1dcb451cf4803ac20b0d800d8922f30aadb",
+   "bytes": 6385
+  },
+  {
    "path": "viewer/tools/folds/spec.py",
-   "sha256": "a572b0883fe21782eae68293e68d91583428826ae04447abd8dcedb085b9d67d",
-   "bytes": 8771
+   "sha256": "7a71ac7082d2f529853e38877c382ea607d4e3217a19ac05d4688006bc6bf5da",
+   "bytes": 8977
   },
   {
    "path": "viewer/tools/folds/spec_history.py",
    "sha256": "b4e0a591df386b50ddce7b0cbd7cdbe6aa651d90bd8b94b8c0915b4a3595a8b3",
    "bytes": 6114
+  },
+  {
+   "path": "viewer/tools/folds/tabs.py",
+   "sha256": "dc2aa282cbcba7c36392ba6eae6387c0c7edadfa09bf20202a513d69aa2a00b7",
+   "bytes": 5871
   },
   {
    "path": "proposals-ideas/_shared/ideas_parse.py",
@@ -100,8 +125,8 @@
   },
   {
    "path": "tools/ci_refold.py",
-   "sha256": "c581a21f42c8cce27e0ea42dc80a272db4e0314529e86874d78987b397ee501c",
-   "bytes": 4502
+   "sha256": "d73569b415efc0eac2165d9572e10edcce09e961287d7d8cdaf7f45871f563aa",
+   "bytes": 6080
   }
  ]
 }

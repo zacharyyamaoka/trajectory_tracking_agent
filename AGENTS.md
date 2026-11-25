@@ -12,7 +12,8 @@ accurately, inside the gates, by proposing better controllers. Read `OBJECTIVES.
    `PROGRESS.md` and `site/progress.svg`.
 4. Rebuild the page's data and commit it with the solution, win or lose:
    `uv run --all-extras python tools/build_site.py build` writes `site/data/` (the bb-run/1 records, `state.json`, and
-   `junit.xml`, the test run the Spec page reads, with the hostname dropped and paths relative: it is public), and
+   `junit.xml`, the test run the Spec page reads, with the hostname dropped and paths relative: it is public; the run
+   committed with the last commit goes into `site/data/junit/<sha7>.xml.gz`, the Spec page's History), and
    `uv run --all-extras python tools/build_dropins.py build` rewrites `site/comparison/` and `site/models-datasets/` from
    the new scorecards (`tests/test_dropins.py` stays red until it has run), then
    `git add -- solutions/<id> site/data site/comparison site/models-datasets` (a new folder is untracked) and
@@ -20,7 +21,10 @@ accurately, inside the gates, by proposing better controllers. Read `OBJECTIVES.
    CI re-folds `site/data/state.json` from the pushed commit anyway (`.github/workflows/pages.yml`, with the fold
    vendored in `tools/bb/`: never edit it, re-vendor with blackbox_agent's `tools/vendor_fold.py`), so the live page is
    never behind `main`. CI cannot re-run the tests (the deps are local path deps), so the Spec page is only as fresh as
-   the `junit.xml` you commit.
+   the `junit.xml` you commit. The dashboard (`site/dashboard/`, the black-box viewer, with the site bar every page
+   includes) is vendored the same way: never edit it, re-vendor with `python3 ~/blackbox_agent/tools/vendor_viewer.py --box .`
+   (`tests/test_site_bar.py` holds it to its `VENDOR.json`). The bar on every page reads `site/nav.json`; a new dashboard
+   is one entry there, and its pages include the bar with `tools/site_bar.py`.
    (`tests/test_site_*` fail until site/data matches the ledger; ablation-tagged solutions don't need the rebuild.)
    `tta verify` must pass before the commit.
 5. Update `ideas.md`: cross off what you tried, add what the result suggests.

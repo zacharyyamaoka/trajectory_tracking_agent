@@ -904,6 +904,12 @@ FOLD = Path(os.environ.get("BB_FOLD", REPO / "tools" / "bb" / "viewer" / "tools"
 # The test run the Spec page reads, committed with site/data: CI cannot run the tests (the deps are local path deps),
 # so it folds this file. It is public (site/), so it is written by public_junit().
 JUNIT = DATA / "junit.xml"
+# One test run per commit (<sha7>.xml.gz), for the Spec page's History (the viewer's spec_history slice, its CONTRACT
+# §16.8): the fold never runs a test, so the history is the runs committed with each commit. Seeded 2026-11-24 (lane SHIP)
+# from blackbox_agent's viewer/scenarios/junit/tta/ (the suite on a git archive of each commit, lane G), made public by
+# public_junit(); kept current by archive_junit() (each build archives the run committed with HEAD) and by CI
+# (tools/bb/tools/ci_refold.py adds the pushed commit's own run). ~7 kB a commit, gzipped.
+JUNIT_DIR = DATA / "junit"
 
 
 def write_state(playback: dict[str, Any]) -> None:
@@ -912,6 +918,9 @@ def write_state(playback: dict[str, Any]) -> None:
     path = DATA / "state.json"
     if FOLD.exists():
         cmd = [sys.executable, str(FOLD), "--repo", str(REPO), "--ref", "HEAD", "--out", str(path)]
+        archive_junit()
+        if JUNIT_DIR.is_dir():
+            cmd += ["--junit-dir", os.path.relpath(JUNIT_DIR, FOLD.parent.parent)]
         if test_run(JUNIT):
             # relative to the fold's viewer/, as ci_refold.py hands it: the string lands in state.json, so an absolute
             # path would put a local directory on the public page (it read /tmp/tmp…/junit.xml before 2026-11-24)
@@ -929,6 +938,22 @@ def write_state(playback: dict[str, Any]) -> None:
         out[key] = value
     out.setdefault("playback", playback)
     path.write_text(json.dumps(out, indent=1, ensure_ascii=False) + "\n")
+
+
+def archive_junit() -> str | None:
+    """HEAD's own run into site/data/junit/<sha7>.xml.gz: the junit.xml committed with HEAD (the run committed with a
+    commit is that commit's run), public as committed. None when HEAD has no committed run or it is already there."""
+    if not JUNIT_DIR.is_dir():
+        return None
+    head = _git(REPO, "rev-parse", "HEAD").strip()[:7]
+    out = JUNIT_DIR / f"{head}.xml.gz"
+    if out.exists() or (JUNIT_DIR / f"{head}.xml").exists():
+        return None
+    shown = subprocess.run(["git", "-C", str(REPO), "show", "HEAD:site/data/junit.xml"], capture_output=True, text=True)
+    if shown.returncode != 0:
+        return None
+    out.write_bytes(gzip.compress(public_junit(shown.stdout).encode(), mtime=0))
+    return out.name
 
 
 def test_run(out: Path) -> bool:

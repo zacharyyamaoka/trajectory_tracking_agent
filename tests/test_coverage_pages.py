@@ -1,5 +1,5 @@
-"""The Deployments and Datasets pages and the stage bar (site/deployments/, site/datasets/<robot>/, site/stages/), written
-by tools/build_coverage.py. These read the committed files against their sources, independently of the build's own
+"""The Deployments and Datasets pages (site/deployments/, site/datasets/<robot>/: the Trajectory coverage dashboard) and
+their site bar, written by tools/build_coverage.py. These read the committed files against their sources, independently of the build's own
 code where they can: a row's numbers against the manifest it names, a robot's name against robot_controllers, a link's
 filter against the workbench's own rows. `tools/shoot_coverage.py` drives the pages in headless Chromium.
 
@@ -14,8 +14,6 @@ import importlib.util
 import json
 import os
 import re
-import shutil
-import subprocess
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
@@ -24,7 +22,6 @@ import pytest
 REPO = Path(__file__).resolve().parent.parent
 SITE = REPO / "site"
 DEPLOYMENTS = SITE / "deployments" / "deployments.json"
-STAGES = SITE / "stages" / "stages.json"
 BENCH = Path(os.environ.get("TTA_ARM_MOTION_BENCH", REPO.parent / "arm_motion_bench"))
 
 pytestmark = pytest.mark.skipif(not DEPLOYMENTS.exists(), reason="site/deployments not built")
@@ -214,68 +211,22 @@ def test_the_workbench_holds_exactly_the_ruler_datasets():
             assert sum(r["dataset"] == key for r in rows) == len([t for t in tasks if t.strip()])
 
 
-# ── the stage bar ───────────────────────────────────────────────────────────────────────────────────────────────────
+# ── the site bar (lane CV's stage bar until 2026-11-24; tests/test_site_bar.py holds every page of the site) ──────────
 
 
-def _stage_pages() -> list[Path]:
-    return sorted(p for p in SITE.rglob("*.html") if "<bb-stages" in p.read_text(errors="replace"))
+def test_both_pages_carry_the_one_site_bar_reading_site_nav_json():
+    """One <bb-site-nav> each, reading site/nav.json, current = the Trajectory coverage dashboard, no stage bar left."""
+    import sys
 
+    sys.path.insert(0, str(REPO / "tools"))
+    import site_bar
 
-def test_the_stage_list_is_one_file_with_live_pages_and_reasons():
-    doc = json.loads(STAGES.read_text())
-    assert doc["schema"] == "bb-stages/1"
-    assert [s["id"] for s in doc["stages"]] == ["landing", "dashboard", "models-datasets", "deployments", "datasets"]
-    for stage in doc["stages"]:
-        if stage["status"] == "live":
-            target = (STAGES.parent / stage["href"]).resolve()
-            assert (target / "index.html").exists() if stage["href"].endswith("/") else target.exists(), stage["id"]
-        else:
-            assert stage["status"] == "not-yet" and stage["note"] and stage["reason"], stage["id"]
-
-
-def test_every_page_with_the_stage_bar_reads_the_same_list():
-    pages = _stage_pages()
-    expected = {SITE / "deployments" / "index.html", *(p.parent / "index.html" for p in (SITE / "datasets").glob("*/coverage.base"))}
-    assert expected <= set(pages), sorted(str(p) for p in expected - set(pages))
-    ids = {s["id"] for s in json.loads(STAGES.read_text())["stages"]}
+    pages = [SITE / "deployments" / "index.html", *sorted((SITE / "datasets").glob("*/index.html"))]
+    assert len(pages) >= 2
+    assert site_bar.page_problems(pages) == []
     for page in pages:
-        text = page.read_text()
-        tags = re.findall(r'<bb-stages src="([^"]+)" current="([^"]+)"></bb-stages>', text)
-        assert len(tags) == 1, page
-        src, current = tags[0]
-        assert (page.parent / src).resolve() == STAGES.resolve(), page
-        assert current in ids, page
-        scripts = re.findall(r'<script type="module" src="([^"]*bb-stages\.js)"', text)
-        assert [(page.parent / s).resolve() for s in scripts] == [(SITE / "stages" / "bb-stages.js").resolve()], page
-
-
-@pytest.mark.skipif(shutil.which("node") is None, reason="node not installed")
-def test_the_stage_bar_draws_the_same_on_every_page_and_never_links_a_stage_not_built():
-    """renderStages (the one renderer) on each page's list: the same stages, labels and links everywhere; only the
-    current marker moves; a not-yet stage is never an <a>."""
-    script = """
-      const m = await import(process.argv[1]);
-      const fs = await import('node:fs');
-      const doc = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
-      const out = {};
-      for (const current of JSON.parse(process.argv[3])) out[current] = m.renderStages(doc, 'https://example.test/site/stages/stages.json', current);
-      console.log(JSON.stringify(out));
-    """
-    currents = sorted({re.search(r'current="([^"]+)"', p.read_text()).group(1) for p in _stage_pages()})
-    result = subprocess.run(["node", "--input-type=module", "-e", script, "--", str(SITE / "stages" / "bb-stages.js"),
-                             str(STAGES), json.dumps(currents)], capture_output=True, text=True, check=True)
-    drawn = json.loads(result.stdout)
-    plain = {current: html.replace(' aria-current="page"', "") for current, html in drawn.items()}
-    assert len(set(plain.values())) == 1, "the bar differs between pages beyond the current marker"
-    bar = next(iter(plain.values()))
-    for stage in json.loads(STAGES.read_text())["stages"]:
-        item = re.search(rf'<li data-stage="{stage["id"]}"[^>]*>(.*?)</li>', bar).group(1)
-        if stage["status"] == "live":
-            assert item.startswith("<a ") and stage["label"] in item
-        else:
-            assert "<a " not in item and 'aria-disabled="true"' in item and stage["note"] in item
-    for current, html in drawn.items():
-        assert html.count('aria-current="page"') == 1 and f'data-stage="{current}"' in html
+        assert 'current="coverage"' in page.read_text(), page
+    assert not (SITE / "stages").exists(), "site/stages/ (the interim stage bar) is retired"
 
 
 # ── public: no private paths anywhere under site/ ───────────────────────────────────────────────────────────────────
@@ -294,7 +245,7 @@ def _private_hits(paths) -> list[str]:
 
 
 def test_no_private_paths_in_these_pages_or_the_kit():
-    roots = (SITE / "deployments", SITE / "datasets", SITE / "stages", SITE / "vendor" / "data-ui")
+    roots = (SITE / "deployments", SITE / "datasets", SITE / "vendor" / "data-ui")
     files = [p for root in roots for p in root.rglob("*") if p.is_file() and p.suffix in TEXT]
     assert files
     hits = _private_hits(files)

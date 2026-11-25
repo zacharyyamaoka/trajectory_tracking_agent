@@ -328,7 +328,8 @@ def front_matter_rows(t: Tree, folder: str) -> list[dict]:
             if "date" not in meta and meta.get("added"):
                 meta["date"] = meta["added"]
         title = next((l.lstrip("# ").strip() for l in text.splitlines() if l.startswith("# ")), Path(path).stem)
-        row = {"path": path, "title": title, **meta}
+        # `_note`: the file's whole text, which the row's side panel opens in the Obsidian-parity viewer (CONTRACT §17)
+        row = {"path": path, "title": title, **meta, "_note": text}
         if folder == "feedback":  # Zach 2026-11-24: feedback/*.md = front matter + ## Observed / ## Desired / ## Why
             body = text[m.end():] if m else text
             parts, cur = {}, None
@@ -341,7 +342,7 @@ def front_matter_rows(t: Tree, folder: str) -> list[dict]:
             for key in ("observed", "desired", "why"):
                 if key in parts:
                     row[key] = "\n".join(parts[key]).strip() or None
-            # plain text for now; TODO: data-ui's markdown rows + side panel (lane MD) once data-ui is re-vendored
+            # the body as plain text, for the table; the side panel draws the note itself from `_note` (CONTRACT §17)
             row["description"] = "\n".join(l for l in body.splitlines() if not l.startswith("# ")).strip() or None
         rows.append(row)
     return rows

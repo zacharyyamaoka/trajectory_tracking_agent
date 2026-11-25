@@ -86,14 +86,32 @@ code, pre { font-family: var(--mono); font-size: 0.86em; }
   border-bottom: 1px solid var(--line);
 }
 .top .wrap { display: flex; align-items: center; gap: 20px; height: 52px; }
-.brand { font-weight: 650; letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+.brand { font-weight: 650; letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.btn .short { display: none; }
 .top nav { display: flex; gap: 16px; overflow-x: auto; scrollbar-width: none; }
 .top nav a { color: var(--muted); font-size: 14px; white-space: nowrap; }
 .top nav a:hover { color: var(--ink); text-decoration: none; }
+/* "Open the dashboard →" top right of the landing's own bar (proposals-landing 02), with the repo beside it */
+.top-cta { margin-left: auto; display: flex; gap: 8px; align-items: center; flex: none; }
+.btn { display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 14px; border-radius: 999px; font-size: 14px;
+  font-weight: 600; white-space: nowrap; border: 1px solid transparent; }
+.btn:hover { text-decoration: none; }
+.btn-primary { background: var(--ink); color: var(--bg); }
+.btn-primary:hover { background: color-mix(in srgb, var(--ink) 86%, var(--accent)); }
+.btn-secondary { background: var(--surface); color: var(--ink); border-color: var(--line); }
+.btn-secondary:hover { background: var(--surface-2); }
+.btn-icon { width: 34px; padding: 0; justify-content: center; color: var(--muted); }
+.btn-icon:hover { color: var(--ink); background: var(--surface-2); }
+.btn-lg { height: 44px; padding: 0 20px; font-size: 15px; }
 
 /* ── hero ───────────────────────────────────────────────────────────────── */
 .hero { padding: 36px 0 12px; }
-.hero h1 { font-size: clamp(28px, 4vw, 40px); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 10px; }
+.hero h1 { font-size: clamp(32px, 5vw, 52px); line-height: 1.06; letter-spacing: -0.025em; margin: 0 0 12px; }
+.eyebrow { margin: 0 0 8px; color: var(--accent); font-size: 12.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.goal { font-size: clamp(16.5px, 1.9vw, 19px); line-height: 1.5; margin: 0 0 6px; max-width: 760px; }
+.from { margin: 0 0 18px; color: var(--faint); font-size: 12.5px; }
+.cta { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 10px; }
+.cta-note { margin: 0 0 30px; color: var(--muted); font-size: 13.5px; max-width: 760px; }
 .verdict { font-size: 18px; margin: 0 0 6px; }
 .verdict b { font-variant-numeric: tabular-nums; }
 .sub { color: var(--muted); margin: 0 0 22px; max-width: 760px; }
@@ -207,7 +225,7 @@ tr[data-solution] { cursor: pointer; }
 .progress-img img { width: 100%; height: auto; display: block; }
 
 footer { padding: 44px 0 60px; color: var(--muted); font-size: 13.5px; }
-footer .cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; border-top: 1px solid var(--line); padding-top: 20px; }
+footer .cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; border-top: 1px solid var(--line); padding-top: 20px; }
 footer h4 { margin: 0 0 6px; color: var(--ink); font-size: 13px; }
 footer ul { margin: 0; padding: 0; list-style: none; }
 footer li { margin: 3px 0; }
@@ -220,6 +238,7 @@ footer li { margin: 3px 0; }
 }
 @media (max-width: 820px) {
   .joints { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  footer .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 560px) {
   .stage { padding: 8px; }
@@ -227,4 +246,9 @@ footer li { margin: 3px 0; }
   .joints { grid-template-columns: minmax(0, 1fr); }
   footer .cols { grid-template-columns: minmax(0, 1fr); }
   .top nav { display: none; }
+  .top .wrap { gap: 10px; }
+  .top-cta { gap: 4px; }
+  .top-cta .btn-primary { height: 32px; padding: 0 12px; font-size: 13.5px; }
+  .top-cta .btn .long { display: none; }
+  .top-cta .btn .short { display: inline; }
 }

@@ -1,41 +1,47 @@
 {
-  "schema": "tta-nav/1",
-  "what": "The header strip across the top of the drop-in pages (site/nav.js draws it): the box's name, then its pages left to right. Hand-written; every href is relative to this file. A page not on the site yet has href null and a note, and is drawn greyed, never as a link. Lane NAV's tabs replace this file and nav.js whole.",
-  "box": {
-    "name": "Trajectory Tracking Agent",
-    "href": "index.html"
+ "schema": "bb-site-nav/1",
+ "what": "The site bar on every page of this site (blackbox_agent viewer CONTRACT §18, drawn by site/dashboard/viewer/src/components/bb-site-nav.js): the box's name (to the landing page) and its dashboards in the top row, the open dashboard's own tabs or pages below. Hand-written; every href is relative to this file. A dashboard joins by adding one entry here and its id in order. Zach, 2026-11-24: \"So right now we want a tab for Trajectory Coverage and Trajectory Comparison. And also one for Model x Dataset.\"",
+ "site": {
+  "name": "Trajectory Tracking Agent",
+  "landing": "index.html",
+  "home": "blackbox",
+  "repo": "https://github.com/zacharyyamaoka/trajectory_tracking_agent"
+ },
+ "groups": [
+  {"id": "box", "label": "Black box", "kind": "box"},
+  {"id": "trajectory", "label": "Trajectory", "kind": "domain", "color": "#0e7c86", "color_dark": "#4cc2c4"}
+ ],
+ "dashboards": [
+  {
+   "id": "blackbox", "label": "Black box", "group": "box", "icon": "box", "href": "dashboard/", "tabs": "viewer",
+   "about": "The agent's search: the spec, every iteration, the gates, the ablation study, the agents, the activity and the ideas."
   },
-  "links": [
-    {
-      "id": "landing",
-      "label": "Landing",
-      "href": "index.html"
-    },
-    {
-      "id": "dashboard",
-      "label": "Dashboard",
-      "href": null,
-      "note": "not on the site yet"
-    },
-    {
-      "id": "comparison",
-      "label": "Trajectory Comparison",
-      "href": "comparison/index.html"
-    },
-    {
-      "id": "models-datasets",
-      "label": "Model × Dataset",
-      "href": "models-datasets/index.html"
-    },
-    {
-      "id": "coverage",
-      "label": "Trajectory Coverage",
-      "href": "datasets/ur5e/index.html"
-    },
-    {
-      "id": "deployments",
-      "label": "Deployments",
-      "href": "deployments/index.html"
-    }
-  ]
+  {
+   "id": "coverage", "label": "Trajectory coverage", "short": "Coverage", "group": "trajectory", "icon": "coverage", "href": "deployments/",
+   "about": "What the ruler's trajectories visit: pick a deployment, then its datasets per joint and for the tool.",
+   "by": "traj_compare's coverage workbench",
+   "pages": [
+    {"id": "deployments", "label": "Deployments", "href": "deployments/"},
+    {"id": "datasets-ur5e", "label": "Datasets · UR5e", "href": "datasets/ur5e/", "match": "datasets/"}
+   ]
+  },
+  {
+   "id": "comparison", "label": "Trajectory comparison", "short": "Comparison", "group": "trajectory", "icon": "comparison", "href": "comparison/",
+   "about": "Target vs sim, task by task: the runs the objective is computed from.",
+   "by": "traj_compare's dataset and run reports",
+   "pages": [
+    {"id": "comparison-tasks", "label": "Every dev task", "href": "comparison/", "match": "comparison/"}
+   ]
+  },
+  {
+   "id": "models-datasets", "label": "Model × Dataset", "group": "trajectory", "icon": "grid", "href": "models-datasets/",
+   "about": "Every iteration on every dev task, rolled up per dataset the way the ruler rolls it up.",
+   "by": "data-ui's pivot",
+   "pages": [
+    {"id": "models-datasets-pivot", "label": "Pivot", "href": "models-datasets/"}
+   ]
+  }
+ ],
+ "order": ["blackbox", "coverage", "comparison", "models-datasets"],
+ "overflow": {"rule": "priority-plus", "label": "More", "keep": "current", "fold": "short labels first, then the highest priority number, right to left; the open tab never folds"}
 }

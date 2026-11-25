@@ -9,26 +9,45 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 24 C 10 6, 20 26, 28 8' fill='none' stroke='%232c64d1' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='28' cy='8' r='3' fill='%232c64d1'/%3E%3C/svg%3E">
 </head>
 <body>
+<!-- WHY a page of its own before the dashboard, "Open the dashboard →" in its bar and under the goal (Zach, 2026-11-24:
+     "I 100% like the separate landing page and then the open the dashboard button"; proposals-landing 02): the landing
+     explains the goal and plays the runs; the dashboard (dashboard/, the black-box viewer) and the domain dashboards
+     (site/nav.json) share one site bar, whose box name links back here. -->
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#">Trajectory Tracking Agent</a>
-    <nav>
+    <a class="brand" href="#goal">Trajectory Tracking Agent</a>
+    <nav aria-label="On this page">
+      <a href="#goal">Goal</a>
       <a href="#progress">Progress</a>
-      <a href="#run">Run</a>
+      <a href="#run">The run</a>
       <a href="#joints">Joint errors</a>
       <a href="#blackbox">The black box</a>
       <a href="#population">Population</a>
-      <a href="#references">References</a>
     </nav>
+    <div class="top-cta">
+      <a class="btn btn-primary" href="dashboard/#overview" data-open-dashboard><span class="long">Open the dashboard</span><span class="short">Dashboard</span> <span aria-hidden="true">→</span></a>
+      <a class="btn btn-icon" href="https://github.com/zacharyyamaoka/trajectory_tracking_agent" aria-label="trajectory_tracking_agent on GitHub" title="trajectory_tracking_agent on GitHub"><svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+    </div>
   </div>
 </header>
 
 <main class="wrap">
-  <section class="hero" id="run">
+  <section class="hero" id="goal">
+    <p class="eyebrow">The goal</p>
     <h1>Trajectory Tracking Agent</h1>
+    <p class="goal">An agent that makes robots follow a given trajectory more accurately. The trajectory and the robot are
+      given; the agent searches over controllers (what is fed forward, what is fed back, where each runs and how far ahead
+      it samples) and keeps a scored population of every solution it tried.</p>
+    <p class="from">From <code>README.md</code></p>
+    <div class="cta">
+      <a class="btn btn-primary btn-lg" href="dashboard/#overview" data-open-dashboard>Open the dashboard <span aria-hidden="true">→</span></a>
+      <a class="btn btn-secondary btn-lg" href="https://github.com/zacharyyamaoka/trajectory_tracking_agent"><svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
+    </div>
+    <p class="cta-note">The dashboard: every iteration, the gates and their history, the spec, the ablation study, the agents
+      and the ideas, beside <a href="deployments/">Trajectory coverage</a>, <a href="comparison/">Trajectory comparison</a>
+      and <a href="models-datasets/">Model × Dataset</a>.</p>
     <p class="verdict" id="verdict">Loading the population…</p>
-    <p class="sub">The trajectory and the robot are given; the agent searches over controllers. Below, saved runs play
-      back: each was simulated (MuJoCo, robot_controllers' UR5e plant) and scored by the ruler when <code>tta evaluate</code>
+    <p class="sub">Below, saved runs play back: each was simulated (MuJoCo, robot_controllers' UR5e plant) and scored by the ruler when <code>tta evaluate</code>
       ran it, and every number shown is the ruler's, from that run's record. Nothing is simulated or scored in your
       browser. <span id="rule"></span></p>
 
@@ -41,6 +60,7 @@
     <!-- WHY bb-evidence (Zach, 2026-11-24: "it should use the newer 3D explanation things we designed, they are in the
          storybook"): the viewer's metric explainer, Lens <-> Recorder over one saved run; it replaced this page's own 3D
          stage, its score cards and explanations, and the joint position and torque plots. The pickers choose the run. -->
+    <div id="run">
     <div class="stage" id="scored">
       <div class="pickers">
         <div class="field">
@@ -59,6 +79,7 @@
         <bb-evidence id="evidence" settings='{"picker": false}' hidden></bb-evidence>
       </div>
       <p class="ran" id="ran"></p>
+    </div>
     </div>
   </section>
 
@@ -99,6 +120,15 @@
 
 <footer class="wrap" id="references">
   <div class="cols">
+    <div>
+      <h4>Open the dashboard</h4>
+      <ul>
+        <li><a href="dashboard/#overview">Black box</a>: the spec, every iteration, the gates, the ablation study, the agents, the ideas</li>
+        <li><a href="deployments/">Trajectory coverage</a>: what the ruler's trajectories visit</li>
+        <li><a href="comparison/">Trajectory comparison</a>: target vs sim, task by task</li>
+        <li><a href="models-datasets/">Model × Dataset</a>: every iteration on every dev task</li>
+      </ul>
+    </div>
     <div>
       <h4>This project</h4>
       <ul>

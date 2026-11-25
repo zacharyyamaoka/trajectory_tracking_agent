@@ -62,7 +62,7 @@ def main() -> None:
                 settle(page)
                 box = page.evaluate("() => ({scroll: document.documentElement.scrollWidth, client: document.documentElement.clientWidth})")
                 page.screenshot(path=out / f"{name}-{scheme}-{width}.png")
-                bar = page.evaluate("() => document.querySelector('bb-stages')?.innerText.replace(/\\s+/g, ' ').trim()")
+                bar = page.evaluate("() => document.querySelector('bb-site-nav')?.innerText.replace(/\\s+/g, ' ').trim()")
                 results["stage_bar"].setdefault(bar, []).append(f"{name}-{scheme}-{width}")
                 results["looks"].append({"page": name, "scheme": scheme, "width": width, "scroll_width": box["scroll"],
                                          "client_width": box["client"], "sideways": box["scroll"] > box["client"]})

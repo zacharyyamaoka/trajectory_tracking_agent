@@ -79,8 +79,12 @@ def test_no_live_runtime_is_shipped_or_loaded():
     for retired in ("wheels", "runtime", "data/repo"):
         assert not (SITE / retired).exists(), f"site/{retired} is the retired live runtime"
     runtime = re.compile(r"pyodide|@mujoco/|mujoco\.wasm|loadPyodide|new Worker\(|\.whl\b|micropip", re.I)
+    # WHY the dashboard's stock parts may start a worker (lane SHIP, 2026-11-24): data-ui's graph view lays out with elk in
+    # a worker and its mesh view decodes in one, vendored whole and never edited (site/dashboard/viewer/vendor/, held to
+    # its VENDOR.json by tests/test_site_bar.py); neither is a simulator or a scorer. Pyodide and MuJoCo stay refused there.
+    stock = SITE / "dashboard" / "viewer" / "vendor"
     hits = [f"{p.relative_to(REPO)}: {m.group(0)}" for p in _site_text_files() if p.suffix in {".html", ".js"}
-            for m in runtime.finditer(p.read_text())]
+            for m in runtime.finditer(p.read_text()) if not (stock in p.parents and m.group(0) == "new Worker(")]
     assert not hits, hits
     scripts = re.findall(r"<script[^>]*src=[\"']([^\"']+)", (SITE / "index.html").read_text())
     # WHY the headliner is allowed (2026-11-24): Zach picked the Ticker v1 as the page's headline; it is a static chart

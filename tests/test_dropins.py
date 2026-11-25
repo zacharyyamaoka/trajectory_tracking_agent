@@ -208,24 +208,27 @@ def test_models_datasets_cells_open_their_run():
 
 def test_every_link_resolves():
     """Every static href / src on the pages, every link the pages build from their data (a line's report, a target's
-    series file, a run's report), every cell's deep link and every header-strip link is a file that exists."""
+    series file, a run's report), every cell's deep link, every site/nav.json link, and each page's one site bar (the
+    viewer's <bb-site-nav> reading site/nav.json; lane DROP's header strip, site/nav.js, until 2026-11-24)."""
     build = _build()
     assert build.link_problems() == []
-    nav = _json(SITE / "nav.json")
-    for link in nav["links"]:
-        if link["href"]:
-            assert (SITE / link["href"]).is_file(), link
-        else:
-            assert link.get("note"), "a page not on the site yet says so"
-    for page in [MXD / "index.html", COMPARISON / "index.html", *COMPARISON.glob("runs/*/report.html")]:
-        assert "nav.js" in page.read_text(), f"{page} has no header strip"
+    runs = sorted(COMPARISON.glob("runs/*/report.html"))
+    for page in [MXD / "index.html", COMPARISON / "index.html", *runs]:
+        text = page.read_text()
+        assert text.count("<bb-site-nav ") == 1 and not re.search(r'src="(?:\.\./)*nav\.js"', text), page
+    # traj_compare's pages have no dark mode, so their bar is light; a run report's bar names the run
+    for page in [COMPARISON / "index.html", *runs]:
+        assert 'theme="light"' in page.read_text(), page
+    for page in runs:
+        assert f'here="Run · {page.parent.name}"' in page.read_text(), page
+    assert not (SITE / "nav.js").exists(), "site/nav.js (the interim header strip) is retired"
 
 
 def test_no_private_paths_in_what_these_pages_ship():
     """Public repo: no home directory, private repo, vault path or e-mail address in anything under site/comparison,
-    site/models-datasets or site/nav.*."""
+    site/models-datasets or site/nav.json."""
     forbidden = re.compile(r"/home/|bam_ws|zach_brain|\.claude|[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}")
-    files = [SITE / "nav.json", SITE / "nav.js", *[p for d in (COMPARISON, MXD) for p in d.rglob("*") if p.is_file()]]
+    files = [SITE / "nav.json", *[p for d in (COMPARISON, MXD) for p in d.rglob("*") if p.is_file()]]
     hits = []
     for path in files:
         for number, line in enumerate(path.read_text(errors="replace").splitlines(), start=1):

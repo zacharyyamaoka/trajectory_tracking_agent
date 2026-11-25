@@ -9,7 +9,10 @@ good deploy, never a half state:
 1. the vendored copy matches its VENDOR.json (vendor_fold --check);
 2. site/data/junit.xml, when committed, names no host and no home path (it is published under site/);
 3. the fold of HEAD, handed that junit by a path relative to the fold's viewer/ (the string lands in state.json, so an
-   absolute path would put the runner's home dir on the page);
+   absolute path would put the runner's home dir on the page), and, when the box keeps site/data/junit/ (one junit per
+   commit, <sha7>.xml.gz, for the Spec page's History: the spec_history slice, viewer CONTRACT §16.8), that folder too,
+   HEAD's own run added as <head7>.xml.gz from the junit.xml committed with it (the box's next local build commits the
+   same file), every file in it refused when it names a host or a home path;
 4. the slice the box's own export writes is kept from the committed state.json: `playback` (viewer CONTRACT §4, §14:
    the export lists its bb-run/1 records there; the fold never makes it), placed before `source` as the box's build
    places it. WHY: a bare re-fold would drop the runs the landing page plays;
@@ -19,6 +22,7 @@ good deploy, never a half state:
 from __future__ import annotations
 
 import argparse
+import gzip
 import json
 import os
 import re
@@ -31,6 +35,7 @@ HERE = Path(__file__).resolve().parent  # <box>/tools/bb/tools
 FOLD = HERE.parent / "viewer" / "tools" / "fold_state.py"
 STATE = "site/data/state.json"
 JUNIT = "site/data/junit.xml"
+JUNIT_DIR = "site/data/junit"  # one junit per commit (<sha7>.xml[.gz]) for spec_history; a box opts in by keeping it
 EXPORT_SLICES = ("playback",)  # CONTRACT §4: the one slice a box's export writes into state.json
 LEAK = re.compile(r"hostname=|/home/")
 
@@ -57,6 +62,17 @@ def refold(box: Path) -> dict:
         if LEAK.search(junit.read_text(errors="replace")):
             raise SystemExit(f"{JUNIT} names a host or a home path: rebuild it with the box's site build")
         cmd += ["--junit", os.path.relpath(junit, FOLD.parent.parent)]
+    history = box / JUNIT_DIR
+    if history.is_dir():
+        # WHY HEAD's run from the committed junit.xml: the run committed with a commit is that commit's run (the box's build
+        # writes it from the tree it commits); without it the History's newest column would read "no suite ran"
+        if junit.exists() and not any((history / f"{head[:7]}{ext}").exists() for ext in (".xml", ".xml.gz")):
+            (history / f"{head[:7]}.xml.gz").write_bytes(gzip.compress(junit.read_bytes(), mtime=0))
+        for f in sorted(history.iterdir()):
+            raw = gzip.decompress(f.read_bytes()) if f.name.endswith(".gz") else f.read_bytes()
+            if LEAK.search(raw.decode(errors="replace")):
+                raise SystemExit(f"{JUNIT_DIR}/{f.name} names a host or a home path: rebuild it with the box's site build")
+        cmd += ["--junit-dir", os.path.relpath(history, FOLD.parent.parent)]
     with tempfile.TemporaryDirectory(prefix="bb-refold-") as tmp:
         out = Path(tmp) / "state.json"
         run = subprocess.run([*cmd, "--out", str(out)], capture_output=True, text=True)
@@ -79,7 +95,8 @@ def refold(box: Path) -> dict:
     partial = target.with_name(target.name + ".partial")
     partial.write_text(dump(state))
     os.replace(partial, target)
-    return {"ref": head[:7], "kept": sorted(carry), "junit": junit.exists(), "keys": len(state)}
+    return {"ref": head[:7], "kept": sorted(carry), "junit": junit.exists(), "keys": len(state),
+            "history": len(list(history.iterdir())) if history.is_dir() else 0}
 
 
 def main() -> int:
@@ -88,7 +105,8 @@ def main() -> int:
     a = ap.parse_args()
     done = refold(Path(a.box).resolve())
     print(f"{STATE}: folded at {done['ref']}, kept {', '.join(done['kept']) or 'nothing'} from the committed file, "
-          f"junit {'folded' if done['junit'] else 'absent'}")
+          f"junit {'folded' if done['junit'] else 'absent'}"
+          + (f", the History from {done['history']} junit runs" if done["history"] else ""))
     return 0
 
 
