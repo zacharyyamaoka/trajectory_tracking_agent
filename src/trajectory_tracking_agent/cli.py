@@ -18,6 +18,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from trajectory_tracking_agent import files
 from trajectory_tracking_agent.ruler.dataset import REPO_ROOT
 
 CHART_TOOL = REPO_ROOT / "tools" / "progress_chart.py"
@@ -66,10 +67,19 @@ def cmd_verify(_: argparse.Namespace) -> int:
     return 0
 
 
-def cmd_evaluate(args: argparse.Namespace) -> int:
-    from trajectory_tracking_agent.evaluate import evaluate
+RETRY = 75  # EX_TEMPFAIL: the machine, not the solution, ended the run; evaluating again is the fix
 
-    scorecard = evaluate(args.id, split=args.split, workers=args.workers, records=not args.no_records)
+
+def cmd_evaluate(args: argparse.Namespace) -> int:
+    from trajectory_tracking_agent import evaluate as evaluator
+
+    try:
+        scorecard = evaluator.evaluate(args.id, split=args.split, workers=args.workers, records=not args.no_records)
+    except evaluator.WorkerLost as error:
+        # WHY its own exit code (Zach, 2026-11-24: the search should run overnight unattended): a loop retries
+        # exactly this and stops on everything else; nothing was scored or written.
+        print(f"tta evaluate {args.id}: {error} Nothing was written; evaluate it again.", file=sys.stderr)
+        return RETRY
     failed = {g: n for g, n in scorecard["failed_gates"].items() if n}
     print(f"{args.id} on {args.split}: tool_track_rms_mm {_fmt(scorecard['objective'])} mm (median of "
           f"{len(scorecard['tasks'])} tasks), admissible {'yes' if scorecard['admissible'] else 'no'}, gate pass rate "
@@ -116,7 +126,7 @@ def cmd_progress(_: argparse.Namespace, quiet: bool = False) -> int:
 
     order = population.ids_in_creation_order()
     views, summary = _tool_module("tta_population_views", VIEWS_TOOL).write_views(order=order)
-    ledger.PROGRESS_PATH.write_text(ledger.progress_markdown(order, population=summary))
+    files.write_text(ledger.PROGRESS_PATH, ledger.progress_markdown(order, population=summary))
     paths = [ledger.PROGRESS_PATH, ledger.write_status(), *_chart_module().write_chart(), *views]
     if not quiet:
         print("wrote " + ", ".join(str(p.relative_to(REPO_ROOT)) for p in paths))

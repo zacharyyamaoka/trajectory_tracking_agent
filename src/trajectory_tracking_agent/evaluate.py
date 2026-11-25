@@ -43,12 +43,14 @@ import os
 import subprocess
 import time
 from collections.abc import Mapping, Sequence
+from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures.process import BrokenProcessPool
 from pathlib import Path
 from typing import Any
 
 import numpy as np
 
-from trajectory_tracking_agent import ledger, population
+from trajectory_tracking_agent import files, ledger, population
 from trajectory_tracking_agent.ruler import RULER_VERSION, gates, metrics
 from trajectory_tracking_agent.ruler.dataset import REPO_ROOT, tasks
 from trajectory_tracking_agent.ruler.deployment import deployment, package_versions
@@ -67,6 +69,11 @@ __all__ = ["RUN_RECORD_SCHEMA", "TIME_BOX_FACTOR", "evaluate", "run_task"]
 
 class TimeBoxExceeded(RuntimeError):
     """The task ran past TIME_BOX_FACTOR x its trajectory's duration in wall time."""
+
+
+class WorkerLost(RuntimeError):
+    """A worker process died part-way through a split: the machine ended it (the OOM killer, a SIGTERM), not the
+    controller. Nothing is scored; evaluate again (the score repeats bit for bit)."""
 
 
 class NonFiniteCommand(RuntimeError):
@@ -439,7 +446,7 @@ def _write_record(
     }  # fmt: skip
     path = out_dir / solution_id / split / f"{task.id}.json"
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(record, separators=(",", ":"), allow_nan=False))
+    files.write_text(path, json.dumps(record, separators=(",", ":"), allow_nan=False))
     return path
 
 
@@ -458,30 +465,52 @@ def _job(arguments: tuple[str, str, str, str | None]) -> dict[str, Any]:
     return row
 
 
-def _run_tasks(solution_id: str, split: str, task_list: Sequence[Any], workers: int, record_dir: Path | None) -> list[dict]:
+def _run_tasks(
+    solution_id: str, split: str, task_list: Sequence[Any], workers: int, record_dir: Path | None, job: Any = None
+) -> list[dict]:
+    job = job or _job
     jobs = [(solution_id, task.id, split, str(record_dir) if record_dir else None) for task in task_list]
     if workers == 1:
-        return [_job(job) for job in jobs]
+        return [job(arguments) for arguments in jobs]
     # WHY a backstop deadline on top of the in-tick time box: a tick that never returns is never checked. Generous
-    # (every task's own box, run one after another), then the pool is terminated and the rest fail `completed`.
+    # (every task's own box, run one after another), then the workers are killed and the rest fail `completed`.
     budget_s = TIME_BOX_FACTOR * sum(task.duration_s for task in task_list) + 120.0
     deadline = time.monotonic() + budget_s
     rows = []
-    context = multiprocessing.get_context("forkserver")
-    pool = context.Pool(processes=workers)
+    # WHY ProcessPoolExecutor and not multiprocessing.Pool (2026-11-25, measured under 8 % free memory): Pool replaces
+    # a worker the machine kills without a word, so the lost task waited out the whole backstop deadline and was then
+    # scored a failed `completed`, the machine's kill written to the ledger as the controller's failure. The executor
+    # breaks at once, and a lost worker is WorkerLost: no score, and the run is evaluated again.
+    executor = ProcessPoolExecutor(max_workers=workers, mp_context=multiprocessing.get_context("forkserver"))
     try:
-        pending = [pool.apply_async(_job, (job,)) for job in jobs]
-        for task, result in zip(task_list, pending, strict=True):
+        pending = [executor.submit(job, arguments) for arguments in jobs]
+        for task, future in zip(task_list, pending, strict=True):
             try:
-                rows.append(result.get(timeout=max(0.0, deadline - time.monotonic())))
-            except multiprocessing.TimeoutError:
+                rows.append(future.result(timeout=max(0.0, deadline - time.monotonic())))
+            except TimeoutError:
                 rows.append(_failed_row(task, f"time box: no result within the evaluation's {budget_s:.0f} s budget"))
+            except BrokenProcessPool as error:
+                raise WorkerLost(
+                    f"a worker process died while {solution_id} ran on {split} (first unfinished task {task.id}): the "
+                    "machine ended it (the OOM killer or a SIGTERM), so nothing is scored. Evaluate it again; the score "
+                    "repeats bit for bit."
+                ) from error
             except Exception as error:  # noqa: BLE001
                 rows.append(_failed_row(task, f"worker: {type(error).__name__}: {error}"))
     finally:
-        pool.terminate()
-        pool.join()
+        _stop(executor)
     return rows
+
+
+def _stop(executor: ProcessPoolExecutor) -> None:
+    """Kill every worker, idle or stuck in a tick that never returns (what Pool.terminate did), then free the pool."""
+    processes = list((getattr(executor, "_processes", None) or {}).values())
+    executor.shutdown(wait=False, cancel_futures=True)
+    for process in processes:
+        if process.is_alive():
+            process.kill()
+    for process in processes:
+        process.join(timeout=10)
 
 
 def _git_commit() -> dict[str, Any]:
@@ -599,7 +628,7 @@ def evaluate(
     if write:
         name = "scorecard.json" if split == "dev" else f"scorecard_{split}.json"
         path = population.solution_dir(solution_id) / name
-        path.write_text(json.dumps(scorecard, indent=1, allow_nan=False) + "\n")
+        files.write_text(path, json.dumps(scorecard, indent=1, allow_nan=False) + "\n")
         ledger.append({
             "t": _dt.datetime.now().astimezone().isoformat(timespec="seconds"),
             "solution": solution_id,

@@ -11,12 +11,15 @@
 
 from __future__ import annotations
 
+import fcntl
 import json
 import math
+import os
 from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
+from trajectory_tracking_agent import files
 from trajectory_tracking_agent.ruler.dataset import REPO_ROOT
 from trajectory_tracking_agent.ruler.gates import GATES
 
@@ -39,19 +42,63 @@ def _finite(value: Any) -> float | None:
 
 
 def append(row: Mapping[str, Any], path: Path = LEDGER_PATH) -> None:
-    """Append one row (every CONTRACT §3 key present); the file is never rewritten."""
+    """Append one row (every CONTRACT §3 key present); no whole row is ever rewritten.
+
+    WHY one write, flushed, under a lock (Zach, 2026-11-24: the search should run overnight unattended): a row is
+    whole or absent, two lanes appending at once never interleave, and a power cut loses at most the row in flight. A
+    torn tail a killed writer left (a last line with no newline that does not parse) was never a row: it is cut off
+    first, so this row starts on a line of its own. A whole last row that lost only its newline is kept."""
     missing = [key for key in ROW_KEYS if key not in row]
     if missing:
         raise ValueError(f"a ledger row needs {missing}")
-    line = json.dumps(dict(row), sort_keys=False, allow_nan=False)
-    with open(path, "a", encoding="utf-8") as handle:
-        handle.write(line + "\n")
+    data = (json.dumps(dict(row), sort_keys=False, allow_nan=False) + "\n").encode("utf-8")
+    descriptor = os.open(path, os.O_RDWR | os.O_APPEND | os.O_CREAT, 0o644)
+    try:
+        fcntl.flock(descriptor, fcntl.LOCK_EX)
+        _end_on_a_whole_row(descriptor)
+        while data:
+            data = data[os.write(descriptor, data):]
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
+def _end_on_a_whole_row(descriptor: int) -> None:
+    size = os.fstat(descriptor).st_size
+    if size == 0 or os.pread(descriptor, 1, size - 1) == b"\n":
+        return
+    start = size
+    while start > 0 and b"\n" not in os.pread(descriptor, size - start, start):
+        start = max(0, start - 65536)
+    head = os.pread(descriptor, size - start, start)
+    cut = start + head.rfind(b"\n") + 1  # 0 when the file is one line with no newline
+    tail = os.pread(descriptor, size - cut, cut)
+    try:
+        json.loads(tail)
+    except ValueError:
+        os.ftruncate(descriptor, cut)  # torn: a write that never finished
+    else:
+        os.write(descriptor, b"\n")  # whole: only its newline was missing
 
 
 def rows(path: Path = LEDGER_PATH) -> list[dict[str, Any]]:
-    if not Path(path).exists():
+    """Every row in file order. A torn last line (no newline after it) is a killed writer's leftover and is skipped;
+    a bad line anywhere else is damage and raises, since dropping it would silently lose a score."""
+    path = Path(path)
+    if not path.exists():
         return []
-    return [json.loads(line) for line in Path(path).read_text().splitlines() if line.strip()]
+    lines = path.read_text().split("\n")
+    out = []
+    for number, line in enumerate(lines, start=1):
+        if not line.strip():
+            continue
+        try:
+            out.append(json.loads(line))
+        except ValueError as error:
+            if number == len(lines):
+                break
+            raise ValueError(f"{path.name} line {number} is not a ledger row: {error}") from None
+    return out
 
 
 def latest(split: str = "dev", path: Path = LEDGER_PATH) -> dict[str, dict[str, Any]]:
@@ -276,5 +323,5 @@ def status_record(now_s: float | None = None, path: Path = LEDGER_PATH) -> dict[
 
 
 def write_status(path: Path = LEDGER_PATH) -> Path:
-    STATUS_PATH.write_text(json.dumps(status_record(path=path), indent=2) + "\n")
+    files.write_text(STATUS_PATH, json.dumps(status_record(path=path), indent=2) + "\n")
     return STATUS_PATH

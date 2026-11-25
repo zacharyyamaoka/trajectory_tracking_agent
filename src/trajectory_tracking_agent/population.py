@@ -24,6 +24,7 @@ from collections.abc import Callable, Mapping
 from pathlib import Path
 from typing import Any
 
+from trajectory_tracking_agent import files
 from trajectory_tracking_agent.ruler.dataset import REPO_ROOT
 
 SOLUTIONS_DIR = REPO_ROOT / "solutions"
@@ -191,7 +192,8 @@ def new(
         )
     else:
         folder.mkdir(parents=True)
-        (folder / "solution.py").write_text(
+        files.write_text(
+            folder / "solution.py",
             '"""A new solution: build(trajectory, deployment) returns a robot_msgs JointController."""\n\n\n'
             "def build(trajectory, deployment):\n"
             '    raise NotImplementedError("write the controller")\n'
@@ -204,5 +206,5 @@ def new(
         "created": created or _dt.datetime.now().astimezone().isoformat(timespec="seconds"),
         "tags": list(tags or []),
     }
-    (folder / "meta.json").write_text(json.dumps(record, indent=2) + "\n")
+    files.write_text(folder / "meta.json", json.dumps(record, indent=2) + "\n")
     return folder
