@@ -15,7 +15,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 PRIVATE = re.compile(r"/home/[A-Za-z]|/Users/[A-Za-z]|zach_brain|bam_ws|\.claude/|[A-Za-z0-9._%+-]+@(?:gmail|dfuture|ambienceppe)\.")
 # a guard line: it defines or tests for the pattern, it does not leak one
-GUARD = re.compile(r"re\.compile\(|forbidden|PRIVATE|LEAK|not in|for local in")
+GUARD = re.compile(r"re\.compile\(|forbidden|PRIVATE|LEAK|not in|for local in|planted")
 SKIP_SUFFIXES = {".rrd", ".png", ".jpg", ".gif", ".mp4", ".webm", ".npz", ".gz", ".svg", ".ico", ".woff", ".woff2"}
 
 
