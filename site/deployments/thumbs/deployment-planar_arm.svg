@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="320" height="200">
+<style>
+  .bg { fill: #f0f1ef; stroke: #b9bec5; } .t { fill: #5e6570; font: 600 17px system-ui, sans-serif; }
+  .s { fill: #5e6570; font: 14px system-ui, sans-serif; }
+  @media (prefers-color-scheme: dark) { .bg { fill: #1f2329; stroke: #3a4049; } .t, .s { fill: #a0a7b1; } }
+</style>
+<rect class="bg" x="2" y="2" width="316" height="196" rx="12" stroke-width="2" stroke-dasharray="7 6"/>
+<text class="t" x="160" y="96" text-anchor="middle">Not in the ruler</text>
+<text class="s" x="160" y="122" text-anchor="middle">no frozen dataset</text>
+</svg>

@@ -1,0 +1,40 @@
+{
+  "schema": "bb-stages/1",
+  "what": "The stage bar across the top of every page, left to right: where a reader is in the box's pages. Hand-written; each href is relative to this file. A not-yet stage is drawn greyed with its note and reason, never as a link; flip its status to live when its page ships.",
+  "stages": [
+    {
+      "id": "landing",
+      "label": "Landing",
+      "href": "../index.html",
+      "status": "live"
+    },
+    {
+      "id": "dashboard",
+      "label": "Dashboard",
+      "href": "../dashboard/",
+      "status": "not-yet",
+      "note": "not on the site yet",
+      "reason": "The viewer's tabbed dashboard (Overview, Spec, Feedback, Iterations ...) is built but not on the public site yet; it will live at dashboard/."
+    },
+    {
+      "id": "models-datasets",
+      "label": "Models × Datasets",
+      "href": null,
+      "status": "not-yet",
+      "note": "being researched",
+      "reason": "Which views compare every solution (model) on every dataset or deployment is being researched; nothing is built yet."
+    },
+    {
+      "id": "deployments",
+      "label": "Deployments",
+      "href": "../deployments/",
+      "status": "live"
+    },
+    {
+      "id": "datasets",
+      "label": "Datasets",
+      "href": "../datasets/ur5e/",
+      "status": "live"
+    }
+  ]
+}
