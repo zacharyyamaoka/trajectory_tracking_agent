@@ -1,9 +1,9 @@
 {
  "schema": "bb-state/1",
  "box": "Trajectory Tracking Agent",
- "ref": "581e83e",
- "read_at": "2026-11-24T19:53:42-07:00",
- "ref_date": "2026-11-24T19:53:42-07:00",
+ "ref": "7377ebb",
+ "read_at": "2026-11-24T19:55:37-07:00",
+ "ref_date": "2026-11-24T19:55:37-07:00",
  "about": {
   "repo": "trajectory_tracking_agent",
   "url": "https://github.com/zacharyyamaoka/trajectory_tracking_agent",
@@ -523,7 +523,57 @@
      "worst": null,
      "worst_task": null,
      "margin": null,
-     "why_null": "pass/fail gate: no margin"
+     "why_null": "pass/fail gate: no margin",
+     "moments": [
+      {
+       "task": "workspace-dev-000",
+       "duration_s": 4.07,
+       "passed": false,
+       "red": [
+        [
+         3.97,
+         4.08
+        ]
+       ],
+       "peak": {
+        "t": 4.06,
+        "value": 4.29531,
+        "label": "4.3 mm at the end"
+       }
+      },
+      {
+       "task": "workspace-dev-003",
+       "duration_s": 1.76,
+       "passed": false,
+       "red": [
+        [
+         1.66,
+         1.77
+        ]
+       ],
+       "peak": {
+        "t": 1.7,
+        "value": 3.244,
+        "label": "3.24 mm at the end"
+       }
+      },
+      {
+       "task": "workspace-dev-016",
+       "duration_s": 2.39,
+       "passed": false,
+       "red": [
+        [
+         2.29,
+         2.4
+        ]
+       ],
+       "peak": {
+        "t": 2.34,
+        "value": 1.86557,
+        "label": "1.87 mm at the end"
+       }
+      }
+     ]
     },
     "stop_error_max_mm": {
      "failed": [
@@ -587,7 +637,25 @@
      "tasks": 42,
      "worst": 2.8869221753529732,
      "worst_task": "workspace-dev-024",
-     "margin": -1.8869221753529732
+     "margin": -1.8869221753529732,
+     "moments": [
+      {
+       "task": "workspace-dev-001",
+       "duration_s": 4.94,
+       "passed": false,
+       "red": [
+        [
+         1.48,
+         1.59
+        ]
+       ],
+       "peak": {
+        "t": 1.58,
+        "value": 2.55986,
+        "label": "stop error 2.56 mm"
+       }
+      }
+     ]
     },
     "saturation_share_pct": {
      "failed": [
@@ -681,7 +749,8 @@
      "tasks": 42,
      "worst": 8.381978745696752,
      "worst_task": "workspace-dev-010",
-     "margin": -6.3819787456967525
+     "margin": -6.3819787456967525,
+     "moments": []
     },
     "limit_violations": {
      "failed": [
@@ -855,7 +924,89 @@
      "tasks": 42,
      "worst": 3915,
      "worst_task": "workspace-dev-022",
-     "margin": -3915
+     "margin": -3915,
+     "moments": [
+      {
+       "task": "workspace-dev-002",
+       "duration_s": 2.6,
+       "passed": false,
+       "red": [
+        [
+         0.78,
+         0.79
+        ],
+        [
+         0.87,
+         0.89
+        ],
+        [
+         1.07,
+         1.1
+        ],
+        [
+         1.17,
+         1.2
+        ],
+        [
+         1.27,
+         1.3
+        ],
+        [
+         1.37,
+         1.38
+        ]
+       ],
+       "peak": {
+        "t": 1.18,
+        "value": 121.815,
+        "label": "fastest joint 122 % of its speed limit"
+       }
+      },
+      {
+       "task": "workspace-dev-003",
+       "duration_s": 1.76,
+       "passed": false,
+       "red": [
+        [
+         0.55,
+         0.56
+        ],
+        [
+         0.63,
+         0.67
+        ],
+        [
+         0.74,
+         0.76
+        ],
+        [
+         0.84,
+         0.86
+        ]
+       ],
+       "peak": {
+        "t": 0.65,
+        "value": 117.6833,
+        "label": "fastest joint 118 % of its speed limit"
+       }
+      },
+      {
+       "task": "workspace-dev-016",
+       "duration_s": 2.39,
+       "passed": false,
+       "red": [
+        [
+         1.32,
+         1.33
+        ]
+       ],
+       "peak": {
+        "t": 1.32,
+        "value": 108.8422,
+        "label": "fastest joint 109 % of its speed limit"
+       }
+      }
+     ]
     },
     "floor_clearance": {
      "failed": [],
@@ -1063,7 +1214,41 @@
      "worst": null,
      "worst_task": null,
      "margin": null,
-     "why_null": "pass/fail gate: no margin"
+     "why_null": "pass/fail gate: no margin",
+     "moments": [
+      {
+       "task": "workspace-dev-003",
+       "duration_s": 1.76,
+       "passed": false,
+       "red": [
+        [
+         1.66,
+         1.77
+        ]
+       ],
+       "peak": {
+        "t": 1.74,
+        "value": 12.81919,
+        "label": "12.8 mm at the end"
+       }
+      },
+      {
+       "task": "workspace-dev-016",
+       "duration_s": 2.39,
+       "passed": false,
+       "red": [
+        [
+         2.29,
+         2.4
+        ]
+       ],
+       "peak": {
+        "t": 2.38,
+        "value": 2.43687,
+        "label": "2.44 mm at the end"
+       }
+      }
+     ]
     },
     "stop_error_max_mm": {
      "failed": [
@@ -1157,7 +1342,41 @@
      "tasks": 42,
      "worst": 20.895694605030705,
      "worst_task": "workspace-dev-009",
-     "margin": -19.895694605030705
+     "margin": -19.895694605030705,
+     "moments": [
+      {
+       "task": "workspace-dev-003",
+       "duration_s": 1.76,
+       "passed": false,
+       "red": [
+        [
+         1.66,
+         1.77
+        ]
+       ],
+       "peak": {
+        "t": 1.76,
+        "value": 4.40353,
+        "label": "stop error 4.4 mm"
+       }
+      },
+      {
+       "task": "workspace-dev-016",
+       "duration_s": 2.39,
+       "passed": false,
+       "red": [
+        [
+         2.29,
+         2.4
+        ]
+       ],
+       "peak": {
+        "t": 2.39,
+        "value": 1.01814,
+        "label": "stop error 1.02 mm"
+       }
+      }
+     ]
     },
     "saturation_share_pct": {
      "failed": [
@@ -1261,7 +1480,117 @@
      "tasks": 42,
      "worst": 55.546965597216854,
      "worst_task": "workspace-dev-025",
-     "margin": -53.546965597216854
+     "margin": -53.546965597216854,
+     "moments": [
+      {
+       "task": "workspace-dev-003",
+       "duration_s": 1.76,
+       "passed": false,
+       "red": [
+        [
+         0.85,
+         0.87
+        ],
+        [
+         0.89,
+         0.91
+        ],
+        [
+         0.93,
+         0.95
+        ],
+        [
+         0.97,
+         0.99
+        ],
+        [
+         1.01,
+         1.03
+        ],
+        [
+         1.05,
+         1.07
+        ],
+        [
+         1.09,
+         1.17
+        ],
+        [
+         1.23,
+         1.25
+        ],
+        [
+         1.27,
+         1.29
+        ],
+        [
+         1.31,
+         1.33
+        ],
+        [
+         1.35,
+         1.37
+        ],
+        [
+         1.39,
+         1.49
+        ],
+        [
+         1.51,
+         1.53
+        ],
+        [
+         1.55,
+         1.61
+        ],
+        [
+         1.63,
+         1.65
+        ],
+        [
+         1.67,
+         1.77
+        ]
+       ],
+       "peak": {
+        "t": 0.89,
+        "value": 100.0,
+        "label": "highest joint torque 100 % of its cap"
+       }
+      },
+      {
+       "task": "workspace-dev-016",
+       "duration_s": 2.39,
+       "passed": false,
+       "red": [
+        [
+         1.07,
+         1.09
+        ],
+        [
+         1.23,
+         1.25
+        ],
+        [
+         1.33,
+         1.35
+        ],
+        [
+         1.41,
+         1.43
+        ],
+        [
+         1.49,
+         1.51
+        ]
+       ],
+       "peak": {
+        "t": 1.23,
+        "value": 100.0,
+        "label": "highest joint torque 100 % of its cap"
+       }
+      }
+     ]
     },
     "limit_violations": {
      "failed": [
@@ -1430,7 +1759,133 @@
      "tasks": 42,
      "worst": 3894,
      "worst_task": "workspace-dev-022",
-     "margin": -3894
+     "margin": -3894,
+     "moments": [
+      {
+       "task": "workspace-dev-003",
+       "duration_s": 1.76,
+       "passed": false,
+       "red": [
+        [
+         0.56,
+         0.62
+        ],
+        [
+         0.7,
+         0.73
+        ],
+        [
+         0.86,
+         0.88
+        ],
+        [
+         0.95,
+         0.97
+        ],
+        [
+         1.03,
+         1.05
+        ],
+        [
+         1.12,
+         1.13
+        ],
+        [
+         1.2,
+         1.21
+        ],
+        [
+         1.24,
+         1.26
+        ],
+        [
+         1.28,
+         1.3
+        ],
+        [
+         1.32,
+         1.33
+        ],
+        [
+         1.38,
+         1.39
+        ],
+        [
+         1.42,
+         1.43
+        ],
+        [
+         1.46,
+         1.47
+        ],
+        [
+         1.5,
+         1.51
+        ],
+        [
+         1.54,
+         1.55
+        ],
+        [
+         1.58,
+         1.59
+        ],
+        [
+         1.68,
+         1.69
+        ],
+        [
+         1.72,
+         1.73
+        ],
+        [
+         1.75,
+         1.77
+        ]
+       ],
+       "peak": {
+        "t": 1.76,
+        "value": 185.9235,
+        "label": "fastest joint 186 % of its speed limit"
+       }
+      },
+      {
+       "task": "workspace-dev-016",
+       "duration_s": 2.39,
+       "passed": false,
+       "red": [
+        [
+         0.49,
+         0.5
+        ],
+        [
+         1.01,
+         1.04
+        ],
+        [
+         1.09,
+         1.12
+        ],
+        [
+         1.16,
+         1.2
+        ],
+        [
+         1.25,
+         1.28
+        ],
+        [
+         1.34,
+         1.37
+        ]
+       ],
+       "peak": {
+        "t": 1.02,
+        "value": 127.2371,
+        "label": "fastest joint 127 % of its speed limit"
+       }
+      }
+     ]
     },
     "floor_clearance": {
      "failed": [],
@@ -1959,7 +2414,73 @@
      "worst": null,
      "worst_task": null,
      "margin": null,
-     "why_null": "pass/fail gate: no margin"
+     "why_null": "pass/fail gate: no margin",
+     "moments": [
+      {
+       "task": "workspace-dev-000",
+       "duration_s": 4.07,
+       "passed": false,
+       "red": [
+        [
+         3.97,
+         4.08
+        ]
+       ],
+       "peak": {
+        "t": 3.98,
+        "value": 6.93778,
+        "label": "6.94 mm at the end"
+       }
+      },
+      {
+       "task": "workspace-dev-001",
+       "duration_s": 4.94,
+       "passed": false,
+       "red": [
+        [
+         4.84,
+         4.95
+        ]
+       ],
+       "peak": {
+        "t": 4.85,
+        "value": 8.03438,
+        "label": "8.03 mm at the end"
+       }
+      },
+      {
+       "task": "workspace-dev-002",
+       "duration_s": 2.6,
+       "passed": false,
+       "red": [
+        [
+         2.5,
+         2.61
+        ]
+       ],
+       "peak": {
+        "t": 2.5,
+        "value": 3.09044,
+        "label": "3.09 mm at the end"
+       }
+      },
+      {
+       "task": "workspace-dev-016",
+       "duration_s": 2.39,
+       "passed": false,
+       "red": [
+        [
+         2.29,
+         2.4
+        ]
+       ],
+       "peak": {
+        "t": 2.3,
+        "value": 3.2771,
+        "label": "3.28 mm at the end"
+       }
+      }
+     ]
     },
     "stop_error_max_mm": {
      "failed": [
@@ -2173,7 +2694,89 @@
      "tasks": 42,
      "worst": 13.997896429817535,
      "worst_task": "workspace-dev-009",
-     "margin": -12.997896429817535
+     "margin": -12.997896429817535,
+     "moments": [
+      {
+       "task": "workspace-dev-000",
+       "duration_s": 4.07,
+       "passed": false,
+       "red": [
+        [
+         3.97,
+         4.08
+        ]
+       ],
+       "peak": {
+        "t": 4.07,
+        "value": 6.9309,
+        "label": "stop error 6.93 mm"
+       }
+      },
+      {
+       "task": "workspace-dev-001",
+       "duration_s": 4.94,
+       "passed": false,
+       "red": [
+        [
+         0.5,
+         0.61
+        ],
+        [
+         1.48,
+         1.59
+        ],
+        [
+         2.58,
+         2.69
+        ],
+        [
+         3.74,
+         3.85
+        ],
+        [
+         4.84,
+         4.95
+        ]
+       ],
+       "peak": {
+        "t": 4.94,
+        "value": 8.02888,
+        "label": "stop error 8.03 mm"
+       }
+      },
+      {
+       "task": "workspace-dev-002",
+       "duration_s": 2.6,
+       "passed": false,
+       "red": [
+        [
+         2.5,
+         2.61
+        ]
+       ],
+       "peak": {
+        "t": 2.6,
+        "value": 3.08096,
+        "label": "stop error 3.08 mm"
+       }
+      },
+      {
+       "task": "workspace-dev-016",
+       "duration_s": 2.39,
+       "passed": false,
+       "red": [
+        [
+         2.29,
+         2.4
+        ]
+       ],
+       "peak": {
+        "t": 2.39,
+        "value": 3.27394,
+        "label": "stop error 3.27 mm"
+       }
+      }
+     ]
     },
     "saturation_share_pct": {
      "failed": [],
@@ -6900,14 +7503,14 @@
    "board_rank": 5,
    "outcome": "answered by others",
    "done": true,
-   "solutions_md": "answered by [p5s-bus](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-bus) 0.595 mm · −38.8 % ★  \nanswered by [p5s-fric](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-fric) 0.245 mm · −37.6 % ★  \nanswered by [p5s-fric2](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-fric2) 0.079 mm · −18.0 % ★",
+   "solutions_md": "answered by [p5s-bus](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-bus) 0.595 mm · −38.8 % ★  \nanswered by [p5s-fric](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-fric) 0.245 mm · −37.6 % ★  \nanswered by [p5s-fric2](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-fric2) 0.079 mm · −18.0 % ★",
    "solution_ids": [
     "p5s-bus",
     "p5s-fric",
     "p5s-fric2"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-bus",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-bus",
     "text": "p5s-bus · 0.595 mm · −38.8 % ★ (+2 more)"
    },
    "score": null,
@@ -6949,7 +7552,7 @@
    "closed": "3407d75",
    "queued_t": "2026-11-24T08:38:01-07:00",
    "closed_t": "2026-11-24T09:40:39-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L8"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L8"
   },
   {
    "id": "L9",
@@ -6969,12 +7572,12 @@
    "board_rank": 5,
    "outcome": "answered by others",
    "done": true,
-   "solutions_md": "answered by [p5s-bus-enc](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-bus-enc) 0.393 mm · −33.9 % ★",
+   "solutions_md": "answered by [p5s-bus-enc](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-bus-enc) 0.393 mm · −33.9 % ★",
    "solution_ids": [
     "p5s-bus-enc"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-bus-enc",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-bus-enc",
     "text": "p5s-bus-enc · 0.393 mm · −33.9 % ★"
    },
    "score": null,
@@ -7014,7 +7617,7 @@
    "closed": "3407d75",
    "queued_t": "2026-11-24T08:38:01-07:00",
    "closed_t": "2026-11-24T09:40:39-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L9"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L9"
   },
   {
    "id": "L10",
@@ -7034,12 +7637,12 @@
    "board_rank": 3,
    "outcome": "new best",
    "done": true,
-   "solutions_md": "[p5s-bus](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-bus) 0.595 mm · −38.8 % ★",
+   "solutions_md": "[p5s-bus](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-bus) 0.595 mm · −38.8 % ★",
    "solution_ids": [
     "p5s-bus"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-bus",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-bus",
     "text": "p5s-bus · 0.595 mm · −38.8 % ★"
    },
    "score": 0.595447162071153,
@@ -7077,7 +7680,7 @@
    "closed": "7fd1b19",
    "queued_t": "2026-11-24T09:18:43-07:00",
    "closed_t": "2026-11-24T09:18:43-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L10"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L10"
   },
   {
    "id": "L11",
@@ -7097,12 +7700,12 @@
    "board_rank": 3,
    "outcome": "new best",
    "done": true,
-   "solutions_md": "[p5s-bus-enc](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-bus-enc) 0.393 mm · −33.9 % ★",
+   "solutions_md": "[p5s-bus-enc](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-bus-enc) 0.393 mm · −33.9 % ★",
    "solution_ids": [
     "p5s-bus-enc"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-bus-enc",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-bus-enc",
     "text": "p5s-bus-enc · 0.393 mm · −33.9 % ★"
    },
    "score": 0.3933981564577292,
@@ -7142,7 +7745,7 @@
    "closed": "68ae5ee",
    "queued_t": "2026-11-24T09:20:39-07:00",
    "closed_t": "2026-11-24T09:20:39-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L11"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L11"
   },
   {
    "id": "L12",
@@ -7162,12 +7765,12 @@
    "board_rank": 3,
    "outcome": "new best",
    "done": true,
-   "solutions_md": "[p5s-fric](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-fric) 0.245 mm · −37.6 % ★",
+   "solutions_md": "[p5s-fric](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-fric) 0.245 mm · −37.6 % ★",
    "solution_ids": [
     "p5s-fric"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-fric",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-fric",
     "text": "p5s-fric · 0.245 mm · −37.6 % ★"
    },
    "score": 0.2454490022422628,
@@ -7207,7 +7810,7 @@
    "closed": "e13f398",
    "queued_t": "2026-11-24T09:20:39-07:00",
    "closed_t": "2026-11-24T09:22:54-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L12"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L12"
   },
   {
    "id": "L13",
@@ -7227,12 +7830,12 @@
    "board_rank": 3,
    "outcome": "new best",
    "done": true,
-   "solutions_md": "[p5s-chord](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-chord) 0.244 mm · −0.6 % ★",
+   "solutions_md": "[p5s-chord](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-chord) 0.244 mm · −0.6 % ★",
    "solution_ids": [
     "p5s-chord"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-chord",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-chord",
     "text": "p5s-chord · 0.244 mm · −0.6 % ★"
    },
    "score": 0.2439634251546184,
@@ -7272,7 +7875,7 @@
    "closed": "53abd71",
    "queued_t": "2026-11-24T09:25:59-07:00",
    "closed_t": "2026-11-24T09:25:59-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L13"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L13"
   },
   {
    "id": "L14",
@@ -7292,12 +7895,12 @@
    "board_rank": 3,
    "outcome": "new best",
    "done": true,
-   "solutions_md": "[p5s-grav](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-grav) 0.097 mm · −60.4 % ★",
+   "solutions_md": "[p5s-grav](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-grav) 0.097 mm · −60.4 % ★",
    "solution_ids": [
     "p5s-grav"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-grav",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-grav",
     "text": "p5s-grav · 0.097 mm · −60.4 % ★"
    },
    "score": 0.09669627630535432,
@@ -7337,7 +7940,7 @@
    "closed": "0098103",
    "queued_t": "2026-11-24T09:20:39-07:00",
    "closed_t": "2026-11-24T09:27:39-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L14"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L14"
   },
   {
    "id": "L15",
@@ -7357,12 +7960,12 @@
    "board_rank": 3,
    "outcome": "new best",
    "done": true,
-   "solutions_md": "[p5s-fric2](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-fric2) 0.079 mm · −18.0 % ★",
+   "solutions_md": "[p5s-fric2](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-fric2) 0.079 mm · −18.0 % ★",
    "solution_ids": [
     "p5s-fric2"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-fric2",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-fric2",
     "text": "p5s-fric2 · 0.079 mm · −18.0 % ★"
    },
    "score": 0.07932236342728807,
@@ -7402,7 +8005,7 @@
    "closed": "b563d00",
    "queued_t": "2026-11-24T09:29:18-07:00",
    "closed_t": "2026-11-24T09:29:18-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L15"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L15"
   },
   {
    "id": "L16",
@@ -7422,12 +8025,12 @@
    "board_rank": 3,
    "outcome": "new best",
    "done": true,
-   "solutions_md": "[p5s-kp2](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-kp2) 0.056 mm · −29.7 % ★",
+   "solutions_md": "[p5s-kp2](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-kp2) 0.056 mm · −29.7 % ★",
    "solution_ids": [
     "p5s-kp2"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-kp2",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-kp2",
     "text": "p5s-kp2 · 0.056 mm · −29.7 % ★"
    },
    "score": 0.05574840480287774,
@@ -7467,7 +8070,7 @@
    "closed": "c843eb6",
    "queued_t": "2026-11-24T09:30:53-07:00",
    "closed_t": "2026-11-24T09:30:53-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L16"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L16"
   },
   {
    "id": "L17",
@@ -7487,12 +8090,12 @@
    "board_rank": 3,
    "outcome": "new best",
    "done": true,
-   "solutions_md": "[p5s-kp4](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-kp4) 0.046 mm · −17.1 % ★",
+   "solutions_md": "[p5s-kp4](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-kp4) 0.046 mm · −17.1 % ★",
    "solution_ids": [
     "p5s-kp4"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-kp4",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-kp4",
     "text": "p5s-kp4 · 0.046 mm · −17.1 % ★"
    },
    "score": 0.0462424988683071,
@@ -7532,7 +8135,7 @@
    "closed": "d7fff56",
    "queued_t": "2026-11-24T09:31:26-07:00",
    "closed_t": "2026-11-24T09:31:26-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L17"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L17"
   },
   {
    "id": "L18",
@@ -7552,12 +8155,12 @@
    "board_rank": 3,
    "outcome": "new best",
    "done": true,
-   "solutions_md": "[p5s-vlag](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-vlag) 0.043 mm · −6.1 % ★",
+   "solutions_md": "[p5s-vlag](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-vlag) 0.043 mm · −6.1 % ★",
    "solution_ids": [
     "p5s-vlag"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-vlag",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-vlag",
     "text": "p5s-vlag · 0.043 mm · −6.1 % ★"
    },
    "score": 0.04339935280296428,
@@ -7597,7 +8200,7 @@
    "closed": "8dc4888",
    "queued_t": "2026-11-24T09:27:39-07:00",
    "closed_t": "2026-11-24T09:32:37-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L18"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L18"
   },
   {
    "id": "L19",
@@ -7617,12 +8220,12 @@
    "board_rank": 3,
    "outcome": "new best",
    "done": true,
-   "solutions_md": "[p5s-pass2](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-pass2) 0.032 mm · −27.4 % ★",
+   "solutions_md": "[p5s-pass2](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-pass2) 0.032 mm · −27.4 % ★",
    "solution_ids": [
     "p5s-pass2"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-pass2",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-pass2",
     "text": "p5s-pass2 · 0.032 mm · −27.4 % ★"
    },
    "score": 0.03152831645981026,
@@ -7662,7 +8265,7 @@
    "closed": "fa42648",
    "queued_t": "2026-11-24T09:32:37-07:00",
    "closed_t": "2026-11-24T09:33:32-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L19"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L19"
   },
   {
    "id": "L20",
@@ -7682,12 +8285,12 @@
    "board_rank": 3,
    "outcome": "beat its parent",
    "done": true,
-   "solutions_md": "[p5s-fric2-pass2](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-fric2-pass2) 0.070 mm · −11.9 %",
+   "solutions_md": "[p5s-fric2-pass2](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-fric2-pass2) 0.070 mm · −11.9 %",
    "solution_ids": [
     "p5s-fric2-pass2"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-fric2-pass2",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-fric2-pass2",
     "text": "p5s-fric2-pass2 · 0.070 mm · −11.9 %"
    },
    "score": 0.06990789515183797,
@@ -7727,7 +8330,7 @@
    "closed": "e1f0f7f",
    "queued_t": "2026-11-24T09:34:53-07:00",
    "closed_t": "2026-11-24T09:34:53-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L20"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L20"
   },
   {
    "id": "L21",
@@ -7747,12 +8350,12 @@
    "board_rank": 4,
    "outcome": "worse",
    "done": true,
-   "solutions_md": "[p5s-kd15](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-kd15) 0.035 mm · +9.5 %",
+   "solutions_md": "[p5s-kd15](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-kd15) 0.035 mm · +9.5 %",
    "solution_ids": [
     "p5s-kd15"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-kd15",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-kd15",
     "text": "p5s-kd15 · 0.035 mm · +9.5 %"
    },
    "score": 0.03453451724892771,
@@ -7792,7 +8395,7 @@
    "closed": "6ac0eb3",
    "queued_t": "2026-11-24T09:35:27-07:00",
    "closed_t": "2026-11-24T09:35:27-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L21"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L21"
   },
   {
    "id": "L22",
@@ -7812,12 +8415,12 @@
    "board_rank": 4,
    "outcome": "worse",
    "done": true,
-   "solutions_md": "[p5s-kd25](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-kd25) 0.035 mm · +10.4 %",
+   "solutions_md": "[p5s-kd25](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-kd25) 0.035 mm · +10.4 %",
    "solution_ids": [
     "p5s-kd25"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-kd25",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-kd25",
     "text": "p5s-kd25 · 0.035 mm · +10.4 %"
    },
    "score": 0.03480856256233693,
@@ -7857,7 +8460,7 @@
    "closed": "75b972b",
    "queued_t": "2026-11-24T09:35:49-07:00",
    "closed_t": "2026-11-24T09:35:49-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L22"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L22"
   },
   {
    "id": "L23",
@@ -7878,12 +8481,12 @@
    "board_rank": 4,
    "outcome": "no change",
    "done": true,
-   "solutions_md": "[p5s-onefit](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-onefit) 0.032 mm · ±0 %",
+   "solutions_md": "[p5s-onefit](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-onefit) 0.032 mm · ±0 %",
    "solution_ids": [
     "p5s-onefit"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-onefit",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-onefit",
     "text": "p5s-onefit · 0.032 mm · ±0 %"
    },
    "score": 0.03152831645980532,
@@ -7923,7 +8526,7 @@
    "closed": "24c00a8",
    "queued_t": "2026-11-24T09:33:32-07:00",
    "closed_t": "2026-11-24T09:37:29-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L23"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L23"
   },
   {
    "id": "L24",
@@ -7943,12 +8546,12 @@
    "board_rank": 3,
    "outcome": "new best",
    "done": true,
-   "solutions_md": "[p5s-pass3](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-pass3) 0.031 mm · −0.6 % ★",
+   "solutions_md": "[p5s-pass3](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-pass3) 0.031 mm · −0.6 % ★",
    "solution_ids": [
     "p5s-pass3"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-pass3",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-pass3",
     "text": "p5s-pass3 · 0.031 mm · −0.6 % ★"
    },
    "score": 0.031333594888818476,
@@ -7988,7 +8591,7 @@
    "closed": "5f105ac",
    "queued_t": "2026-11-24T09:37:56-07:00",
    "closed_t": "2026-11-24T09:37:56-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L24"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L24"
   },
   {
    "id": "L25",
@@ -8009,12 +8612,12 @@
    "board_rank": 4,
    "outcome": "worse",
    "done": true,
-   "solutions_md": "[p5s-pass3-g1](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-pass3-g1) 0.156 mm · +399.3 %",
+   "solutions_md": "[p5s-pass3-g1](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-pass3-g1) 0.156 mm · +399.3 %",
    "solution_ids": [
     "p5s-pass3-g1"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-pass3-g1",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-pass3-g1",
     "text": "p5s-pass3-g1 · 0.156 mm · +399.3 %"
    },
    "score": 0.15644781463753119,
@@ -8054,7 +8657,7 @@
    "closed": "157c982",
    "queued_t": "2026-11-24T09:38:29-07:00",
    "closed_t": "2026-11-24T09:38:29-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L25"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L25"
   },
   {
    "id": "L26",
@@ -8074,12 +8677,12 @@
    "board_rank": 3,
    "outcome": "beat its parent",
    "done": true,
-   "solutions_md": "[p5s-pass3-g1-nolag](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-pass3-g1-nolag) 0.141 mm · −10.2 %",
+   "solutions_md": "[p5s-pass3-g1-nolag](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-pass3-g1-nolag) 0.141 mm · −10.2 %",
    "solution_ids": [
     "p5s-pass3-g1-nolag"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-pass3-g1-nolag",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-pass3-g1-nolag",
     "text": "p5s-pass3-g1-nolag · 0.141 mm · −10.2 %"
    },
    "score": 0.1405134786185784,
@@ -8119,7 +8722,7 @@
    "closed": "bbbfd3d",
    "queued_t": "2026-11-24T09:40:26-07:00",
    "closed_t": "2026-11-24T09:40:26-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L26"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L26"
   },
   {
    "id": "L27",
@@ -8181,7 +8784,7 @@
    "closed": null,
    "queued_t": "2026-11-24T09:40:26-07:00",
    "closed_t": null,
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L27"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L27"
   },
   {
    "id": "L28",
@@ -8201,12 +8804,12 @@
    "board_rank": 3,
    "outcome": "beat its parent",
    "done": true,
-   "solutions_md": "[p5s-kp2-pass2](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-kp2-pass2) 0.045 mm · −19.7 %",
+   "solutions_md": "[p5s-kp2-pass2](https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-kp2-pass2) 0.045 mm · −19.7 %",
    "solution_ids": [
     "p5s-kp2-pass2"
    ],
    "solution": {
-    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83ec8a23be536c85c5401e63f9605e000edc/solutions/p5s-kp2-pass2",
+    "value": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb3536734361e3060aeec853b8231585ce7/solutions/p5s-kp2-pass2",
     "text": "p5s-kp2-pass2 · 0.045 mm · −19.7 %"
    },
    "score": 0.04474770530900803,
@@ -8246,7 +8849,7 @@
    "closed": "847ed3b",
    "queued_t": "2026-11-24T09:39:00-07:00",
    "closed_t": "2026-11-24T09:39:00-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L28"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L28"
   },
   {
    "id": "L29",
@@ -8313,7 +8916,7 @@
    "closed": null,
    "queued_t": "2026-11-24T09:37:56-07:00",
    "closed_t": null,
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L29"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L29"
   },
   {
    "id": "L30",
@@ -8375,7 +8978,7 @@
    "closed": null,
    "queued_t": "2026-11-24T16:43:51-07:00",
    "closed_t": null,
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L30"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L30"
   },
   {
    "id": "L31",
@@ -8437,7 +9040,7 @@
    "closed": null,
    "queued_t": "2026-11-24T16:43:51-07:00",
    "closed_t": null,
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L31"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L31"
   },
   {
    "id": "L35",
@@ -8499,7 +9102,7 @@
    "closed": null,
    "queued_t": "2026-11-24T09:42:13-07:00",
    "closed_t": null,
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L35"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L35"
   },
   {
    "id": "L36",
@@ -8561,7 +9164,7 @@
    "closed": null,
    "queued_t": "2026-11-24T09:42:13-07:00",
    "closed_t": null,
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L36"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L36"
   },
   {
    "id": "L37",
@@ -8623,7 +9226,7 @@
    "closed": "2e534e1",
    "queued_t": "2026-11-24T09:42:13-07:00",
    "closed_t": "2026-11-24T09:42:39-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L37"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L37"
   },
   {
    "id": "L39",
@@ -8685,7 +9288,7 @@
    "closed": null,
    "queued_t": "2026-11-24T09:40:26-07:00",
    "closed_t": null,
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L39"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L39"
   },
   {
    "id": "L40",
@@ -8748,7 +9351,7 @@
    "closed": null,
    "queued_t": "2026-11-24T09:40:26-07:00",
    "closed_t": null,
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L40"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L40"
   },
   {
    "id": "L41",
@@ -8809,7 +9412,7 @@
    "closed": "9ead945",
    "queued_t": "2026-11-24T09:40:26-07:00",
    "closed_t": "2026-11-24T11:33:19-07:00",
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L41"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L41"
   },
   {
    "id": "L42",
@@ -8871,7 +9474,7 @@
    "closed": null,
    "queued_t": "2026-11-24T09:30:53-07:00",
    "closed_t": null,
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L42"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L42"
   },
   {
    "id": "L43",
@@ -8933,7 +9536,7 @@
    "closed": null,
    "queued_t": "2026-11-24T08:53:35-07:00",
    "closed_t": null,
-   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83ec8a23be536c85c5401e63f9605e000edc/ideas.md#L43"
+   "source": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb3536734361e3060aeec853b8231585ce7/ideas.md#L43"
   }
  ],
  "gates": [
@@ -9360,9 +9963,20 @@
   ]
  },
  "activity": {
-  "rows": 255,
+  "rows": 256,
   "backfilled": true,
   "recent": [
+   {
+    "t": "2026-11-24T19:55:37-07:00",
+    "day": "2026-11-24",
+    "kind": "commit",
+    "what": "site/data/state.json re-folded at 581e83e (the bb-evidence page): the feedback note counts; gate_results moments are absent until the viewer's fold reads site/data/runs/ (it read the retired site/data/playback/)",
+    "who": "Zach Yamaoka",
+    "commit": "7377ebb",
+    "solution": null,
+    "verdict": null,
+    "objective": null
+   },
    {
     "t": "2026-11-24T19:53:42-07:00",
     "day": "2026-11-24",
@@ -12247,7 +12861,7 @@
  ],
  "ablation_study": {
   "file": "ablations/pass3-2026-11-24.md",
-  "parser": "ablations/study.py parse_changelog (the box's own, at 581e83e)",
+  "parser": "ablations/study.py parse_changelog (the box's own, at 7377ebb)",
   "analysis": "proposals-ablation/_shared/build.py build() + proposals-ablation-page/_build/build.py overall(), rows()",
   "format": "changelog",
   "study": {
@@ -22031,7 +22645,7 @@
     "parent": "p5s-pass3",
     "change": "− lookahead = bus delay: robot_controllers' calibrated lookahead instead (ablation, frozen: every other part and identified weight as p5s-pass3)",
     "created": "2026-11-24T10:50:02-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-no-bus/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-no-bus/",
     "in_bus": false,
     "in_lead": true,
     "in_fric": true,
@@ -22087,7 +22701,7 @@
     "parent": "abl-no-bus",
     "change": "identification pass on abl-no-bus's own dev runs (identify_pass.py): the refit removal of bus, where the frozen one is abl-no-bus",
     "created": "2026-11-24T10:54:23-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-no-bus-refit/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-no-bus-refit/",
     "in_bus": false,
     "in_lead": true,
     "in_fric": true,
@@ -22136,7 +22750,7 @@
     "parent": "p5s",
     "change": "lookahead = the deployment's bus command delay per joint, not the friction-inflated calibration (Coulomb is already in the ff)",
     "created": "2026-11-24T09:18:12-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/p5s-bus/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/p5s-bus/",
     "in_bus": true,
     "in_lead": false,
     "in_fric": false,
@@ -22192,7 +22806,7 @@
     "parent": "p5s-pass3",
     "change": "− minus the board lead: the full bus delay as lookahead (ablation, frozen: every other part and identified weight as p5s-pass3)",
     "created": "2026-11-24T10:50:10-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-no-lead/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-no-lead/",
     "in_bus": true,
     "in_lead": false,
     "in_fric": true,
@@ -22248,7 +22862,7 @@
     "parent": "abl-no-lead",
     "change": "identification pass on abl-no-lead's own dev runs (identify_pass.py): the refit removal of lead, where the frozen one is abl-no-lead",
     "created": "2026-11-24T10:54:33-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-no-lead-refit/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-no-lead-refit/",
     "in_bus": true,
     "in_lead": false,
     "in_fric": true,
@@ -22297,7 +22911,7 @@
     "parent": "p5s",
     "change": "+ minus the board lead alone on p5s (ablation, frozen: the weights p5s-pass3's lineage fitted, no refit)",
     "created": "2026-11-24T10:50:42-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-p5s+lead/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-p5s+lead/",
     "in_bus": false,
     "in_lead": true,
     "in_fric": false,
@@ -22353,7 +22967,7 @@
     "parent": "p5s-pass3",
     "change": "− identified friction: the given model's Coulomb instead (pass 1 out of model.json) (ablation, frozen: every other part and identified weight as p5s-pass3)",
     "created": "2026-11-24T10:50:16-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-no-fric/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-no-fric/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": false,
@@ -22409,7 +23023,7 @@
     "parent": "abl-no-fric",
     "change": "identification pass on abl-no-fric's own dev runs (identify_pass.py): the refit removal of fric, where the frozen one is abl-no-fric",
     "created": "2026-11-24T10:54:41-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-no-fric-refit/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-no-fric-refit/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": false,
@@ -22458,7 +23072,7 @@
     "parent": "p5s",
     "change": "+ identified friction alone on p5s (ablation, frozen: the weights p5s-pass3's lineage fitted, no refit)",
     "created": "2026-11-24T10:50:47-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-p5s+fric/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-p5s+fric/",
     "in_bus": false,
     "in_lead": false,
     "in_fric": true,
@@ -22514,7 +23128,7 @@
     "parent": "p5s-pass3",
     "change": "− chord correction: the plain sample sent (ablation, frozen: every other part and identified weight as p5s-pass3)",
     "created": "2026-11-24T10:50:22-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-no-chord/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-no-chord/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -22563,7 +23177,7 @@
     "parent": "p5s",
     "change": "+ chord correction alone on p5s (ablation, frozen: the weights p5s-pass3's lineage fitted, no refit)",
     "created": "2026-11-24T10:50:53-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-p5s+chord/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-p5s+chord/",
     "in_bus": false,
     "in_lead": false,
     "in_fric": false,
@@ -22619,7 +23233,7 @@
     "parent": "p5s-pass3",
     "change": "− gravity identification: pass 2 out of model.json (ablation, frozen: every other part and identified weight as p5s-pass3)",
     "created": "2026-11-24T10:50:27-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-no-grav/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-no-grav/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -22668,7 +23282,7 @@
     "parent": "p5s",
     "change": "+ gravity identification alone on p5s (ablation, frozen: the weights p5s-pass3's lineage fitted, no refit)",
     "created": "2026-11-24T10:50:59-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-p5s+grav/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-p5s+grav/",
     "in_bus": false,
     "in_lead": false,
     "in_fric": false,
@@ -22724,7 +23338,7 @@
     "parent": "p5s-pass3",
     "change": "− second friction pass: pass 3 out of model.json (ablation, frozen: every other part and identified weight as p5s-pass3)",
     "created": "2026-11-24T10:50:32-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-no-fric2/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-no-fric2/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -22773,7 +23387,7 @@
     "parent": "p5s",
     "change": "+ second friction pass alone on p5s (ablation, frozen: the weights p5s-pass3's lineage fitted, no refit)",
     "created": "2026-11-24T10:51:05-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-p5s+fric2/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-p5s+fric2/",
     "in_bus": false,
     "in_lead": false,
     "in_fric": false,
@@ -22829,7 +23443,7 @@
     "parent": "p5s-pass3",
     "change": "transfer check: the same identified model at the boards' configured gains (kp x1, kd x1) instead of x4 / x2",
     "created": "2026-11-24T09:38:13-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/p5s-pass3-g1/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/p5s-pass3-g1/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -22885,7 +23499,7 @@
     "parent": "p5s-pass3-g1",
     "change": "identification pass on p5s-pass3-g1's own dev runs (identify_pass.py): the refit removal of stiff, where the frozen one is p5s-pass3-g1",
     "created": "2026-11-24T10:54:49-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-no-stiff-refit/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-no-stiff-refit/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -22934,7 +23548,7 @@
     "parent": "p5s",
     "change": "+ stiff gains (kp x4, kd x2) alone on p5s (ablation, frozen: the weights p5s-pass3's lineage fitted, no refit)",
     "created": "2026-11-24T10:51:11-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-p5s+stiff/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-p5s+stiff/",
     "in_bus": false,
     "in_lead": false,
     "in_fric": false,
@@ -22990,7 +23604,7 @@
     "parent": "p5s-pass3",
     "change": "− velocity-lag term: no kd·1.3 ms·qdd term (ablation, frozen: every other part and identified weight as p5s-pass3)",
     "created": "2026-11-24T10:50:37-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-no-vlag/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-no-vlag/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -23039,7 +23653,7 @@
     "parent": "p5s",
     "change": "+ velocity-lag term alone on p5s (ablation, frozen: the weights p5s-pass3's lineage fitted, no refit)",
     "created": "2026-11-24T10:51:17-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-p5s+vlag/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-p5s+vlag/",
     "in_bus": false,
     "in_lead": false,
     "in_fric": false,
@@ -23095,7 +23709,7 @@
     "parent": "p5s-kp4",
     "change": "ff minus kd·tau_v·qdd per joint: the board's velocity estimate lags by encoder delay + 1/(2π·filter Hz) (1.3 ms), so its kd term pushes ahead while accelerating",
     "created": "2026-11-24T09:32:07-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/p5s-vlag/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/p5s-vlag/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -23144,7 +23758,7 @@
     "parent": "p5s",
     "change": "+ re-identification at stiff gains (passes 4+5) alone on p5s (ablation, frozen: the weights p5s-pass3's lineage fitted, no refit)",
     "created": "2026-11-24T10:51:24-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-p5s+reid/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-p5s+reid/",
     "in_bus": false,
     "in_lead": false,
     "in_fric": false,
@@ -23194,7 +23808,7 @@
     "parent": "p5s-bus",
     "change": "lookahead = bus delay minus the board's own lead (encoder delay + one board tick, 0.75 ms), from the deployment's board fields",
     "created": "2026-11-24T09:20:03-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/p5s-bus-enc/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/p5s-bus-enc/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": false,
@@ -23249,7 +23863,7 @@
     "parent": "p5s-kp2",
     "change": "board kp x4, kd x2 (same damping ratio, bandwidth x2 = 12.6 Hz) instead of x2 / x1.41",
     "created": "2026-11-24T09:31:06-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/p5s-kp4/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/p5s-kp4/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -23304,7 +23918,7 @@
     "parent": "p5s-pass3-g1",
     "change": "transfer check, part 2: drop the kd·1.3 ms·qdd term at the configured gains (is it the static prediction the 6 Hz loop never reaches that breaks the x1 transfer?)",
     "created": "2026-11-24T09:39:56-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/p5s-pass3-g1-nolag/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/p5s-pass3-g1-nolag/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -23359,7 +23973,7 @@
     "parent": "p5s-pass3",
     "change": "− lookahead = bus delay and − minus the board lead together (ablation pair, frozen): robot_controllers' calibrated lookahead as is",
     "created": "2026-11-24T10:54:16-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-no-bus+lead/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-no-bus+lead/",
     "in_bus": false,
     "in_lead": false,
     "in_fric": true,
@@ -23414,7 +24028,7 @@
     "parent": "p5s-pass3",
     "change": "− identified friction and − second friction pass together (ablation pair, frozen): are the two friction passes redundant?",
     "created": "2026-11-24T10:54:11-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-no-fric+fric2/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-no-fric+fric2/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": false,
@@ -23464,7 +24078,7 @@
     "parent": "p5s-bus",
     "change": "+ stiff gains (kp x4, kd x2) on p5s-bus (ablation path step 2: the surrogate's pick, predicted 0.288 mm; frozen weights)",
     "created": "2026-11-24T10:52:34-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-path2+stiff/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-path2+stiff/",
     "in_bus": true,
     "in_lead": false,
     "in_fric": false,
@@ -23515,7 +24129,7 @@
     "parent": "abl-path2+stiff",
     "change": "+ minus the board lead on abl-path2+stiff (ablation path step 3: the surrogate's pick, predicted 0.171 mm; frozen weights)",
     "created": "2026-11-24T10:52:41-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-path3+lead/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-path3+lead/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": false,
@@ -23567,7 +24181,7 @@
     "parent": "abl-path3+lead",
     "change": "+ identified friction on abl-path3+lead (ablation path step 4: the surrogate's pick, predicted 0.095 mm; frozen weights)",
     "created": "2026-11-24T10:52:57-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-path4+fric/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-path4+fric/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -23619,7 +24233,7 @@
     "parent": "abl-path3+lead",
     "change": "+ gravity identification on abl-path3+lead (ablation path step 4: the surrogate's pick, predicted 0.084 mm; frozen weights)",
     "created": "2026-11-24T10:52:49-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-path4+grav/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-path4+grav/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": false,
@@ -23672,7 +24286,7 @@
     "parent": "abl-path4+fric",
     "change": "+ second friction pass on abl-path4+fric (ablation path step 5: the surrogate's pick, predicted 0.074 mm; frozen weights)",
     "created": "2026-11-24T10:53:10-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-path5+fric2/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-path5+fric2/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -23725,7 +24339,7 @@
     "parent": "abl-path4+fric",
     "change": "+ gravity identification on abl-path4+fric (ablation path step 5: the surrogate's pick, predicted 0.058 mm; frozen weights)",
     "created": "2026-11-24T10:53:04-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-path5+grav/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-path5+grav/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -23778,7 +24392,7 @@
     "parent": "abl-path4+fric",
     "change": "+ re-identification at stiff gains (passes 4+5) on abl-path4+fric (ablation path step 5: the surrogate's pick, predicted 0.075 mm; frozen weights)",
     "created": "2026-11-24T10:53:17-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-path5+reid/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-path5+reid/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -23832,7 +24446,7 @@
     "parent": "abl-path5+grav",
     "change": "+ chord correction on abl-path5+grav (ablation path step 6: the surrogate's pick, predicted 0.048 mm; frozen weights)",
     "created": "2026-11-24T10:53:23-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-path6+chord/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-path6+chord/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -23887,7 +24501,7 @@
     "parent": "abl-path6+chord",
     "change": "+ re-identification at stiff gains (passes 4+5) on abl-path6+chord (ablation path step 7: the surrogate's pick, predicted 0.044 mm; frozen weights)",
     "created": "2026-11-24T10:53:49-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/abl-path7+reid/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/abl-path7+reid/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -23933,7 +24547,7 @@
     "parent": null,
     "change": "model + Coulomb at plan time, board PD, calibrated lookahead, secant_mid_ff",
     "created": "2026-11-20T18:08:36-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/p5s/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/p5s/",
     "in_bus": false,
     "in_lead": false,
     "in_fric": false,
@@ -23984,7 +24598,7 @@
     "parent": "p5s-bus-enc",
     "change": "friction ff = per-joint Coulomb tanh(qd/vs) + viscous identified from p5s-bus-enc's dev run records, replacing the given model's Coulomb",
     "created": "2026-11-24T09:21:56-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/p5s-fric/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/p5s-fric/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -24036,7 +24650,7 @@
     "parent": "p5s-fric",
     "change": "position sent = sample - a(s+T/2)·T²/12: the board's straight walk over a host period becomes the least-squares line of the curve, not its chord",
     "created": "2026-11-24T09:24:18-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/p5s-chord/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/p5s-chord/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -24089,7 +24703,7 @@
     "parent": "p5s-chord",
     "change": "ff minus a gravity-shaped torque error per joint, fitted from p5s-chord's dev joint errors (kp·e + kd·ė on sin/cos of q2, q2+q3, q2+q3+q4, × cos/sin q5)",
     "created": "2026-11-24T09:26:51-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/p5s-grav/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/p5s-grav/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -24143,7 +24757,7 @@
     "parent": "p5s-grav",
     "change": "friction correction in target qd (odd multi-scale tanh basis + qd), fitted from p5s-grav's dev joint errors (kp·e + kd·ė), subtracted from the ff",
     "created": "2026-11-24T09:28:47-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/p5s-fric2/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/p5s-fric2/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -24199,7 +24813,7 @@
     "parent": "p5s-onefit",
     "change": "identification pass 3 (identify_pass.py on p5s-onefit's dev runs), added into model.json",
     "created": "2026-11-24T09:37:38-07:00",
-    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/p5s-pass3/",
+    "link": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/p5s-pass3/",
     "in_bus": true,
     "in_lead": true,
     "in_fric": true,
@@ -24212,9 +24826,9 @@
    }
   ],
   "links": {
-   "solution": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/581e83e/solutions/",
-   "ideas": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83e/ideas.md#L",
-   "study": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/581e83e/ablations/pass3-2026-11-24.md"
+   "solution": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/7377ebb/solutions/",
+   "ideas": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb/ideas.md#L",
+   "study": "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/7377ebb/ablations/pass3-2026-11-24.md"
   }
  },
  "costs": [
@@ -25310,13 +25924,13 @@
  "spec": {
   "from": "specs/*.md",
   "map": null,
-  "junit": "/tmp/tmpi2mjw9i4/junit.xml",
+  "junit": "/tmp/tmpa75jf8bi/junit.xml",
   "junit_run": {
    "tests": 979,
    "failures": 0,
    "errors": 0,
    "skipped": 0,
-   "at": "2026-11-24T19:54:09.125987-07:00"
+   "at": "2026-11-24T19:59:20.377578-07:00"
   },
   "requirements": [
    {
@@ -28011,7 +28625,7 @@
  "source": {
   "fold": "viewer/tools/fold_state.py",
   "repo": "trajectory_tracking_agent",
-  "ref": "581e83ec8a23be536c85c5401e63f9605e000edc",
+  "ref": "7377ebb3536734361e3060aeec853b8231585ce7",
   "read": [
    "OBJECTIVES.md",
    "README.md",
@@ -28028,6 +28642,18 @@
    "feedback/2026-11-24-viz-reads-metrics-out-only.md",
    "ideas.md",
    "ledger.jsonl",
+   "site/data/runs/index.json",
+   "site/data/runs/p1/workspace-dev-000.json",
+   "site/data/runs/p1/workspace-dev-001.json",
+   "site/data/runs/p1/workspace-dev-002.json",
+   "site/data/runs/p1/workspace-dev-016.json",
+   "site/data/runs/p10/workspace-dev-003.json",
+   "site/data/runs/p10/workspace-dev-016.json",
+   "site/data/runs/p9/workspace-dev-000.json",
+   "site/data/runs/p9/workspace-dev-001.json",
+   "site/data/runs/p9/workspace-dev-002.json",
+   "site/data/runs/p9/workspace-dev-003.json",
+   "site/data/runs/p9/workspace-dev-016.json",
    "solutions/abl-no-bus+lead/meta.json",
    "solutions/abl-no-bus+lead/scorecard.json",
    "solutions/abl-no-bus-refit/meta.json",
@@ -28181,8 +28807,8 @@
    "status.json"
   ],
   "ran": [
-   "ablations/study.py parse_changelog (the box's own parser, at 581e83e)",
-   "ablations/costs.py --all (the box's own tool, on a git archive of 581e83e)"
+   "ablations/study.py parse_changelog (the box's own parser, at 7377ebb)",
+   "ablations/costs.py --all (the box's own tool, on a git archive of 7377ebb)"
   ]
  }
 }
