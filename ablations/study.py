@@ -3,7 +3,7 @@
     python3 ablations/study.py ablations/pass3-2026-11-24.md            # check: links, ideas, costs, ledger rows
     python3 ablations/study.py ablations/pass3-2026-11-24.md --json     # the parsed study, each solution's dev objective joined
 
-The format (proposal 5 of /home/bam/blackbox_agent/proposals-ablation, the one picked by default): front matter (study,
+The format (proposal 5 of blackbox_agent_lab's proposals-ablation, the one picked by default): front matter (study,
 base, target, objective, split, removal), then one `## + <component> — [solution](...)` section per step of the target's
 lineage that added a component, each with `- key:`, `- idea: "<quote of its ideas.md line>"`, `- without it at the end:`
 (leave-one-out ids, frozen and refit), `- alone on the base:` (add-one-in id) and free prose; `## Not a component`
