@@ -944,14 +944,16 @@ def test_run(out: Path) -> bool:
 
 
 def _relative(text: str) -> str:
-    return text.replace(f"{REPO}/", "").replace(str(REPO), ".").replace(str(Path.home()), "~")
+    # WHY the temp dir too: a failing test's message can name its tmp_path (/tmp/pytest-of-<user>/...)
+    return (text.replace(f"{REPO}/", "").replace(str(REPO), ".").replace(str(Path.home()), "~")
+            .replace(tempfile.gettempdir(), "<tmp>"))
 
 
 def public_junit(text: str) -> str:
-    """A junit XML as it is published (site/ is public; Zach's dispatcher, 2026-11-24): pytest's `hostname` dropped and
-    every path relative (this repo's root removed, the home directory written ~), in attributes and text alike. Nothing
-    the fold reads changes: each testcase's classname and name, its failure / error / skipped tags, and the suite's
-    counts and timestamp."""
+    """A junit XML as it is published (site/ is public): pytest's `hostname` dropped and every path relative (this
+    repo's root removed, the home directory written ~, the temp dir <tmp>), in attributes and text alike. Nothing the
+    fold reads changes: each testcase's classname and name, its failure / error / skipped tags, and the suite's counts
+    and timestamp."""
     root = ET.fromstring(text)
     for element in root.iter():
         element.attrib.pop("hostname", None)
