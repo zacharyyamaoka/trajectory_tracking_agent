@@ -8,9 +8,9 @@ Timed by bam_ruckig (jerk-limited, time-optimal) at the UR5e's limits (π rad/s,
 
 | File | What | Where it came from |
 |---|---|---|
-| `manifest.json`, `tasks.jsonl`, `station.json`, `rejections.jsonl` | the frozen dataset | byte-for-byte copy of arm_motion_bench `datasets/ur5e_alone/workspace/v2/` (its last change: `1ba1d8c`, 2026-11-23) |
-| `tapes/<task_id>.npz` (54 files, 3.7 MB) | the speed-1.0 tapes | arm_motion_bench's generator, regenerated bit for bit on 2026-11-24 (below) |
-| `tapes_manifest.json` | the sha256 of every file above | written once by lane E on 2026-11-24; `tta verify` re-checks it |
+| [`manifest.json`](manifest.json), [`tasks.jsonl`](tasks.jsonl), [`station.json`](station.json), [`rejections.jsonl`](rejections.jsonl) | the frozen dataset | byte-for-byte copy of arm_motion_bench [`datasets/ur5e_alone/workspace/v2/`](./) (its last change: `1ba1d8c`, 2026-11-23) |
+| [`tapes/<task_id>.npz`](tapes/) (54 files, 3.7 MB) | the speed-1.0 tapes | arm_motion_bench's generator, regenerated bit for bit on 2026-11-24 (below) |
+| [`tapes_manifest.json`](tapes_manifest.json) | the sha256 of every file above | written once by lane E on 2026-11-24; `tta verify` re-checks it |
 
 **Tape format.** Each tape is robot_msgs `save_npz` of one `JointTrajectory`, exactly as arm_motion_bench
 `datasets._write_rung_tapes` writes the 1.0 rung; read it with `robot_msgs.load_npz(path)`. It carries `t` (s, from 0, a
@@ -21,7 +21,7 @@ point is OBJECTIVES §2's (the flange site, through robot_controllers' FK). **Jo
 `shoulder_pan, shoulder_lift, elbow, wrist_1, wrist_2, wrist_3`, robot_controllers' `UR5E_JOINTS`; the loader
 (`ruler/dataset.py`) refuses a tape in any other order.
 
-**Why verbatim copies, not a re-encoding.** Each tape's sha256 is the one arm_motion_bench's `manifest.json` lists under
+**Why verbatim copies, not a re-encoding.** Each tape's sha256 is the one arm_motion_bench's [`manifest.json`](manifest.json) lists under
 `files`, so `tta verify` checks the chain back to the generator, not only to this copy. The 54 files are 3.7 MB (1.9 MB
 gzipped), inside the 10 MB budget.
 
@@ -47,7 +47,7 @@ speed 1.0 only).
 - **Floor and gravity.** The floor plane is z = 0 at the base in both (arm_motion_bench: the top of its `mount_floor` box;
   here `Deployment.floor_z_m = 0.0`). robot_controllers' model sets no `<option gravity>`, so MuJoCo's default
   (0, 0, −9.81) m/s², straight down onto that floor; `deployment()` refuses to build if that ever changes.
-- **Joint limits used by `limit_violations`** are this folder's `station.json`: positions ±2π rad (elbow ±3.1415 rad) and
+- **Joint limits used by `limit_violations`** are this folder's [`station.json`](station.json): positions ±2π rad (elbow ±3.1415 rad) and
   π rad/s (180 °/s, the UR5e datasheet) on every joint, with the 1.05 allowance on velocity. They agree with the MJCF's
   joint ranges (±6.28319, elbow ±3.1415) to < 1e-5 rad, and the station's torque caps (150 ×3, 28 ×3 N·m) are the boards'
   caps; `deployment()` checks both at load and fails closed on a mismatch.

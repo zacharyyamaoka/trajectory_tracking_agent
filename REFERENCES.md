@@ -13,7 +13,7 @@ What this agent builds on and borrows from. Each entry says what we take from it
 
 - [evo](https://github.com/evo-hq/evo): gates as plain exit codes inherited by child experiments, frontier strategies (`pareto_per_task`), failure classes on discards, ideator briefs for when the queue runs dry.
 - [karpathy/autoresearch](https://github.com/karpathy/autoresearch/blob/master/program.md): `program.md` as the brief, a frozen scorer, a results table per run.
-- [pi-autoresearch](https://github.com/davebcn87/pi-autoresearch): `ideas.md`, a living digest, MAD confidence for noisy scores.
+- [pi-autoresearch](https://github.com/davebcn87/pi-autoresearch): [`ideas.md`](ideas.md), a living digest, MAD confidence for noisy scores.
 - [OpenEvolve](https://github.com/algorithmicsuperintelligence/openevolve): `evaluate()` returning a metrics dict plus an error side channel; a viewer fed by checkpoints.
 - [ShinkaEvolve](https://github.com/SakanaAI/ShinkaEvolve): public / private metrics, a correctness gate, agent skills.
 - [GEPA](https://github.com/gepa-ai/gepa): a Pareto front per task, and diagnostic text returned with each score.

@@ -27,6 +27,6 @@ The landing page uses that newer 3D explanation.
 
 > [!ai] claude-code (lane EV), from site/README.md
 > The newer explanation is the blackbox_agent viewer's `bb-evidence` (Lens ↔ Recorder over one saved bb-run/1
-> record). The page now plays one per (solution, task) the pickers choose: `tools/build_site.py` writes the records
-> with the viewer's own fold and lists them in `site/data/state.json`; `tests/test_site_playback.py` checks that every
+> record). The page now plays one per (solution, task) the pickers choose: [`tools/build_site.py`](../tools/build_site.py) writes the records
+> with the viewer's own fold and lists them in [`site/data/state.json`](../site/data/state.json); [`tests/test_site_playback.py`](../tests/test_site_playback.py) checks that every
 > option the pickers offer has a listed record that validates against the viewer's schema.

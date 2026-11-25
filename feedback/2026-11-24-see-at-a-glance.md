@@ -29,5 +29,5 @@ the 3D viewer shows something that indicates how that was calculated
 
 > [!ai] claude-code (lane FS), from site/proposals/_build/gallery_spec.py
 > Lane P's brief and criteria quote these three phrases (only the brief's carries a date there, 2026-11-24). It became
-> the five proposals in `site/proposals/` (53e6e66): the landing page shows the scores, and clicking one shows how it
+> the five proposals in [`site/proposals/`](../site/proposals/) (53e6e66): the landing page shows the scores, and clicking one shows how it
 > was calculated. About the pages, not the score, so `specs: []`.

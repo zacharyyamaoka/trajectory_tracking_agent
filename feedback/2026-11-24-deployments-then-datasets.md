@@ -29,7 +29,7 @@ stable part, dropped in, never copied.
 ## Why
 
 > [!ai] claude-code (lane CV), from tools/build_coverage.py and tests/test_coverage_pages.py
-> `site/deployments/` (one row per robot, deployment and dataset; every number read from the file its row names) and
-> `site/datasets/ur5e/` (traj_compare's `write_workbench` over the ruler's dataset, its files as it writes them); the
+> [`site/deployments/`](../site/deployments/) (one row per robot, deployment and dataset; every number read from the file its row names) and
+> [`site/datasets/ur5e/`](../site/datasets/ur5e/) (traj_compare's `write_workbench` over the ruler's dataset, its files as it writes them); the
 > stage bar is `site/stages/`. Rows not in ruler v1 stay listed and greyed with their OBJECTIVES §5 reason. About the
 > pages, not the score, so `specs: []`.

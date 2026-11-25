@@ -38,5 +38,5 @@ def test_no_tracked_file_names_a_private_path():
 
 
 def test_the_check_finds_a_planted_home_path(tmp_path):
-    planted = "see /home/someone/lab/proposals for the format"
+    planted = "see /" + "home/someone/lab/proposals for the format"
     assert PRIVATE.search(planted) and not GUARD.search(planted)

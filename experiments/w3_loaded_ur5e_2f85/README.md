@@ -138,7 +138,7 @@ Object mass sweep (p5s-pass3, dev; the gripper known to the feed-forward, the ob
 | 1 | 0.6534 | 0.543 / 1.218 | 38/42 | 0.808 | 1.639 | 26/42 |
 | 1.5 | 0.9763 | 0.778 / 1.601 | 30/42 | 0.901 | 2.301 | 15/42 |
 
-The tables, the worst-task list and the sweep are `loaded_check.py --table`, printed from `results.json`.
+The tables, the worst-task list and the sweep are `loaded_check.py --table`, printed from [`results.json`](results.json).
 
 ## Where it breaks
 
@@ -203,7 +203,7 @@ no task ever settles within 1 mm.
 - **How it is made:** the simulated joint log is replayed on a render-only model, Menagerie's UR5e with Menagerie's
   robotiq_2f85 attached at the flange. That model's flange matches the ruler's tool site to 0 m.
 - **Markers:** orange is the object at the TCP. Green is the target path and the target TCP at the same instant.
-- **The sag is not visible.** About 1 mm is far below a pixel at this framing; the numbers are in `results.json`.
+- **The sag is not visible.** About 1 mm is far below a pixel at this framing; the numbers are in [`results.json`](results.json).
 
 ## Reproduce
 
@@ -212,7 +212,7 @@ uv run python experiments/w3_loaded_ur5e_2f85/loaded_check.py
 MUJOCO_GL=egl uv run python experiments/w3_loaded_ur5e_2f85/render_clip.py --out reports/media/w3-loaded-check/loaded-p5s-pass3-dev-010.mp4
 ```
 
-- **`loaded_check.py`** takes about 6.5 min in one process (the cases, then the sweep) and writes `results.json`.
-- **`render_clip.py`** needs ffmpeg and a MuJoCo Menagerie checkout (`--menagerie`, default `$MUJOCO_MENAGERIE` or
+- **[`loaded_check.py`](loaded_check.py)** takes about 6.5 min in one process (the cases, then the sweep) and writes [`results.json`](results.json).
+- **[`render_clip.py`](render_clip.py)** needs ffmpeg and a MuJoCo Menagerie checkout (`--menagerie`, default `$MUJOCO_MENAGERIE` or
   `~/.cache/mujoco_menagerie`; made with Menagerie 370c439).
-- **Pinned to:** robot_controllers f25f485 (src unchanged at the commit recorded in `results.json`) and MuJoCo 3.11.0.
+- **Pinned to:** robot_controllers f25f485 (src unchanged at the commit recorded in [`results.json`](results.json)) and MuJoCo 3.11.0.

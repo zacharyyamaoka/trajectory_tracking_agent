@@ -30,4 +30,4 @@ population views, the best and the counts, and each view says how many it left o
 > The repo states the rule as Zach's (2026-11-24): "ablation variants must not read as search progress". The chart and
 > the views leave `ablation`-tagged solutions out and count them (79b2625); the ledger leaves them out of the best,
 > PROGRESS.md and status.json (f806e8a). That narrows how [O4.9](../specs/O4.9-ranking.md)'s *best* is read without
-> changing the ruler. `tests/test_ablation_tags.py` and `tests/test_ledger_ablation.py` hold it.
+> changing the ruler. [`tests/test_ablation_tags.py`](../tests/test_ablation_tags.py) and [`tests/test_ledger_ablation.py`](../tests/test_ledger_ablation.py) hold it.

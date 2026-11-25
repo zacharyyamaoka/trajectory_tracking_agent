@@ -1,7 +1,7 @@
 # Build contract (v1, frozen 2026-11-24)
 
-The dispatcher owns this file, `OBJECTIVES.md`, `README.md`, `AGENTS.md`, `REFERENCES.md`, `pyproject.toml` and
-`uv.lock`. Lanes never install packages: they name a missing dependency in their report and the dispatcher adds it.
+The dispatcher owns this file, [`OBJECTIVES.md`](../OBJECTIVES.md), [`README.md`](../README.md), [`AGENTS.md`](../AGENTS.md), [`REFERENCES.md`](../REFERENCES.md), [`pyproject.toml`](../pyproject.toml) and
+[`uv.lock`](../uv.lock). Lanes never install packages: they name a missing dependency in their report and the dispatcher adds it.
 Lanes share one git index: commit **by pathspec** (`git commit -- <your paths>`), never `git add -A`, and read
 `git diff --cached --name-only` first.
 
@@ -9,29 +9,29 @@ Lanes share one git index: commit **by pathspec** (`git commit -- <your paths>`)
 
 | Path | What | Owner |
 |---|---|---|
-| `OBJECTIVES.md`, this file, `README.md`, `AGENTS.md`, `REFERENCES.md`, `ideas.md`, `pyproject.toml`, `uv.lock` | the contract and the agent's brief | dispatcher |
-| `src/trajectory_tracking_agent/ruler/` (`deployment.py`, `dataset.py`, `metrics.py`, `gates.py`) | the frozen ruler: §2–4 of OBJECTIVES | lane E |
+| [`OBJECTIVES.md`](../OBJECTIVES.md), this file, [`README.md`](../README.md), [`AGENTS.md`](../AGENTS.md), [`REFERENCES.md`](../REFERENCES.md), [`ideas.md`](../ideas.md), [`pyproject.toml`](../pyproject.toml), [`uv.lock`](../uv.lock) | the contract and the agent's brief | dispatcher |
+| [`src/trajectory_tracking_agent/ruler/`](../src/trajectory_tracking_agent/ruler/) (`deployment.py`, `dataset.py`, `metrics.py`, `gates.py`) | the frozen ruler: §2–4 of OBJECTIVES | lane E |
 | `src/trajectory_tracking_agent/{evaluate.py,ledger.py,population.py,cli.py,__init__.py}` | `evaluate()`, the ledger, the population, the `tta` CLI | lane E |
-| `datasets/ur5e_alone/workspace/v2/` | the frozen dataset + speed-1.0 tapes | lane E |
-| `solutions/` | the population (generation 0 = robot_controllers P1–P10 × interpolation) | lane E (gen 0), then the agent |
-| `ledger.jsonl`, `PROGRESS.md` | the local truth (append-only) and its generated log | `tta` only |
-| `status.json` | schema `ai-team-status/1` (vault `PROJECT - AI Team`): kpi = best admissible objective, written from the ledger by `tta progress` | `tta` only (lane E builds it) |
-| `tools/progress_chart.py`, `site/progress.svg` | the built-in tracker | lane E |
-| `tests/` | `tests/test_ruler_*.py` (lane E) · `tests/test_site_*.py` (lane W) | per lane |
-| `site/` except `site/progress.svg` and `site/proposals/` | the landing page: saved runs played back, scored by the ruler (playback since 2026-11-24; the live in-browser runtime is in git history) | lane W, then lane R |
-| `site/proposals/` | five ways to show what the metrics mean | lane P |
-| `site/deployments/`, `site/datasets/<robot>/` | Deployments (data-ui table + gallery over one row per robot, deployment and dataset, each row's numbers read from the file its `source` names) and Datasets (traj_compare's coverage workbench over the ruler's datasets of that robot). Written only by `uv run --all-extras python tools/build_coverage.py build`, which runs `traj_compare.coverage.analyze` + `traj_compare.coverage.workbench.write_workbench(coverage, trajectories, out, tool=, title=, subtitle=, rrd_for=<trajectory: rrd-<deployment>-<task>.rrd>, dataset="dataset", facets=("split", "kind"), lead=("deployment",), kit="../../vendor/data-ui", public_url="https://zacharyyamaoka.github.io/trajectory_tracking_agent/datasets/<robot>/", rerun_server=False, served_at="/datasets/<robot>/", pages=False)` and one `write_trajectory_rrd(path, name, joint_traj, tool=<the ruler's tool point in the URDF root>, robot=site/datasets/<robot>/robot/<deployment>.urdf, ghosts=False)` per trajectory (only those whose inputs changed, `rrd_inputs.json`; the URDF from `tools/ruler_urdf.py`, held to the ruler's tool point by `tests/test_coverage_robot.py`) in traj_compare's own venv (`TTA_TRAJ_COMPARE_PYTHON`, default `../traj_compare/.venv/bin/python`; this repo never depends on traj_compare). Built locally and committed; CI never rebuilds. `tools/build_coverage.py check` and `tests/test_coverage_pages.py` hold them to their sources | lane CV |
-| `site/vendor/data-ui/` | data-ui at the pinned `DATA_UI_REF` (tools/build_coverage.py), vendored by data-ui's own `vendor` command with views table, cards, chart, coverage; one kit for every page here (a page passes it as `kit=` / links `vendor/data-ui/data-ui.{js,css}`), never edited | lane CV (shared) |
+| [`datasets/ur5e_alone/workspace/v2/`](../datasets/ur5e_alone/workspace/v2/) | the frozen dataset + speed-1.0 tapes | lane E |
+| [`solutions/`](../solutions/) | the population (generation 0 = robot_controllers P1–P10 × interpolation) | lane E (gen 0), then the agent |
+| [`ledger.jsonl`](../ledger.jsonl), [`PROGRESS.md`](../PROGRESS.md) | the local truth (append-only) and its generated log | `tta` only |
+| [`status.json`](../status.json) | schema `ai-team-status/1` (vault `PROJECT - AI Team`): kpi = best admissible objective, written from the ledger by `tta progress` | `tta` only (lane E builds it) |
+| [`tools/progress_chart.py`](../tools/progress_chart.py), [`site/progress.svg`](../site/progress.svg) | the built-in tracker | lane E |
+| [`tests/`](../tests/) | `tests/test_ruler_*.py` (lane E) · `tests/test_site_*.py` (lane W) | per lane |
+| [`site/`](../site/) except [`site/progress.svg`](../site/progress.svg) and [`site/proposals/`](../site/proposals/) | the landing page: saved runs played back, scored by the ruler (playback since 2026-11-24; the live in-browser runtime is in git history) | lane W, then lane R |
+| [`site/proposals/`](../site/proposals/) | five ways to show what the metrics mean | lane P |
+| [`site/deployments/`](../site/deployments/), [`site/datasets/<robot>/`](../site/datasets/) | Deployments (data-ui table + gallery over one row per robot, deployment and dataset, each row's numbers read from the file its `source` names) and Datasets (traj_compare's coverage workbench over the ruler's datasets of that robot). Written only by `uv run --all-extras python tools/build_coverage.py build`, which runs `traj_compare.coverage.analyze` + `traj_compare.coverage.workbench.write_workbench(coverage, trajectories, out, tool=, title=, subtitle=, rrd_for=<trajectory: rrd-<deployment>-<task>.rrd>, dataset="dataset", facets=("split", "kind"), lead=("deployment",), kit="../../vendor/data-ui", public_url="https://zacharyyamaoka.github.io/trajectory_tracking_agent/datasets/<robot>/", rerun_server=False, served_at="/datasets/<robot>/", pages=False)` and one `write_trajectory_rrd(path, name, joint_traj, tool=<the ruler's tool point in the URDF root>, robot=site/datasets/<robot>/robot/<deployment>.urdf, ghosts=False)` per trajectory (only those whose inputs changed, `rrd_inputs.json`; the URDF from [`tools/ruler_urdf.py`](../tools/ruler_urdf.py), held to the ruler's tool point by [`tests/test_coverage_robot.py`](../tests/test_coverage_robot.py)) in traj_compare's own venv (`TTA_TRAJ_COMPARE_PYTHON`, default `../traj_compare/.venv/bin/python`; this repo never depends on traj_compare). Built locally and committed; CI never rebuilds. `tools/build_coverage.py check` and [`tests/test_coverage_pages.py`](../tests/test_coverage_pages.py) hold them to their sources | lane CV |
+| [`site/vendor/data-ui/`](../site/vendor/data-ui/) | data-ui at the pinned `DATA_UI_REF` (tools/build_coverage.py), vendored by data-ui's own `vendor` command with views table, cards, chart, coverage; one kit for every page here (a page passes it as `kit=` / links `vendor/data-ui/data-ui.{js,css}`), never edited | lane CV (shared) |
 | `site/stages/` | the stage bar: `stages.json` (schema `bb-stages/1`, hand-written, hrefs relative to it) + `bb-stages.js` (`<bb-stages src current>`); a page shows it by including both | lane CV |
-| `tools/build_coverage.py`, `tools/shoot_coverage.py`, `tests/test_coverage_pages.py` | the build, its headless-Chromium proof, its tests | lane CV |
-| `site/comparison/` | Trajectory Comparison: `traj_compare.dataset.write_dataset_report` (`index.html`, `targets/<task>.js`: the 42 dev tasks, the league ranked on the scorecards' per-task `tool_track_rms_mm` as run tags) and `traj_compare.report.write_comparison_report` per task (`runs/<task>/report.html`: the tape as target, the solutions `site/data/runs/index.json` ships on every task as situations, read from their bb-run/1 records; the statistics table is the task's scorecard row), the reports' viewer files once in `assets/`, `build.json` (provenance). Written only by `uv run --all-extras python tools/build_dropins.py build` (traj_compare in its own venv, `TTA_TRAJ_COMPARE_PYTHON`); built locally and committed, CI never rebuilds; rebuild after a new best | lane DROP |
-| `site/models-datasets/` | Model × Dataset: data-ui's stock `pivot` (`models-datasets.base` over `cells.json`: one row per scored solution × dev task, every number a scorecard's) in the shared kit `site/vendor/data-ui/`. Written only by `tools/build_dropins.py build`; rebuild after every `tta evaluate` (tests/test_dropins.py goes red until then) | lane DROP |
-| `site/nav.json`, `site/nav.js` | the header strip: `nav.json` (schema `tta-nav/1`: `{box: {name, href}, links: [{id, label, href \| null, note}]}`, hrefs relative to it, hand-written) + `nav.js`; a page includes it with one line, `<script src="<rel>nav.js" data-current="<link id>" defer></script>` | lane DROP, until lane NAV's tabs replace both |
-| `tools/build_dropins.py`, `tools/shoot_dropins.py`, `tests/test_dropins.py` | the build, its headless-Chromium proof, its tests | lane DROP |
+| [`tools/build_coverage.py`](../tools/build_coverage.py), [`tools/shoot_coverage.py`](../tools/shoot_coverage.py), [`tests/test_coverage_pages.py`](../tests/test_coverage_pages.py) | the build, its headless-Chromium proof, its tests | lane CV |
+| [`site/comparison/`](../site/comparison/) | Trajectory Comparison: `traj_compare.dataset.write_dataset_report` (`index.html`, `targets/<task>.js`: the 42 dev tasks, the league ranked on the scorecards' per-task `tool_track_rms_mm` as run tags) and `traj_compare.report.write_comparison_report` per task (`runs/<task>/report.html`: the tape as target, the solutions [`site/data/runs/index.json`](../site/data/runs/index.json) ships on every task as situations, read from their bb-run/1 records; the statistics table is the task's scorecard row), the reports' viewer files once in `assets/`, `build.json` (provenance). Written only by `uv run --all-extras python tools/build_dropins.py build` (traj_compare in its own venv, `TTA_TRAJ_COMPARE_PYTHON`); built locally and committed, CI never rebuilds; rebuild after a new best | lane DROP |
+| [`site/models-datasets/`](../site/models-datasets/) | Model × Dataset: data-ui's stock `pivot` (`models-datasets.base` over `cells.json`: one row per scored solution × dev task, every number a scorecard's) in the shared kit [`site/vendor/data-ui/`](../site/vendor/data-ui/). Written only by `tools/build_dropins.py build`; rebuild after every `tta evaluate` (tests/test_dropins.py goes red until then) | lane DROP |
+| [`site/nav.json`](../site/nav.json), `site/nav.js` | the header strip: `nav.json` (schema `tta-nav/1`: `{box: {name, href}, links: [{id, label, href \| null, note}]}`, hrefs relative to it, hand-written) + `nav.js`; a page includes it with one line, `<script src="<rel>nav.js" data-current="<link id>" defer></script>` | lane DROP, until lane NAV's tabs replace both |
+| [`tools/build_dropins.py`](../tools/build_dropins.py), [`tools/shoot_dropins.py`](../tools/shoot_dropins.py), [`tests/test_dropins.py`](../tests/test_dropins.py) | the build, its headless-Chromium proof, its tests | lane DROP |
 | `docs/peps/` | decision records | dispatcher |
 | `outputs/` | traces, renders, caches (gitignored) | anyone |
 
-## 2. A solution (`solutions/<id>/`)
+## 2. A solution ([`solutions/<id>/`](../solutions/))
 
 ```
 solutions/<id>/
@@ -49,7 +49,7 @@ solutions/<id>/
 - A building block that wins on several deployments graduates into robot_controllers (`models.py`) by a PR there;
   the solution then imports it.
 
-## 3. The ledger (`ledger.jsonl`, one JSON object per line, append-only)
+## 3. The ledger ([`ledger.jsonl`](../ledger.jsonl), one JSON object per line, append-only)
 
 `{"t": ISO-8601, "solution": id, "parent": id|null, "split": "dev"|"holdout", "ruler": "v1", "objective": float|null,
 "admissible": bool, "gate_pass_rate": float, "failed_gates": {gate: count}, "diagnostics": {...},
@@ -57,7 +57,7 @@ solutions/<id>/
 "task_objectives": {task_id: tool_track_rms_mm | null}}` (per-task values: the solution's output signature, used by the specialists and diversity views without reading any solution code)
 
 The ledger is the local truth; W&B (project "Trajectory Tracking") is a replayable copy of summary scalars only.
-`PROGRESS.md` and `site/progress.svg` are regenerated from it by `tta progress`.
+[`PROGRESS.md`](../PROGRESS.md) and [`site/progress.svg`](../site/progress.svg) are regenerated from it by `tta progress`.
 
 ## 4. The CLI (`tta`)
 
@@ -71,7 +71,7 @@ Sim only: nothing here opens a serial port, CAN, a camera or moteus. Evaluations
 
 ## 6. The ruler's frozen signatures (lane T tests them; lane E implements them; neither changes them)
 
-`src/trajectory_tracking_agent/ruler/metrics.py`, numpy only, SI in, the unit in the name out:
+[`src/trajectory_tracking_agent/ruler/metrics.py`](../src/trajectory_tracking_agent/ruler/metrics.py), numpy only, SI in, the unit in the name out:
 
 ```python
 moving_mask(t, target_tool_xyz, target_qd) -> np.ndarray[bool]          # OBJECTIVES §4 "moving"
@@ -84,7 +84,7 @@ limit_violations(q, qd, q_lo, q_hi, qd_max) -> int                      # sample
 floor_clearance_violations(points_z, floor_z=0.0) -> int                # (N,k) m: tool + link origins
 ```
 
-`src/trajectory_tracking_agent/ruler/gates.py`:
+[`src/trajectory_tracking_agent/ruler/gates.py`](../src/trajectory_tracking_agent/ruler/gates.py):
 
 ```python
 GATES = ("completed", "stop_error_max_mm", "saturation_share_pct", "limit_violations", "floor_clearance")

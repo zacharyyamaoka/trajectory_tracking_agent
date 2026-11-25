@@ -12,7 +12,7 @@ and keeps a scored population of every solution it tried.
 |---|---|
 | [`OBJECTIVES.md`](OBJECTIVES.md) | **Objectives & gates**: the black box's inputs and outputs, the deployment, the dataset, the score |
 | [`AGENTS.md`](AGENTS.md) | How an agent works here: the loop and its rules |
-| [`PROGRESS.md`](PROGRESS.md) | Where the search stands (generated from `ledger.jsonl`) |
+| [`PROGRESS.md`](PROGRESS.md) | Where the search stands (generated from [`ledger.jsonl`](ledger.jsonl)) |
 | [`ideas.md`](ideas.md) | The experiment queue |
 | [`REFERENCES.md`](REFERENCES.md) | Prior art, the packages it builds on, related repos |
 | [`solutions/`](solutions/) | The population: one folder per solution, with its lineage and scorecard |

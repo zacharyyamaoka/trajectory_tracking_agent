@@ -27,5 +27,5 @@ AI output says which agent and model wrote it: his provenance rule, applied to e
 
 > [!ai] claude-code (lane FS), from cli.py and tests/test_solutions_provenance.py
 > `tta new` now refuses to run without `--agent` and `--model` (or TTA_AGENT / TTA_MODEL); the 17 were backfilled from
-> the commit that added each (78b84bd); `tests/test_solutions_provenance.py` fails on an empty proposer. A build-contract
+> the commit that added each (78b84bd); [`tests/test_solutions_provenance.py`](../tests/test_solutions_provenance.py) fails on an empty proposer. A build-contract
 > rule (CONTRACT §2's `proposed_by`), not an OBJECTIVES.md requirement, so `specs: []`.

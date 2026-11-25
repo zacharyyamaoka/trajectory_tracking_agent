@@ -25,5 +25,5 @@ this chart as the headline, we just want to see it's basically progressing
 
 > [!ai] claude-code (lane FS), from site/index.html
 > His pick among the headliner proposals, Ticker v1. The landing page leads with it (013e521), fed by
-> `site/data/state.json`; `tests/test_site_headliner.py` checks the page loads it first and that its best is the
+> [`site/data/state.json`](../site/data/state.json); [`tests/test_site_headliner.py`](../tests/test_site_headliner.py) checks the page loads it first and that its best is the
 > ledger's.

@@ -5,10 +5,10 @@ and scored by the ruler when `tta evaluate` ran it, and every number on the page
 run's record. (Zach, 2026-11-24: "You can just playback saved runs"; until then the page ran MuJoCo's WebAssembly
 build and Pyodide live. Git history keeps that runtime.)
 
-**The landing and the dashboard are blackbox_agent's, not files here** (since 2026-11-25). `.github/workflows/pages.yml`
+**The landing and the dashboard are blackbox_agent's, not files here** (since 2026-11-25). [`.github/workflows/pages.yml`](../.github/workflows/pages.yml)
 calls the package's `site.yml@v0` on every push to `main`; it runs `blackbox build`, which writes the package's stock
-landing (`index.html`) and dashboard (`dashboard/`) around every other file of this `site/` at the pushed commit (the
-domain dashboards, `nav.json`, `data/`, `vendor/data-ui/`) and re-folds `data/state.json`, keeping this build's
+landing (`index.html`) and dashboard (`dashboard/`) around every other file of this [`site/`](./) at the pushed commit (the
+domain dashboards, [`nav.json`](nav.json), [`data/`](data/), [`vendor/data-ui/`](vendor/data-ui/)) and re-folds [`data/state.json`](data/state.json), keeping this build's
 `playback` slice. Never add `site/index.html` (the build drops it; `site/overrides/index.html` would replace the stock
 landing, and the dashboard counts it as an override). Preview exactly what the push will publish, from the last commit:
 
@@ -32,16 +32,16 @@ After new solutions are scored (`tta evaluate <id>` writes their run records to 
 uv run --all-extras python tools/build_site.py build
 ```
 
-It rewrites `site/data/` (the run records, `state.json`, `page.json`, the solution sources) and then runs `check`.
-`state.json` is folded by the installed blackbox_agent package (the `site` extra, the commit `uv.lock` pins; `BB_FOLD`
+It rewrites [`site/data/`](data/) (the run records, `state.json`, `page.json`, the solution sources) and then runs `check`.
+`state.json` is folded by the installed blackbox_agent package (the [`site`](./) extra, the commit [`uv.lock`](../uv.lock) pins; `BB_FOLD`
 overrides), the same fold CI runs; each record is written by the viewer's `tools/fold_runs.py`, read from the
-blackbox_agent lab beside this repo (`~/blackbox_agent`; `BB_FOLD_RUNS` overrides). It refuses
+blackbox_agent lab beside this repo ([`~/blackbox_agent`](https://github.com/zacharyyamaoka/blackbox_agent); `BB_FOLD_RUNS` overrides). It refuses
 when a run it should ship has no record, or a record whose numbers differ from the scorecard (stale); it prints the
 `uv run --all-extras tta evaluate <id>` that rewrites it. Records are never written by hand.
 
 ## Which runs ship: the rule
 
-Read from `ledger.jsonl` (each solution's latest dev row) by `selection()` in `tools/build_site.py`:
+Read from [`ledger.jsonl`](../ledger.jsonl) (each solution's latest dev row) by `selection()` in [`tools/build_site.py`](../tools/build_site.py):
 
 1. **Every scored solution**, except those tagged `ablation` in `meta.json`, on **one representative dev task per task
    kind**: the first dev task of each kind in dataset order. Today: `workspace-dev-000` (ISO 9283 path),
@@ -56,7 +56,7 @@ playback and the run row.
 On 2026-11-24 that is 244 (solution, task) runs: 34 solutions × 5 tasks, plus p5s-pass3 (best) and p6s (best of
 generation 0) on the other 37 tasks. The run row lists only what ships. If the page ever had to shrink, it would ship fewer tasks, never fewer numbers per run.
 
-## What is in `site/data/`
+## What is in [`site/data/`](data/)
 
 | Path | What |
 |---|---|
@@ -64,7 +64,7 @@ generation 0) on the other 37 tasks. The run row lists only what ships. If the p
 | `runs/<solution>/<task>.json` | one saved run as a **bb-run/1** record (the viewer's `schemas/run-record.schema.json`): the ruler's metrics with their rules, which samples each counted, where it failed and its peak; the time base and stops; channels (tool error, target and measured tool points and joint angles, torque and speed as a % of each cap, the lowest point's floor clearance, power); the arm's drawn geom poses (target ghost and measured) |
 | `runs/index.json` | per solution its shipped tasks (record, objective, every gate passed?) and what scored it (repo commit, robot_controllers / robot_msgs commits, `solution.py` sha256, date), and the build's honesty checks per run |
 | `page.json` | the black-box contract, the robot_msgs types, the leaderboard (from every scorecard), the best solution's code (the retired landing's; kept as the leaderboard's check) |
-| `solutions/<id>/solution.py` | byte copies of each shipped solution's code |
+| [`solutions/<id>/solution.py`](../solutions/) | byte copies of each shipped solution's code |
 
 How a record is made: `build` computes what is drawn natively from `tta evaluate`'s run record (the arm's geom poses from
 the deployment's own model and `mujoco.mj_kinematics`, checked against `deployment.link_points`; the tool error from the
@@ -75,7 +75,7 @@ ruler's `metrics.tool_errors_m`; the stop errors from `metrics.stop_errors_mm`; 
 **Display resolution** (every number on a card is the record's metric, at the fold's rounding; these steps are for
 drawing): the channels keep all of the record's 100 Hz samples, so "which samples count" is the ruler's own count; the
 drawn arm runs at 25 Hz (bb-run/1's `layer.t`) to 1 mm, plus the frame at each metric's peak; tool points to 1 µm,
-joint angles to 1e-4°, torque and speed to 0.1 % of their caps (`CHANNEL_DIGITS` in `tools/build_site.py`).
+joint angles to 1e-4°, torque and speed to 0.1 % of their caps (`CHANNEL_DIGITS` in [`tools/build_site.py`](../tools/build_site.py)).
 
 **Two honesty checks per run** (`runs/index.json` → `checks`, `subset`; the first is shown under the explainer):
 
@@ -103,8 +103,8 @@ and no request to a Python or MuJoCo runtime. `shoot` clicks every metric (each 
 Recorder (the chosen metric stays), opens a lane, plays a failing run, measures that nothing scrolls sideways at 390 px,
 and saves light / dark / phone screenshots and the hero video (`outputs/site/hero.mp4`).
 
-The page stays under 15 MiB **as served**, all of `site/` included: text gzipped (GitHub Pages sends it so, and git
-stores it so; measured 2026-11-24: `data/state.json`, 678 kB on disk, arrived as 87 kB), media as they are. On disk the
+The page stays under 15 MiB **as served**, all of [`site/`](./) included: text gzipped (GitHub Pages sends it so, and git
+stores it so; measured 2026-11-24: [`data/state.json`](data/state.json), 678 kB on disk, arrived as 87 kB), media as they are. On disk the
 records are ~33 MB of JSON. The stock `<bb-evidence>` loads the first listed record, then every other listed record to
 colour its run row's chips by their verdicts (measured 2026-11-25: 244 record requests within 8 s of landing), where
 the retired landing loaded one record per pick (~35 kB on the wire).
