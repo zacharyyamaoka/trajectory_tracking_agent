@@ -1,0 +1,17 @@
+# robot-sdk declaration: how this agent shows up in robot_sdk's directory (its README agents table and graph.json).
+# robot_sdk only aggregates and lints this file (`python -m tools.sdk_graph check`, docs/graph-schema.md in
+# github.com/zacharyyamaoka/robot_sdk); this repo owns what it says.
+schema = "robot-sdk-declaration/1"
+role = "agent"
+name = "Trajectory Tracking Agent"
+one_line = "Makes a robot track a given trajectory more accurately, with a scored population of every controller it tried"
+objective = "Lowest tool tracking error on a given trajectory, inside its gates (UR5e first)"
+# The robot-sdk packages it imports; the lint checks this list against pyproject.toml's dependencies.
+builds_on = ["robot_msgs", "robot_controllers"]
+# The agent's live state, read verbatim into graph.json (ai-team-status/1).
+status = "status.json"
+
+[links]
+github = "https://github.com/zacharyyamaoka/trajectory_tracking_agent"
+site = "https://zacharyyamaoka.github.io/trajectory_tracking_agent/"
+docs = "https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/main/docs/CONTRACT.md"
