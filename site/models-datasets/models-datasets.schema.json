@@ -1,0 +1,170 @@
+{
+ "name": "models-datasets",
+ "title": "Trajectory Tracking Agent: task results (solution × split × task)",
+ "titleProperty": "solution",
+ "linkProperty": "url",
+ "source": "tools/build_dropins.py from solutions/<id>/scorecard.json and scorecard_holdout.json (each task row's objective, kpis, diagnostics, verdicts) and meta.json (tags, parent, change); links from site/data/runs/index.json; the shape is data-ui 74be0c9a gallery/examples/models-datasets-tta/",
+ "schema": {
+  "fields": [
+   {
+    "name": "id",
+    "type": "string",
+    "description": "solution / task id"
+   },
+   {
+    "name": "family",
+    "type": "string",
+    "title": "Family",
+    "description": "the solution's pN root (its change's first words); 'Ablations' for an ablation"
+   },
+   {
+    "name": "family_order",
+    "type": "integer",
+    "hidden": true
+   },
+   {
+    "name": "model",
+    "type": "string",
+    "title": "Model",
+    "description": "the solution id's first segment (an ablation: its kind)"
+   },
+   {
+    "name": "config",
+    "type": "string",
+    "title": "Config",
+    "description": "the rest of the solution id ('as built' when there is none)"
+   },
+   {
+    "name": "solution",
+    "type": "string",
+    "title": "Solution"
+   },
+   {
+    "name": "parent",
+    "type": "string",
+    "title": "Parent"
+   },
+   {
+    "name": "change",
+    "type": "string",
+    "title": "Change"
+   },
+   {
+    "name": "ablation",
+    "type": "boolean",
+    "title": "Ablation",
+    "description": "tagged 'ablation' in meta.json: never ranked, never in the default view"
+   },
+   {
+    "name": "admissible",
+    "type": "boolean",
+    "title": "Admissible (every gate, every task)",
+    "description": "the scorecard's verdict: every gate on every task"
+   },
+   {
+    "name": "deployment",
+    "type": "string",
+    "title": "Deployment · split",
+    "description": "the scorecard's deployment and split: dev and holdout are never pooled"
+   },
+   {
+    "name": "deployment_order",
+    "type": "integer",
+    "hidden": true
+   },
+   {
+    "name": "dataset",
+    "type": "string",
+    "title": "Dataset",
+    "description": "the dataset (its cell is the median of its tasks: the ruler's objective)"
+   },
+   {
+    "name": "split",
+    "type": "string",
+    "title": "Split"
+   },
+   {
+    "name": "kind",
+    "type": "string",
+    "title": "Task kind"
+   },
+   {
+    "name": "kind_order",
+    "type": "integer",
+    "hidden": true
+   },
+   {
+    "name": "task",
+    "type": "string",
+    "title": "Task"
+   },
+   {
+    "name": "rms_mm",
+    "type": "number",
+    "title": "Tool tracking RMS",
+    "unit": "mm",
+    "decimals": 4,
+    "better": "lower",
+    "description": "RMS tool-point error over the task's moving samples (the task's objective)"
+   },
+   {
+    "name": "max_mm",
+    "type": "number",
+    "title": "Tool tracking max",
+    "unit": "mm",
+    "decimals": 3,
+    "better": "lower"
+   },
+   {
+    "name": "stop_mm",
+    "type": "number",
+    "title": "Stop error",
+    "unit": "mm",
+    "decimals": 3,
+    "better": "lower",
+    "description": "the largest error at a stop (gate: at most 1 mm)"
+   },
+   {
+    "name": "sat_pct",
+    "type": "number",
+    "title": "Saturation share",
+    "unit": "%",
+    "decimals": 2,
+    "better": "lower"
+   },
+   {
+    "name": "gates",
+    "type": "integer",
+    "title": "Gates passed (of 5)",
+    "decimals": 0,
+    "better": "higher",
+    "description": "of the 5 ruler gates on the task"
+   },
+   {
+    "name": "gates_failed",
+    "type": "string",
+    "title": "Gates failed"
+   },
+   {
+    "name": "preview",
+    "type": "string",
+    "media": "image",
+    "hidden": true,
+    "description": "the task's target tool path, top and side"
+   },
+   {
+    "name": "opens",
+    "type": "string",
+    "title": "Opens",
+    "description": "what a click on this task result's cell opens"
+   },
+   {
+    "name": "url",
+    "type": "string",
+    "title": "Link",
+    "hidden": true,
+    "description": "the cell's link, relative to this file"
+   }
+  ]
+ }
+}

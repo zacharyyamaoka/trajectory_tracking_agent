@@ -31,18 +31,22 @@ What it writes, and from where (every input is committed; nothing is simulated o
     its folder `site/comparison` (`command_root=`), never the build machine's path, and its runs table offers no Rerun
     action (`rerun=False`): no .rrd ships, so a Rerun link would be a 404 (review 2026-11-25: `rerun_server=False` +
     `public_url=` drew 168 of them).
-- **site/models-datasets/**: data-ui's stock `pivot` (`models-datasets.base` over `cells.json`, one row per solution ×
-  dev task, every value a scorecard's) in the data-ui kit lane CV vendored (`site/vendor/data-ui/`; the pivot is in
-  its table view). Rows = iterations nested under their family (`FAMILY_RULE`: by lineage), ablations in their own
-  view; columns = dataset › task kind › task; cell = that task's `tool_track_rms_mm`. Margins: the per-dataset median
-  (the objective; PICKS' roll-up, with one dataset just the median) and the worst task; a family's row and the footer
-  are data-ui's own summaries (median). Presets roll a level up (per task kind, per dataset by median, mean or mean
-  rank: `RANK_RULE`) or switch the metric; in any of them data-ui's view settings switch Cell value and Summary in
-  place. The left panel is data-ui's `<data-facets>`; "Rows" is the plain list. A cell opens its run: the Comparison
-  report on that run (`#tab=track&run=<solution>`) when the run is there, else the landing page's saved-run player on
-  it (`landing_run_url`: `../index.html?run=<record path from runs/index.json>#run`) when that run ships, else the
-  task's Comparison report (the record says which). WHY (dispatcher, relaying Zach's feedback, 2026-11-24): the stock first
-  version; lanes PV and VZ design the full pivot, and what data-ui cannot do is listed, not hand-rolled.
+- **site/models-datasets/**: data-ui's leaderboard pivot (CONTRACT §57) in the shared kit (`site/vendor/data-ui/`,
+  vendored by tools/build_coverage.py at its DATA_UI_REF; the pivot is in its table view): `models-datasets.base` over
+  `models-datasets.csv` (+ its `.schema.json` sidecar), one row per solution × split × task from today's
+  `scorecard.json` (dev) and `scorecard_holdout.json`, every number a scorecard's float, and `media/<task>.svg`, each
+  task's target tool path from its tape. The rows, the sidecar's fields and the three views are data-ui's gallery case
+  `gallery/examples/models-datasets-tta/` (views.base, tta.schema.json, source/build.py at 74be0c9a), ported here so
+  the page is built from this repo's files: rows nest family › model › config (`FAMILY_RULE`), columns deployment ·
+  split › dataset › task kind › task; **Leaderboard** (the default: ranked on the dev deployment, ablations left out),
+  **Pivot** (everything open, ablations drawn, nothing ranked), **Rows**. A dataset cell is the median of its tasks
+  (the objective), a folded row the median of its rows, a deployment the equal-weight mean of its datasets, dev and
+  holdout never pooled. A cell over one task result opens its run: the Comparison report on that run
+  (`#tab=track&run=<solution>`) when the run is there, else the landing page's saved-run player on it
+  (`landing_run_url`: `../index.html?run=<record path from runs/index.json>#run`) when that run ships, else the task's
+  Comparison report; a holdout task has no saved run (the row's `opens` says which). WHY (Zach's ruling, 2026-11-24
+  ~21:30, data-ui CONTRACT §57; lane MXDLIVE 2026-11-25, after Zach found the public page unchanged): the page still ran
+  the stock-pivot first version after §57 merged in data-ui.
 - **The site bar**: every page gets the one include of the viewer's stock `<bb-site-nav>` reading site/nav.json
   (tools/site_bar.py; blackbox_agent viewer CONTRACT §18). nav.json is hand-written; the build only checks it. The
   traj_compare pages follow the reader's colour scheme (traj_compare 38b5967's dark mode), so their bar does too (no
@@ -592,7 +596,18 @@ def publish() -> dict[str, Any]:
     return {"files": len(files), "bytes": sum(p.stat().st_size for p in files)}
 
 
-# ── Model × Dataset: data-ui's pivot over the scorecards ─────────────────────────────────────────────────────
+# ── Model × Dataset: data-ui's leaderboard pivot (CONTRACT §57) over the scorecards ───────────────────────────────
+
+
+MXD_DATA = "models-datasets.csv"  # beside it: models-datasets.schema.json, which data-ui reads as the CSV's sidecar
+MXD_MEDIA = MXD / "media"
+# Both scorecards of a solution: dev (every solution) and holdout (scored only to report a finished one); never pooled
+SPLITS = (("dev", "scorecard.json"), ("holdout", "scorecard_holdout.json"))
+# The task kinds as the pivot's column names say them (data-ui's gallery case's words: short, for vertical headers)
+MXD_KIND = {"a_to_b_joint": ("Joint A→B", 0), "a_to_b_line": ("Line A→B", 1), "via_points": ("Via points", 2),
+            "iso9283_path": ("ISO 9283 path", 3), "iso9283_cube": ("ISO 9283 cube", 4)}
+# The data-ui commit whose gallery case gallery/examples/models-datasets-tta/ the rows, the schema and the views port
+MXD_CASE = "data-ui 74be0c9a gallery/examples/models-datasets-tta/"
 
 
 def _scored_solutions() -> list[str]:
@@ -621,286 +636,314 @@ def shipped_records(index: dict[str, Any] | None = None) -> dict[tuple[str, str]
     return {(s["id"], task_id): entry["record"] for s in index["solutions"] for task_id, entry in s["tasks"].items()}
 
 
-def _deep_link(solution_id: str, task_id: str, in_comparison: set[str],
-               records: dict[tuple[str, str], str]) -> tuple[str, str]:
-    """(href relative to site/models-datasets/, what it opens, in a few words) for one cell."""
+def _deep_link(solution_id: str, task_id: str, in_comparison: set[str], records: dict[tuple[str, str], str],
+               reported: set[str]) -> tuple[str | None, str]:
+    """(href relative to site/models-datasets/ or None, what it opens, in a few words) for one task result. ``reported``:
+    the tasks the Comparison has a run report for (the dev tasks)."""
     report = f"../comparison/runs/{task_id}/report.html#tab={DEEP_TAB}"
-    if solution_id in in_comparison:
+    if task_id in reported and solution_id in in_comparison:
         # traj_compare's #run=<name> opens that run beside the target (38b5967)
         return f"{report}&run={urllib.parse.quote(solution_id)}", "its run in the Comparison"
     if (solution_id, task_id) in records:
         # the Comparison holds the solutions shipped on every task; this one ships on one task per kind
         return landing_run_url(records[(solution_id, task_id)]), "its run in the landing page's player"
-    return report, "the task's Comparison (this run is not saved, only its score)"
+    if task_id in reported:
+        return report, "the task's Comparison (this run is not saved, only its score)"
+    return None, "nothing: only its score is saved (the saved runs and the Comparison are dev tasks)"
 
 
-FAMILY_RULE = ("Family, by lineage: a generation-0 solution (tag gen-0: robot_controllers' P1–P10 configs) is in "
-               "\"generation 0\"; an ablation (tag ablation) is in \"ablations\"; every other solution is in its "
-               "lineage, named by the generation-0 solution reached by following its parents (\"p5s lineage\").")
+FAMILY_RULE = ("Rows nest family › model › config, read from the solution's id and meta.json: the family is the id's "
+               "<code>pN</code> root, named with the first two phrases of that root's own change (\"P5 · model + "
+               "Coulomb at plan time, board PD\"); the model is the id's first segment (<code>p5s</code>), the config the "
+               "rest (<code>pass3</code>; \"as built\" when there is none). A solution tagged <code>ablation</code> is in "
+               "the family Ablations, its model its ablation kind; ablations are never ranked: the Leaderboard leaves "
+               "them out, and the Pivot, which ranks nothing, draws them.")
 
 
-def family_of(solution_id: str, metas: dict[str, dict[str, Any]]) -> str:
-    """FAMILY_RULE, read from meta.json's tags and parents."""
-    info = metas.get(solution_id, {})
-    tags = info.get("tags", [])
+def mxd_family(solution_id: str, info: dict[str, Any], base_change: dict[str, str]) -> tuple[str, int, str, str]:
+    """FAMILY_RULE: (family, its order, model, config). Ported from the gallery case's source/build.py (family_of)."""
+    tags = info.get("tags") or []
     if EXCLUDED_TAG in tags:
-        return "ablations"
-    if "gen-0" in tags:
-        return "generation 0"
-    seen, node = set(), solution_id
-    while metas.get(node, {}).get("parent") and node not in seen:
-        seen.add(node)
-        node = metas[node]["parent"]
-    return f"{node} lineage"
+        kind = next((t.split(":", 1)[1] for t in tags if t.startswith(f"{EXCLUDED_TAG}:")), EXCLUDED_TAG)
+        return "Ablations", 99, kind, solution_id[4:] if solution_id.startswith("abl-") else solution_id
+    model = solution_id.split("-")[0]
+    config = solution_id.split("-", 1)[1] if "-" in solution_id else "as built"
+    root = re.match(r"p(\d+)", solution_id)
+    if not root:  # WHY: an id outside the pN scheme still gets a row (the case's port assumed every id had a root)
+        return "Other", 98, model, config
+    n = int(root.group(1))
+    words = ", ".join((base_change.get(f"p{n}") or "").split(", ")[:2])
+    return (f"P{n} · {words}" if words else f"P{n}"), n, model, config
 
 
-# The metrics a cell can show (the pivot's stock "Cell value" switch and one preset view each): (property, label, unit,
-# the scorecard task row's field, digits)
-METRICS = (
-    ("tool_track_rms_mm", "Tool tracking RMS", "mm", ("objective",), 3),
-    ("rank_on_task", "Rank on the task", "", None, 0),
-    ("stop_error_max_mm", "Worst stop error", "mm", ("kpis", "stop_error_max_mm"), 3),
-    ("tool_track_max_mm", "Worst tool error", "mm", ("diagnostics", "tool_track_max_mm"), 3),
-    ("saturation_share_pct", "Torque at cap", "%", ("kpis", "saturation_share_pct"), 3),
-    ("joint_track_rms_deg", "Worst-joint tracking RMS", "°", ("diagnostics", "joint_track_rms_deg"), 3),
-    ("failed_gate_count", "Gates failed", "", None, 0),
-)
-RANK_RULE = ("Rank on the task: 1 + how many of the solutions (ablations left out) have a lower tool tracking RMS on "
-             "that task; ties share a rank, an ablation is placed among the solutions, and a failed gate does not "
-             "change it (the Gates failed view shows those).")
+def task_previews(tasks: list[str]) -> dict[str, str]:
+    """A small SVG of each task's target tool path, from the top (x-y) and the side (x-z), each scaled to its own box,
+    written to site/models-datasets/media/<task>.svg: the Leaderboard's column pictures (`media: {image: preview}`).
+    Read from the frozen tapes (`tcp_pos`); ported from the gallery case's source/build.py (previews)."""
+    import numpy as np  # noqa: PLC0415
+
+    MXD_MEDIA.mkdir(parents=True, exist_ok=True)
+    out = {}
+    for task in tasks:
+        tape = TAPES / f"{task}.npz"
+        if not tape.exists():
+            continue
+        path = np.load(tape, allow_pickle=False)["tcp_pos"]
+        pts = path[:: max(1, len(path) // 110)]
+
+        def poly(a: int, b: int, x0: float, w: float, h: float, pad: float = 4):
+            u, v = pts[:, a], pts[:, b]
+            span = max(u.max() - u.min(), v.max() - v.min(), 1e-3)
+            cu, cv = (u.max() + u.min()) / 2, (v.max() + v.min()) / 2
+            s = (min(w, h) - 2 * pad) / span
+            xs, ys = x0 + w / 2 + (u - cu) * s, h / 2 - (v - cv) * s
+            return " ".join(f"{x:.1f},{y:.1f}" for x, y in zip(xs, ys)), (xs[0], ys[0]), (xs[-1], ys[-1])
+
+        top, s0, e0 = poly(0, 1, 0, 60, 60)
+        side, s1, e1 = poly(0, 2, 64, 60, 60)
+        svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 124 60" width="124" height="60">'
+               '<rect x="0.5" y="0.5" width="59" height="59" rx="4" fill="none" stroke="#9aa0a6" stroke-opacity=".35"/>'
+               '<rect x="64.5" y="0.5" width="59" height="59" rx="4" fill="none" stroke="#9aa0a6" stroke-opacity=".35"/>'
+               f'<polyline points="{top}" fill="none" stroke="#3987e5" stroke-width="1.6" stroke-linejoin="round"/>'
+               f'<polyline points="{side}" fill="none" stroke="#3987e5" stroke-width="1.6" stroke-linejoin="round"/>'
+               f'<circle cx="{s0[0]:.1f}" cy="{s0[1]:.1f}" r="2.2" fill="#1a7f37"/><circle cx="{e0[0]:.1f}" cy="{e0[1]:.1f}" r="2.2" fill="#c63f33"/>'
+               f'<circle cx="{s1[0]:.1f}" cy="{s1[1]:.1f}" r="2.2" fill="#1a7f37"/><circle cx="{e1[0]:.1f}" cy="{e1[1]:.1f}" r="2.2" fill="#c63f33"/>'
+               '<text x="3" y="57" font-size="7" fill="#8a8f98" font-family="sans-serif">top</text>'
+               '<text x="67" y="57" font-size="7" fill="#8a8f98" font-family="sans-serif">side</text></svg>')
+        (MXD_MEDIA / f"{task}.svg").write_text(svg, encoding="utf-8")
+        out[task] = f"media/{task}.svg"
+    return out
 
 
-def _field(row: dict[str, Any] | None, path: tuple[str, ...] | None) -> Any:
+# The CSV's columns and their sidecar fields (Frictionless + data-ui's unit / decimals / better / media / hidden): the
+# gallery case's FIELDS, plus where a task result's link goes (`url`, `opens`)
+MXD_FIELDS = [
+    ("id", "string", {"description": "solution / task id"}),
+    ("family", "string", {"description": "the solution's pN root (its change's first words); 'Ablations' for an ablation"}),
+    ("family_order", "integer", {"hidden": True}),
+    ("model", "string", {"description": "the solution id's first segment (an ablation: its kind)"}),
+    ("config", "string", {"description": "the rest of the solution id ('as built' when there is none)"}),
+    ("solution", "string", {}),
+    ("parent", "string", {}),
+    ("change", "string", {}),
+    ("ablation", "boolean", {"description": "tagged 'ablation' in meta.json: never ranked, never in the default view"}),
+    ("admissible", "boolean", {"description": "the scorecard's verdict: every gate on every task"}),
+    ("deployment", "string", {"description": "the scorecard's deployment and split: dev and holdout are never pooled"}),
+    ("deployment_order", "integer", {"hidden": True}),
+    ("dataset", "string", {"description": "the dataset (its cell is the median of its tasks: the ruler's objective)"}),
+    ("split", "string", {}),
+    ("kind", "string", {}),
+    ("kind_order", "integer", {"hidden": True}),
+    ("task", "string", {}),
+    ("rms_mm", "number", {"unit": "mm", "decimals": 4, "better": "lower",
+                          "description": "RMS tool-point error over the task's moving samples (the task's objective)"}),
+    ("max_mm", "number", {"unit": "mm", "decimals": 3, "better": "lower"}),
+    ("stop_mm", "number", {"unit": "mm", "decimals": 3, "better": "lower",
+                           "description": "the largest error at a stop (gate: at most 1 mm)"}),
+    ("sat_pct", "number", {"unit": "%", "decimals": 2, "better": "lower"}),
+    ("gates", "integer", {"decimals": 0, "better": "higher", "description": "of the 5 ruler gates on the task"}),
+    ("gates_failed", "string", {}),
+    ("preview", "string", {"media": "image", "hidden": True, "description": "the task's target tool path, top and side"}),
+    ("opens", "string", {"description": "what a click on this task result's cell opens"}),
+    ("url", "string", {"hidden": True, "description": "the cell's link, relative to this file"}),
+]
+MXD_TITLES = {"family": "Family", "model": "Model", "config": "Config", "solution": "Solution", "parent": "Parent",
+              "change": "Change", "ablation": "Ablation", "admissible": "Admissible (every gate, every task)",
+              "deployment": "Deployment · split", "dataset": "Dataset", "split": "Split", "kind": "Task kind",
+              "task": "Task", "rms_mm": "Tool tracking RMS", "max_mm": "Tool tracking max", "stop_mm": "Stop error",
+              "sat_pct": "Saturation share", "gates": "Gates passed (of 5)", "gates_failed": "Gates failed",
+              "opens": "Opens", "url": "Link"}
+
+
+def mxd_rows(pictures: dict[str, str] | None = None) -> list[dict[str, Any]]:
+    """One row per (scored solution, split, task), every number a scorecard's, unrounded (so a leaf cell IS the task's
+    tool_track_rms_mm and a dataset cell's median IS the objective). The gallery case's source/build.py (main), read from
+    today's solutions/*/scorecard.json, scorecard_holdout.json and meta.json, plus each row's link."""
+    index = runs_index()
+    in_comparison = set(full_solutions(index))
+    records = shipped_records(index)
+    reported = {task["id"] for task in dev_tasks(index)}
+    solutions = sorted(p for p in SOLUTIONS.iterdir() if p.is_dir())
+    metas = {p.name: _json(p / "meta.json") for p in solutions if (p / "meta.json").exists()}
+    base_change = {sid: m.get("change", "") for sid, m in metas.items() if re.fullmatch(r"p\d+", sid)}
+    rows = []
+    for folder in solutions:
+        sid, info = folder.name, metas.get(folder.name, {})
+        family, family_order, model, config = mxd_family(sid, info, base_change)
+        for split, name in SPLITS:
+            path = folder / name
+            if not path.exists():
+                continue
+            card = _json(path)
+            if card.get("split") != split:
+                raise SystemExit(f"{path.relative_to(REPO)}: split {card.get('split')!r}, expected {split!r}")
+            deployment = f"{card['deployment']['name']} · {split}"
+            dataset = card["dataset"]["name"].split("/", 1)[-1]
+            for task in card["tasks"]:
+                kind, kind_order = MXD_KIND.get(task["kind"], (task["kind"], 9))
+                verdicts = task.get("verdicts") or {}
+                url, opens = _deep_link(sid, task["task"], in_comparison, records, reported)
+                rows.append({
+                    "id": f"{sid}/{task['task']}", "family": family, "family_order": family_order, "model": model,
+                    "config": config, "solution": sid, "parent": info.get("parent"),
+                    # WHY the whole change (the case cut it at 90 characters): a stored property is shown as written
+                    "change": info.get("change") or None,
+                    "ablation": EXCLUDED_TAG in (info.get("tags") or []), "admissible": bool(card.get("admissible")),
+                    "deployment": deployment, "deployment_order": 0 if split == "dev" else 1, "dataset": dataset,
+                    "split": split, "kind": kind, "kind_order": kind_order,
+                    "task": task["task"].replace("workspace-", "", 1),
+                    "rms_mm": task.get("objective"),
+                    "max_mm": _field(task, ("diagnostics", "tool_track_max_mm")),
+                    "stop_mm": _field(task, ("kpis", "stop_error_max_mm")),
+                    "sat_pct": _field(task, ("kpis", "saturation_share_pct")),
+                    "gates": sum(1 for ok in verdicts.values() if ok is True),
+                    "gates_failed": ", ".join(g for g, ok in verdicts.items() if ok is not True) or None,
+                    "preview": (pictures or {}).get(task["task"]),
+                    "opens": opens, "url": url,
+                })
+    rows.sort(key=lambda r: (r["family_order"], r["model"], r["config"], r["deployment_order"], r["kind_order"], r["task"]))
+    if len({r["id"] for r in rows}) != len(rows):
+        raise SystemExit("models-datasets: two rows share an id")
+    leaf: dict[tuple[str, str, str], str] = {}
+    for r in rows:
+        if leaf.setdefault((r["family"], r["model"], r["config"]), r["solution"]) != r["solution"]:
+            raise SystemExit(f"models-datasets: two solutions share the row {r['family']} › {r['model']} › {r['config']}")
+    return rows
+
+
+def _field(row: dict[str, Any] | None, path: tuple[str, ...]) -> Any:
     value: Any = row
-    for key in path or ():
+    for key in path:
         value = value.get(key) if isinstance(value, dict) else None
     return value
 
 
-def mxd_rows() -> list[dict[str, Any]]:
-    """One row per (scored solution, dev task), every number a scorecard's (the rank is counted from them)."""
-    index = runs_index()
-    in_comparison = set(full_solutions(index))
-    records = shipped_records(index)
-    tasks = {task["id"]: task for task in dev_tasks(index)}
-    solutions = [sid for sid in _scored_solutions() if scorecard(sid).get("split") == SPLIT]
-    metas = {sid: meta(sid) for sid in (p.parent.name for p in SOLUTIONS.glob("*/meta.json"))}
-    cards = {sid: scorecard(sid) for sid in solutions}
-    per_task = {sid: task_rows(card) for sid, card in cards.items()}
-    ranked = {task_id: sorted(per_task[sid][task_id]["objective"] for sid in solutions
-                              if EXCLUDED_TAG not in metas[sid].get("tags", []) and task_id in per_task[sid]
-                              and per_task[sid][task_id]["objective"] is not None)
-              for task_id in tasks}
-    rows = []
-    for sid in solutions:
-        card, info = cards[sid], metas[sid]
-        values = [per_task[sid][t]["objective"] for t in tasks if t in per_task[sid]]
-        finite = [v for v in values if v is not None and math.isfinite(v)]
-        failing = [t for t in tasks if t in per_task[sid] and failed_gates(per_task[sid][t])]
-        gates = "passes every gate" if card["admissible"] else f"fails a gate on {len(failing)} of {len(per_task[sid])} tasks"
-        for task_id, task in tasks.items():
-            row = per_task[sid].get(task_id)
-            failed = failed_gates(row) if row else list(GATE_WORDS)
-            url, opens = _deep_link(sid, task_id, in_comparison, records)
-            value = row["objective"] if row else None
-            out = {
-                "id": f"{sid}/{task_id}",
-                "family": family_of(sid, metas),
-                "solution": sid,
-                "iteration": "ablation" if EXCLUDED_TAG in info.get("tags", []) else "solution",
-                "gates": gates,
-                "objective_mm": card["objective"],
-                "worst_task_mm": max(finite) if finite else None,
-                "deployment": DEPLOYMENT,
-                "dataset": DATASET,
-                "kind": task["kind_label"],
-                "task": task_id,
-                "verdict": "not run" if row is None else ("pass" if not failed else "fail"),
-                "failed_gates": [GATE_WORDS[g] for g in failed] if row else [],
-                "rank_on_task": None if value is None else 1 + sum(1 for v in ranked[task_id] if v < value),
-                "failed_gate_count": len(failed) if row else None,
-                "opens": opens,
-                "url": url,
-                "parent": info.get("parent") or "",
-                "kind_order": task["kind_order"],
-                "task_order": task["order"],
-            }
-            for prop, _, _, path, _ in METRICS:
-                if path is not None:
-                    out[prop] = _field(row, path)
-            rows.append(out)
-    return rows
+def _csv_cell(value: Any) -> Any:
+    if value is None or (isinstance(value, float) and not math.isfinite(value)):
+        return ""
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    return value  # a float writes as its shortest round-trip repr: the scorecard's float, read back bit for bit
 
 
-def _mxd_properties() -> dict[str, Any]:
-    props: dict[str, Any] = {
-        "family": {"type": "text", "width": 150},
-        "solution": {"type": "text", "width": 170},
-        "iteration": {"type": "text", "width": 90},
-        "gates": {"type": "text", "width": 150},
-        "objective_mm": {"type": "number", "unitText": "mm", "digits": 3, "width": 120, "better": "lower"},
-        "worst_task_mm": {"type": "number", "unitText": "mm", "digits": 3, "width": 100, "better": "lower"},
-        "deployment": {"type": "text"},
-        "dataset": {"type": "text"},
-        "kind": {"type": "text"},
-        "task": {"type": "text"},
-        "verdict": {"type": "text", "width": 80},
-        "failed_gates": {"type": "list", "width": 200},
-        "opens": {"type": "text", "width": 300},
-        "url": {"type": "text", "width": 120},
-        "parent": {"type": "text"},
-        "kind_order": {"type": "number", "hidden": True},
-        "task_order": {"type": "number", "hidden": True},
-    }
-    for prop, _, unit, _, digits in METRICS:
-        spec: dict[str, Any] = {"type": "number", "width": 80, "better": "lower"}
-        if unit:
-            spec["unitText"] = unit
-        spec.update({"digits": digits} if digits else {"decimals": 0})
-        props[prop] = spec
-    return props
+def _mxd_csv(rows: list[dict[str, Any]]) -> str:
+    import csv
+    import io
+
+    names = [name for name, _, _ in MXD_FIELDS]
+    buffer = io.StringIO()
+    writer = csv.writer(buffer, lineterminator="\n")
+    writer.writerow(names)
+    for row in rows:
+        writer.writerow([_csv_cell(row[name]) for name in names])
+    return buffer.getvalue()
 
 
-def _mxd_base(rows: list[dict[str, Any]]) -> str:
-    """The .base: one pivot preset per roll-up level and per metric, a plain row view, the rail's facets."""
-    columns = sorted({(r["kind_order"], r["task_order"], r["kind"], r["task"]) for r in rows})
-    kinds = sorted({(r["kind_order"], r["kind"]) for r in rows})
-    per_task = [f"@{DATASET} / {kind} / {task}" for _, _, kind, task in columns]
-    per_kind = [f"@{DATASET} / {kind}" for _, kind in kinds]
-    per_dataset = [f"@{DEPLOYMENT} / {DATASET}"]
+def _mxd_schema() -> dict[str, Any]:
+    fields = []
+    for name, kind, extra in MXD_FIELDS:
+        field = {"name": name, "type": kind}
+        if name in MXD_TITLES:
+            field["title"] = MXD_TITLES[name]
+        field.update(extra)
+        fields.append(field)
+    return {"name": "models-datasets", "title": "Trajectory Tracking Agent: task results (solution × split × task)",
+            "titleProperty": "solution", "linkProperty": "url",
+            "source": ("tools/build_dropins.py from solutions/<id>/scorecard.json and scorecard_holdout.json (each task "
+                       "row's objective, kpis, diagnostics, verdicts) and meta.json (tags, parent, change); links from "
+                       f"site/data/runs/index.json; the shape is {MXD_CASE}"),
+            "schema": {"fields": fields}}
 
-    def calc(ids: list[str], summary: str = "Median") -> str:
-        return "\n".join(f"      '{cid}': {summary}" for cid in ids)
 
-    names = "\n".join(f"  {prop}: {{ displayName: '{label}' }}" for prop, label, _, _, _ in METRICS)
-    def rows_spec(by: str = "objective_mm") -> str:
-        # WHY by the cell's own column in a per-dataset view: a pivot sorts its rows by what each row keeps, and those
-        # views keep no objective column (their one cell is the roll-up itself)
-        return f"""    groupBy: {{ property: family }}
-    groupOrder: [p5s lineage, generation 0, ablations]
-    sort:
-      - {{ property: '{by}', direction: ASC }}
-    fold: open"""
-    # WHY presets and the stock switches (dispatcher, relaying Zach 2026-11-24: "a metric switcher", the roll-up
-    # "switchable between median, mean and rank", default PICKS' per-dataset median): each view below is a preset; in any
-    # pivot the toolbar's view settings switch "Cell value" (the metric) and "Summary" (Median, Average, ...) in place, and
-    # a column's menu switches the family rows' and the footer's calculation
-    return f"""# Model × Dataset: one row per iteration (solution) nested under its family, one column per dev task grouped
-# deployment › dataset › task kind › task; a cell is that task's number from solutions/<id>/scorecard.json.
+# The views are the gallery case's views.base at MXD_CASE (CONTRACT §57; Zach's ruling of 2026-11-24 ~21:30), key for
+# key: Leaderboard (the default), Pivot, Rows. tests/test_dropins.py holds the names and the order; data-ui's checker
+# (`node <data-ui>/bin/data-ui.mjs check models-datasets.base`) holds the keys.
+MXD_BASE = """# Model × Dataset · the solution leaderboard as ONE pivot over every task result (solution × split × task). CONTRACT
+# §57's `pivot:` keys; the views are __CASE__views.base, Zach's ruling of 2026-11-24
+# ~21:30: Leaderboard (the DEFAULT), Pivot (the bare stock pivot, nested rows, with the column roll-up) and the
+# plain Rows. A dataset cell is the median of its tasks (the ruler's objective), a folded row the median of the rows under
+# it, a deployment the equal-weight mean of its datasets; dev and holdout are never pooled. Ablation-tagged solutions are
+# never ranked: the Leaderboard leaves them out; the Pivot, which ranks nothing (`color: none`, no sort), draws them.
 # GENERATED by tools/build_dropins.py from the scorecards and meta.json: change the build, never this file.
-# {FAMILY_RULE}
-# {RANK_RULE}
 # Check it: node <data-ui>/bin/data-ui.mjs check models-datasets.base
-data: cells.json
+data: __DATA__
+noun: [task result, task results]
 facets:
   - family
-  - gates
+  - { property: model, parent: family, searchable: true, limit: 8 }
   - kind
-  - iteration
+  - { property: admissible, as: toggle, value: true, text: "Admissible solutions only" }
 properties:
-  family: {{ displayName: Family }}
-  solution: {{ displayName: Iteration }}
-  iteration: {{ displayName: Kind of iteration }}
-  gates: {{ displayName: Gates }}
-  objective_mm: {{ displayName: 'Median of the dataset' }}
-  worst_task_mm: {{ displayName: Worst task }}
-  deployment: {{ displayName: Deployment }}
-  dataset: {{ displayName: Dataset }}
-  kind: {{ displayName: Task kind }}
-  task: {{ displayName: Task }}
-  verdict: {{ displayName: Gates on this task }}
-  failed_gates: {{ displayName: Failed gates }}
-  opens: {{ displayName: Opens }}
-  url: {{ displayName: Link }}
-  parent: {{ displayName: Parent }}
-{names}
-open: side
+  family: { displayName: Family }
+  model: { displayName: Model }
+  config: { displayName: Config }
+  solution: { displayName: Solution }
+  parent: { displayName: Parent }
+  change: { displayName: Change }
+  ablation: { displayName: Ablation }
+  admissible: { displayName: "Admissible (every gate, every task)" }
+  deployment: { displayName: "Deployment · split" }
+  dataset: { displayName: Dataset }
+  split: { displayName: Split }
+  kind: { displayName: Task kind }
+  task: { displayName: Task }
+  rms_mm: { displayName: Tool tracking RMS }
+  max_mm: { displayName: Tool tracking max }
+  stop_mm: { displayName: Stop error }
+  sat_pct: { displayName: Saturation share }
+  gates: { displayName: "Gates passed (of 5)" }
+  gates_failed: { displayName: Gates failed }
+  opens: { displayName: Opens }
 views:
   - type: pivot
-    name: Per task
-    filters: 'iteration == "solution"'
-    order: [solution, gates, objective_mm, worst_task_mm]
-{rows_spec()}
-    splitBy: [dataset, kind, task]
-    value: {{ property: tool_track_rms_mm, summary: Median }}
-    summaries:
-{calc(per_task)}
+    name: Leaderboard
+    filters: "ablation == false"
+    splitBy: [deployment, dataset, kind, task]
+    value: { property: rms_mm, summary: Median }
+    pivot:
+      rows: [family, model, config]
+      roles: { deployment: deployment, dataset: dataset }
+      rollup: median
+      metrics: [rms_mm, max_mm, stop_mm, gates]
+      color: rank
+      interval: median
+      reference: ablation
+      layout: compact
+      fold: { rows: closed, columns: closed }
+      sort: { column: "@__SORT__" }
+      media: { image: preview }
+      headers: vertical
   - type: pivot
-    name: Per task kind
-    filters: 'iteration == "solution"'
-    order: [solution, gates, objective_mm]
-{rows_spec()}
-    splitBy: [dataset, kind]
-    value: {{ property: tool_track_rms_mm, summary: Median }}
-    summaries:
-{calc(per_kind)}
-  - type: pivot
-    name: Per dataset (median)
-    filters: 'iteration == "solution"'
-    order: [solution, gates]
-{rows_spec(per_dataset[0])}
-    splitBy: [deployment, dataset]
-    value: {{ property: tool_track_rms_mm, summary: Median }}
-    summaries:
-{calc(per_dataset)}
-  - type: pivot
-    name: Per dataset (mean)
-    filters: 'iteration == "solution"'
-    order: [solution, gates]
-{rows_spec(per_dataset[0])}
-    splitBy: [deployment, dataset]
-    value: {{ property: tool_track_rms_mm, summary: Average }}
-    summaries:
-{calc(per_dataset, "Average")}
-  - type: pivot
-    name: Per dataset (mean rank)
-    filters: 'iteration == "solution"'
-    order: [solution, gates]
-{rows_spec(per_dataset[0])}
-    splitBy: [deployment, dataset]
-    value: {{ property: rank_on_task, summary: Average }}
-    summaries:
-{calc(per_dataset, "Average")}
-  - type: pivot
-    name: Gates failed
-    filters: 'iteration == "solution"'
-    order: [solution, gates]
-{rows_spec()}
-    splitBy: [dataset, kind, task]
-    value: {{ property: failed_gate_count, summary: Max }}
-    summaries:
-{calc(per_task, "Sum")}
-  - type: pivot
-    name: With ablations
-    order: [solution, iteration, gates, objective_mm, worst_task_mm]
-{rows_spec()}
-    splitBy: [dataset, kind, task]
-    value: {{ property: tool_track_rms_mm, summary: Median }}
-    summaries:
-{calc(per_task)}
+    name: Pivot
+    splitBy: [deployment, dataset, kind, task]
+    value: { property: rms_mm, summary: Median }
+    pivot:
+      rows: [family, model, config]
+      roles: { deployment: deployment, dataset: dataset }
+      rollup: median
+      metrics: [rms_mm, max_mm, stop_mm, gates]
+      color: none
+      reference: ablation
+      layout: compact
+      fold: { rows: open, columns: open }
+      headers: horizontal
   - type: table
     name: Rows
-    open: {{ mode: link, url: url }}
-    order: [solution, family, task, kind, tool_track_rms_mm, rank_on_task, verdict, failed_gates, stop_error_max_mm, objective_mm, opens]
-    groupBy: {{ property: family }}
-    groupOrder: [p5s lineage, generation 0, ablations]
-    sort:
-      - {{ property: objective_mm, direction: ASC }}
-      - {{ property: task_order, direction: ASC }}
-    display: {{ verdict: status }}
+    order: [model, config, solution, deployment, kind, task, rms_mm, max_mm, stop_mm, gates, gates_failed, admissible, ablation, change]
+    groupBy: { property: family }
     fold: open
 """
 
 
 MXD_PAGE = """<!doctype html>
-<!-- GENERATED by tools/build_dropins.py (never edit; rebuild): Model × Dataset, data-ui's stock pivot over cells.json
-     (one row per solution × dev task, every number a scorecard's), the site bar on top. -->
+<!-- GENERATED by tools/build_dropins.py (never edit; rebuild): Model × Dataset, data-ui's leaderboard pivot (CONTRACT §57)
+     over models-datasets.csv (one row per solution × split × task, every number a scorecard's), the site bar on top. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Model × Dataset · Trajectory Tracking Agent</title>
-<meta name="description" content="Every solution on every dev task: the ruler's per-task tool tracking error, nested by family, rolled up per task kind and per dataset (median, mean or mean rank). Click a cell for its run.">
+<meta name="description" content="The solution leaderboard: every solution on every task, dev and holdout, nested family › model › config and rolled up the way the ruler rolls it up. Unfold a column to its tasks; click a task's cell for its run.">
 <link rel="stylesheet" href="../vendor/data-ui/data-ui.css">
 <style>
   /* WHY --page-*: data-ui reads shadcn's token names from its host (--muted = a soft background, --accent = a hover
@@ -938,27 +981,29 @@ __BAR__
   <p>__LEDE__</p>
   <p class="small" data-rollup-rule>__ROLLUP__</p>
   <details>
-    <summary>How the rows, the rank and the links are made</summary>
+    <summary>How the rows, the views and the links are made</summary>
     <p>__FAMILIES__</p>
-    <p>__RANK__</p>
-    <p>__CONTROLS__</p>
+    <p>__VIEWS__</p>
+    <p>__LINKS__</p>
   </details>
 </header>
 <div class="frame">
 <aside aria-label="Filters"><data-facets for="models-datasets"></data-facets></aside>
 <main>
-<data-views id="models-datasets" src="models-datasets.base" view="Per task" frame="page" views="tabs" filters="pills rail" aria-label="Every solution on every dev task"></data-views>
+<data-views id="models-datasets" src="models-datasets.base" view="Leaderboard" frame="page" views="tabs" filters="pills rail" aria-label="The solution leaderboard: every solution on every task"></data-views>
 </main>
 </div>
 <script type="module" src="../vendor/data-ui/data-ui.js"></script>
 <script>
-  // WHY (a data-ui gap, asked in the handoff): a pivot cell opens "the records behind it" as plain text, with no link to
-  // the record's page. Here a per-task cell is one run, so a plain click on it goes to that run (the record's url),
-  // read from data-ui's own data-views-open event; a cell over many records keeps the stock peek.
+  // WHY (a data-ui gap, asked in the handoff): a pivot cell opens "the records behind it" in the peek, with no link to
+  // the record's page. Here a cell over ONE task result is one run, so a click on it goes to that run (the record's
+  // url), read from data-ui's own data-views-open event; a cell over many records keeps the stock peek. CONTRACT §57's
+  // cells raise the same event as the stock pivot's did ({row, column: '@…', records}), so this script is unchanged but
+  // for the data file's name.
   document.getElementById('models-datasets').addEventListener('data-views-open', (event) => {
     const { column, records } = event.detail || {};
     if (!column || !String(column).startsWith('@') || !records || records.length !== 1 || !records[0].url) return;
-    location.assign(new URL(records[0].url, new URL('cells.json', location.href)).href);
+    location.assign(new URL(records[0].url, new URL('__DATA__', location.href)).href);
   });
 </script>
 </body>
@@ -967,50 +1012,79 @@ __BAR__
 
 
 def models_datasets() -> dict[str, Any]:
-    rows = mxd_rows()
-    solutions = sorted({r["solution"] for r in rows if r["iteration"] == "solution"})
-    ablations = sorted({r["solution"] for r in rows if r["iteration"] == "ablation"})
-    families = sorted({r["family"] for r in rows})
-    tasks = sorted({r["task"] for r in rows})
     if MXD.exists():
         shutil.rmtree(MXD)
     MXD.mkdir(parents=True)
-    data = {
-        "id": "models-datasets",
-        "title": "Model × Dataset",
-        "titleProperty": "id",
-        "linkProperty": "url",
-        "source": ("tools/build_dropins.py from solutions/<id>/scorecard.json (each task row's objective, kpis, "
-                   "diagnostics, verdicts) and meta.json (tags, parent); links from site/data/runs/index.json"),
-        "properties": _mxd_properties(),
-        "rows": rows,
-    }
-    _write_json(MXD / "cells.json", data, indent=None)
-    (MXD / "models-datasets.base").write_text(_mxd_base(rows))
-    lede = (f"One row per iteration ({len(solutions)} solutions in {len(families) - (1 if ablations else 0)} families; "
-            f"the {len(ablations)} ablations are in the <b>With ablations</b> view), one column per dev task of "
-            f"<code>{DEPLOYMENT}</code> › <code>{DATASET}</code>, grouped by task kind ({len(tasks)} tasks). A cell is "
-            "that task's <code>tool_track_rms_mm</code> from the solution's <code>scorecard.json</code>: the RMS tool "
-            "error over the samples where the target moves. Click a cell to open its run.")
+    tasks = sorted({row["task"] for split, name in SPLITS for card in SOLUTIONS.glob(f"*/{name}")
+                    for row in _json(card)["tasks"]})
+    pictures = task_previews(tasks)
+    rows = mxd_rows(pictures)
+    (MXD / MXD_DATA).write_text(_mxd_csv(rows), encoding="utf-8")
+    _write_json(MXD / MXD_DATA.replace(".csv", ".schema.json"), _mxd_schema())
+    sort = next(r["deployment"] for r in rows if r["split"] == SPLIT)
+    (MXD / "models-datasets.base").write_text(MXD_BASE.replace("__CASE__", MXD_CASE).replace("__DATA__", MXD_DATA)
+                                              .replace("__SORT__", sort))
+    ranked = sorted({r["solution"] for r in rows if not r["ablation"]})
+    ablations = sorted({r["solution"] for r in rows if r["ablation"]})
+    families = sorted({(r["family_order"], r["family"]) for r in rows if not r["ablation"]})
+    per_split = {split: sorted({r["task"] for r in rows if r["split"] == split}) for split, _ in SPLITS}
+    holdout = sorted({r["solution"] for r in rows if r["split"] == "holdout"})
+    deployment = next(r["deployment"] for r in rows).split(" · ")[0]
+    dataset = next(r["dataset"] for r in rows)
+    lede = (f"The solution leaderboard: {len(ranked)} solutions in {len(families)} families, nested family › model › "
+            f"config, on every task of <code>{deployment}</code> › <code>{dataset}</code>: the "
+            f"{len(per_split['dev'])} dev tasks, and the {len(per_split['holdout'])} holdout tasks for the "
+            f"{len(holdout)} solutions scored there (holdout is scored only to report a finished solution, never to "
+            f"pick one). A task's cell is its <code>tool_track_rms_mm</code> from the solution's scorecard: the RMS "
+            f"tool error over the samples where the target moves. Unfold a column to its task kinds and tasks; click a "
+            f"task's cell to open its run.")
     rollup = ("<b>Roll-up, in plain words:</b> a solution's score on a dataset is the <b>median</b> of its per-task "
-              "numbers (that median is the objective); across datasets of one deployment the score is the plain "
-              "average of those medians, with every dataset counted once; deployments are never pooled. Ruler v1 has "
-              "one dataset, so the score is the median of the 42 tasks: the <b>Median of the dataset</b> column, and "
-              "the <b>Per dataset (median)</b> view. <b>Per dataset (mean)</b> and <b>(mean rank)</b> roll up the "
-              "same numbers by their mean and by the solution's average rank across the tasks. A family's row and the "
-              "footer show the median of the rows under them (a column's menu, Calculate, switches it).")
-    controls = ("Switches: the views are presets of one roll-up level or one metric; in any of them the toolbar's view "
-                "settings switch the metric (Cell value), the roll-up (Summary: Median, Average, …) and the column "
-                "levels in place. The left panel filters by family, gates, task kind and kind of iteration. "
-                "<b>Rows</b> is the plain list behind the grid. A cell opens its run: in the Trajectory Comparison for "
-                "the solutions saved on every task, in the landing page's player for those saved on one task per kind, "
-                "else the task's Comparison (its record says which).")
+              "numbers (that median is the objective); a folded row (a model, a family) is the median of the rows "
+              "under it, one vote per row; a deployment is the plain average of its datasets' scores, every dataset "
+              "counted once, and dev and holdout are never pooled; a deployment ranks only the rows scored on every one "
+              f"of its datasets. Ruler v1 has one dataset, so the <b>{html.escape(sort)}</b> column is each "
+              "solution's objective, and the Leaderboard ranks on it. The Roll up buttons over the grid switch the "
+              "method (Median, Mean, Best, Rank, Count) and the grid says the rule it is using in words.")
+    views = (f"Three views of the same rows (data-ui's leaderboard pivot, CONTRACT §57): <b>Leaderboard</b> (the "
+             f"default) ranks the solutions on the dev deployment, tints each cell by its rank in its column, and puts a "
+             f"picture of each task's target tool path over its column; the {len(ablations)} ablations are left out. "
+             "<b>Pivot</b> is the bare pivot with every row and column open, the ablations drawn but never ranked. "
+             "<b>Rows</b> is every task result. In both pivots a column group folds into one roll-up column that says "
+             "its method and count; the Metric control switches the number (tool tracking RMS or max, stop error, "
+             "gates passed), and the left panel filters by family, model, task kind and admissible.")
+    links = ("A cell over one task result opens its run: in the Trajectory Comparison for the solutions saved on every "
+             "dev task, in the landing page's player for those saved on one task per kind, else the task's Comparison "
+             "(this run is not saved, only its score); a holdout task has no saved run, so its cell opens the records "
+             "behind it, as every cell over several does. Each task result's <b>Opens</b> says which.")
     page = (MXD_PAGE.replace("__LEDE__", lede).replace("__ROLLUP__", rollup).replace("__FAMILIES__", FAMILY_RULE)
-            .replace("__RANK__", RANK_RULE).replace("__CONTROLS__", controls)
+            .replace("__VIEWS__", views).replace("__LINKS__", links).replace("__DATA__", MXD_DATA)
             .replace("__BAR__", site_bar.tag(MXD / "index.html", "models-datasets")))
     (MXD / "index.html").write_text(page)
-    return {"rows": len(rows), "solutions": len(solutions), "ablations": len(ablations), "families": families,
-            "tasks": len(tasks)}
+    return {"rows": len(rows), "solutions": len(ranked), "ablations": len(ablations),
+            "families": [name for _, name in families], "tasks": {s: len(t) for s, t in per_split.items()},
+            "holdout_solutions": len(holdout), "pictures": len(pictures)}
+
+
+def mxd_table() -> list[dict[str, Any]]:
+    """The committed models-datasets.csv, typed by its own sidecar (what data-ui reads)."""
+    import csv
+
+    schema = _json(MXD / MXD_DATA.replace(".csv", ".schema.json"))
+    kinds = {field["name"]: field["type"] for field in schema["schema"]["fields"]}
+
+    def typed(name: str, text: str) -> Any:
+        if text == "":
+            return None
+        if kinds.get(name) == "number":
+            return float(text)
+        if kinds.get(name) == "integer":
+            return int(text)
+        if kinds.get(name) == "boolean":
+            return text == "true"
+        return text
+
+    with (MXD / MXD_DATA).open(newline="", encoding="utf-8") as handle:
+        return [{name: typed(name, text) for name, text in row.items()} for row in csv.DictReader(handle)]
 
 
 # ── check: the committed pages against their sources ─────────────────────────────────────────────────────────
@@ -1081,14 +1155,18 @@ def link_problems() -> list[str]:
     for target in payload["levels"]["targets"]:
         if not resolves(index, f"targets/{target['slug']}.js"):
             problems.append(f"comparison target {target['slug']}: targets/{target['slug']}.js")
-    cells = _json(MXD / "cells.json")
     shipped = set(shipped_records().values())
-    for row in cells["rows"]:
-        if not resolves(MXD / "cells.json", row["url"]):
+    data = MXD / MXD_DATA
+    for row in mxd_table():
+        if row["url"] is None:
+            continue
+        if not resolves(data, row["url"]):
             problems.append(f"models-datasets {row['id']}: {row['url']}")
         record = landing_run_record(row["url"])
         if row["url"].startswith("../index.html") and (record not in shipped or not (SITE / "data" / record).is_file()):
             problems.append(f"models-datasets {row['id']}: {row['url']} names no record in runs/index.json")
+        if row["preview"] and not (MXD / row["preview"]).is_file():
+            problems.append(f"models-datasets {row['id']}: no picture {row['preview']}")
     problems += site_bar.nav_problems()
     problems += site_bar.page_problems(pages)
     return problems
@@ -1116,20 +1194,30 @@ def number_problems() -> list[str]:
             row = task_rows(cards[sid])[task["id"]]
             if shown.get(sid, [None, None])[1] != fmt(row["objective"], "mm"):
                 problems.append(f"{task['id']} {sid}: table {shown.get(sid)} != {fmt(row['objective'], 'mm')}")
-    cells = _json(MXD / "cells.json")["rows"]
-    for row in cells:
-        card = scorecard(row["solution"])
-        task_row = task_rows(card).get(row["task"])
-        if row["tool_track_rms_mm"] != (task_row["objective"] if task_row else None):
-            problems.append(f"models-datasets {row['id']}: {row['tool_track_rms_mm']}")
-        if row["objective_mm"] != card["objective"]:
-            problems.append(f"models-datasets objective {row['solution']}")
+    # Model × Dataset: every task result is its scorecard row's float; a dataset cell (data-ui's median of a leaf row's
+    # tasks: the mean of the middle two of an even count) is the scorecard's objective
+    by_card: dict[tuple[str, str], list[float]] = {}
+    for row in mxd_table():
+        solution, task_id = row["id"].split("/", 1)
+        card = _json(SOLUTIONS / solution / dict(SPLITS)[row["split"]])
+        task_row = task_rows(card).get(task_id)
+        if task_row is None or row["rms_mm"] != task_row["objective"]:
+            problems.append(f"models-datasets {row['id']}: {row['rms_mm']}")
+        by_card.setdefault((solution, row["split"]), []).append(row["rms_mm"])
+    for (solution, split), values in by_card.items():
+        card = _json(SOLUTIONS / solution / dict(SPLITS)[split])
+        values = sorted(values)
+        mid = len(values) // 2
+        median = values[mid] if len(values) % 2 else (values[mid - 1] + values[mid]) / 2
+        if len(values) != len(card["tasks"]) or median != card["objective"]:
+            problems.append(f"models-datasets {solution} {split}: median {median} != objective {card['objective']}")
     return problems
 
 
 def check() -> list[str]:
     problems = []
-    for path in (COMPARISON / "index.html", MXD / "index.html", MXD / "cells.json", NAV_JSON, site_bar.BAR_JS):
+    for path in (COMPARISON / "index.html", MXD / "index.html", MXD / MXD_DATA, MXD / "models-datasets.base", NAV_JSON,
+                 site_bar.BAR_JS):
         if not path.exists():
             problems.append(f"missing {path.relative_to(REPO)}")
     if problems:
@@ -1151,6 +1239,25 @@ def _served_bytes(paths: list[Path]) -> tuple[int, int]:
     return disk, served
 
 
+DATA_UI = Path(os.environ.get("TTA_DATA_UI", REPO.parent / "data-ui"))
+
+
+def base_problems() -> list[str]:
+    """data-ui's own checker on models-datasets.base against its data (every key of CONTRACT §57, every property it
+    names); [] with a note when node or the data-ui checkout is not here (CI never builds these pages)."""
+    cli = DATA_UI / "bin" / "data-ui.mjs"
+    if not cli.exists() or not shutil.which("node"):
+        print(f"note: data-ui's checker not run (no node or no {cli.name} under TTA_DATA_UI)")
+        return []
+    result = subprocess.run(["node", str(cli), "check", str(MXD / "models-datasets.base"), "--json"],
+                            capture_output=True, text=True, timeout=120)
+    try:
+        report = json.loads(result.stdout)
+    except json.JSONDecodeError:
+        return [f"data-ui check failed: {(result.stderr or result.stdout)[-1000:]}"]
+    return [f"data-ui check: {p}" for p in report.get("problems", [])] if report.get("errors") or report.get("warnings") else []
+
+
 def build() -> None:
     manifest = prepare()
     print(f"inputs: {len(manifest['tasks'])} tasks x {len(manifest['solutions'])} solutions "
@@ -1170,11 +1277,11 @@ def build() -> None:
     for name, folder in (("comparison", COMPARISON), ("models-datasets", MXD)):
         disk, served = _served_bytes([p for p in folder.rglob("*") if p.is_file()])
         print(f"  {name}: {disk / 1e6:.2f} MB on disk, {served / 1e6:.2f} MB served (gzip)")
-    problems = check()
+    problems = check() + base_problems()
     if problems:
         print("\n".join(problems[:40]))
         raise SystemExit(f"{len(problems)} problems")
-    print("check: every number is its scorecard's, every link resolves, no private path")
+    print("check: every number is its scorecard's, every link resolves, no private path, data-ui's checker clean")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -1195,6 +1302,9 @@ def main(argv: list[str] | None = None) -> int:
         print(publish())
     elif args.command == "mxd":
         print(models_datasets())
+        problems = base_problems()
+        print("\n".join(problems) if problems else "data-ui check: clean")
+        return 1 if problems else 0
     return 0
 
 

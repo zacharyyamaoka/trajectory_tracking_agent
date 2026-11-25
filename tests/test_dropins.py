@@ -13,10 +13,12 @@ and is the scorecard's number; its plots still draw every sample, rests included
 
 from __future__ import annotations
 
+import csv
 import importlib.util
 import json
 import math
 import re
+import subprocess
 from pathlib import Path
 
 import numpy as np
@@ -72,16 +74,42 @@ def _tasks() -> list[str]:
     return [task["id"] for task in _runs_index()["tasks"]]
 
 
+SCORECARDS = {"dev": "scorecard.json", "holdout": "scorecard_holdout.json"}
+
+
+def _mxd_rows() -> list[dict]:
+    """site/models-datasets/models-datasets.csv, typed by its own sidecar the way data-ui types it (read here with the
+    csv module, not the build's reader)."""
+    schema = _json(MXD / "models-datasets.schema.json")
+    kinds = {f["name"]: f["type"] for f in schema["schema"]["fields"]}
+    cast = {"number": float, "integer": int, "boolean": lambda t: t == "true"}
+    with (MXD / "models-datasets.csv").open(newline="", encoding="utf-8") as handle:
+        return [{k: (None if v == "" else cast.get(kinds[k], str)(v)) for k, v in row.items()}
+                for row in csv.DictReader(handle)]
+
+
+def _split_card(sid: str, split: str) -> dict:
+    return _json(REPO / "solutions" / sid / SCORECARDS[split])
+
+
+def _views(base_text: str) -> list[tuple[str, str]]:
+    """(type, name) of each view in a .base, in order."""
+    return re.findall(r"^  - type: (\w+)\n    name: (.+)$", base_text, re.M)
+
+
 def test_the_pages_are_current():
     """The committed pages are the build of today's sources: the solutions the landing page ships on every task, the 42
     dev tasks, and one Model × Dataset row per scored solution × task. A new best or a new scorecard makes this red."""
     build = _json(COMPARISON / "build.json")
     assert [s["id"] for s in build["solutions"]] == _full(), f"stale: {REBUILD}"
     assert build["tasks"] == _tasks(), f"stale: {REBUILD}"
-    cells = _json(MXD / "cells.json")["rows"]
-    scored = sorted(p.parent.name for p in (REPO / "solutions").glob("*/scorecard.json"))
-    assert sorted({row["solution"] for row in cells}) == scored, f"stale: {REBUILD}"
-    assert len(cells) == len(scored) * len(_tasks())
+    rows = _mxd_rows()
+    for split, name in SCORECARDS.items():
+        scored = sorted(p.parent.name for p in (REPO / "solutions").glob(f"*/{name}"))
+        assert sorted({row["solution"] for row in rows if row["split"] == split}) == scored, f"stale: {REBUILD}"
+        tasks = sum(len(_json(REPO / "solutions" / sid / name)["tasks"]) for sid in scored)
+        assert sum(1 for row in rows if row["split"] == split) == tasks, f"stale: {REBUILD}"
+    assert not (MXD / "cells.json").exists(), "the stock-pivot data file is retired"
 
 
 @pytest.mark.parametrize("sid", ["best", "gen0_best"])
@@ -150,66 +178,109 @@ def test_league_is_the_objective():
 
 
 def test_models_datasets_cells_are_the_scorecards():
-    """Every Model × Dataset cell is its scorecard row's number; the margins are the objective (the median of the
-    dataset, PICKS' roll-up with one dataset) and the worst task; the rank is recounted from the scorecards."""
-    cells = _json(MXD / "cells.json")["rows"]
+    """Every Model × Dataset task result is its scorecard row's float, bit for bit (the leaf cell IS the task's
+    tool_track_rms_mm), dev and holdout; the dataset roll-up a §57 pivot draws for a leaf row (the median of its tasks:
+    the mean of the middle two of an even count, data-ui's pivot-cube) IS each scorecard's objective; the other metrics
+    and the gates are the row's."""
+    rows = _mxd_rows()
     metas = {p.parent.name: _json(p) for p in (REPO / "solutions").glob("*/meta.json")}
-    cards = {sid: _card(sid) for sid in {row["solution"] for row in cells}}
-    solutions = [sid for sid in cards if "ablation" not in metas[sid].get("tags", [])]
-    for row in cells:
-        card = cards[row["solution"]]
-        task_row = {r["task"]: r for r in card["tasks"]}[row["task"]]
-        assert row["tool_track_rms_mm"] == task_row["objective"]
-        assert row["stop_error_max_mm"] == task_row["kpis"]["stop_error_max_mm"]
-        assert row["objective_mm"] == card["objective"]
-        assert row["worst_task_mm"] == max(r["objective"] for r in card["tasks"])
-        failed = [g for g, ok in task_row["verdicts"].items() if ok is not True]
-        assert row["failed_gate_count"] == len(failed) and row["verdict"] == ("fail" if failed else "pass")
-        others = [_rows_of(cards[s])[row["task"]] for s in solutions]
-        assert row["rank_on_task"] == 1 + sum(1 for v in others if v < task_row["objective"])
-        assert row["iteration"] == ("ablation" if "ablation" in metas[row["solution"]].get("tags", []) else "solution")
-    # the per-dataset median a data-ui pivot computes (summarize Median: the mean of the middle two of 42) is the objective
-    for sid, card in cards.items():
-        values = sorted(row["tool_track_rms_mm"] for row in cells if row["solution"] == sid)
-        assert (values[20] + values[21]) / 2 == card["objective"], sid
-
-
-def _rows_of(card: dict) -> dict:
-    return {r["task"]: r["objective"] for r in card["tasks"]}
+    per_card: dict = {}
+    for row in rows:
+        sid, task_id = row["id"].split("/", 1)
+        assert sid == row["solution"]
+        card = _split_card(sid, row["split"])
+        task_row = {r["task"]: r for r in card["tasks"]}[task_id]
+        assert row["rms_mm"] == task_row["objective"], row["id"]
+        assert row["stop_mm"] == task_row["kpis"]["stop_error_max_mm"]
+        assert row["max_mm"] == task_row["diagnostics"]["tool_track_max_mm"]
+        assert row["sat_pct"] == task_row["kpis"]["saturation_share_pct"]
+        assert row["gates"] == sum(1 for ok in task_row["verdicts"].values() if ok is True)
+        assert row["admissible"] is card["admissible"]
+        assert row["deployment"] == f"{card['deployment']['name']} · {row['split']}"
+        assert row["ablation"] is ("ablation" in metas[sid].get("tags", []))
+        per_card.setdefault((sid, row["split"]), []).append(row["rms_mm"])
+    for (sid, split), values in per_card.items():
+        card = _split_card(sid, split)
+        values = sorted(values)
+        assert len(values) == len(card["tasks"])
+        mid = len(values) // 2
+        assert (values[mid - 1] + values[mid]) / 2 == card["objective"], (sid, split)
 
 
 def test_models_datasets_families_follow_the_stated_rule():
-    """Family by lineage, as the page says: gen-0 -> "generation 0", ablation -> "ablations", else "<root> lineage"
-    where root is the generation-0 solution reached through `parent`."""
+    """Family › model › config as the page says: an ablation (tag ablation) is in Ablations, its model its ablation kind;
+    else the family is the id's pN root named with the first two phrases of that root's change, the model the id's
+    first segment, the config the rest ("as built" when none). One leaf row is one solution."""
     metas = {p.parent.name: _json(p) for p in (REPO / "solutions").glob("*/meta.json")}
-    for row in _json(MXD / "cells.json")["rows"]:
-        tags = metas[row["solution"]].get("tags", [])
+    leaves: dict = {}
+    for row in _mxd_rows():
+        sid = row["solution"]
+        tags = metas[sid].get("tags", [])
         if "ablation" in tags:
-            assert row["family"] == "ablations"
-        elif "gen-0" in tags:
-            assert row["family"] == "generation 0"
+            kinds = [t.split(":", 1)[1] for t in tags if t.startswith("ablation:")]
+            assert (row["family"], row["model"]) == ("Ablations", kinds[0] if kinds else "ablation"), sid
+            assert row["config"] == sid.removeprefix("abl-")
         else:
-            node = row["solution"]
-            while metas[node].get("parent"):
-                node = metas[node]["parent"]
-            assert "gen-0" in metas[node].get("tags", []) and row["family"] == f"{node} lineage"
+            root = re.match(r"p\d+", sid).group(0)
+            words = ", ".join(metas[root]["change"].split(", ")[:2])
+            assert row["family"] == f"P{root[1:]} · {words}", sid
+            assert row["model"] == sid.split("-")[0]
+            assert row["config"] == (sid.split("-", 1)[1] if "-" in sid else "as built")
+        assert leaves.setdefault((row["family"], row["model"], row["config"]), sid) == sid
     page = (MXD / "index.html").read_text()
-    assert "Family, by lineage" in page and "median" in page and "data-rollup-rule" in page
+    assert "first two phrases" in page and "median" in page and "data-rollup-rule" in page
+
+
+def test_models_datasets_views_are_the_leaderboard_three():
+    """Zach's ruling (2026-11-24 ~21:30, data-ui CONTRACT §57): three views over one .base, Leaderboard first (the
+    default, and the page opens it), then Pivot, then Rows; the Leaderboard leaves the ablations out and ranks on the dev
+    deployment, the Pivot ranks nothing. When the data-ui checkout is beside this repo, the views are its gallery case's
+    (gallery/examples/models-datasets-tta/views.base) at the vendored commit, byte for byte."""
+    base = (MXD / "models-datasets.base").read_text()
+    assert _views(base) == [("pivot", "Leaderboard"), ("pivot", "Pivot"), ("table", "Rows")]
+    assert re.search(r'<data-views id="models-datasets" src="models-datasets\.base" view="Leaderboard"',
+                     (MXD / "index.html").read_text())
+    assert re.search(r"^data: models-datasets\.csv$", base, re.M)
+    leaderboard, pivot = base.split("\n  - type: ")[1:3]
+    assert 'filters: "ablation == false"' in leaderboard and "reference: ablation" in leaderboard
+    assert 'sort: { column: "@ur5e_alone · dev" }' in leaderboard and "color: rank" in leaderboard
+    assert "media: { image: preview }" in leaderboard
+    assert "filters:" not in pivot and "sort:" not in pivot and "color: none" in pivot and "reference: ablation" in pivot
+    for row in _mxd_rows():
+        if row["preview"]:
+            assert (MXD / row["preview"]).is_file(), row["preview"]
+    assert {row["task"] for row in _mxd_rows() if not row["preview"]} == set()
+    data_ui = REPO.parent / "data-ui"
+    if not (data_ui / ".git").exists():
+        pytest.skip("no data-ui checkout beside this repo: the views were checked by name, not against the case")
+    commit = _json(SITE / "vendor" / "data-ui" / "VENDOR.json")["commit"]
+    case = subprocess.run(["git", "-C", str(data_ui), "show", f"{commit}:gallery/examples/models-datasets-tta/views.base"],
+                          capture_output=True, text=True, check=True).stdout
+    assert base[base.index("\nviews:\n"):] == case[case.index("\nviews:\n"):]
 
 
 def test_models_datasets_cells_open_their_run():
-    """A cell's link is its run: the Comparison report of its task, opened on that run, when the solution ships on every
-    task; the landing page's player on that run's record (`?run=<record path from runs/index.json>#run`, which
-    blackbox_agent 0.1.5's landing reads) when its record ships; else the task's Comparison (and the record says so)."""
+    """A task result's link is its run: the Comparison report of its task, opened on that run, when the solution ships
+    on every dev task; the landing page's player on that run's record (`?run=<record path from runs/index.json>#run`,
+    which blackbox_agent 0.1.5's landing reads) when its record ships; else the task's Comparison (and the row says
+    so); a holdout task has neither a report nor a saved run, so no link (its cell opens the records behind it)."""
     full = set(_full())
+    dev = set(_tasks())
     records = {(s["id"], t): e["record"] for s in _runs_index()["solutions"] for t, e in s["tasks"].items()}
-    for row in _json(MXD / "cells.json")["rows"]:
-        if row["solution"] in full:
-            assert row["url"] == f"../comparison/runs/{row['task']}/report.html#tab=track&run={row['solution']}"
-        elif (row["solution"], row["task"]) in records:
-            assert row["url"] == f"../index.html?run={records[(row['solution'], row['task'])]}#run"
+    for row in _mxd_rows():
+        sid, task = row["id"].split("/", 1)
+        if task in dev and sid in full:
+            assert row["url"] == f"../comparison/runs/{task}/report.html#tab=track&run={sid}"
+        elif (sid, task) in records:
+            assert row["url"] == f"../index.html?run={records[(sid, task)]}#run"
+        elif task in dev:
+            assert row["url"] == f"../comparison/runs/{task}/report.html#tab=track" and "not saved" in row["opens"]
         else:
-            assert row["url"].startswith(f"../comparison/runs/{row['task']}/report.html") and "not saved" in row["opens"]
+            assert row["split"] == "holdout" and row["url"] is None and "only its score" in row["opens"], row["id"]
+    page = (MXD / "index.html").read_text()
+    # the host script that turns a one-record cell's click into its run (data-ui's data-views-open, CONTRACT §57 cells)
+    assert "addEventListener('data-views-open'" in page and "records.length !== 1" in page
+    assert "new URL('models-datasets.csv', location.href)" in page
 
 
 def test_every_landing_link_names_a_shipped_record():
@@ -223,14 +294,14 @@ def test_every_landing_link_names_a_shipped_record():
     state = {r["path"] for r in _json(SITE / "data" / "state.json")["playback"]["runs"]}
     full = set(_full())
     linked = []
-    for row in _json(MXD / "cells.json")["rows"]:
-        parts = urlsplit(row["url"])
+    for row in _mxd_rows():
+        parts = urlsplit(row["url"] or "")
         if parts.path != "../index.html":
             continue
         assert parts.fragment == "run" and set(parse_qs(parts.query)) == {"run"}, row["url"]
         record = parse_qs(parts.query)["run"][0]
         assert record in listed and record in state, (row["id"], record)
-        assert record == f"runs/{row['solution']}/{row['task']}.json", (row["id"], record)
+        assert record == f"runs/{row['id']}.json", (row["id"], record)
         assert (SITE / "data" / record).is_file(), record
         linked.append(record)
     outside = {e["record"] for s in index["solutions"] if s["id"] not in full for e in s["tasks"].values()}

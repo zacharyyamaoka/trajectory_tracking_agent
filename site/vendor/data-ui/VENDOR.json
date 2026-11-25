@@ -1,24 +1,24 @@
 {
   "what": "data-ui as this app serves it: re-vendor with data-ui vendor, never edit",
   "repo": "data-ui",
-  "ref": "1f7c0047aca1c68368ac684826d543c4177d2ef0",
+  "ref": "74be0c9ac0a2a6b74d4921628cbcfcb55f0b702a",
   "version": "0.1.0",
-  "commit": "1f7c0047aca1c68368ac684826d543c4177d2ef0",
+  "commit": "74be0c9ac0a2a6b74d4921628cbcfcb55f0b702a",
   "on_main": true,
-  "commit_date": "2026-11-24T22:34:04-07:00",
-  "subject": "Merge lane/pill-contrast: the count and the pills' labels read 4.5:1 or more on their own fill in both themes (measured in tests/browser/scope_checks.py: 5.06 light, 7.33 dark; were 3.7 / 4.35)",
+  "commit_date": "2026-11-25T09:32:59-07:00",
+  "subject": "Merge lane/pivot-coverage: CONTRACT \u00a757 amended (PICKS d822316): a tier ranks only the rows that cover every dataset under it; training splits never count in a tier",
   "parents": [
     {
-      "commit": "13db88da0440047d89786db22f16d87438109e93",
-      "subject": "core: export readableSearch (the shipped ./data-ui.js lacked it, so every vendored <data-dashboard> was blank since 7fde75b8) + a guard that every core name a side bundle imports is re-exported by index.js (test red first)"
+      "commit": "51ecb3f049fe8cb239f9f38f18da8262275a3919",
+      "subject": "docs: build_pivot_leaderboard_report.py, the review report for CONTRACT \u00a757 (the leaderboard pivot, merged as 7cb57e73)"
     },
     {
-      "commit": "af11cba5fc66f5b7be37ba0cd12b31a01de46404",
-      "subject": "Merge main @ 13db88da into lane/pill-contrast (readableSearch exported on both sides)"
+      "commit": "18cc457349dc4eef8b321be35e9e09a0968fac14",
+      "subject": "BUILD (CONTRACT \u00a757 amended, PICKS d822316): a tier / deployment column ranks only the rows that cover every dataset under it"
     }
   ],
   "built_with": "node build.mjs on a git archive of the commit (data-ui vendor, Node v24.22.3)",
-  "manifest_sha256": "96762e1412a8b4a6f2e4d5d0d9aeac21d21f40b73548abf38250be7d6e78c935",
+  "manifest_sha256": "4abebea86afba1479f259207b1ce233c23f586e837b0a26fbf01fc2cf8c2a37d",
   "kit_dir": ".",
   "views": [
     "table",
@@ -178,11 +178,11 @@
     "dashboard-edit.js": "23b02195cbd8f68cfd8d095351eaf1df4a4ec5f1ca41432222744aa686546d25",
     "dashboard.js": "20f39f863e3b2c44455b6aa5274a41d5de7445050f010e13712f8f810573ec5d",
     "data-ui.css": "f69e52a860363c368db675d871dc23739b56f35568c3913a13d54d2626f01230",
-    "data-ui.js": "0e9ddd54d62f16ad8b1e5dbef1d4479f62dffd90a89d4b873c154de82295f4ce",
+    "data-ui.js": "2934c43597e44e67bc35ce708ae2b62ffe76327e0291c39e9fea54c11eec71e9",
     "LICENSES.md": "92f05a8eaada74b5e84455845a1dd8c6fd944b14d58aad15db8f9de90ee4ec87",
-    "manifest.json": "96762e1412a8b4a6f2e4d5d0d9aeac21d21f40b73548abf38250be7d6e78c935",
+    "manifest.json": "4abebea86afba1479f259207b1ce233c23f586e837b0a26fbf01fc2cf8c2a37d",
     "resize.js": "2c78d1b28e6abf1a8cd83c8fb6eae17d9c069ca468956fe96b07f738155e71d9",
-    "rowmodel-worker.js": "4a0305d9d60bb9a87888501d4a79ee1a50a17793a50984de7c18b6b5aee124ab",
+    "rowmodel-worker.js": "d285dc58311e3caf0691cf49d8f3485a43571eb25c58945d3c74ca2befdf1c3c",
     "sources.js": "bd9aeb6039baaf046244f9b76c1975ef7d74f3930c3d27f38d89e8f8f35c686d",
     "views/cards-lightbox-L5DT3GT3.js": "7db439db2e321704d08c8afd967480760b10a9def548d475f7d16f078825be08",
     "views/cards.js": "aac4eb4fc57af1cc8d5f60c9c0e6b80efba7e3643993e14c856c5f56d86f3da8",
@@ -190,7 +190,7 @@
     "views/chart-plot-Y6EP62H6.js": "38d5e76fce11766f4839c565a238ce3be073e1fa6498586a21c3b8e14ce5a40b",
     "views/chart.js": "93b329b099dcccf87747360bcd2999a2f1009f908eb34fc48670e6abf6f4dff2",
     "views/coverage.js": "1e71e36c4b4e9c5bef7a8567ebd2e5303a883162317f1e1e74b857d8421ac5c2",
-    "views/table.js": "9e99c175075e6edfa2a8b08411f2eb9ea14dcd3961662863fdb36fa40de94b1b"
+    "views/table.js": "7767f4dba36b4dc7f2debf8865d37c8b5439561bc39eb6ef17538bf9b5587034"
   },
   "repo_note": "the local checkout's path is left out: this copy is published on a public site"
 }

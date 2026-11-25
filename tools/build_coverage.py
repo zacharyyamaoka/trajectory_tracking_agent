@@ -69,9 +69,10 @@ LOCAL_OUT = REPO / "outputs" / "coverage-site"
 PUBLIC_URL = "https://zacharyyamaoka.github.io/trajectory_tracking_agent/"
 
 # data-ui at a pinned commit (main on 2026-11-25: the coverage views §52, the workbench §53, drill links keeping a
-# relative path's '/', the rail's URL encoding a value once and the pills' labels at 4.5:1, lane COV2). WHY pinned, not
-# "main": a rebuild must not change the kit underneath the committed pages; bump it here on purpose.
-DATA_UI_REF = "1f7c0047aca1c68368ac684826d543c4177d2ef0"
+# relative path's '/', the rail's URL encoding a value once and the pills' labels at 4.5:1, lane COV2; then the
+# leaderboard pivot §57 and its coverage amendment, 74be0c9a, which the Model × Dataset page draws with, lane MXDLIVE).
+# WHY pinned, not "main": a rebuild must not change the kit underneath the committed pages; bump it here on purpose.
+DATA_UI_REF = "74be0c9ac0a2a6b74d4921628cbcfcb55f0b702a"
 KIT = SITE / "vendor" / "data-ui"
 KIT_VIEWS = ("table", "cards", "chart", "coverage")
 # WHY these left out: like-obsidian/ (3.8 MB) opens a notes folder's record and python/ is the checker, neither used
