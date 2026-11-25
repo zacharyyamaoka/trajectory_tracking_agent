@@ -155,13 +155,10 @@ def test_the_specs_are_the_spec_maps_ids_and_kinds():
     assert sum(k == "shall" for k in kinds.values()) == 14
 
 
-def test_the_two_untested_shalls_say_so():
-    specs = {s["meta"]["id"]: s for s in notes.load_specs()}
-    untested = [i for i, s in specs.items() if s["meta"]["kind"] == "shall" and not s["meta"]["tests"]]
-    assert untested == ["O1.1", "O1.3"]
-    for spec_id in untested:
-        assert specs[spec_id]["sections"]["How it is checked"].startswith("**No test proves it yet**")
-        assert notes.spec_status(specs[spec_id], {}) == "unverified"
+def test_every_shall_has_test_evidence():
+    untested = [spec["meta"]["id"] for spec in notes.load_specs()
+                if spec["meta"]["kind"] == "shall" and not spec["meta"]["tests"]]
+    assert untested == []
 
 
 @pytest.fixture(scope="module")

@@ -12,10 +12,14 @@ import textwrap
 
 import numpy as np
 import pytest
+from robot_msgs import load_npz
+from robot_msgs.sensor import JointState
+from robot_msgs.trajectory import JointTrajectory
 
 from trajectory_tracking_agent import evaluate as evaluate_module
 from trajectory_tracking_agent import ledger, population
 from trajectory_tracking_agent.ruler import gates
+from trajectory_tracking_agent.ruler.dataset import TAPES_DIR, sha256, task
 
 SHORT_TASK = "workspace-dev-014"  # an a_to_b_joint move, 1.55 s
 
@@ -77,6 +81,106 @@ def test_measured_tool_is_fk_of_the_plants_joints_on_the_targets_grid():
     np.testing.assert_allclose(arrays["tool_xyz"], deployment().tool_position(arrays["q"]), atol=1e-12)
     np.testing.assert_allclose(arrays["tool_target_xyz"], deployment().tool_position(arrays["q_target"]), atol=1e-12)
     assert np.all(np.diff(arrays["t"]) > 0) and arrays["t"][0] == 0.0
+
+
+def test_controller_receives_joint_states_at_the_deployment_rate(monkeypatch):
+    build = population.load_build("p5s-pass3")
+    tick_intervals = []
+    host_periods = []
+
+    def watch_build(trajectory, deployment):
+        assert isinstance(trajectory, JointTrajectory)
+        host_periods.append(deployment.host_period_s)
+        controller = build(trajectory, deployment)
+        tick = controller.tick
+
+        def watch_tick(state, dt):
+            assert isinstance(state, JointState)
+            assert tuple(state.name) == tuple(trajectory.joint_names)
+            tick_intervals.append(dt)
+            return tick(state, dt)
+
+        controller.tick = watch_tick
+        return controller
+
+    monkeypatch.setattr(population, "load_build", lambda _: watch_build)
+    row = evaluate_module.run_task("p5s-pass3", SHORT_TASK)
+    assert row["verdicts"]["completed"], row["notes"]
+    assert host_periods == [0.02]
+    expected_ticks = math.ceil(row["duration_s"] / host_periods[0]) + 1
+    assert len(tick_intervals) == expected_ticks
+    assert tick_intervals[0] == 0.0
+    np.testing.assert_allclose(tick_intervals[1:], host_periods[0], atol=1e-12, rtol=0)
+
+
+@pytest.mark.parametrize(("return_value", "reason"), [
+    ("self.hold", "not (ServoCommand, defines)"),
+    ("(self.hold, {})", "not a robot_msgs ServoCommand"),
+    ("(ServoCommand(name=self.names[1:], position=self.hold[1:]), {})", "the command names no"),
+])
+def test_controller_must_send_a_servo_command_for_all_joints(scratch_solutions, return_value, reason):
+    _write_solution(scratch_solutions, "bad-command", f"""
+        from robot_msgs.control import ServoCommand
+
+        class BadCommand:
+            def __init__(self, trajectory):
+                self.names = trajectory.joint_names
+                self.hold = trajectory.positions[0]
+
+            def tick(self, state, dt):
+                return {return_value}
+
+        def build(trajectory, deployment):
+            return BadCommand(trajectory)
+    """)
+    _assert_failed_closed(evaluate_module.run_task("bad-command", SHORT_TASK), reason)
+
+
+def test_a_retimed_controller_is_scored_against_the_frozen_tape(monkeypatch):
+    tape = TAPES_DIR / f"{SHORT_TASK}.npz"
+    original_digest = sha256(tape)
+    reference = load_npz(tape)
+    baseline = evaluate_module.run_task("p5s-pass3", SHORT_TASK)
+    build = population.load_build("p5s-pass3")
+
+    def build_retimed(trajectory, deployment):
+        return build(trajectory.time_scaled(2.0), deployment)
+
+    monkeypatch.setattr(population, "load_build", lambda _: build_retimed)
+    retimed = evaluate_module.run_task("p5s-pass3", SHORT_TASK)
+
+    assert baseline["verdicts"]["completed"]
+    assert retimed["objective"] > baseline["objective"]
+    _assert_failed_closed(retimed, "did not settle")
+    np.testing.assert_array_equal(retimed["_arrays"]["t"], reference.t)
+    np.testing.assert_array_equal(retimed["_arrays"]["q_target"], reference.positions)
+    assert sha256(tape) == original_digest
+
+
+@pytest.mark.parametrize("field", ["t", "positions", "velocities", "accelerations", "piece"])
+@pytest.mark.parametrize("reopen", [False, True])
+def test_controller_cannot_edit_the_reference_arrays(monkeypatch, field, reopen):
+    frozen = task(SHORT_TASK).trajectory[field]
+    original = frozen.copy()
+    build = population.load_build("p5s-pass3")
+
+    def build_with_edit(trajectory, deployment):
+        samples = trajectory[field]
+        if reopen:
+            samples.setflags(write=True)
+        samples.flat[-1] += 1
+        return build(trajectory, deployment)
+
+    monkeypatch.setattr(population, "load_build", lambda _: build_with_edit)
+    try:
+        row = evaluate_module.run_task("p5s-pass3", SHORT_TASK)
+        _assert_failed_closed(row, "build raised ValueError")
+        np.testing.assert_array_equal(frozen, original)
+    finally:
+        # Restore the cached tape if this test catches an edit, so it cannot poison another test.
+        if frozen.flags.writeable:
+            frozen[...] = original
+            frozen.setflags(write=False)
 
 
 # ── fail closed ─────────────────────────────────────────────────────────────────────────────────────────────

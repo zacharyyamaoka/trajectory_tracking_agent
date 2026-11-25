@@ -49,6 +49,7 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
+from robot_msgs import adopt
 
 from trajectory_tracking_agent import files, ledger, population
 from trajectory_tracking_agent.ruler import RULER_VERSION, gates, metrics
@@ -152,7 +153,7 @@ class _SolutionSpec:
 
     def build(self, message: Any, **_overrides: Any) -> _Watched:
         try:
-            controller = self._build(message, self._deployment)
+            controller = self._build(_controller_trajectory(message), self._deployment)
         except Exception as error:
             self.failure = f"build raised {type(error).__name__}: {error}"
             raise
@@ -161,6 +162,17 @@ class _SolutionSpec:
             raise TypeError(self.failure)
         self.watched = _Watched(controller, self._deployment.joint_names, self._deadline, self._limit_s)
         return self.watched
+
+
+def _controller_trajectory(trajectory: Any) -> Any:
+    # WHY: NumPy lets the owner of a read-only array re-enable writes. Give the controller its own message backed
+    # by immutable bytes so it cannot edit the cached tape the simulator and scoring code use as their reference.
+    def immutable(array: np.ndarray) -> np.ndarray:
+        return adopt(np.frombuffer(array.tobytes(), dtype=array.dtype).reshape(array.shape))
+
+    fields = {name: immutable(trajectory[name]) for name in trajectory.sample_names if name not in trajectory.channels}
+    channels = {name: immutable(array) for name, array in trajectory.channels.items()}
+    return trajectory.replace(t=immutable(trajectory.t), channels=channels, **fields)
 
 
 class _TaskScript:
