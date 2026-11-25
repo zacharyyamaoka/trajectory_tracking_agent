@@ -19,10 +19,14 @@ What is loaded (both point masses, children of wrist_3, so the vendored links' o
 - **Object 0.06 kg** at the dataset's TCP, flange + 0.144 m along the same axis (the tapes' `tcp_pos`; checked to 5e-16 m
   against this model's FK). Robotiq states its TCP at 174 mm; the tapes carry 144 mm, so the object sits there.
 
-Total 0.985 kg on wrist_3. The controller's models are never told (the honest test): p5s-pass3 keeps the given
-`rigid_body` model (no payload, 10 % link error) and its model.json identified on the bare arm; p1 has no model.
-One extra case, labelled, gives p5s-pass3's feed-forward the payload exactly (the arm's links still 10 % wrong): the
-one-line change a solution would make (`feedforward = payload-aware rigid_body`), injected here without editing it.
+Total 0.985 kg on wrist_3. In the plain loaded cases the controller's models are never told (the honest test):
+p5s-pass3 keeps the given `rigid_body` model (no payload, 10 % link error) and its model.json identified on the bare arm;
+p1 has no model. Labelled cases give p5s-pass3's feed-forward part of the load exactly (the arm's links still 10 %
+wrong), the one-line change a solution would make (`feedforward = payload-aware rigid_body`), injected here without
+editing it: `+model-knows` the whole payload; `+model-knows-gripper` the gripper only, the object unmodelled (what a
+real picker runs: the gripper is fixed and known, each object's weight is not), with the 60 g object and with a 0.3 kg
+one (HEAVY_OBJECT_KG). A case is (solution, `plant_load`, `model_load`, splits); a load is a name in LOADS. The break
+sweep (`run_sweep`, dev, summaries only) runs that gripper-known case at each object mass in SWEEP_OBJECT_KG.
 
 How a task runs: exactly the ruler's run (`evaluate._rung`, `run_episode`, seed 0, the deployment's boards, bus and
 timing; scored by `evaluate._score`, the ruler's own metrics and gates) with two changes: the plant's MjModel is the
@@ -65,14 +69,33 @@ EXTRA_HOLD_S = 2.0  # run this long past the trajectory's end to measure the set
 SETTLE_BAND_MM = 1.0  # Zach's 1 mm tool band (the ruler's stop gate and `completed` settle band)
 SETTLE_GRID_S = 0.001  # settle time resolution: every 4th 4 kHz physics sample
 PAYLOAD_INERTIA = "1e-9 1e-9 1e-9"  # a point mass (robot_controllers' payload hook does the same)
+HEAVY_OBJECT_KG = 0.3  # the heavier item: how heavy before the stop gate breaks with the gripper known
 
+# A load is the point masses on wrist_3 (load_loaded_model's arguments); None = the bare arm (the ruler's plant)
+LOADS: dict[str, dict[str, float]] = {
+    "gripper+object": {"gripper_kg": GRIPPER_KG, "object_kg": OBJECT_KG},
+    "gripper": {"gripper_kg": GRIPPER_KG, "object_kg": 0.0},
+    "gripper+0.3kg-object": {"gripper_kg": GRIPPER_KG, "object_kg": HEAVY_OBJECT_KG},
+}
+# The break sweep (dev, summaries only): the same case as `0.3kg-object+model-knows-gripper` (gripper known, object
+# not) at each object mass, to find how heavy an item can be before the stop gate breaks
+SWEEP_OBJECT_KG: tuple[float, ...] = (0.06, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.5)
+for _kg in SWEEP_OBJECT_KG:
+    LOADS.setdefault(f"gripper+{_kg:g}kg-object", {"gripper_kg": GRIPPER_KG, "object_kg": _kg})
+DEV_HOLDOUT = ("dev", "holdout")
 CASES: dict[str, dict[str, Any]] = {
-    # case id: solution, load, does the controller's model know the payload, splits
-    "p5s-pass3/bare": {"solution": "p5s-pass3", "loaded": False, "model_knows": False, "splits": ("dev", "holdout")},
-    "p5s-pass3/loaded": {"solution": "p5s-pass3", "loaded": True, "model_knows": False, "splits": ("dev", "holdout")},
-    "p5s-pass3/loaded+model-knows": {"solution": "p5s-pass3", "loaded": True, "model_knows": True, "splits": ("dev",)},
-    "p1/bare": {"solution": "p1", "loaded": False, "model_knows": False, "splits": ("dev",)},
-    "p1/loaded": {"solution": "p1", "loaded": True, "model_knows": False, "splits": ("dev",)},
+    # case id: solution, what the plant carries, what the controller's model is told it carries, splits
+    "p5s-pass3/bare": {"solution": "p5s-pass3", "plant_load": None, "model_load": None, "splits": DEV_HOLDOUT},
+    "p5s-pass3/loaded": {"solution": "p5s-pass3", "plant_load": "gripper+object", "model_load": None,
+                         "splits": DEV_HOLDOUT},
+    "p5s-pass3/loaded+model-knows": {"solution": "p5s-pass3", "plant_load": "gripper+object",
+                                     "model_load": "gripper+object", "splits": ("dev",)},
+    "p5s-pass3/loaded+model-knows-gripper": {"solution": "p5s-pass3", "plant_load": "gripper+object",
+                                             "model_load": "gripper", "splits": DEV_HOLDOUT},
+    "p5s-pass3/0.3kg-object+model-knows-gripper": {"solution": "p5s-pass3", "plant_load": "gripper+0.3kg-object",
+                                                   "model_load": "gripper", "splits": DEV_HOLDOUT},
+    "p1/bare": {"solution": "p1", "plant_load": None, "model_load": None, "splits": ("dev",)},
+    "p1/loaded": {"solution": "p1", "plant_load": "gripper+object", "model_load": None, "splits": ("dev",)},
 }
 
 
@@ -132,16 +155,16 @@ def _plant_class() -> type:
 
 
 class _PrivateLoaded:
-    """robot_controllers' `_Private` (the nominal model a feed-forward runs mj_inverse on) with the payload added:
+    """robot_controllers' `_Private` (the nominal model a feed-forward runs mj_inverse on) with `load` added:
     no frictionloss, the arm's jointed links scaled by the given model error, the payload bodies (no joint) exact."""
 
     __slots__ = ("model", "data")
 
-    def __init__(self, model_error: Any) -> None:
+    def __init__(self, model_error: Any, load: str) -> None:
         import mujoco
         from robot_controllers.bench.ur5e import jointed_bodies
 
-        self.model = load_loaded_model(frictionloss=False)
+        self.model = load_loaded_model(frictionloss=False, **LOADS[load])
         if model_error is not None:
             bodies = jointed_bodies(self.model)
             if len(bodies) != 6:
@@ -153,25 +176,26 @@ class _PrivateLoaded:
         self.data = mujoco.MjData(self.model)
 
 
-def payload_aware_feedforward(terms: str, model_error: Any = None) -> Any:
-    """`ur5e_feedforward(terms, model_error)` whose private model carries the 2F-85 and the object."""
+def payload_aware_feedforward(terms: str, model_error: Any = None, *, load: str = "gripper+object") -> Any:
+    """`ur5e_feedforward(terms, model_error)` whose private model carries `load` (a name in LOADS)."""
     from robot_controllers.bench.ur5e import Ur5eFeedforward
 
     feedforward = Ur5eFeedforward(terms, model_error)
-    feedforward._private = _PrivateLoaded(feedforward.model_error)
+    feedforward._private = _PrivateLoaded(feedforward.model_error, load)
     return feedforward
 
 
-def build_knowing_payload(build: Any) -> Any:
-    """The solution's own `build`, with `registered_arm(...)` handing it the payload-aware feed-forward: the one line a
-    solution would change, done here without editing the solution (its module is untouched)."""
+def build_knowing_payload(build: Any, load: str = "gripper+object") -> Any:
+    """The solution's own `build`, with `registered_arm(...)` handing it a feed-forward that knows `load`: the one line
+    a solution would change, done here without editing the solution (its module is untouched)."""
     from robot_controllers.bench.arms import arm as registered_arm
 
     if "registered_arm" not in build.__code__.co_names:
         raise RuntimeError("this solution's build does not take its feed-forward from registered_arm(...)")
 
     def arm_knowing_payload(name: str) -> Any:
-        return dataclasses.replace(registered_arm(name), feedforward=payload_aware_feedforward)
+        return dataclasses.replace(registered_arm(name),
+                                   feedforward=functools.partial(payload_aware_feedforward, load=load))
 
     namespace = {**build.__globals__, "registered_arm": arm_knowing_payload}
     return types.FunctionType(build.__code__, namespace, build.__name__, build.__defaults__, build.__closure__)
@@ -220,8 +244,12 @@ def settle_time(t: np.ndarray, points: np.ndarray, final: np.ndarray, band_mm: f
     return float(t[outside[-1] + 1])
 
 
-def run_case_task(solution_id: str, task: Any, *, loaded: bool, model_knows: bool, keep_log: bool = False) -> dict:
-    """One task, run as the ruler runs it (see the module docstring); a JSON-safe row (+ `_log` if asked)."""
+def run_case_task(
+    solution_id: str, task: Any, *, plant_load: str | None = None, model_load: str | None = None,
+    keep_log: bool = False,
+) -> dict:
+    """One task, run as the ruler runs it (see the module docstring), the plant carrying `plant_load` and the
+    controller's feed-forward told `model_load` (names in LOADS; None = nothing); a JSON-safe row (+ `_log`)."""
     from robot_controllers.bench.loop import run_episode
 
     from trajectory_tracking_agent import population
@@ -231,9 +259,9 @@ def run_case_task(solution_id: str, task: Any, *, loaded: bool, model_knows: boo
 
     dep = deployment("ur5e_alone")
     build = population.load_build(solution_id)
-    if model_knows:
-        build = build_knowing_payload(build)
-    model = load_loaded_model() if loaded else None
+    if model_load is not None:
+        build = build_knowing_payload(build, model_load)
+    model = None if plant_load is None else load_loaded_model(**LOADS[plant_load])
     plant_class = _plant_class()
     trajectory = task.trajectory
     t = np.asarray(trajectory.t, dtype=float)
@@ -420,7 +448,7 @@ def run_all(allow_mismatch: bool = False) -> dict:
         raise SystemExit("our loaded-model path does not match robot_controllers' payload hook; stopping")
     out: dict[str, Any] = {
         "schema": "tta.w3_loaded_check/1",
-        "what": "off-score: ruler v1's run on a UR5e carrying a Robotiq 2F-85 (point mass) and a 60 g object",
+        "what": "off-score: ruler v1's run on a UR5e carrying a Robotiq 2F-85 (point mass) and a 60 g or 0.3 kg object",
         "load": {
             "gripper_kg": GRIPPER_KG, "gripper_com_along_tool_axis_from_flange_m": GRIPPER_COM_M,
             "object_kg": OBJECT_KG, "object_along_tool_axis_from_flange_m": TCP_OFFSET_M,
@@ -430,8 +458,10 @@ def run_all(allow_mismatch: bool = False) -> dict:
                 "gripper_com": "robotparts parts/robotiq-2f-85/files/2f-85.xml (Menagerie robotiq_2f85_v4), open pose",
                 "object_point": "the dataset's TCP (tapes' tcp_pos): flange + 0.144 m along wrist_3 +y",
             },
-            "controller_knows": "never, except the case labelled +model-knows (payload exact, arm links 10 % wrong)",
+            "controller_knows": "each case's model_load: what p5s-pass3's feed-forward is told, exactly (its arm links "
+                                "stay 10 % wrong); None = nothing",
         },
+        "loads": LOADS,
         "extra_hold_s": EXTRA_HOLD_S,
         "settle_band_mm": SETTLE_BAND_MM,
         "settle_grid_s": SETTLE_GRID_S,
@@ -443,11 +473,11 @@ def run_all(allow_mismatch: bool = False) -> dict:
         for split in config["splits"]:
             rows = []
             for task in tasks(split):
-                rows.append(run_case_task(config["solution"], task, loaded=config["loaded"],
-                                          model_knows=config["model_knows"]))
+                rows.append(run_case_task(config["solution"], task, plant_load=config["plant_load"],
+                                          model_load=config["model_load"]))
             entry: dict[str, Any] = {**{k: v for k, v in config.items() if k != "splits"}, "split": split,
                                      "summary": summarize(rows), "tasks": rows}
-            if not config["loaded"]:
+            if config["plant_load"] is None:
                 entry["reproduces_scorecard"] = check_reproduces(config["solution"], split, rows)
                 print(f"{case} {split}: reproduces scorecard: {entry['reproduces_scorecard']}", flush=True)
                 if not entry["reproduces_scorecard"]["bit_identical"] and not allow_mismatch:
@@ -457,7 +487,34 @@ def run_all(allow_mismatch: bool = False) -> dict:
                   f"{summary['gate_pass_count']}/{summary['tasks']}, stop worst {summary['stop_error_worst_mm']} mm, "
                   f"achieved {summary['achieved_s']} s of {summary['commanded_s']:.2f} s", flush=True)
             out["cases"][f"{case}@{split}"] = entry
+    out["sweep"] = run_sweep()
     out["wall_time_s"] = time.perf_counter() - started
+    return out
+
+
+def run_sweep(solution_id: str = "p5s-pass3", split: str = "dev") -> dict:
+    """The break sweep: SWEEP_OBJECT_KG on the plant, the gripper (only) in the controller's model; summaries only."""
+    from trajectory_tracking_agent.ruler.dataset import tasks
+
+    out: dict[str, Any] = {"what": "object mass sweep: the gripper known to the feed-forward, the object not",
+                           "solution": solution_id, "model_load": "gripper", "split": split, "rows": []}
+    for kg in SWEEP_OBJECT_KG:
+        load = f"gripper+{kg:g}kg-object"
+        rows = [run_case_task(solution_id, task, plant_load=load, model_load="gripper") for task in tasks(split)]
+        summary = summarize(rows)
+        out["rows"].append({
+            "object_kg": kg, "plant_load": load,
+            **{key: summary[key] for key in ("tasks", "objective_tool_track_rms_mm", "gate_pass_count", "failed_gates",
+                                              "stop_error_median_mm", "stop_error_worst_mm", "saturation_share_pct_worst",
+                                              "tcp_track_rms_mm", "tcp_stop_error_worst_mm", "tcp_stop_gate_pass_count")},
+            "failed_tasks": [row["task"] for row in rows if not row["all_gates_pass"]],
+            "tcp_stop_over_1mm_tasks": [row["task"] for row in rows
+                                        if not (row["extra"]["tcp_stop_error_max_mm"] or math.inf) <= 1.0],
+        })
+        last = out["rows"][-1]
+        print(f"sweep object {kg:g} kg: gates {last['gate_pass_count']}/{last['tasks']}, stop worst "
+              f"{last['stop_error_worst_mm']:.3f} mm, TCP stops <= 1 mm {last['tcp_stop_gate_pass_count']}/{last['tasks']}",
+              flush=True)
     return out
 
 
@@ -543,6 +600,18 @@ def table(results: dict) -> str:
             f"{w['task']} " + ("never settles" if w["settle_s"] is None else f"{w['value'] * 1e3:+.0f} ms")
             for w in s["worst_by_overrun"])
         lines.append(f"- **{key}**: stop error {stops}. Overrun {overrun}.")
+    sweep = results.get("sweep")
+    if sweep:
+        lines += ["", f"Object mass sweep ({sweep['solution']}, {sweep['split']}; the gripper known to the feed-forward, "
+                  "the object not):", "",
+                  "| Object (kg) | Tool RMS (mm) | Stop error median / worst (mm) | Gates passed | Saturation worst task (%) "
+                  "| TCP stop error worst (mm) | Tasks with TCP stops ≤ 1 mm |",
+                  "|---|---|---|---|---|---|---|"]
+        for row in sweep["rows"]:
+            lines.append(f"| {row['object_kg']:g} | {_fmt(row['objective_tool_track_rms_mm'], 4)} | "
+                         f"{_fmt(row['stop_error_median_mm'])} / {_fmt(row['stop_error_worst_mm'])} | "
+                         f"{row['gate_pass_count']}/{row['tasks']} | {_fmt(row['saturation_share_pct_worst'])} | "
+                         f"{_fmt(row['tcp_stop_error_worst_mm'])} | {row['tcp_stop_gate_pass_count']}/{row['tasks']} |")
     return "\n".join(lines)
 
 

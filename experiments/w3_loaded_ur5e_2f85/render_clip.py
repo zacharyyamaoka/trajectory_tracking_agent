@@ -90,7 +90,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     task = {item.id: item for item in tasks("dev")}[args.task]
-    row = loaded_check.run_case_task(args.solution, task, loaded=True, model_knows=False, keep_log=True)
+    row = loaded_check.run_case_task(args.solution, task, plant_load="gripper+object", keep_log=True)
     log = row.pop("_log")
     t_end = float(task.trajectory.t[-1])
     target_tcp = loaded_check.tcp_position(log["q_target"])
