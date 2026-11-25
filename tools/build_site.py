@@ -1,13 +1,15 @@
 """Build the landing page's data (site/data/) from saved run records, check it, and shoot its media.
 
-    uv run --all-extras python tools/build_site.py build     # site/data/playback/ + site/data/page.json + sources
-    uv run --all-extras python tools/build_site.py check     # every shipped number equals its scorecard row, exactly
+    uv run --all-extras python tools/build_site.py build     # site/data/runs/ (bb-run/1 records) + state.json + page.json
+    uv run --all-extras python tools/build_site.py check     # every shipped number equals its scorecard row
+    uv run --no-project --with playwright==1.64.1 python tools/build_site.py parity  # headless: every picker option
     uv run --no-project --with playwright==1.64.1 python tools/build_site.py shoot   # headless screenshots + hero video
 
 The page plays back saved runs; nothing is simulated or scored in the browser (Zach, 2026-11-24: "You can just
 playback saved runs"). `tta evaluate <id>` already writes one run record per task (`outputs/runs/<id>/dev/<task>.json`,
 gitignored: the target, the measured joints and torques, the tool points, and the ruler's own `metrics` / `gates`).
-`build` turns the shipped ones into small binary files the page decodes:
+`build` turns the shipped ones into what the page's `<bb-evidence>` plays (the blackbox_agent viewer's metric explainer,
+its CONTRACT §4 and §14):
 
 - **Which runs ship** (`selection()`, the rule in site/README.md): from `ledger.jsonl`, every scored solution not tagged
   `ablation` on one representative dev task per task kind (the first of each kind in dataset order), plus the best
@@ -16,17 +18,22 @@ gitignored: the target, the measured joints and torques, the tool points, and th
 - **What the page draws is computed here, natively**: the arm's geom poses per frame from the deployment's own model
   and `mj_kinematics` (checked against `deployment.link_points`), the tool error from `metrics.tool_errors_m`, the stops
   from `metrics.stop_errors_mm`, the lowest moving point from `deployment.link_points`. The browser does no kinematics.
+- **The box's export** (CONTRACT §14: "a box's export writes" bb-run/1 records and lists them in `state.playback.runs`):
+  those arrays go into a compact binary export (`outputs/site/playback/`, an intermediate), which the viewer's own
+  `tools/fold_runs.py` (`tta_record`, called where it lives, like the state fold) turns into one bb-run/1 record per run
+  (`site/data/runs/<solution>/<task>.json`); `state.json` lists them in its `playback` slice.
 - **The numbers on the cards are the record's own** `metrics` / `gates` (computed by the ruler when the run was
-  scored), copied as JSON floats; `check` proves each equals its scorecard's per-task row.
+  scored), at the fold's stated rounding; `check` proves each equals its scorecard's per-task row.
 
-`shoot` drives headless Chromium through Playwright (its cached browser; never a visible window) over a server on
-127.0.0.1 it starts and stops itself.
+`parity` and `shoot` drive headless Chromium through Playwright (its cached browser; never a visible window) over a
+server on 127.0.0.1 they start and stop themselves.
 """
 
 from __future__ import annotations
 
 import argparse
 import gzip
+import importlib.util
 import json
 import math
 import os
@@ -45,11 +52,15 @@ from typing import Any
 REPO = Path(__file__).resolve().parent.parent
 SITE = REPO / "site"
 DATA = SITE / "data"
-PLAYBACK = DATA / "playback"
 SOURCES = DATA / "solutions"
 RUNS = REPO / "outputs" / "runs"
 LEDGER = REPO / "ledger.jsonl"
 OUTPUTS = REPO / "outputs" / "site"
+# WHY an intermediate (2026-11-24, lane EV): the page plays bb-run/1 records now (site/data/runs/); the compact binary
+# export is what the viewer's fold reads to write them, so it stays out of site/ (it shipped as site/data/playback/
+# until then; git history keeps it, and the viewer's own scenario pins a commit that has it)
+PLAYBACK = OUTPUTS / "playback"
+RECORDS = DATA / "runs"
 DATASET_REL = Path("datasets/ur5e_alone/workspace/v2")
 GITHUB = "https://github.com/zacharyyamaoka"
 REPO_URL = f"{GITHUB}/trajectory_tracking_agent"
@@ -60,7 +71,7 @@ GEN0_TAG = "gen-0"
 MAGIC = b"TTAPLAY1"
 PLAYBACK_SCHEMA = "tta.playback/1"
 INDEX_SCHEMA = "tta.playback_index/1"
-SIZE_LIMIT_BYTES = 15 * 1024 * 1024  # all of site/, committed
+SIZE_LIMIT_BYTES = 15 * 1024 * 1024  # all of site/, as served (see served_bytes)
 # WHY 1e-3 mm: the record stores positions rounded to 0.1 um (evaluate._write_record), so the ruler's function re-run
 # on the record's arrays reproduces the scored number only to ~1e-4 mm; 1e-3 mm is far below the 3 digits a card shows
 CHECK_TOLERANCE_MM = 1e-3
@@ -452,8 +463,8 @@ def _record_problem(solution_id: str, task_id: str, card: dict[str, Any] | None)
 
 
 def export_playback() -> dict[str, Any]:
-    """site/data/playback/: one file per shipped task (the target) and per shipped (solution, task) (the run), and the
-    index. Refuses on a missing or stale record."""
+    """The binary export (PLAYBACK, an intermediate): one file per shipped task (the target) and per shipped
+    (solution, task) (the run), and its index. Refuses on a missing or stale record."""
     import numpy as np
 
     from trajectory_tracking_agent.ruler import gates, metrics
@@ -569,7 +580,8 @@ def export_playback() -> dict[str, Any]:
             rel = f"runs/{sid}/{task_id}.bin.gz"
             size = write_playback(PLAYBACK / rel, header, ints)
             shipped[task_id] = {"file": rel, "bytes": size, "objective": record["metrics"]["tool_track_rms_mm"],
-                                "pass": all(record["gates"].get(gate) is True for gate in gates.GATES)}
+                                "pass": all(record["gates"].get(gate) is True for gate in gates.GATES),
+                                "checks": explain["checks"], "subset": explain["subset"]}
         code = card.get("code", {})
         solution_rows.append({
             "id": sid, "parent": meta.get("parent"), "change": meta.get("change", ""), "tags": meta.get("tags", []),
@@ -616,6 +628,156 @@ def mirror_sources(index: dict[str, Any]) -> list[str]:
         shutil.copy2(source, target)
         out.append(target.relative_to(SITE).as_posix())
     return out
+
+
+# ── the box's export: bb-run/1 records (the blackbox_agent viewer's CONTRACT §4, §14) ─────────────────────────
+
+# WHY the viewer's fold, called where it lives (like fold_state.py below): `tta_record` is the one place that turns this
+# box's saved runs into bb-run/1 (viewer/tools/fold_runs.py, stdlib only); a second copy here would drift from it.
+# BB_FOLD_RUNS overrides the path; the tests validate the records against the schema beside it.
+FOLD_RUNS = Path(os.environ.get("BB_FOLD_RUNS", Path.home() / "blackbox_agent" / "viewer" / "tools" / "fold_runs.py"))
+RUN_RECORD_SCHEMA = FOLD_RUNS.parent.parent / "schemas" / "run-record.schema.json"
+RUNS_INDEX_SCHEMA = "tta.runs/1"
+
+# Display resolution, never a score: every number on a card is the record's metric. WHY (2026-11-24, lane EV): the fold
+# writes the arm's poses at all 100 Hz samples to 10 um, 76 MB of JSON for the 244 shipped runs. Drawing the arm at
+# 25 Hz (bb-run/1's own `layer.t`) to 1 mm keeps every evidence channel at the record's 100 Hz, so "which samples
+# count" stays the ruler's own count; the frame at each metric's peak is kept too, so a paused peak shows the arm there.
+GEOMETRY_STRIDE = 4  # 100 Hz / 4: the drawn arm at 25 Hz
+POSE_DIGITS = 3  # 1 mm (under a pixel on the drawn arm), and 1e-3 of a quaternion component (~0.1 deg)
+# a channel the fold writes -> its decimals here; absent = the fold's own rounding
+CHANNEL_DIGITS = {
+    "q": 4, "q_target": 4,  # deg: 1e-4 deg, so the page's measured - target per joint resolves the best's 0.01 deg errors
+    "tool_error": 4,  # mm: 0.1 um
+    "tool_target": 6, "tool": 6,  # m: 1 um (the whiskers draw errors of tens of um and up, magnified and labelled)
+    "tau_pct": 1, "qd_pct": 1,  # % of a cap or limit
+    "torque_peak": 2, "speed_peak": 2,  # % (the gates' lines sit at 98 % and 105 %)
+    "clearance": 1,  # mm
+    "joint_error": 4,  # deg
+    "power": 2,  # W
+}
+# the fold's rounding of a metric's value (fold_runs.tta_record): `check` holds the record to the scorecard at it
+METRIC_DIGITS = {"tool_track_rms_mm": 6, "stop_error_max_mm": 6, "saturation_share_pct": 5, "joint_track_rms_deg": 5,
+                 "tool_lag_ms": 4, "energy_j": 4}
+METRIC_KEY = {"floor_clearance": "floor_clearance_violations"}  # a record's metric id -> the scorecard row's key
+
+
+def fold_runs() -> Any:
+    """The viewer's run-record fold, imported from where it lives."""
+    if not FOLD_RUNS.exists():
+        raise SystemExit(f"{FOLD_RUNS} not found: the bb-run/1 fold lives in the blackbox_agent viewer (set BB_FOLD_RUNS)")
+    spec = importlib.util.spec_from_file_location("bb_fold_runs", FOLD_RUNS)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+class _Export:
+    """What `tta_record` reads through (it takes a repo at a git ref, fold_runs.Repo): this build's binary export, by the
+    path the box published it under until 2026-11-24 (site/data/playback/). `where` names the true source, the run
+    record `tta evaluate` saved, at the commit that scored it."""
+
+    name = "trajectory_tracking_agent"
+    ref = "build"
+
+    def __init__(self, scored: dict[str, str | None]) -> None:
+        self.scored = scored  # solution id -> the commit its scorecard names
+        self.read: list[str] = []
+
+    def bytes(self, path: str) -> bytes:
+        rel = path.removeprefix("site/data/playback/")
+        self.read.append(rel)
+        return (PLAYBACK / rel).read_bytes()
+
+    def json(self, path: str) -> Any:
+        return json.loads(self.bytes(path))
+
+    def where(self, path: str) -> str:
+        parts = path.removeprefix("site/data/playback/").removesuffix(".bin.gz").split("/")
+        if parts[0] == "tasks":
+            return f"{self.name}:{DATASET_REL.as_posix()}/tapes/{parts[1]}.npz (the target)"
+        commit = (self.scored.get(parts[1]) or "?")[:7]
+        return f"{self.name}@{commit}:outputs/runs/{parts[1]}/dev/{parts[2]}.json (tta evaluate's run record)"
+
+
+def _compact(record: dict[str, Any], fold: Any) -> dict[str, Any]:
+    """The fold's record at display resolution (GEOMETRY_STRIDE, POSE_DIGITS, CHANNEL_DIGITS); nothing else changes."""
+    import bisect
+
+    t = record["time"]["t"]
+    keep = set(range(0, len(t), GEOMETRY_STRIDE)) | {len(t) - 1}
+    for metric in record["metrics"]:
+        peak = (metric.get("evidence") or {}).get("peak")
+        if peak:  # the frame a paused peak shows: the last sample at or before it (the scene's frameIndex)
+            keep.add(peak["i"] if "i" in peak else max(0, bisect.bisect_right(t, peak["t"] + 1e-9) - 1))
+    frames = sorted(keep)
+    for layer in record["scene"]["geometry"]["layers"]:
+        layer["t"] = [t[i] for i in frames]
+        layer["poses"] = [fold.rnd(layer["poses"][i], POSE_DIGITS) for i in frames]
+    for channel in record["channels"]:
+        if channel["id"] in CHANNEL_DIGITS:
+            channel["values"] = fold.rnd(channel["values"], CHANNEL_DIGITS[channel["id"]])
+    return record
+
+
+def _label(row: dict[str, Any], best: str | None, gen0: str | None) -> str:
+    """The run's subject.label: what its solution is in the population (the header line under the verdict)."""
+    objective = row.get("objective")
+    score = f"{objective:.3g} mm median on dev" if isinstance(objective, (int, float)) and math.isfinite(objective) else "no score"
+    role = ("best admissible" if row["id"] == best else "best of generation 0" if row["id"] == gen0
+            else "admissible" if row["admissible"] else "not admissible on dev")
+    return f"{role}, {score}"
+
+
+def export_records(index: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
+    """site/data/runs/: one bb-run/1 record per shipped run (the viewer's `tta_record` over the binary export) and the
+    pickers' index; returns (that index, state.json's `playback` slice listing every record)."""
+    fold = fold_runs()
+    rule = index["rule"]
+    best, gen0 = rule["full"]["best"], rule["full"]["gen0_best"]
+    export = _Export({row["id"]: row["scored"]["commit"] for row in index["solutions"]})
+    if RECORDS.exists():
+        shutil.rmtree(RECORDS)
+    solutions, listed, left_out = [], [], []
+    for row in index["solutions"]:
+        label = _label(row, best, gen0)
+        shipped = {}
+        for task_id, entry in row["tasks"].items():
+            try:
+                record = fold.tta_record(export, index, row["id"], task_id, label)
+            except ValueError as error:  # the fold refuses a run with unmeasured rows (a crash): named, never hidden
+                left_out.append({"solution": row["id"], "task": task_id, "why": str(error)})
+                continue
+            rel = f"runs/{row['id']}/{task_id}.json"
+            text = fold.dump(_compact(record, fold))
+            (DATA / rel).parent.mkdir(parents=True, exist_ok=True)
+            (DATA / rel).write_text(text)
+            shipped[task_id] = {"record": rel, "bytes": len(text.encode()), "objective": entry["objective"],
+                                "pass": entry["pass"], "checks": entry["checks"], "subset": entry["subset"]}
+            listed.append({"solution": row["id"], "task": task_id, "split": "dev", "path": rel, "schema": "bb-run/1",
+                           "label": label})
+        if shipped:
+            solutions.append({**{key: row[key] for key in ("id", "parent", "change", "tags", "objective", "admissible",
+                                                           "gate_pass_rate", "scored")}, "tasks": shipped})
+    runs_index = {
+        "schema": RUNS_INDEX_SCHEMA,
+        "what": "The page's pickers: every shipped run's bb-run/1 record (relative to site/data/, listed in "
+                "state.json's playback slice), its objective, whether it passed every gate, and the build's honesty "
+                "checks on its saved samples. tools/build_site.py writes it; site/README.md states the rule.",
+        "rule": {**rule, "count": sum(len(row["tasks"]) for row in solutions)},
+        "made_by": {"export": "tools/build_site.py", "fold": "blackbox_agent viewer/tools/fold_runs.py tta_record",
+                    "display": {"geometry_hz": 100.0 / GEOMETRY_STRIDE, "pose_digits": POSE_DIGITS,
+                                "channel_digits": CHANNEL_DIGITS}},
+        "tasks": [{key: row[key] for key in ("id", "kind", "duration_s", "samples")} for row in index["tasks"]],
+        "solutions": solutions,
+        "left_out": left_out,
+        "bytes": sum(task["bytes"] for row in solutions for task in row["tasks"].values()),
+        "check_worst_mm": index["check_worst_mm"],
+    }
+    (RECORDS / "index.json").write_text(json.dumps(runs_index, indent=1, allow_nan=False) + "\n")
+    playback = {"runs": listed, "scene": None, "index": "runs/index.json",
+                "rule": rule["text"] + (f" Left out: {len(left_out)} runs the fold refused (runs/index.json)." if left_out else "")}
+    return runs_index, playback
 
 
 # ── page data ──────────────────────────────────────────────────────────────────────────────────────────────
@@ -706,8 +868,22 @@ def page_data() -> dict[str, Any]:
     }
 
 
-def site_bytes() -> int:
-    return sum(path.stat().st_size for path in SITE.rglob("*") if path.is_file())
+# WHY served bytes (2026-11-24, lane EV): GitHub Pages gzips text on the wire (measured that day: data/state.json,
+# 678,500 B on disk, arrived as 87,077 B with content-encoding: gzip) and git stores blobs compressed, so what a page
+# weighs to a visitor and to the repo is its compressed size. gzip level 4 overstates that measurement by 4 %, so the
+# budget errs on the heavy side. Files already compressed (images, video, .gz) count as they are.
+COMPRESSED_SUFFIXES = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".mp4", ".webm", ".gz", ".woff", ".woff2"}
+
+
+def served_bytes(path: Path) -> int:
+    data = path.read_bytes()
+    return len(data) if path.suffix.lower() in COMPRESSED_SUFFIXES else len(gzip.compress(data, compresslevel=4, mtime=0))
+
+
+def site_bytes(served: bool = True) -> int:
+    """All of site/: as served (the budget) or as stored on disk."""
+    files = [path for path in SITE.rglob("*") if path.is_file()]
+    return sum(served_bytes(path) if served else path.stat().st_size for path in files)
 
 
 # WHY the viewer's fold (2026-11-24): the headliner (bb-headliner, Zach's Ticker v1 pick) reads a bb-state/1 state.json.
@@ -717,16 +893,29 @@ def site_bytes() -> int:
 FOLD = Path(os.environ.get("BB_FOLD", Path.home() / "blackbox_agent" / "viewer" / "tools" / "fold_state.py"))
 
 
-def write_state() -> None:
-    if not FOLD.exists():
-        print(f"warning: {FOLD} not found: site/data/state.json not refreshed", file=sys.stderr)
-        return
-    with tempfile.TemporaryDirectory() as tmp:
-        cmd = [sys.executable, str(FOLD), "--repo", str(REPO), "--ref", "HEAD", "--out", str(DATA / "state.json")]
-        junit = test_run(Path(tmp) / "junit.xml")
-        if junit:
-            cmd += ["--junit", str(junit)]
-        subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL)
+def write_state(playback: dict[str, Any]) -> None:
+    """site/data/state.json: the viewer's fold of this repo at HEAD, plus the `playback` slice this build's export
+    writes (CONTRACT §4: the export lists its bb-run/1 records there)."""
+    path = DATA / "state.json"
+    if FOLD.exists():
+        with tempfile.TemporaryDirectory() as tmp:
+            cmd = [sys.executable, str(FOLD), "--repo", str(REPO), "--ref", "HEAD", "--out", str(path)]
+            junit = test_run(Path(tmp) / "junit.xml")
+            if junit:
+                cmd += ["--junit", str(junit)]
+            subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL)
+    else:
+        print(f"warning: {FOLD} not found: site/data/state.json not re-folded (its playback slice is)", file=sys.stderr)
+    state = json.loads(path.read_text())
+    out: dict[str, Any] = {}
+    for key, value in state.items():  # the slice goes before `source` (provenance last, as the fold orders them)
+        if key == "playback":
+            continue
+        if key == "source":
+            out["playback"] = playback
+        out[key] = value
+    out.setdefault("playback", playback)
+    path.write_text(json.dumps(out, indent=1, ensure_ascii=False) + "\n")
 
 
 def test_run(out: Path) -> Path | None:
@@ -742,98 +931,140 @@ def test_run(out: Path) -> Path | None:
 
 
 def build() -> dict[str, Any]:
-    before = site_bytes()
-    # the live runtime this page used to load (Pyodide + MuJoCo WASM, its wheels and the repo mirror): git keeps it
-    for retired in (SITE / "wheels", SITE / "runtime", DATA / "repo"):
+    before = {"served": site_bytes(), "on_disk": site_bytes(served=False)}
+    # retired: the live runtime this page used to load (Pyodide + MuJoCo WASM, its wheels and the repo mirror) and the
+    # binary playback it decoded before bb-evidence (now an intermediate in outputs/); git keeps them
+    for retired in (SITE / "wheels", SITE / "runtime", DATA / "repo", DATA / "playback"):
         if retired.exists():
             shutil.rmtree(retired)
-    index = export_playback()
+    exported = export_playback()
+    index, playback = export_records(exported)
     mirror_sources(index)
     DATA.mkdir(parents=True, exist_ok=True)
     (DATA / "page.json").write_text(json.dumps(page_data(), indent=1, allow_nan=False) + "\n")
-    write_state()
-    after = site_bytes()
-    summary = {"pairs": index["rule"]["count"], "solutions": len(index["solutions"]), "tasks": len(index["tasks"]),
-               "playback_bytes": index["bytes"], "site_bytes_before": before, "site_bytes_after": after,
+    write_state(playback)
+    after = {"served": site_bytes(), "on_disk": site_bytes(served=False)}
+    records = sorted(RECORDS.rglob("*.json"))
+    summary = {"runs": index["rule"]["count"], "left_out": index["left_out"], "solutions": len(index["solutions"]),
+               "tasks": len(index["tasks"]), "records_on_disk": sum(path.stat().st_size for path in records),
+               "records_served": sum(served_bytes(path) for path in records), "site_before": before, "site_after": after,
                "check_worst_mm": index["check_worst_mm"], "best": index["rule"]["full"]}
     print(json.dumps(summary, indent=1))
-    if after > SIZE_LIMIT_BYTES:
-        raise SystemExit(f"site/ is {after / 1e6:.2f} MB, over the {SIZE_LIMIT_BYTES / 2**20:.0f} MiB limit: ship fewer tasks")
+    if after["served"] > SIZE_LIMIT_BYTES:
+        raise SystemExit(f"site/ is {after['served'] / 1e6:.2f} MB as served, over the {SIZE_LIMIT_BYTES / 2**20:.0f} MiB "
+                         "limit: ship fewer tasks")
     return summary
 
 
 # ── check: what ships equals the scorecards ─────────────────────────────────────────────────────────────────
 
 
+def _rounded(value: Any, digits: int) -> Any:
+    """fold_runs.rnd for one number: Python's round, -0 as 0, non-finite as None."""
+    if value is None or isinstance(value, bool):
+        return value
+    value = float(value)
+    if not math.isfinite(value):
+        return None
+    out = round(value, digits)
+    return 0.0 if out == 0 else out
+
+
 def check() -> list[str]:
-    """Problems with site/data (empty = pass): the shipped pairs are the rule's on the current ledger, every file listed
-    exists and decodes, and every run file's metrics / gates / notes equal its scorecard's per-task row exactly."""
+    """Problems with site/data (empty = pass): the shipped runs are the rule's on the current ledger, state.json's
+    playback slice lists exactly their records, every record is this run's, and its metrics and gate verdicts equal its
+    scorecard's per-task row (at the fold's stated rounding); the build's honesty checks passed."""
     problems: list[str] = []
-    index_path = PLAYBACK / "index.json"
+    index_path = RECORDS / "index.json"
     if not index_path.exists():
-        return ["site/data/playback/index.json is missing: run tools/build_site.py build"]
+        return ["site/data/runs/index.json is missing: run tools/build_site.py build"]
+    if (DATA / "playback").exists():
+        problems.append("site/data/playback/ is the retired binary playback: run tools/build_site.py build")
     index = json.loads(index_path.read_text())
+    if index.get("schema") != RUNS_INDEX_SCHEMA:
+        problems.append(f"site/data/runs/index.json is {index.get('schema')}, not {RUNS_INDEX_SCHEMA}")
     rule = selection()
-    shipped = {row["id"]: sorted(row["tasks"]) for row in index["solutions"]}
-    wanted = {sid: sorted(tasks) for sid, tasks in rule["pairs"].items()}
-    if shipped != wanted:
-        added = sorted(set(wanted) - set(shipped))
-        removed = sorted(set(shipped) - set(wanted))
-        problems.append(f"site/data/playback is stale for the current ledger (new: {added}, gone: {removed}, "
-                        f"or a different best): run tools/build_site.py build")
-    task_files = {row["id"]: row for row in index["tasks"]}
-    bases = {}
-    for task_id, row in task_files.items():
-        path = PLAYBACK / row["file"]
-        if not path.exists():
-            problems.append(f"{row['file']} is listed but missing")
-            continue
-        header, _, ints = read_playback(path)
-        if header.get("task") != task_id:
-            problems.append(f"{row['file']} holds {header.get('task')}")
-        bases[task_id] = (header, ints)
-    for row in index["solutions"]:
-        card = _scorecard(row["id"])
+    left = {(row["solution"], row["task"]) for row in index.get("left_out", [])}
+    shipped = {(row["id"], task) for row in index["solutions"] for task in row["tasks"]}
+    wanted = {(sid, task) for sid, tasks in rule["pairs"].items() for task in tasks}
+    if shipped | left != wanted or shipped & left:
+        problems.append(f"site/data/runs is stale for the current ledger ({len(wanted - shipped - left)} runs to add, "
+                        f"{len(shipped - wanted)} gone, or a different best): run tools/build_site.py build")
+    if index["rule"]["full"] != rule["full"]:
+        problems.append(f"the index's best {index['rule']['full']} is not the ledger's {rule['full']}")
+    state = json.loads((DATA / "state.json").read_text())
+    listed = {row["path"]: row for row in (state.get("playback") or {}).get("runs", [])}
+    records = {task["record"]: (row["id"], task_id) for row in index["solutions"] for task_id, task in row["tasks"].items()}
+    if set(listed) != set(records):
+        problems.append(f"state.json's playback lists {len(listed)} records, the index {len(records)}: "
+                        f"{sorted(set(listed) ^ set(records))[:5]}")
+    for path, (sid, task_id) in records.items():
+        row = listed.get(path)
+        if row and (row.get("solution"), row.get("task"), row.get("schema")) != (sid, task_id, "bb-run/1"):
+            problems.append(f"state.json lists {path} as {row.get('solution')} {row.get('task')} {row.get('schema')}")
+    on_disk = {path.relative_to(DATA).as_posix() for path in RECORDS.rglob("*.json") if path != RECORDS / "index.json"}
+    if on_disk != set(records):
+        problems.append(f"site/data/runs holds files the index does not list (or misses some): {sorted(on_disk ^ set(records))[:5]}")
+    for solution in index["solutions"]:
+        card = _scorecard(solution["id"])
         if card is None:
-            problems.append(f"{row['id']}: shipped but has no scorecard")
+            problems.append(f"{solution['id']}: shipped but has no scorecard")
             continue
-        if row["objective"] != card["objective"] or row["admissible"] != card["admissible"]:
-            problems.append(f"{row['id']}: the index's objective / admissible differ from the scorecard")
-        if row["scored"]["commit"] != card.get("code", {}).get("repo_commit"):
-            problems.append(f"{row['id']}: the index's scored commit differs from the scorecard")
+        if solution["objective"] != card["objective"] or solution["admissible"] != card["admissible"]:
+            problems.append(f"{solution['id']}: the index's objective / admissible differ from the scorecard")
+        if solution["scored"]["commit"] != card.get("code", {}).get("repo_commit"):
+            problems.append(f"{solution['id']}: the index's scored commit differs from the scorecard")
         by_task = {r["task"]: r for r in card["tasks"]}
-        for task_id, entry in row["tasks"].items():
-            path = PLAYBACK / entry["file"]
-            if not path.exists() or task_id not in bases:
-                problems.append(f"{entry['file']} is listed but missing (or its task file is)")
-                continue
-            task_header, task_ints = bases[task_id]
-            header, values, _ = read_playback(path, base=task_ints)
+        for task_id, entry in solution["tasks"].items():
+            where = f"{solution['id']} {task_id}"
             card_row = by_task.get(task_id)
-            if card_row is None:
-                problems.append(f"{row['id']} {task_id}: no scorecard row")
+            path = DATA / entry["record"]
+            if card_row is None or not path.exists():
+                problems.append(f"{where}: no scorecard row, or {entry['record']} is missing")
+                continue
+            record = json.loads(path.read_text())
+            subject = record.get("subject", {})
+            if (record.get("schema"), record.get("id"), subject.get("solution"), subject.get("task")) != (
+                    "bb-run/1", f"{solution['id']}/{task_id}", solution["id"], task_id):
+                problems.append(f"{entry['record']}: holds {record.get('schema')} {record.get('id')}")
                 continue
             want = {"tool_track_rms_mm": card_row["objective"], **card_row["kpis"], **card_row["diagnostics"]}
-            if (header["solution"], header["task"]) != (row["id"], task_id):
-                problems.append(f"{entry['file']} holds {header['solution']} {header['task']}")
-            if header["metrics"] != want:
-                problems.append(f"{entry['file']}: metrics differ from the scorecard's row")
-            if header["gates"] != card_row["verdicts"] or header["notes"] != card_row["notes"]:
-                problems.append(f"{entry['file']}: gates or notes differ from the scorecard's row")
-            if entry["objective"] != card_row["objective"]:
-                problems.append(f"{row['id']} {task_id}: the index's objective differs from the scorecard's row")
-            rows_ = {spec["shape"][0] for spec in header["arrays"].values()}
-            if rows_ != {task_header["samples"]} or header["samples"] != task_header["samples"]:
-                problems.append(f"{entry['file']}: {rows_} rows, the task has {task_header['samples']}")
-            for name, item in header["explain"]["checks"].items():
+            metrics_ = {m["id"]: m for m in record["metrics"]}
+            for gate, verdict in card_row["verdicts"].items():
+                if gate not in metrics_ or metrics_[gate]["passed"] is not bool(verdict):
+                    problems.append(f"{where}: gate {gate} shows {metrics_.get(gate, {}).get('passed')}, the scorecard {verdict}")
+            for metric in record["metrics"]:
+                key = METRIC_KEY.get(metric["id"], metric["id"])
+                if key not in want:
+                    problems.append(f"{where}: metric {metric['id']} is not in the scorecard row")
+                    continue
+                value = want[key]
+                expected = (bool(value) if isinstance(value, bool) else _rounded(value, METRIC_DIGITS[metric["id"]])
+                            if metric["id"] in METRIC_DIGITS else value)
+                if metric["value"] != expected or type(metric["value"]) is not type(expected):
+                    problems.append(f"{where}: {metric['id']} = {metric['value']!r}, the scorecard {value!r}")
+            if "tool_track_rms_mm" not in metrics_:
+                problems.append(f"{where}: the record has no objective")
+            if record.get("notes") != card_row["notes"]:
+                problems.append(f"{where}: notes differ from the scorecard's row")
+            if entry["objective"] != card_row["objective"] or entry["pass"] != all(card_row["verdicts"].values()):
+                problems.append(f"{where}: the index's objective or pass differs from the scorecard's row")
+            n = len(record["time"]["t"])
+            if any(len(channel["values"]) != n for channel in record["channels"]):
+                problems.append(f"{where}: a channel is not on the record's {n} samples")
+            for layer in record["scene"]["geometry"]["layers"]:
+                frames = layer.get("t", record["time"]["t"])
+                if len(frames) != len(layer["poses"]) or frames != sorted(frames):
+                    problems.append(f"{where}: layer {layer['id']} has {len(layer['poses'])} poses for {len(frames)} times")
+            for name, item in entry["checks"].items():
                 if not item["ok"]:
-                    problems.append(f"{entry['file']}: the drawing of {name} disagrees with the ruler")
-            for name, item in header["explain"]["subset"].items():
+                    problems.append(f"{where}: the record's samples give {name} = {item['record']}, the ruler {item['ruler']}")
+            for name, item in entry["subset"].items():
                 if item["consistent"] is False:
-                    problems.append(f"{entry['file']}: the record's 100 Hz samples contradict the ruler's {name}")
-        source = SOURCES / row["id"] / "solution.py"
-        if not source.exists() or source.read_bytes() != (REPO / "solutions" / row["id"] / "solution.py").read_bytes():
-            problems.append(f"site/data/solutions/{row['id']}/solution.py is not a byte copy of the solution")
+                    problems.append(f"{where}: the record's 100 Hz samples contradict the ruler's {name}")
+        source = SOURCES / solution["id"] / "solution.py"
+        if not source.exists() or source.read_bytes() != (REPO / "solutions" / solution["id"] / "solution.py").read_bytes():
+            problems.append(f"site/data/solutions/{solution['id']}/solution.py is not a byte copy of the solution")
     return problems
 
 
@@ -879,216 +1110,310 @@ window.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('mousemove', e => { c.style.left = e.clientX + 'px'; c.style.top = e.clientY + 'px'; }, true);
 });
 """
-CARD_IDS = ("tool_track_rms_mm", "completed", "stop_error_max_mm", "saturation_share_pct", "limit_violations",
-            "floor_clearance")
 RUNTIME_URL = re.compile(r"pyodide|@mujoco/mujoco|mujoco\.(js|wasm)|\.whl\b|/runtime/", re.I)
 
 
-def _wait_run(page: Any, timeout_s: float = 60.0) -> dict[str, Any]:
-    page.wait_for_function("window.__page && window.__page.run && !window.__page.busy", timeout=timeout_s * 1e3)
-    return page.evaluate("({solution: window.__page.run.solution, task: window.__page.run.task, "
-                         "metrics: window.__page.run.metrics, gates: window.__page.run.gates})")
+def _watch(page: Any, errors: list[str], requests: list[str] | None = None) -> None:
+    """Page errors and console errors (both must stay empty), and every request URL."""
+    page.on("pageerror", lambda error: errors.append(f"pageerror: {error}"))
+    page.on("console", lambda message: errors.append(f"console.{message.type}: {message.text}")
+            if message.type == "error" else None)
+    if requests is not None:
+        page.on("request", lambda request: requests.append(request.url))
 
 
-def _pause_at(page: Any, t: float) -> None:
-    page.evaluate("""(t) => { if (window.__page.playing) document.getElementById('play').click();
-      const s = document.getElementById('scrub'); s.value = t; s.dispatchEvent(new Event('input')); }""", t)
-    page.wait_for_timeout(300)
+def _wait_run(page: Any, solution: str | None = None, task: str | None = None, timeout_s: float = 60.0) -> dict[str, Any]:
+    """Wait until the page shows a run (this one, when named) and bb-evidence has drawn it."""
+    page.wait_for_function("""([solution, task]) => { const p = window.__page; return p && p.run && !p.busy
+        && (!solution || (p.run.solution === solution && p.run.task === task)); }""", arg=[solution, task],
+                           timeout=timeout_s * 1e3)
+    return page.evaluate("({...window.__page.run})")
 
 
-def _fingerprint(page: Any) -> dict[str, str]:
-    # what a click changes: the 3D canvas pixels and the explanation plot's SVG, hashed in the page
-    return page.evaluate("""async () => {
-      const digest = async (text) => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',
-        new TextEncoder().encode(text)))).map((b) => b.toString(16).padStart(2, '0')).join('').slice(0, 16);
-      const canvas = document.querySelector('#viewer canvas');
-      return {canvas: await digest(canvas.toDataURL()), plot: await digest(document.getElementById('explain-plot').innerHTML),
-              title: document.getElementById('explain-title').textContent};
-    }""")
+def _js_fmt(value: Any, digits: int = 3) -> str:
+    """bb-evidence's fmt (bb-evidence.model.js), in Python: what a card shows for a number."""
+    if value is None or (isinstance(value, float) and not math.isfinite(value)):
+        return "—"
+    if isinstance(value, bool):
+        return "yes" if value else "no"
+    if isinstance(value, int) or (isinstance(value, float) and value.is_integer()):
+        return f"{int(value):,}"
+    if value == 0:
+        return "0"
+    magnitude = abs(value)
+    if magnitude >= 1000:
+        return f"{value:,.0f}"
+    decimals = max(0, digits - 1 - math.floor(math.log10(magnitude)))
+    return f"{value:.{min(decimals, 6)}f}"
 
 
-def _cards_match(shown: dict[str, str], metrics_: dict[str, Any]) -> bool:
-    """Each card's text is the record's own value, as the page formats it (3 significant digits, or an integer / yes-no)."""
-    values = {**metrics_, "floor_clearance": metrics_.get("floor_clearance_violations")}
-    for card, text in shown.items():
-        value = values.get(card)
-        number = text.split()[0] if text else ""
-        if isinstance(value, bool):
-            ok = number == ("yes" if value else "no")
-        elif isinstance(value, int):
-            ok = number == str(value)
-        else:
-            ok = value is not None and math.isclose(float(number), float(f"{value:.3g}"), rel_tol=1e-9)
-        if not ok:
-            print(f"card {card}: shows {text!r}, the record has {value!r}")
-            return False
-    return True
+def _value_text(metric: dict[str, Any]) -> str:
+    """bb-evidence's valueText: what a card's value reads."""
+    if metric.get("display"):
+        return metric["display"]
+    value = metric["value"]
+    if isinstance(value, bool):
+        return "yes" if value else "no"
+    if value is None:
+        return "—"
+    unit = metric.get("unit")
+    return f"{_js_fmt(value)}{('' if unit in ('%', '°') else ' ') + unit if unit else ''}"
 
 
-def _decoder_agrees(page: Any) -> dict[str, Any]:
-    """The page's JavaScript decoder vs read_playback on the run it shows: every decoded array, max |difference|."""
-    import numpy as np
-
-    run = page.evaluate("""() => { const r = window.__page.run; return {solution: r.solution, task: r.task,
-      q: r.q, qd: r.qd, tau: r.tau, tool: r.tool, error_mm: r.error_mm, lowest: r.lowest, t: r.t,
-      measured_pos: r.frames.measured.pos, measured_quat: r.frames.measured.quat,
-      target_pos: r.frames.target.pos, target_quat: r.frames.target.quat}; }""")
-    index = json.loads((PLAYBACK / "index.json").read_text())
-    entry = next(row for row in index["solutions"] if row["id"] == run["solution"])["tasks"][run["task"]]
-    _, task_values, task_ints = read_playback(PLAYBACK / f"tasks/{run['task']}.bin.gz")
-    _, values, _ = read_playback(PLAYBACK / entry["file"], base=task_ints)
-    pairs = {"t": task_values["t"], "q": values["q"], "qd": values["qd"], "tau": values["tau"], "tool": values["tool"],
-             "error_mm": values["error_mm"], "lowest": values["lowest"], "measured_pos": values["geom_pos"],
-             "measured_quat": values["geom_quat"], "target_pos": task_values["geom_pos"], "target_quat": task_values["geom_quat"]}
-    diffs = {name: float(np.max(np.abs(np.asarray(run[name], dtype=float) - array))) for name, array in pairs.items()}
-    return {"pair": [run["solution"], run["task"]], "max_abs_diff": diffs, "agree": all(v <= 1e-12 for v in diffs.values())}
+def _cards(page: Any) -> dict[str, str]:
+    return dict(page.evaluate("[...document.querySelectorAll('#evidence .bbe-card')].map((c) => [c.dataset.metric, "
+                              "c.querySelector('.val').textContent])"))
 
 
-def shoot() -> dict[str, Any]:
-    """Headless checks and media (outputs/site/): load time to the first playable frame, no runtime requests, the cards
-    show the record's numbers and each click changes both views, every shipped picker option plays, the JS decoder equals
-    the Python one; screenshots light / dark / 390 px phone; the hero video."""
+def _shows_its_record(page: Any, run: dict[str, Any]) -> list[str]:
+    """The explainer on screen shows this run's record: its header names the run and every card reads the record's
+    metric (which `check` proved equals the scorecard)."""
+    record = json.loads((DATA / run["path"]).read_text())
+    problems = []
+    title = page.evaluate("document.querySelector('#evidence .bbe-title')?.textContent || ''")
+    if run["solution"] not in title or run["task"] not in title:
+        problems.append(f"{run['solution']} {run['task']}: the header reads {title!r}")
+    shown = _cards(page)
+    for metric in record["metrics"]:
+        want = _value_text(metric)
+        if shown.get(metric["id"]) != want:
+            problems.append(f"{run['solution']} {run['task']}: card {metric['id']} shows {shown.get(metric['id'])!r}, "
+                            f"the record {want!r}")
+    return problems
+
+
+def parity() -> dict[str, Any]:
+    """Every picker option, in headless Chromium: the solution picker is the index, each solution's task picker is its
+    shipped tasks, and each (solution, task) plays its own bb-run/1 record with every card reading the record's number.
+    Also: no page or console error, no request to a Python or MuJoCo runtime."""
     from playwright.sync_api import sync_playwright
 
     OUTPUTS.mkdir(parents=True, exist_ok=True)
-    report: dict[str, Any] = {"cards": {}, "checks": {}}
-    index = json.loads((PLAYBACK / "index.json").read_text())
+    index = json.loads((RECORDS / "index.json").read_text())
+    report: dict[str, Any] = {"checks": {}, "failures": []}
+    errors: list[str] = []
+    requests: list[str] = []
+    played = 0
+    with Server() as server, sync_playwright() as playwright:
+        browser = _browser(playwright)
+        for row in index["solutions"]:
+            # WHY a fresh page per solution: the explainer keeps every record it drew; 244 at once is ~1 GB of JS heap
+            page = browser.new_page(viewport={"width": 1280, "height": 900})
+            _watch(page, errors, requests)
+            page.goto(f"{server.url}/index.html?solution={row['id']}")
+            _wait_run(page)
+            options = page.evaluate("[...document.getElementById('solution').options].map((o) => o.value)")
+            if options != [r["id"] for r in index["solutions"]]:
+                report["failures"].append(f"the solution picker lists {len(options)}, the index {len(index['solutions'])}")
+            tasks = page.evaluate("[...document.getElementById('task').options].map((o) => o.value)")
+            if tasks != [t["id"] for t in index["tasks"] if t["id"] in row["tasks"]]:
+                report["failures"].append(f"{row['id']}: the task picker shows {tasks}")
+            for task_id in tasks:
+                if page.evaluate("document.getElementById('task').value") != task_id:
+                    page.select_option("#task", task_id)
+                run = _wait_run(page, row["id"], task_id)
+                played += 1
+                if run["path"] != row["tasks"][task_id]["record"]:
+                    report["failures"].append(f"{row['id']} {task_id}: plays {run['path']}")
+                report["failures"] += _shows_its_record(page, run)
+            page.close()
+        browser.close()
+    report["played"] = played
+    report["shipped"] = index["rule"]["count"]
+    report["errors"] = errors[:20]
+    report["requests"] = {"count": len(requests), "hosts": sorted({u.split('/')[2] for u in requests}),
+                          "runtime": [u for u in requests if RUNTIME_URL.search(u)]}
+    report["checks"] = {"every_option_plays_its_record": not report["failures"] and played == index["rule"]["count"],
+                        "no_page_or_console_errors": not errors, "no_runtime_requests": not report["requests"]["runtime"]}
+    report["pass"] = all(report["checks"].values())
+    (OUTPUTS / "parity.json").write_text(json.dumps(report, indent=1) + "\n")
+    return report
+
+
+def _element_png(page: Any, selector: str, path: Path) -> None:
+    """A screenshot of one element, with the page's sticky header hidden (it would sit over the element's top)."""
+    page.evaluate("document.querySelector('header.top').style.visibility = 'hidden'")
+    page.locator(selector).first.screenshot(path=str(path))
+    page.evaluate("document.querySelector('header.top').style.visibility = ''")
+
+
+def _scene_png(page: Any) -> bytes:
+    page.wait_for_timeout(250)  # the scene draws on the next animation frame
+    return page.locator("#evidence .bbe-scene").first.screenshot()
+
+
+def shoot(media: Path | None = None) -> dict[str, Any]:
+    """Headless checks and media (outputs/site/, or `media`): the default run loads, each metric card changes the scene
+    and the readout, Lens <-> Recorder keeps the chosen metric, a lane opens its joints; screenshots of the first screen
+    and the full page in light and dark and at 390 px (no sideways scroll, measured); a failing run in Recorder; zero
+    page or console errors; the hero video."""
+    from playwright.sync_api import sync_playwright
+
+    out = media or OUTPUTS
+    out.mkdir(parents=True, exist_ok=True)
+    index = json.loads((RECORDS / "index.json").read_text())
+    report: dict[str, Any] = {"checks": {}, "cards": {}}
+    errors: list[str] = []
     with Server() as server, sync_playwright() as playwright:
         browser = _browser(playwright)
 
-        # 1. desktop, light: the default (the best solution on the cube), every card clicked
-        page = browser.new_page(viewport={"width": 1280, "height": 860}, color_scheme="light")
-        errors: list[str] = []
-        requests: list[str] = []
-        page.on("pageerror", lambda error: errors.append(str(error)))
-        page.on("request", lambda request: requests.append(request.url))
+        # 1. desktop, light: the default (the best solution on the cube); every card clicked
+        page = browser.new_page(viewport={"width": 1280, "height": 900}, color_scheme="light")
+        _watch(page, errors)
         started = time.time()
         page.goto(f"{server.url}/index.html")
-        page.wait_for_function("window.__page && window.__page.firstFrameMs", timeout=60e3)
-        report["first_frame_s"] = round(time.time() - started, 2)
-        report["first_frame_ms_in_page"] = round(page.evaluate("window.__page.firstFrameMs"))
         run = _wait_run(page)
+        report["first_run_s"] = round(time.time() - started, 2)
         report["default"] = [run["solution"], run["task"]]
-        _pause_at(page, 2.2)
-        page.screenshot(path=str(OUTPUTS / "page-light.png"))
-        shown = page.evaluate("[...document.querySelectorAll('.card')].map((c) => [c.dataset.id, c.querySelector('.value').textContent])")
-        report["checks"]["cards_show_the_record"] = _cards_match(dict(shown), run["metrics"])
-        decoder = _decoder_agrees(page)
-        report["decoder"] = decoder
-        report["checks"]["js_decoder_equals_python"] = decoder["agree"]
-        previous = _fingerprint(page)
-        for card in (*CARD_IDS[1:], CARD_IDS[0]):  # start away from the default, end back on it
-            page.click(f".card[data-id='{card}']")
-            page.wait_for_timeout(500)
-            now = _fingerprint(page)
-            report["cards"][card] = {"canvas_changed": now["canvas"] != previous["canvas"],
-                                     "plot_changed": now["plot"] != previous["plot"], "title": now["title"]}
-            previous = now
-            # WHY scroll first: an element screenshot scrolls it just into view, under the sticky header
-            page.evaluate("window.scrollTo(0, 0)")
-            page.locator("#viewer").screenshot(path=str(OUTPUTS / f"card-{card}-3d.png"))
-            page.evaluate("document.getElementById('explain').scrollIntoView({block: 'center'})")
-            page.locator("#explain").screenshot(path=str(OUTPUTS / f"card-{card}-2d.png"))
-        page.evaluate("window.scrollTo(0, 0)")
-        page.screenshot(path=str(OUTPUTS / "page-light-full.png"), full_page=True)
-
-        # 2. every picker option: each shipped (solution, task) plays and shows its record's objective
-        options = page.evaluate("[...document.getElementById('solution').options].map((o) => o.value)")
-        report["checks"]["solution_picker_is_the_index"] = options == [row["id"] for row in index["solutions"]]
-        played, failures = 0, []
-        for row in index["solutions"]:
-            page.select_option("#solution", row["id"])
-            tasks = page.evaluate("[...document.getElementById('task').options].map((o) => o.value)")
-            if sorted(tasks) != sorted(row["tasks"]):
-                failures.append(f"{row['id']}: the task picker shows {len(tasks)} tasks, {len(row['tasks'])} ship")
-            for task_id in tasks:
-                page.select_option("#task", task_id)
-                got = _wait_run(page)
-                played += 1
-                want = row["tasks"].get(task_id, {}).get("objective")
-                if (got["solution"], got["task"]) != (row["id"], task_id) or got["metrics"]["tool_track_rms_mm"] != want:
-                    failures.append(f"{row['id']} {task_id}: shows {got['solution']} {got['task']}")
-                card = page.evaluate("document.querySelector('.card[data-id=tool_track_rms_mm] .value').textContent")
-                if not _cards_match({"tool_track_rms_mm": card}, got["metrics"]):
-                    failures.append(f"{row['id']} {task_id}: card {card!r}")
-        report["options"] = {"played": played, "shipped": index["rule"]["count"], "failures": failures[:20]}
-        report["checks"]["every_option_plays"] = not failures and played == index["rule"]["count"]
-        report["page_errors"] = errors
-        report["requests"] = {"count": len(requests), "hosts": sorted({u.split('/')[2] for u in requests}),
-                              "runtime": [u for u in requests if RUNTIME_URL.search(u)]}
-        report["checks"]["no_runtime_requests"] = not report["requests"]["runtime"]
+        report["checks"]["default_is_the_best_on_the_cube"] = run["solution"] == index["rule"]["full"]["best"] \
+            and run["task"] == "workspace-dev-001"
+        report["checks"]["cards_show_the_record"] = not _shows_its_record(page, run)
+        page.evaluate("document.getElementById('evidence').stop()")
+        page.screenshot(path=str(out / "light-first-screen.png"))
+        page.screenshot(path=str(out / "light-full.png"), full_page=True)
+        before = _scene_png(page)
+        record = json.loads((DATA / run["path"]).read_text())
+        for metric in [m["id"] for m in record["metrics"] if m["id"] != "tool_track_rms_mm"] + ["tool_track_rms_mm"]:
+            page.click(f"#evidence .bbe-card[data-metric='{metric}']")
+            now = _scene_png(page)
+            explain = page.evaluate("document.querySelector('#evidence .bbe-explain h3')?.textContent || ''")
+            report["cards"][metric] = {"scene_changed": now != before, "explains": explain[:60]}
+            before = now
+        # Lens -> Recorder keeps the chosen metric; a lane opens its joints
+        page.click("#evidence .bbe-card[data-metric='saturation_share_pct']")
+        _element_png(page, "#evidence", out / "lens-torque.png")
+        page.click("#evidence [data-layout='recorder']")
+        page.wait_for_timeout(300)
+        report["checks"]["recorder_keeps_the_metric"] = page.evaluate(
+            "document.querySelector(\"#evidence .bbe-lane[data-metric='saturation_share_pct']\")?.getAttribute('aria-selected') === 'true'")
+        page.click("#evidence .bbe-lh[data-metric='tool_track_rms_mm']")
+        page.wait_for_timeout(300)
+        report["checks"]["a_lane_opens_its_joints"] = page.evaluate(
+            "!!document.querySelector(\"#evidence .bbe-lane.open[data-metric='tool_track_rms_mm']\")")
+        _element_png(page, "#evidence", out / "recorder-best.png")
         page.close()
 
-        # 3. dark and phone width
-        for name, viewport, scheme in (("page-dark", {"width": 1280, "height": 860}, "dark"),
-                                       ("page-phone", {"width": 390, "height": 844}, "light")):
-            page = browser.new_page(viewport=viewport, color_scheme=scheme)
-            page.on("pageerror", lambda error: errors.append(str(error)))
-            gen0 = index["rule"]["full"]["gen0_best"] or index["solutions"][0]["id"]
-            page.goto(f"{server.url}/index.html?solution={gen0}&task=workspace-dev-001")
-            _wait_run(page)
-            _pause_at(page, 2.2)
-            page.screenshot(path=str(OUTPUTS / f"{name}.png"))
-            page.screenshot(path=str(OUTPUTS / f"{name}-full.png"), full_page=True)
-            report["checks"][f"{name}_no_horizontal_scroll"] = page.evaluate(
-                "document.documentElement.scrollWidth <= window.innerWidth")
+        # 2. a failing run in Recorder: where each number failed, red on the timeline
+        failing = next(((row["id"], task) for row in index["solutions"] for task, entry in row["tasks"].items()
+                        if not entry["pass"] and row["id"] == "p10"), None) or next(
+            ((row["id"], task) for row in index["solutions"] for task, entry in row["tasks"].items() if not entry["pass"]), None)
+        if failing:
+            page = browser.new_page(viewport={"width": 1280, "height": 900}, color_scheme="light")
+            _watch(page, errors)
+            page.goto(f"{server.url}/index.html?solution={failing[0]}&task={failing[1]}")
+            run = _wait_run(page, *failing)
+            report["failing"] = list(failing)
+            report["checks"]["failing_cards_show_the_record"] = not _shows_its_record(page, run)
+            page.evaluate("document.getElementById('evidence').stop()")
+            _element_png(page, "#evidence", out / "lens-failing.png")
+            page.click("#evidence [data-layout='recorder']")
+            page.wait_for_timeout(300)
+            _element_png(page, "#evidence", out / "recorder-failing.png")
+            report["checks"]["failing_run_flags_red"] = page.evaluate(
+                "document.querySelectorAll('#evidence .bbe-sc .pf.bad').length") > 0
             page.close()
 
-        # 4. the hero video: load -> it plays -> click three scores -> their 3D explanations
-        video_dir = Path(tempfile.mkdtemp(dir=OUTPUTS))
-        context = browser.new_context(viewport={"width": 1280, "height": 1000}, color_scheme="light",
-                                      record_video_dir=str(video_dir), record_video_size={"width": 1280, "height": 1000})
+        # 3. dark, and the phone (390 px: nothing may scroll sideways)
+        for name, viewport, scheme in (("dark", {"width": 1280, "height": 900}, "dark"),
+                                       ("phone", {"width": 390, "height": 844}, "light"),
+                                       ("phone-dark", {"width": 390, "height": 844}, "dark")):
+            page = browser.new_page(viewport=viewport, color_scheme=scheme)
+            _watch(page, errors)
+            page.goto(f"{server.url}/index.html")
+            _wait_run(page)
+            page.evaluate("document.getElementById('evidence').stop()")
+            page.screenshot(path=str(out / f"{name}-first-screen.png"))
+            page.screenshot(path=str(out / f"{name}-full.png"), full_page=True)
+            width = page.evaluate("""() => ({scroll: document.documentElement.scrollWidth, inner: window.innerWidth,
+              wider: [...document.querySelectorAll('body *')].filter((e) => { const r = e.getBoundingClientRect();
+                return r.width && r.right > window.innerWidth + 0.5 && getComputedStyle(e).position !== 'fixed'
+                  && !e.closest('.table-wrap, pre, .bbe-runs, .top nav'); }).slice(0, 5)
+                .map((e) => `${e.tagName.toLowerCase()}.${[...e.classList].join('.')}`)})""")
+            report[f"{name}_width"] = width
+            report["checks"][f"{name}_no_sideways_scroll"] = width["scroll"] <= width["inner"] and not width["wider"]
+            if name.startswith("phone"):
+                page.click("#evidence [data-layout='recorder']")
+                page.wait_for_timeout(300)
+                _element_png(page, "#evidence", out / f"{name}-recorder.png")
+                width = page.evaluate("({scroll: document.documentElement.scrollWidth, inner: window.innerWidth})")
+                report["checks"][f"{name}_recorder_no_sideways_scroll"] = width["scroll"] <= width["inner"]
+            page.close()
+
+        # 4. the hero video: land -> Lens -> click a metric -> Recorder -> Lens -> change task
+        video_dir = Path(tempfile.mkdtemp(dir=out))
+        context = browser.new_context(viewport={"width": 1280, "height": 900}, color_scheme="light",
+                                      record_video_dir=str(video_dir), record_video_size={"width": 1280, "height": 900})
         context.add_init_script(CURSOR)
         recording = time.monotonic()
         page = context.new_page()
-        # WHY trim to the navigation: the recording starts with the context, a blank page until goto
-        start_s = max(0.0, time.monotonic() - recording - 0.1)
+        _watch(page, errors)
+        start_s = max(0.0, time.monotonic() - recording - 0.1)  # WHY: the recording starts blank, before the goto
         page.goto(f"{server.url}/index.html")
-        page.mouse.move(1000, 480)
+        page.mouse.move(900, 700)
         _wait_run(page)
-        report["hero_loaded_at_s"] = round(time.monotonic() - recording - start_s, 2)
-        page.wait_for_timeout(2500)
-        page.evaluate("window.scrollTo({top: 300, behavior: 'smooth'})")
+        page.wait_for_timeout(700)
+        page.evaluate("window.scrollTo({top: document.getElementById('scored').getBoundingClientRect().top + scrollY - 64, "
+                      "behavior: 'smooth'})")
         page.wait_for_timeout(900)
-        for card in ("stop_error_max_mm", "saturation_share_pct", "floor_clearance"):
-            box = page.locator(f".card[data-id='{card}']").bounding_box()
-            page.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2, steps=12)
-            page.mouse.click(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
-            page.wait_for_timeout(2500)
+
+        def glide(selector: str, pause_ms: int) -> None:
+            box = page.locator(selector).first.bounding_box()
+            x, y = box["x"] + box["width"] / 2, box["y"] + box["height"] / 2
+            page.mouse.move(x, y, steps=14)
+            page.mouse.click(x, y)
+            page.wait_for_timeout(pause_ms)
+
+        glide("#evidence .bbe-strip .bbe-play", 1800)  # the saved run plays: the arm, its error whiskers, the cursor
+        glide("#evidence .bbe-card[data-metric='stop_error_max_mm']", 1500)
+        glide("#evidence [data-layout='recorder']", 1500)
+        glide("#evidence .bbe-lh[data-metric='saturation_share_pct']", 1400)
+        glide("#evidence [data-layout='lens']", 900)
+        box = page.locator("#task").bounding_box()
+        page.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2, steps=14)
+        page.select_option("#task", "workspace-dev-002")
+        _wait_run(page, index["rule"]["full"]["best"], "workspace-dev-002")
+        page.wait_for_timeout(1600)
         raw = Path(page.video.path())
         context.close()
-        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{start_s:.2f}", "-i", str(raw), "-vf", "scale=1280:-2", "-an",
-                        "-c:v", "libx264", "-preset", "slow", "-crf", "26", "-pix_fmt", "yuv420p",
-                        "-movflags", "+faststart", str(OUTPUTS / "hero.mp4")], check=True)
+        hero = out / "hero.mp4"
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{start_s:.2f}", "-i", str(raw), "-an",
+                        "-c:v", "libx264", "-preset", "slow", "-crf", "26", "-pix_fmt", "yuv420p", "-movflags", "+faststart",
+                        str(hero)], check=True)
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(hero), "-vf",
+                        "fps=10,scale=720:-2:flags=lanczos,split[a][b];[a]palettegen=max_colors=96[p];[b][p]paletteuse=dither=bayer",
+                        str(out / "hero.gif")], check=True)
         shutil.rmtree(video_dir, ignore_errors=True)
         browser.close()
-    probe = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0",
-                            str(OUTPUTS / "hero.mp4")], capture_output=True, text=True)
+    probe = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(hero)],
+                           capture_output=True, text=True)
     report["hero_mp4_s"] = float(probe.stdout.strip() or "nan")
-    report["page_errors"] = errors
-    report["pass"] = (all(report["checks"].values())
-                      and all(card["canvas_changed"] and card["plot_changed"] for card in report["cards"].values())
-                      and not errors)
-    (OUTPUTS / "shoot.json").write_text(json.dumps(report, indent=1) + "\n")
+    report["errors"] = errors
+    report["checks"]["every_card_changes_the_scene"] = all(card["scene_changed"] for card in report["cards"].values())
+    report["checks"]["no_page_or_console_errors"] = not errors
+    report["pass"] = all(report["checks"].values())
+    (out / "shoot.json").write_text(json.dumps(report, indent=1) + "\n")
     return report
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    parser.add_argument("command", choices=("build", "check", "shoot"))
+    parser.add_argument("command", choices=("build", "check", "parity", "shoot"))
+    parser.add_argument("--media", type=Path, help="shoot: where the screenshots and the hero video go (default outputs/site/)")
     args = parser.parse_args(argv)
-    if args.command == "build":
-        build()
+    if args.command in ("build", "check"):
+        if args.command == "build":
+            build()
         problems = check()
         print("\n".join(problems) or "check: PASS")
         return 1 if problems else 0
-    if args.command == "check":
-        problems = check()
-        print("\n".join(problems) or "check: PASS")
-        return 1 if problems else 0
-    report = shoot()
-    print(json.dumps({key: report[key] for key in ("checks", "cards", "pass", "hero_mp4_s", "first_frame_s", "options",
-                                                   "requests")}, indent=1))
+    if args.command == "parity":
+        report = parity()
+        print(json.dumps({key: report[key] for key in ("checks", "played", "shipped", "failures", "errors", "requests", "pass")},
+                         indent=1))
+        return 0 if report["pass"] else 1
+    report = shoot(args.media)
+    print(json.dumps({key: report.get(key) for key in ("checks", "cards", "pass", "hero_mp4_s", "first_run_s", "default",
+                                                       "failing", "errors")}, indent=1))
     return 0 if report["pass"] else 1
 
 

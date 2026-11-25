@@ -15,6 +15,7 @@ def test_the_page_loads_the_headliner_first() -> None:
     assert (SITE / "vendor" / "bb-headliner.js").exists()
     assert '<script type="module" src="vendor/bb-headliner.js">' in html
     assert html.index("<bb-headliner") < html.index('class="stage"'), "the headliner sits above the playback"
+    assert html.index("<bb-headliner") < html.index("<bb-evidence"), "the headliner sits above the run explainer"
 
 
 def test_state_json_is_the_ledgers_best() -> None:

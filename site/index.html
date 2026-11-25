@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Trajectory Tracking Agent</title>
-<meta name="description" content="An agent that makes robots track a given trajectory more accurately. Saved runs play back, scored by the ruler when they ran; click a score to see how it is computed.">
+<meta name="description" content="An agent that makes robots track a given trajectory more accurately. Saved runs play back, scored by the ruler when they ran; click a metric to see which samples it counted and where it failed.">
 <link rel="stylesheet" href="assets/style.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 24 C 10 6, 20 26, 28 8' fill='none' stroke='%232c64d1' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='28' cy='8' r='3' fill='%232c64d1'/%3E%3C/svg%3E">
 </head>
@@ -15,8 +15,7 @@
     <nav>
       <a href="#progress">Progress</a>
       <a href="#run">Run</a>
-      <a href="#scored">How it's scored</a>
-      <a href="#joints">Joints</a>
+      <a href="#joints">Joint errors</a>
       <a href="#blackbox">The black box</a>
       <a href="#population">Population</a>
       <a href="#references">References</a>
@@ -39,17 +38,11 @@
         links='{"solution":"https://github.com/zacharyyamaoka/trajectory_tracking_agent/tree/main/solutions/{id}"}'></bb-headliner>
     </div>
 
-    <div class="stage">
-      <div class="viewer" id="viewer">
-        <div class="overlay-note" id="overlay-note"></div>
-        <div class="boot" id="boot"><div class="spinner"></div><div id="boot-text">Loading the saved runs…</div></div>
-        <div class="legend" id="legend">
-          <span><i style="background: var(--accent)"></i>measured arm</span>
-          <span><i style="background: var(--target)"></i>target (ghost)</span>
-          <span><i style="background: repeating-linear-gradient(90deg, var(--target) 0 4px, transparent 4px 7px)"></i>target tool path</span>
-        </div>
-      </div>
-      <div class="side">
+    <!-- WHY bb-evidence (Zach, 2026-11-24: "it should use the newer 3D explanation things we designed, they are in the
+         storybook"): the viewer's metric explainer, Lens <-> Recorder over one saved run; it replaced this page's own 3D
+         stage, its score cards and explanations, and the joint position and torque plots. The pickers choose the run. -->
+    <div class="stage" id="scored">
+      <div class="pickers">
         <div class="field">
           <label for="solution">Solution</label>
           <select id="solution"></select>
@@ -58,37 +51,24 @@
           <label for="task">Dev task <span id="task-count"></span></label>
           <select id="task"></select>
         </div>
-        <div class="transport">
-          <button id="play" aria-label="Play or pause" disabled>▶</button>
-          <input type="range" id="scrub" min="0" max="1" step="0.001" value="0" aria-label="Time" disabled>
-          <span class="time" id="time">0.00 s</span>
-        </div>
-        <div class="status" id="status">Loading…</div>
-        <div class="ran" id="ran"></div>
+        <p class="hint">Click a metric to see which samples it counted and where it failed; <b>Recorder</b> lays every
+          metric on one timeline, and opening a lane shows its joints.</p>
       </div>
-    </div>
-  </section>
-
-  <section class="block" id="scored">
-    <h2>How it's scored</h2>
-    <p class="lede" id="scored-lede">The run above, scored by the ruler when <code>tta evaluate</code> ran it. Click a
-      score to see how it was computed: the 3D view and the plot switch to what that number reads.</p>
-    <div class="cards" id="cards"></div>
-    <div class="explain" id="explain">
-      <div class="how"><h3 id="explain-title">Loading the saved run…</h3><div id="explain-how"></div></div>
-      <div class="plot" id="explain-plot"></div>
+      <div class="evidence-wrap">
+        <div class="boot" id="boot"><div class="spinner"></div><div id="boot-text">Loading the saved runs…</div></div>
+        <bb-evidence id="evidence" settings='{"picker": false}' hidden></bb-evidence>
+      </div>
+      <p class="ran" id="ran"></p>
     </div>
   </section>
 
   <section class="block" id="joints">
-    <h2>Joints</h2>
-    <p class="lede">The six joints of the same run, target against measured, at the record's 100 Hz samples. Click a plot
-      to move the arm there.</p>
-    <div class="tabs" role="tablist" id="joint-tabs">
-      <button role="tab" aria-selected="true" data-view="position">Position</button>
-      <button role="tab" aria-selected="false" data-view="error">Tracking error</button>
-      <button role="tab" aria-selected="false" data-view="torque">Torque vs cap</button>
-    </div>
+    <h2>Joint errors</h2>
+    <p class="lede">Each joint's tracking error in the run above: measured − target joint angle at the record's 100 Hz
+      samples, the moving samples in colour and the rests in grey. The explainer above draws the joints' positions
+      (open a tracking lane in Recorder), their torque and speed as a % of each cap, and the worst joint's error at each
+      sample; each joint's own error is the one view it does not draw, so it stays here. Click a plot to move the
+      cursor there.</p>
     <div class="joints" id="joint-plots"></div>
   </section>
 
@@ -133,6 +113,7 @@
         <li><a href="https://github.com/zacharyyamaoka/robot_msgs">robot_msgs</a>: the vocabulary</li>
         <li><a href="https://github.com/zacharyyamaoka/robot_controllers">robot_controllers</a>: plants, boards, controllers</li>
         <li><a href="https://github.com/google-deepmind/mujoco">MuJoCo</a>: the simulator the runs were made in</li>
+        <li>The blackbox_agent viewer's <code>bb-headliner</code> and <code>bb-evidence</code>: the headline chart and the metric explainer</li>
         <li><a href="https://threejs.org">three.js</a>: the 3D view</li>
         <li><a href="https://github.com/google-deepmind/mujoco_menagerie">MuJoCo Menagerie</a> UR5e (BSD-3, ROS-Industrial)</li>
       </ul>
@@ -142,13 +123,14 @@
       <p style="margin:0">A static page that plays back saved runs. <code>tta evaluate</code> saves a record of every run
         it scores; <a href="https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/main/tools/build_site.py"><code>tools/build_site.py</code></a>
         exports the shipped ones (<a href="https://github.com/zacharyyamaoka/trajectory_tracking_agent/blob/main/site/README.md">which, and why</a>)
-        with the arm's poses computed natively by the deployment's own forward kinematics. The page draws them and
-        computes no score.</p>
+        as bb-run/1 records, with the arm's poses computed natively by the deployment's own forward kinematics. The
+        page draws them and computes no score.</p>
     </div>
   </div>
 </footer>
 
 <script type="module" src="vendor/bb-headliner.js"></script>
+<script type="module" src="vendor/bb-evidence.js"></script>
 <script type="module" src="assets/app.js"></script>
 </body>
 </html>

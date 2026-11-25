@@ -3,16 +3,15 @@ numbers. These read the committed files (no browser); `tools/build_site.py shoot
 
 Replaced 2026-11-24 when the page moved from a live in-browser runtime (Pyodide + MuJoCo WASM) to playing back saved
 runs: the wheel / manifest / mirror / shim checks became `test_no_live_runtime_is_shipped_or_loaded`, and the size
-limit went from 40 MB to 15 MB.
+limit went from 40 MB to 15 MB. Later that day (lane EV) the runs became bb-run/1 JSON records played by the viewer's
+<bb-evidence>, and the 15 MB limit is measured as served (gzip, as GitHub Pages sends text; build_site.served_bytes).
 """
 
 from __future__ import annotations
 
-import gzip
 import importlib.util
 import json
 import re
-import struct
 from pathlib import Path
 
 import pytest
@@ -43,22 +42,12 @@ def _site_text_files() -> list[Path]:
     return [p for p in SITE.rglob("*") if p.is_file() and p.suffix in TEXT_SUFFIXES and _ours(p)]
 
 
-def _playback_headers() -> list[tuple[Path, str]]:
-    """The JSON header of every playback file (they are gzip, so a plain text scan would not see inside them)."""
-    out = []
-    for path in sorted((SITE / "data" / "playback").rglob("*.bin.gz")):
-        blob = gzip.decompress(path.read_bytes())
-        length = struct.unpack("<I", blob[8:12])[0]
-        out.append((path, blob[12:12 + length].decode()))
-    return out
-
-
 def test_no_private_paths_or_personal_data_in_site():
     """The page is public: no home directories, private repos, vault paths or e-mail addresses anywhere in site/,
-    including inside the playback files' headers (a ruler note can quote an exception message)."""
+    the run records included (a ruler note can quote an exception message; a record names its sources)."""
     forbidden = re.compile(r"/home/|bam_ws|zach_brain|\.claude|[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}")
     allowed = re.compile(r"@highlightjs/cdn-assets@|three@|noreply@anthropic\.com")
-    sources = [(p, p.read_text(errors="replace")) for p in _site_text_files()] + _playback_headers()
+    sources = [(p, p.read_text(errors="replace")) for p in _site_text_files()]
     hits = []
     for path, text in sources:
         for number, line in enumerate(text.splitlines(), start=1):
@@ -95,8 +84,11 @@ def test_no_live_runtime_is_shipped_or_loaded():
     assert not hits, hits
     scripts = re.findall(r"<script[^>]*src=[\"']([^\"']+)", (SITE / "index.html").read_text())
     # WHY the headliner is allowed (2026-11-24): Zach picked the Ticker v1 as the page's headline; it is a static chart
-    # module (uPlot) reading data/state.json, not a runtime. Anything else, or any Pyodide / MuJoCo load, still fails.
-    assert scripts == ["vendor/bb-headliner.js", "assets/app.js"], scripts
+    # module (uPlot) reading data/state.json, not a runtime. WHY bb-evidence (2026-11-24, Zach: "it should use the newer
+    # 3D explanation things we designed"): the viewer's metric explainer, playing saved bb-run/1 records with three.js;
+    # it simulates and scores nothing. Anything else, or any Pyodide / MuJoCo load, still fails.
+    assert scripts == ["vendor/bb-headliner.js", "vendor/bb-evidence.js", "assets/app.js"], scripts
+    assert not (SITE / "data" / "playback").exists(), "site/data/playback is the retired binary playback"
 
 
 def test_leaderboard_numbers_are_the_scorecards():
@@ -114,11 +106,39 @@ def test_leaderboard_numbers_are_the_scorecards():
         assert row["admissible"] == card["admissible"]
         assert row["gate_pass_rate"] == card["gate_pass_rate"]
     best = page["leaderboard"]["best"]
-    index = json.loads((SITE / "data" / "playback" / "index.json").read_text())
-    assert best == index["rule"]["full"]["best"], "the population's best and the playback's best must agree"
+    index = json.loads((SITE / "data" / "runs" / "index.json").read_text())
+    assert best == index["rule"]["full"]["best"], "the population's best and the saved runs' best must agree"
 
 
 def test_site_is_under_the_size_limit():
-    total = sum(p.stat().st_size for p in SITE.rglob("*") if p.is_file())
-    assert total <= SIZE_LIMIT_BYTES, f"site/ is {total / 1e6:.2f} MB"
-    assert _build_site().SIZE_LIMIT_BYTES == SIZE_LIMIT_BYTES
+    """All of site/ as served: text gzipped (GitHub Pages sends it so; git stores it so), media as they are."""
+    bs = _build_site()
+    total = bs.site_bytes()
+    assert total <= SIZE_LIMIT_BYTES, f"site/ is {total / 1e6:.2f} MB as served"
+    assert bs.SIZE_LIMIT_BYTES == SIZE_LIMIT_BYTES
+
+
+def test_the_served_size_is_measured_not_assumed(tmp_path):
+    """served_bytes gzips text and counts media raw: a file of repeated text weighs far less than its size, and an
+    incompressible one weighs its size."""
+    import os
+
+    bs = _build_site()
+    text = tmp_path / "a.json"
+    text.write_text("[" + ",".join(["0.12345"] * 20000) + "]")
+    noise = tmp_path / "b.json"
+    noise.write_bytes(os.urandom(50000))
+    media = tmp_path / "c.mp4"
+    media.write_bytes(b"\0" * 50000)
+    assert bs.served_bytes(text) < text.stat().st_size / 20
+    assert bs.served_bytes(noise) >= noise.stat().st_size
+    assert bs.served_bytes(media) == media.stat().st_size
+
+
+def test_the_vendored_explainer_is_the_viewers_build():
+    """vendor/bb-evidence.js is the viewer's dist build byte for byte under one provenance line (never edited here)."""
+    vendored = (SITE / "vendor" / "bb-evidence.js").read_text()
+    first, _, rest = vendored.partition("\n")
+    assert re.match(r"/\* bb-evidence: vendored from the blackbox_agent viewer \(viewer/dist/bb-evidence\.js\) @ [0-9a-f]{7}", first)
+    assert rest.startswith("/* bb-evidence: standalone build of blackbox_agent/viewer/src/components/bb-evidence.js")
+    assert "customElements.define" in rest or "register(BBEvidence)" in rest
