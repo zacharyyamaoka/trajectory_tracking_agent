@@ -72,7 +72,14 @@ GEN0_TAG = "gen-0"
 MAGIC = b"TTAPLAY1"
 PLAYBACK_SCHEMA = "tta.playback/1"
 INDEX_SCHEMA = "tta.playback_index/1"
-SIZE_LIMIT_BYTES = 15 * 1024 * 1024  # all of site/, as served (see served_bytes)
+# WHY GitHub's own limits, not a picked budget (Zach 2026-11-24: a cap is his ask or a cited limit): a visitor loads one
+# page and the run it picks, never the whole site, so the only hard ceilings are GitHub's. "Published GitHub Pages
+# sites may be no larger than 1 GB" (docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages
+# #usage-limits); "GitHub blocks files larger than 100 MiB" (docs.github.com/en/repositories/working-with-files/
+# managing-large-files/about-large-files-on-github). The 15 MiB budget it replaces dated from the Pyodide page, which
+# downloaded the whole runtime on load.
+SIZE_LIMIT_BYTES = 1_000_000_000  # all of site/, on disk (Pages counts the published files)
+FILE_LIMIT_BYTES = 100 * 1024 * 1024  # any one file
 # WHY 1e-3 mm: the record stores positions rounded to 0.1 um (evaluate._write_record), so the ruler's function re-run
 # on the record's arrays reproduces the scored number only to ~1e-4 mm; 1e-3 mm is far below the 3 digits a card shows
 CHECK_TOLERANCE_MM = 1e-3
@@ -986,9 +993,12 @@ def build() -> dict[str, Any]:
                "records_served": sum(served_bytes(path) for path in records), "site_before": before, "site_after": after,
                "check_worst_mm": index["check_worst_mm"], "best": index["rule"]["full"]}
     print(json.dumps(summary, indent=1))
-    if after["served"] > SIZE_LIMIT_BYTES:
-        raise SystemExit(f"site/ is {after['served'] / 1e6:.2f} MB as served, over the {SIZE_LIMIT_BYTES / 2**20:.0f} MiB "
-                         "limit: ship fewer tasks")
+    on_disk = site_bytes(served=False)
+    if on_disk > SIZE_LIMIT_BYTES:
+        raise SystemExit(f"site/ is {on_disk / 1e6:.0f} MB, over GitHub Pages' 1 GB limit: ship fewer runs")
+    big = [p for p in SITE.rglob("*") if p.is_file() and p.stat().st_size > FILE_LIMIT_BYTES]
+    if big:
+        raise SystemExit(f"over GitHub's 100 MiB per-file limit: {[str(p.relative_to(SITE)) for p in big]}")
     return summary
 
 

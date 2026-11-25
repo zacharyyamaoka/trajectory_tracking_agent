@@ -19,7 +19,7 @@ import pytest
 REPO = Path(__file__).resolve().parent.parent
 SITE = REPO / "site"
 TEXT_SUFFIXES = {".html", ".js", ".css", ".json", ".py", ".svg", ".md", ".xml"}  # .xml: site/data/junit.xml, the test run the Spec page reads
-SIZE_LIMIT_BYTES = 15 * 1024 * 1024  # all of site/, committed
+SIZE_LIMIT_BYTES = 1_000_000_000  # GitHub Pages' published-site limit (cited in tools/build_site.py)
 
 pytestmark = pytest.mark.skipif(not (SITE / "index.html").exists(), reason="site/ not built")
 
@@ -113,9 +113,11 @@ def test_leaderboard_numbers_are_the_scorecards():
 def test_site_is_under_the_size_limit():
     """All of site/ as served: text gzipped (GitHub Pages sends it so; git stores it so), media as they are."""
     bs = _build_site()
-    total = bs.site_bytes()
-    assert total <= SIZE_LIMIT_BYTES, f"site/ is {total / 1e6:.2f} MB as served"
+    total = bs.site_bytes(served=False)
+    assert total <= SIZE_LIMIT_BYTES, f"site/ is {total / 1e6:.2f} MB, over GitHub Pages' 1 GB"
     assert bs.SIZE_LIMIT_BYTES == SIZE_LIMIT_BYTES
+    big = [p for p in SITE.rglob("*") if p.is_file() and p.stat().st_size > bs.FILE_LIMIT_BYTES]
+    assert not big, f"over GitHub's 100 MiB per-file limit: {big}"
 
 
 def test_the_served_size_is_measured_not_assumed(tmp_path):
