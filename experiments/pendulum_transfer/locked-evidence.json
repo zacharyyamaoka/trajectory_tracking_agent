@@ -1,0 +1,131 @@
+{
+  "dataset_manifest_sha256": "461445be5e01ae95ff0e1623059bc21d4f2ed446581e7557470e6bca856ec85f",
+  "split": "dev",
+  "rung": 1.0,
+  "host_rate_hz": 100.0,
+  "bus_voltage_v": 24.0,
+  "rack_revision": "05573c957f9c7fb073bedf9a376c30ea38715305",
+  "controller_revision": "04d0d58804682237ff606cf85f8958e73a2086df",
+  "g2_controller": {
+    "name": "can11_identified_feedforward",
+    "model_sha256": "e2f4c736eef6579e72629306c44e0c7324b8599ed324288bac64132e41c2cab2",
+    "gain_scale": 4.0,
+    "damping_scale": 2.0,
+    "source_sha256": "7bd710cffc0b8e8937b7108e658b786c51657c7cacaf155c035b66b7a195e879"
+  },
+  "mujoco": "3.11.0",
+  "model_version": "can11-r18a",
+  "model_sha256": "a67a88b53838093c0176374feb64ca5026738d04c0a1630ffc12a629d93f8192",
+  "model_delay_s": 0.0,
+  "model_physics_step_s": 0.0002,
+  "model_frame": {
+    "rest_rad": 0.26,
+    "source": "facts rest_rad",
+    "gravity_bottom_rad": 0.257822
+  },
+  "lugre_friction": {
+    "stiffness_nm_rad": 3749.0649999999996,
+    "damping_nm_s_rad": 2.04586,
+    "static_nm": 0.65,
+    "coulomb_nm": 1.12,
+    "stribeck_speed_rad_s": 3.43318
+  },
+  "adopted_lugre_encoder_scores": {
+    "historical_nominal": {
+      "runs": 40,
+      "passes_both": 5,
+      "worst_stop_mm": {
+        "mm": 1.7133305599314346,
+        "task": "workspace-dev-012",
+        "recording": null
+      },
+      "full_rms_mm": {
+        "mm": 1.6590355726240424,
+        "task": "workspace-dev-027",
+        "recording": null
+      }
+    },
+    "historical_locked_gains": {
+      "runs": 40,
+      "passes_both": 40,
+      "worst_stop_mm": {
+        "mm": 0.3594607666395641,
+        "task": "workspace-dev-015",
+        "recording": null
+      },
+      "full_rms_mm": {
+        "mm": 0.4690760937787078,
+        "task": "workspace-dev-035",
+        "recording": null
+      }
+    },
+    "identified_nominal": {
+      "runs": 40,
+      "passes_both": 0,
+      "worst_stop_mm": {
+        "mm": 3.0658211080579,
+        "task": "workspace-dev-022",
+        "recording": null
+      },
+      "full_rms_mm": {
+        "mm": 3.1314521491372505,
+        "task": "workspace-dev-023",
+        "recording": null
+      }
+    },
+    "identified_locked": {
+      "runs": 40,
+      "passes_both": 31,
+      "worst_stop_mm": {
+        "mm": 0.6122360002614701,
+        "task": "workspace-dev-022",
+        "recording": null
+      },
+      "full_rms_mm": {
+        "mm": 0.9206814416656366,
+        "task": "workspace-dev-014",
+        "recording": null
+      }
+    }
+  },
+  "synthetic_gap": {
+    "assumptions": {
+      "synthetic": true,
+      "total_gap_rad": 0.002,
+      "rotor_inertia_fraction": 0.022,
+      "output_friction_fraction": 1.0,
+      "mesh_stiffness_nm_rad": "stock rack wrapper default",
+      "physics_step_s": 0.0002
+    },
+    "twin_encoder": {
+      "runs": 40,
+      "passes_both": 29,
+      "worst_stop_mm": {
+        "mm": 0.7109735634401001,
+        "task": "workspace-dev-024",
+        "recording": null
+      },
+      "full_rms_mm": {
+        "mm": 0.9245141285345576,
+        "task": "workspace-dev-014",
+        "recording": null
+      }
+    },
+    "twin_load": {
+      "runs": 40,
+      "passes_both": 27,
+      "worst_stop_mm": {
+        "mm": 0.7951710240434058,
+        "task": "workspace-dev-016",
+        "recording": null
+      },
+      "full_rms_mm": {
+        "mm": 0.9796602132112059,
+        "task": "workspace-dev-016",
+        "recording": null
+      }
+    },
+    "max_encoder_to_load_mm": 0.3467102322098712,
+    "max_encoder_to_load_task": "workspace-dev-023"
+  }
+}

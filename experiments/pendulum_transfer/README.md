@@ -1,6 +1,6 @@
 # CAN 11 transfer on the adopted rack twin
 
-This is a development-only transfer check for the [simulation goal](../../goals/G2-bam-fb-and-pendulum-simulation.md). The [qualified pendulum corpus](../pendulum_workspace/README.md) used the compact rigid plant. The adopted rack model `can11-r18a` includes LuGre friction, rotor-periodic torque ripple, limiting and command delay. Its resolved gear backlash is absent. That leaves load-side accuracy unmeasured.
+This is a development-only transfer check for the [simulation goal](../../goals/G2-bam-fb-and-pendulum-simulation.md). The [qualified pendulum corpus](../pendulum_workspace/README.md) used the compact rigid plant. The adopted rack model `can11-r18a` includes LuGre friction, rotor-periodic torque ripple and drive limits. Its adopted parameters do not contain a measured transmission gap. That leaves physical load-side accuracy unmeasured.
 
 ## Prediction before replay
 
@@ -24,16 +24,41 @@ Replay the [locked identified controller](../pendulum_workspace/controller-lock.
 
 For the separate synthetic stress, freeze those same commands before revealing a transmission gap to the plant. Use the Sim2Real oracle's synthetic CAN 11 total gap of 0.002 rad and its documented rotor inertia share of 0.022, the rack wrapper's default stiff contact, and the adopted LuGre law acting entirely on the load. Stock LuGre supports one side at a time. The synthetic truth belongs only to the plant and scorer. Expect encoder-to-load tool-point disagreement to exceed 0.1 mm on at least one of the 40 tapes. The gap and LuGre placement in this variant are stress-test assumptions.
 
+## Locked controller transfer results
+
+| Controller and CAN 11 simulation estimate | Runs meeting both targets | Worst stop (mm) | Worst full-trajectory RMS (mm) |
+| --- | ---: | ---: | ---: |
+| Historical `ff_model`, 1× stiffness and 1× damping, adopted twin encoder | 5/40 | 1.7133 | 1.6590 |
+| Historical `ff_model`, 4× stiffness and 2× damping, adopted twin encoder | 40/40 | 0.3595 | 0.4691 |
+| G2 identified feedforward, 1× stiffness and 1× damping, adopted twin encoder | 0/40 | 3.0658 | 3.1315 |
+| G2 locked controller, 4× stiffness and 2× damping, adopted twin encoder | 31/40 | 0.6122 | 0.9207 |
+| G2 locked controller, synthetic gap twin encoder | 29/40 | 0.7110 | 0.9245 |
+| G2 locked controller, synthetic gap twin load | 27/40 | 0.7952 | 0.9797 |
+
+The historical feedforward at the higher gains was the only configuration to meet both targets on all 40 development paths. Those gains were tested in simulation. The locked G2 controller met the RMS target on the adopted twin and missed the stop target on nine paths. With identical per-task command hashes in the synthetic gap case, the largest instantaneous encoder-to-load difference was 0.3467 mm on `workspace-dev-023`. This test provides a synthetic separation check. Physical load-side tracking remains unverified. [Locked transfer score evidence](locked-evidence.json)
+
 ## Reproduce the archived comparison
 
-The runner uses the [archived rack code](https://github.com/zacharyyamaoka/bam_ws/tree/05573c957f9c7fb073bedf9a376c30ea38715305/src/dev/bam_rack_twin) through the rack Python environment with MuJoCo 3.11.0. Provide the workspace paths through `BAM_WS`, `ARM_MOTION_BENCH`, `ROBOT_MSGS`, and `ROBOT_TRAJECTORIES`. Run from this repository.
+The runner uses rack source revision `05573c957f9c7fb073bedf9a376c30ea38715305` through the rack Python environment with MuJoCo 3.11.0. Set `RACK_WORKTREE`, `ARM_MOTION_BENCH`, `ROBOT_MSGS`, and `ROBOT_TRAJECTORIES` to local checkouts. Run from this repository.
 
 ```bash
 mkdir -p outputs/pendulum-transfer/source-05573c957
-git -C "$BAM_WS" archive --format=tar 05573c957f9c7fb073bedf9a376c30ea38715305 src/dev/bam_rack_twin | tar -xf - -C outputs/pendulum-transfer/source-05573c957
-PYTHONPATH="$PWD/outputs/pendulum-transfer/source-05573c957/src/dev/bam_rack_twin:$ARM_MOTION_BENCH/src:$ROBOT_MSGS/src:$ROBOT_TRAJECTORIES/src:$PWD/src" OPENBLAS_NUM_THREADS=1 "$BAM_WS/src/dev/bam_rack_twin/.venv/bin/python" experiments/pendulum_transfer/replay.py "$ARM_MOTION_BENCH/datasets/pendulum/workspace/v2" "$ARM_MOTION_BENCH/outputs/runs_real/pendulum/ff_model/workspace-v2/dev" outputs/pendulum-transfer/r18a.json
+git -C "$RACK_WORKTREE" archive --format=tar 05573c957f9c7fb073bedf9a376c30ea38715305 src/dev/bam_rack_twin | tar -xf - -C outputs/pendulum-transfer/source-05573c957
+PYTHONPATH="$PWD/outputs/pendulum-transfer/source-05573c957/src/dev/bam_rack_twin:$ARM_MOTION_BENCH/src:$ROBOT_MSGS/src:$ROBOT_TRAJECTORIES/src:$PWD/src" OPENBLAS_NUM_THREADS=1 "$RACK_WORKTREE/src/dev/bam_rack_twin/.venv/bin/python" experiments/pendulum_transfer/replay.py "$ARM_MOTION_BENCH/datasets/pendulum/workspace/v2" "$ARM_MOTION_BENCH/outputs/runs_real/pendulum/ff_model/workspace-v2/dev" outputs/pendulum-transfer/r18a.json
 ```
 
 The old real runs used 2× command multipliers on both board gains. The paired twin replay retains those multipliers. The nominal simulation uses 1× with the same identified `ff_model` feedforward. Model ripple is resolved from the existing recorded input when the archived runner has it. The retained tape-position match is within the stock command's microradian rounding. [Replay source](replay.py)
 
-The historical CAN 11 camera estimate of 4.49 arcmin had a 95% interval of approximately −19 to +34 arcmin and was refused by the rack. The gear-gap parameter reported by the [Sim2Real frozen-schedule oracle](https://github.com/zacharyyamaoka/sim2real/blob/7355462d9dd38e127c122c5cccbd546a67916ba1/src/sim2real/cards/frozen_reports/can11-frozen-schedule-2f32ddbc.json) was recovered against a sealed simulated 0.002 rad gap. The stock camera review aligns phase and angle zero against the same encoder run. Those sources establish the model capability and the physical observability gap. [Rack backlash acceptance test](https://github.com/zacharyyamaoka/bam_ws/blob/05573c957f9c7fb073bedf9a376c30ea38715305/src/dev/bam_rack_twin/tests/test_priors_gravity.py) · [Rack camera comparison method](https://github.com/zacharyyamaoka/bam_ws/blob/05573c957f9c7fb073bedf9a376c30ea38715305/src/dev/bam_rack_twin/docs/can11_envelope_challenge.py)
+## Reproduce the locked controller transfer
+
+Use the archive and environment from the archived comparison above, and point `ROBOT_CONTROLLERS` to the source at the original lock revision `04d0d58804682237ff606cf85f8958e73a2086df`.
+
+```bash
+PYTHONPATH="$PWD/outputs/pendulum-transfer/source-05573c957/src/dev/bam_rack_twin:$ARM_MOTION_BENCH/src:$ROBOT_MSGS/src:$ROBOT_TRAJECTORIES/src:$ROBOT_CONTROLLERS/src:$PWD/src:$PWD/experiments/pendulum_workspace" OPENBLAS_NUM_THREADS=1 "$RACK_WORKTREE/src/dev/bam_rack_twin/.venv/bin/python" experiments/pendulum_transfer/locked_controller.py "$ARM_MOTION_BENCH/datasets/pendulum/workspace/v2" outputs/pendulum-transfer/locked.json
+```
+
+The transfer keeps the rack runner's start pose, prelude duration, torque cap and 100 Hz scoring window. During the prelude the identified controller holds its start pose with its own gravity feedforward. The controller command grid in the scoring window stays unchanged. The original compact bench and the rack command extraction agreed on all five command fields within `1e-12` SI units at both gains for development tapes `000` and `026`. Every transferred tape also produced identical command arrays when host position, velocity and torque observations were varied. The rack replay keeps its board feedback and latch setting, which resolves to zero added delay in `r18a`.
+
+The bridge resolves model gravity in the rack's currently accepted frame, as the stock runner does. The 1× historical summary reproduces the stock runner on all 40 cases. On tape `027`, all 356 samples of time, encoder position, velocity, torque and mode matched exactly. [Transfer source](locked_controller.py)
+
+The historical CAN 11 camera estimate of 4.49 arcmin had a 95% interval of approximately −19 to +34 arcmin and was refused by the rack. The gear-gap parameter in the Sim2Real frozen-schedule oracle `can11-frozen-schedule-2f32ddbc.json` was recovered against a sealed simulated 0.002 rad gap in revision `7355462d9dd38e127c122c5cccbd546a67916ba1`. The rack camera review aligns phase and angle zero against the same encoder run. See `tests/test_priors_gravity.py` and `docs/can11_envelope_challenge.py` in the archived rack source.
