@@ -8,6 +8,19 @@ The performance targets are below 0.5 mm at the worst measured stop and below 1.
 
 The simulation fixture is the stock mounted BAM arm from arm_motion_bench. The simulated rig's contact geometry models the drawn belt and support rails, with the benchmark's reduced tip contact model. The 80 mm planning rims and receiving bins are curriculum records. This replay measures arm motion and does not establish payload delivery on the W3 rail-mounted workcell.
 
+## Baseline evidence
+
+[Baseline results](baseline.json) record matched full-speed measurements for all 48 dev routes per profile. Fresh `record` replays reproduced the archived stop and RMS errors, gate verdicts and detector decisions exactly. The strongest stock profile reached 0.374 mm at the worst stop and 1.543 mm worst full-trajectory RMS. Its 48 runs passed the existing gates. The [review](review.html) links to matched playback through the stock Trajectory Comparison viewer when served with its review assets.
+
+The [scorer](score.py) checks every native tape and FK cache against the frozen manifest, verifies the recorded reference arrays against their corresponding native tape, and reports the five run gates and dataset false-alarm gate independently. An interrupted recording supplies no complete-tape measurement. Legacy traces have encoder and closure FK only. Replays with the synchronous simulated site use its position with the encoder measurement retained separately.
+
+Set `BENCH` to the arm_motion_bench checkout and `TRAJ_COMPARE` to the stock Trajectory Comparison checkout. Use their existing environments and pass one controller directory to the scorer. Keep raw records under the output root.
+
+```sh
+PYTHONPATH=src "$BENCH/scripts/bam_fb_python.sh" experiments/bam_fb_conveyor/score.py "$BENCH/datasets/bam_fb/conveyor/v2" "$BENCH/outputs/runs/bam_fb/hold_friction_v2/conveyor-v2" outputs/bam-fb-conveyor/hold_friction_v2.json
+PYTHONPATH="$TRAJ_COMPARE/src:src" "$BENCH/scripts/bam_fb_python.sh" experiments/bam_fb_conveyor/report.py "$BENCH/datasets/bam_fb/conveyor/v2" "$BENCH/outputs/runs/bam_fb" outputs/bam-fb-conveyor/comparison.html outputs/bam-fb-conveyor/hold_friction_v2.json --tasks conveyor-dev-013 conveyor-dev-034
+```
+
 ## Development pilot
 
 Compare the shared public-model candidate with a 50% increase in moving feedback stiffness and the corresponding square-root increase in damping. Keep effective hold gains, feedforward, detector thresholds and every target tape fixed. The pilot uses four dev cases, `conveyor-dev-000`, `conveyor-dev-013`, `conveyor-dev-034` and `conveyor-dev-038`. They include both belt modes and the strongest stock profile's worst stop and RMS cases. Predict lower full-trajectory RMS on at least three cases. Treat a new collision, closure fault, saturation or false detector reaction as evidence against the gain variant. Holdout stays untouched until the shared BAM FB controller is locked.

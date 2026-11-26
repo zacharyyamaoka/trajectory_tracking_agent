@@ -1,0 +1,410 @@
+{
+  "schema": "tta.bam-fb-conveyor-baseline-summary/1",
+  "corpus": {
+    "manifest_sha256": "9e378456c94bde64ac2837c0dd3882fd141146d61e3d8809067f7b47d9553cff",
+    "station_sha256": "f40825e9981e776a5cecad5b8ba7a95ea5417b51c30a88aec90a9e5843f519f5",
+    "tapes_verified": 256,
+    "seeds": {
+      "dev": 1002,
+      "holdout": 2002
+    }
+  },
+  "rung": 1.0,
+  "repeat": 0,
+  "source": "encoder and closure FK",
+  "fresh_record": {
+    "matched_tasks": 48,
+    "numeric_parity": true,
+    "source": {
+      "git_sha": "d69cba25e88055be18115784e6d53df9b10227d2",
+      "dirty": false,
+      "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+      "bam_arm_fb_sim_dirty": false,
+      "arm_model_key": "869c7d938677"
+    }
+  },
+  "profiles": {
+    "hold_friction": {
+      "expected_tasks": 48,
+      "measured_tasks": 48,
+      "tasks_with_both_measurements": 48,
+      "both_goal_targets_passed": 0,
+      "all_trajectories_met_both_targets": false,
+      "worst_stop": {
+        "mm": 0.5058323017286325,
+        "task": "conveyor-dev-041"
+      },
+      "worst_full_rms": {
+        "mm": 3.708039762475692,
+        "task": "conveyor-dev-038"
+      },
+      "all_gates_passed": 47,
+      "failed_gates": {
+        "completed": 1,
+        "collisions": 1
+      },
+      "dataset_false_alarm_rate_pct": 0.0,
+      "dataset_false_alarm_gate_pass": true,
+      "detector_counted_runs": 47,
+      "sim_truth_assisted_runs": 48,
+      "belt_modes": {
+        "B0": {
+          "expected_tasks": 24,
+          "measured_tasks": 24,
+          "tasks_with_both_measurements": 24,
+          "both_goal_targets_passed": 0,
+          "all_trajectories_met_both_targets": false,
+          "worst_stop": {
+            "mm": 0.504749805096314,
+            "task": "conveyor-dev-013"
+          },
+          "worst_full_rms": {
+            "mm": 2.7141812251314974,
+            "task": "conveyor-dev-008"
+          },
+          "all_gates_passed": 24,
+          "failed_gates": {},
+          "dataset_false_alarm_rate_pct": 0.0,
+          "dataset_false_alarm_gate_pass": true,
+          "detector_counted_runs": 24,
+          "sim_truth_assisted_runs": 24
+        },
+        "B1": {
+          "expected_tasks": 24,
+          "measured_tasks": 24,
+          "tasks_with_both_measurements": 24,
+          "both_goal_targets_passed": 0,
+          "all_trajectories_met_both_targets": false,
+          "worst_stop": {
+            "mm": 0.5058323017286325,
+            "task": "conveyor-dev-041"
+          },
+          "worst_full_rms": {
+            "mm": 3.708039762475692,
+            "task": "conveyor-dev-038"
+          },
+          "all_gates_passed": 23,
+          "failed_gates": {
+            "completed": 1,
+            "collisions": 1
+          },
+          "dataset_false_alarm_rate_pct": 0.0,
+          "dataset_false_alarm_gate_pass": true,
+          "detector_counted_runs": 23,
+          "sim_truth_assisted_runs": 24
+        }
+      },
+      "score_sha256": "e17a8a5a66e9f028f5bbd1027cdccda29bb70f11a33ab63fdeeacbaa5000dbc0",
+      "sources": [
+        {
+          "arm_model_key": "869c7d938677",
+          "bam_arm_fb_sim_dirty": false,
+          "bam_ws_sha": "bb3ab4cec607eece53da80c7b16c5a04a483b81f",
+          "dirty": false,
+          "git_sha": "291dccf36dcb56e5361279c791e4f374067d9fec"
+        },
+        {
+          "arm_model_key": "869c7d938677",
+          "bam_arm_fb_sim_dirty": false,
+          "bam_ws_sha": "bb3ab4cec607eece53da80c7b16c5a04a483b81f",
+          "dirty": false,
+          "git_sha": "7343a65330430135f3a3cdfb209d1397b312c395"
+        },
+        {
+          "arm_model_key": "869c7d938677",
+          "bam_arm_fb_sim_dirty": false,
+          "bam_ws_sha": "bb3ab4cec607eece53da80c7b16c5a04a483b81f",
+          "dirty": false,
+          "git_sha": "974f1884ad6ae7b08d23ebd9af6eaa4edc374031"
+        },
+        {
+          "arm_model_key": "869c7d938677",
+          "bam_arm_fb_sim_dirty": false,
+          "bam_ws_sha": "bb3ab4cec607eece53da80c7b16c5a04a483b81f",
+          "dirty": false,
+          "git_sha": "a22f3d64ffc3ec73be2bb1e5a0e8c6da62be114d"
+        }
+      ]
+    },
+    "hold_friction_v2": {
+      "expected_tasks": 48,
+      "measured_tasks": 48,
+      "tasks_with_both_measurements": 48,
+      "both_goal_targets_passed": 0,
+      "all_trajectories_met_both_targets": false,
+      "worst_stop": {
+        "mm": 0.3740884250382679,
+        "task": "conveyor-dev-013"
+      },
+      "worst_full_rms": {
+        "mm": 1.5427752398776164,
+        "task": "conveyor-dev-034"
+      },
+      "all_gates_passed": 48,
+      "failed_gates": {},
+      "dataset_false_alarm_rate_pct": 0.0,
+      "dataset_false_alarm_gate_pass": true,
+      "detector_counted_runs": 48,
+      "sim_truth_assisted_runs": 48,
+      "belt_modes": {
+        "B0": {
+          "expected_tasks": 24,
+          "measured_tasks": 24,
+          "tasks_with_both_measurements": 24,
+          "both_goal_targets_passed": 0,
+          "all_trajectories_met_both_targets": false,
+          "worst_stop": {
+            "mm": 0.3740884250382679,
+            "task": "conveyor-dev-013"
+          },
+          "worst_full_rms": {
+            "mm": 1.3655192108031633,
+            "task": "conveyor-dev-022"
+          },
+          "all_gates_passed": 24,
+          "failed_gates": {},
+          "dataset_false_alarm_rate_pct": 0.0,
+          "dataset_false_alarm_gate_pass": true,
+          "detector_counted_runs": 24,
+          "sim_truth_assisted_runs": 24
+        },
+        "B1": {
+          "expected_tasks": 24,
+          "measured_tasks": 24,
+          "tasks_with_both_measurements": 24,
+          "both_goal_targets_passed": 0,
+          "all_trajectories_met_both_targets": false,
+          "worst_stop": {
+            "mm": 0.2603378845649134,
+            "task": "conveyor-dev-046"
+          },
+          "worst_full_rms": {
+            "mm": 1.5427752398776164,
+            "task": "conveyor-dev-034"
+          },
+          "all_gates_passed": 24,
+          "failed_gates": {},
+          "dataset_false_alarm_rate_pct": 0.0,
+          "dataset_false_alarm_gate_pass": true,
+          "detector_counted_runs": 24,
+          "sim_truth_assisted_runs": 24
+        }
+      },
+      "score_sha256": "245d11cabc781aeefef1367a4e216febe46ff7826afe07c9448e66c696d26d07",
+      "sources": [
+        {
+          "arm_model_key": "869c7d938677",
+          "bam_arm_fb_sim_dirty": false,
+          "bam_ws_sha": "bb3ab4cec607eece53da80c7b16c5a04a483b81f",
+          "dirty": false,
+          "git_sha": "1144d7fcda39cf75263162f7c5820ec3493e4c27"
+        },
+        {
+          "arm_model_key": "869c7d938677",
+          "bam_arm_fb_sim_dirty": false,
+          "bam_ws_sha": "bb3ab4cec607eece53da80c7b16c5a04a483b81f",
+          "dirty": false,
+          "git_sha": "9d212d2d35aeabce1341c77b4fcffba38feb717e"
+        },
+        {
+          "arm_model_key": "869c7d938677",
+          "bam_arm_fb_sim_dirty": false,
+          "bam_ws_sha": "bb3ab4cec607eece53da80c7b16c5a04a483b81f",
+          "dirty": false,
+          "git_sha": "f79a016752ca6010452be107e431ecf0548c030a"
+        },
+        {
+          "arm_model_key": "869c7d938677",
+          "bam_arm_fb_sim_dirty": false,
+          "bam_ws_sha": "bb3ab4cec607eece53da80c7b16c5a04a483b81f",
+          "dirty": true,
+          "git_sha": "81ff4bbd6578e6d22b122088d93379052cc6dde2"
+        }
+      ]
+    },
+    "jtc_baseline": {
+      "expected_tasks": 48,
+      "measured_tasks": 48,
+      "tasks_with_both_measurements": 48,
+      "both_goal_targets_passed": 0,
+      "all_trajectories_met_both_targets": false,
+      "worst_stop": {
+        "mm": 6.9693776316956075,
+        "task": "conveyor-dev-033"
+      },
+      "worst_full_rms": {
+        "mm": 8.719295169137608,
+        "task": "conveyor-dev-038"
+      },
+      "all_gates_passed": 0,
+      "failed_gates": {
+        "completed": 48,
+        "stop_error_max_mm": 48,
+        "limit_violations": 38
+      },
+      "dataset_false_alarm_rate_pct": 0.0,
+      "dataset_false_alarm_gate_pass": true,
+      "detector_counted_runs": 48,
+      "sim_truth_assisted_runs": 48,
+      "belt_modes": {
+        "B0": {
+          "expected_tasks": 24,
+          "measured_tasks": 24,
+          "tasks_with_both_measurements": 24,
+          "both_goal_targets_passed": 0,
+          "all_trajectories_met_both_targets": false,
+          "worst_stop": {
+            "mm": 6.968477183241293,
+            "task": "conveyor-dev-019"
+          },
+          "worst_full_rms": {
+            "mm": 7.595352896065908,
+            "task": "conveyor-dev-020"
+          },
+          "all_gates_passed": 0,
+          "failed_gates": {
+            "completed": 24,
+            "stop_error_max_mm": 24,
+            "limit_violations": 18
+          },
+          "dataset_false_alarm_rate_pct": 0.0,
+          "dataset_false_alarm_gate_pass": true,
+          "detector_counted_runs": 24,
+          "sim_truth_assisted_runs": 24
+        },
+        "B1": {
+          "expected_tasks": 24,
+          "measured_tasks": 24,
+          "tasks_with_both_measurements": 24,
+          "both_goal_targets_passed": 0,
+          "all_trajectories_met_both_targets": false,
+          "worst_stop": {
+            "mm": 6.9693776316956075,
+            "task": "conveyor-dev-033"
+          },
+          "worst_full_rms": {
+            "mm": 8.719295169137608,
+            "task": "conveyor-dev-038"
+          },
+          "all_gates_passed": 0,
+          "failed_gates": {
+            "completed": 24,
+            "stop_error_max_mm": 24,
+            "limit_violations": 20
+          },
+          "dataset_false_alarm_rate_pct": 0.0,
+          "dataset_false_alarm_gate_pass": true,
+          "detector_counted_runs": 24,
+          "sim_truth_assisted_runs": 24
+        }
+      },
+      "score_sha256": "075a317ab292dffc550e028d89c8e78fe5633c655b228b1b02728961ce38ce8a",
+      "sources": [
+        {
+          "arm_model_key": "869c7d938677",
+          "bam_arm_fb_sim_dirty": false,
+          "bam_ws_sha": "bb3ab4cec607eece53da80c7b16c5a04a483b81f",
+          "dirty": false,
+          "git_sha": "364712a0328e0bc3f3e68626db729e7f4e3bbfc2"
+        },
+        {
+          "arm_model_key": "869c7d938677",
+          "bam_arm_fb_sim_dirty": false,
+          "bam_ws_sha": "bb3ab4cec607eece53da80c7b16c5a04a483b81f",
+          "dirty": false,
+          "git_sha": "da3bdb66f95fce12be0ed21e28f37f7169fa33e0"
+        }
+      ]
+    },
+    "record": {
+      "expected_tasks": 48,
+      "measured_tasks": 48,
+      "tasks_with_both_measurements": 48,
+      "both_goal_targets_passed": 0,
+      "all_trajectories_met_both_targets": false,
+      "worst_stop": {
+        "mm": 623.8230169875334,
+        "task": "conveyor-dev-027"
+      },
+      "worst_full_rms": {
+        "mm": 356.23063460790405,
+        "task": "conveyor-dev-027"
+      },
+      "all_gates_passed": 0,
+      "failed_gates": {
+        "completed": 48,
+        "stop_error_max_mm": 48,
+        "limit_violations": 20,
+        "collisions": 29
+      },
+      "dataset_false_alarm_rate_pct": 0.0,
+      "dataset_false_alarm_gate_pass": true,
+      "detector_counted_runs": 19,
+      "sim_truth_assisted_runs": 48,
+      "belt_modes": {
+        "B0": {
+          "expected_tasks": 24,
+          "measured_tasks": 24,
+          "tasks_with_both_measurements": 24,
+          "both_goal_targets_passed": 0,
+          "all_trajectories_met_both_targets": false,
+          "worst_stop": {
+            "mm": 453.1261536413093,
+            "task": "conveyor-dev-008"
+          },
+          "worst_full_rms": {
+            "mm": 276.6722406529227,
+            "task": "conveyor-dev-008"
+          },
+          "all_gates_passed": 0,
+          "failed_gates": {
+            "completed": 24,
+            "stop_error_max_mm": 24,
+            "limit_violations": 17,
+            "collisions": 7
+          },
+          "dataset_false_alarm_rate_pct": 0.0,
+          "dataset_false_alarm_gate_pass": true,
+          "detector_counted_runs": 17,
+          "sim_truth_assisted_runs": 24
+        },
+        "B1": {
+          "expected_tasks": 24,
+          "measured_tasks": 24,
+          "tasks_with_both_measurements": 24,
+          "both_goal_targets_passed": 0,
+          "all_trajectories_met_both_targets": false,
+          "worst_stop": {
+            "mm": 623.8230169875334,
+            "task": "conveyor-dev-027"
+          },
+          "worst_full_rms": {
+            "mm": 356.23063460790405,
+            "task": "conveyor-dev-027"
+          },
+          "all_gates_passed": 0,
+          "failed_gates": {
+            "completed": 24,
+            "stop_error_max_mm": 24,
+            "collisions": 22,
+            "limit_violations": 3
+          },
+          "dataset_false_alarm_rate_pct": 0.0,
+          "dataset_false_alarm_gate_pass": true,
+          "detector_counted_runs": 2,
+          "sim_truth_assisted_runs": 24
+        }
+      },
+      "score_sha256": "47ba5e16fc279a11713db090b3045371a57ede95c4e37a2085bfed670d6e41db",
+      "sources": [
+        {
+          "arm_model_key": "869c7d938677",
+          "bam_arm_fb_sim_dirty": false,
+          "bam_ws_sha": "bb3ab4cec607eece53da80c7b16c5a04a483b81f",
+          "dirty": false,
+          "git_sha": "6eb57930c91a5ca3b312c2835f9ec857b28a5d64"
+        }
+      ]
+    }
+  }
+}
