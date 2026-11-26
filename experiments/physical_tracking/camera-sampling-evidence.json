@@ -1,0 +1,83 @@
+{
+  "schema": "tta.can11-camera-sampling/1",
+  "scope": "noiseless target-tape interpolation sensitivity",
+  "target_count": 52,
+  "rung": 1.0,
+  "phases": [
+    0.0,
+    0.25,
+    0.5,
+    0.75
+  ],
+  "dataset_manifest_sha256": "461445be5e01ae95ff0e1623059bc21d4f2ed446581e7557470e6bca856ec85f",
+  "rates": {
+    "15": {
+      "scenarios": 208,
+      "worst": {
+        "full_trajectory_rms_mm": {
+          "target": "workspace-holdout-003",
+          "frame_phase": 0.0,
+          "full_trajectory_rms_mm": 2.639742913700259,
+          "stop_error_max_mm": 0.0
+        },
+        "stop_error_max_mm": {
+          "target": "workspace-dev-010",
+          "frame_phase": 0.0,
+          "full_trajectory_rms_mm": 0.6975456665539268,
+          "stop_error_max_mm": 1.494683490070454e-13
+        }
+      }
+    },
+    "30": {
+      "scenarios": 208,
+      "worst": {
+        "full_trajectory_rms_mm": {
+          "target": "workspace-holdout-003",
+          "frame_phase": 0.25,
+          "full_trajectory_rms_mm": 0.6732706774871744,
+          "stop_error_max_mm": 0.0
+        },
+        "stop_error_max_mm": {
+          "target": "workspace-dev-010",
+          "frame_phase": 0.0,
+          "full_trajectory_rms_mm": 0.18952576258874945,
+          "stop_error_max_mm": 8.326672684688674e-14
+        }
+      }
+    },
+    "60": {
+      "scenarios": 208,
+      "worst": {
+        "full_trajectory_rms_mm": {
+          "target": "workspace-holdout-003",
+          "frame_phase": 0.5,
+          "full_trajectory_rms_mm": 0.18058776547870628,
+          "stop_error_max_mm": 0.0
+        },
+        "stop_error_max_mm": {
+          "target": "workspace-dev-023",
+          "frame_phase": 0.25,
+          "full_trajectory_rms_mm": 0.12622892799116261,
+          "stop_error_max_mm": 8.886119947416683e-14
+        }
+      }
+    },
+    "100": {
+      "scenarios": 208,
+      "worst": {
+        "full_trajectory_rms_mm": {
+          "target": "workspace-dev-016",
+          "frame_phase": 0.5,
+          "full_trajectory_rms_mm": 0.10886872051846735,
+          "stop_error_max_mm": 0.0
+        },
+        "stop_error_max_mm": {
+          "target": "workspace-dev-004",
+          "frame_phase": 0.75,
+          "full_trajectory_rms_mm": 0.06548089153754538,
+          "stop_error_max_mm": 5.551115123125783e-14
+        }
+      }
+    }
+  }
+}
