@@ -24,7 +24,7 @@ never delete it.
   - Goal: G2 · step 4
   - Effort: 120 min
   - By: 2026-11-26T02:30-07:00
-  - Expect: bam_fb_workspace_sim_worst_full_rms_mm −20 %
+  - The original prediction was a 20% reduction in BAM FB workspace RMS.
   - The two locked controllers met both targets on all 170 paths. [Combined evidence](goals/G2-simulation-evidence.json).
 - [x] Audit physical traces for system identification, matched targets, output-side sensing and acquisition coverage.
   - Goal: G3 · step 1
@@ -35,7 +35,7 @@ never delete it.
   - Goal: G3 · step 2
   - Effort: 120 min
   - By: 2026-11-26T08:00-07:00
-  - Expect: bam_fb_workspace_real_worst_full_rms_mm −20 %
+  - Compare the new model against the archived physical workspace RMS using the same tapes and clock.
 - [ ] Qualify each ready station on a slow pilot, then collect matched highest-rung runs with its operator.
   - Goal: G3 · step 3
   - Effort: 120 min

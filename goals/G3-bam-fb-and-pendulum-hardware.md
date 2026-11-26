@@ -17,3 +17,5 @@ On the physical BAM FB and shoulder pendulum, reach the same two performance tar
 Use archived runs to establish baselines and identify models where provenance permits. A shorter ladder, unmatched stimulus, motor-side-only estimate that cannot observe downstream backlash, or gap in physical acquisition leaves the corresponding target unmeasured. Register the real bench and playback plan with its operator. Keep active recovery state and any motion admission checks separate from these measured performance targets.
 
 The [archive audit](../experiments/physical_tracking/archive-evidence.json) records the historical encoder estimates and the coverage and clock gaps. It does not supply a goal measurement.
+
+The archived [CAN 11 plan preflight](../experiments/physical_tracking/pendulum-preflight.json) verifies the stock plan parser and limits checker with devices disabled. The [sampling study](../experiments/physical_tracking/camera-sampling-evidence.json) quantifies how the historical camera cadence affects RMS even with ideal positions and timestamps.

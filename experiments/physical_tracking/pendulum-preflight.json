@@ -1,0 +1,31 @@
+{
+  "schema": "tta.pendulum-device-free-preflight/1",
+  "runner_revision": "05573c957f9c7fb073bedf9a376c30ea38715305",
+  "scope": "The historical CAN 11 ff_model plans were parsed and the stock runner built every step with devices disabled. Timings are runner estimates for three repeats per split.",
+  "physical_acquisition": false,
+  "controller": "ff_model",
+  "recorded_camera_mode": "15 Hz MP4 preview",
+  "plans": [
+    {
+      "name": "amb_pendulum_dev_s0.1_ff_model_v2",
+      "sha256": "a8ad7fadc96a8bd62f18cccc187c3fb1c106d167760447c58266f81c31c69468",
+      "steps": 5,
+      "estimated_s": 812,
+      "stock_preflight_passed": true
+    },
+    {
+      "name": "amb_pendulum_dev_s1_ff_model_v2",
+      "sha256": "e738015bbdd1bf90f43fca79a4f0c8d503b1456a9d66cdc2c3d8ee8feb908555",
+      "steps": 5,
+      "estimated_s": 153,
+      "stock_preflight_passed": true
+    },
+    {
+      "name": "amb_pendulum_holdout_s1_ff_model_v2",
+      "sha256": "2f80c489399dc613429ee2736001a509134928457e2b7f069a8c67fb4b9668cf",
+      "steps": 5,
+      "estimated_s": 63,
+      "stock_preflight_passed": true
+    }
+  ]
+}
