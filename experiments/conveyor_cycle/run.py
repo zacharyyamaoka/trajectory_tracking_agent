@@ -8,6 +8,7 @@ import json
 import math
 import subprocess
 import time
+from dataclasses import replace
 from functools import partial
 from pathlib import Path
 
@@ -91,12 +92,23 @@ def scene_clearance(portal, times, joints):
     return violations, first
 
 
-def score(portal, dep, tape, log, elapsed_s, wall_limit_s):
+def score(portal, dep, tape, log, elapsed_s, wall_limit_s, physics=None):
     times = np.asarray(tape.t)
-    indices = np.rint(times * dep.board.rate_hz).astype(int)
+    indices = (np.rint(times * dep.board.rate_hz).astype(int) if physics is None
+               else np.arange(len(times)))
     if indices[-1] >= len(log.t) or not np.allclose(log.t[indices], times, rtol=0, atol=1e-9):
         raise ValueError("physics samples do not cover every frozen tape timestamp")
-    end = indices[-1] + 1
+    if physics is None:
+        end = indices[-1] + 1
+        clearance_hits, first_hit = scene_clearance(portal, log.t[:end], log.q[:end])
+        physics = {
+            "physics_samples": int(end),
+            "scene_clearance_violating_samples": clearance_hits,
+            "first_scene_violation": first_hit,
+            "saturation_share_pct": metrics.saturation_share_pct(log.tau[:end], dep.torque_cap_nm),
+            "limit_violations": metrics.limit_violations(log.q[:end], log.qd[:end], dep.position_min_rad,
+                                                         dep.position_max_rad, dep.velocity_max_rad_s),
+        }
     target_poses = portal.base_in_cell @ portal.fk_many(tape.positions)
     actual_poses = portal.base_in_cell @ portal.fk_many(log.q[indices])
     target_tcp = target_poses[:, :3, 3]
@@ -107,30 +119,30 @@ def score(portal, dep, tape, log, elapsed_s, wall_limit_s):
     settle = times >= times[-1] - SETTLE_WINDOW_S - 1e-9
     settle_max = 1000.0 * float(np.max(metrics.tool_errors_m(target_tcp[settle], actual_tcp[settle])))
     notes = [event for event in log.events if event["kind"] in {"abort", "diverged"}]
-    clearance_hits, first_hit = scene_clearance(portal, log.t[:end], log.q[:end])
     kpis = {
         "completed": not notes and elapsed_s <= wall_limit_s and settle_max <= SETTLE_BAND_MM,
         "stop_error_max_mm": metrics.stop_error_max_mm(times, target_tcp, actual_tcp, stops),
-        "saturation_share_pct": metrics.saturation_share_pct(log.tau[:end], dep.torque_cap_nm),
-        "limit_violations": metrics.limit_violations(log.q[:end], log.qd[:end], dep.position_min_rad,
-                                                      dep.position_max_rad, dep.velocity_max_rad_s),
+        "saturation_share_pct": physics["saturation_share_pct"],
+        "limit_violations": physics["limit_violations"],
     }
     # The stock floor gate refers to the old upright bench origin. Independently use the cell's distance oracle here.
     verdicts = gates.gate_verdicts({**kpis, "floor_clearance_violations": None})
     del verdicts["floor_clearance"]
-    verdicts["scene_clearance"] = clearance_hits == 0
+    verdicts["scene_clearance"] = physics["scene_clearance_violating_samples"] == 0
     rms = metrics.tool_track_rms_mm(target_tcp, actual_tcp, moving)
     result = {
         "tracking_rms_mm": rms, "kpis": kpis, "verdicts": verdicts, "settle_max_mm": settle_max,
-        "moving_samples": int(np.count_nonzero(moving)), "physics_samples": int(end),
+        "moving_samples": int(np.count_nonzero(moving)), "physics_samples": physics["physics_samples"],
+        "full_trajectory_rms_mm": metrics.tool_track_rms_mm(target_tcp, actual_tcp, np.ones(len(times), dtype=bool)),
         "max_error_mm": metrics.tool_track_max_mm(target_tcp, actual_tcp, moving),
-        "scene_clearance_violating_samples": clearance_hits, "first_scene_violation": first_hit,
+        "scene_clearance_violating_samples": physics["scene_clearance_violating_samples"],
+        "first_scene_violation": physics["first_scene_violation"],
         "events": notes, "watchdog_events": sum(event["kind"] == "watchdog" for event in log.events),
     }
     for name in ("stop_error_max_mm", "saturation_share_pct"):
         if not math.isfinite(kpis[name]):
             kpis[name] = None
-    for name in ("tracking_rms_mm", "settle_max_mm", "max_error_mm"):
+    for name in ("tracking_rms_mm", "full_trajectory_rms_mm", "settle_max_mm", "max_error_mm"):
         if not math.isfinite(result[name]):
             result[name] = None
     return result, {"t": times, "joint_names": np.asarray(tape.joint_names), "target_q": tape.positions,
@@ -139,7 +151,7 @@ def score(portal, dep, tape, log, elapsed_s, wall_limit_s):
                     "actual_torque": log.tau[indices], "moving": moving}
 
 
-def run_one(dataset, tape_row, controller, target):
+def run_one(dataset, tape_row, controller, target, *, controller_id=CONTROLLER, streaming_factory=None):
     tape = load_npz(dataset / tape_row["path"])
     if tuple(tape.joint_names) != JOINT_NAMES or len(tape.t) != tape_row["samples"]:
         raise ValueError("the tape differs from the frozen joint order or sample count")
@@ -147,14 +159,24 @@ def run_one(dataset, tape_row, controller, target):
         raise ValueError("the conveyor cycle must end at the starting joint pose")
     portal = station(mount="portal")
     dep = deployment()
+    # WHY keep gravity in the controller's base frame: upright and hanging mounts share the same canonical joint model.
+    gravity_in_base = portal.base_in_cell[:3, :3].T @ dep.gravity_m_s2
+    dep = replace(dep, name="ur5e_portal", title="UR5e conveyor portal", gravity_m_s2=tuple(gravity_in_base))
     fraction = tape_row["speed_fraction"]
     task = Task(f"conveyor-cycle-{round(fraction * 10):02}", "dev", "conveyor-cycle", 0, tape)
     started = time.monotonic()
     wall_limit = TIME_BOX_FACTOR * float(tape.t[-1])
-    spec = _SolutionSpec(CONTROLLER, controller, dep, started + wall_limit, wall_limit)
-    log = run_episode(spec, _rung(task, dep), seed=0,
-                      plant_factory=lambda: Ur5ePlant(board_config=dep.board, model_factory=partial(portal_model, portal)))
-    result, signals = score(portal, dep, tape, log, time.monotonic() - started, wall_limit)
+    spec = _SolutionSpec(controller_id, controller, dep, started + wall_limit, wall_limit)
+    model_factory = partial(portal_model, portal)
+    if streaming_factory is None:
+        plant = Ur5ePlant(board_config=dep.board, model_factory=model_factory)
+    else:
+        plant = streaming_factory(frozen_times=tape.t, portal=portal, dep=dep, specification=spec,
+                                  board_config=dep.board, model_factory=model_factory)
+    log = run_episode(spec, _rung(task, dep), seed=0, plant_factory=lambda: plant)
+    physics = None if streaming_factory is None else plant.physics_summary()
+    elapsed = time.monotonic() - started - (0.0 if streaming_factory is None else plant.probe_wall_s)
+    result, signals = score(portal, dep, tape, log, elapsed, wall_limit, physics)
     np.savez_compressed(target / f"{task.id}.npz", **signals)
     result.update(speed_fraction=fraction, duration_s=task.duration_s, source_tape_sha256=tape_row["sha256"],
                   recording=f"{task.id}.npz")
@@ -162,11 +184,12 @@ def run_one(dataset, tape_row, controller, target):
     return result
 
 
-def main():
+def main(replay=run_one):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("dataset", type=Path)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--fractions", nargs="+", type=float)
+    parser.add_argument("--controller", default=CONTROLLER, help="pre-registered controller solution id")
     args = parser.parse_args()
     dataset = args.dataset.resolve()
     manifest = frozen_manifest(dataset)
@@ -174,11 +197,11 @@ def main():
     if len(set(fractions)) != len(fractions) or not set(fractions) <= set(manifest["speeds"]):
         parser.error("choose unique fractions present in the dataset manifest")
     args.out.mkdir(parents=True, exist_ok=True)
-    controller = population.load_build(CONTROLLER)
+    controller = population.load_build(args.controller)
     result = {"schema": "tta.conveyor-cycle-baseline/1", "dataset_manifest_sha256": digest(dataset / "manifest.json"),
-              "controller": CONTROLLER, "controller_sha256": population.solution_sha256(CONTROLLER),
+              "controller": args.controller, "controller_sha256": population.solution_sha256(args.controller),
               "scene": manifest["scene"], "picks": manifest["accepted"], "requested_fractions": fractions,
-              "ruler_scope": "off-score simulated transfer with unchanged upright calibration and a portal scene clearance check",
+              "ruler_scope": "off-score transfer on the frozen portal fixture, with a 4 kHz scene clearance check",
               "mujoco": mujoco.__version__,
               "runner_commit": subprocess.check_output(["git", "-C", str(REPO), "rev-parse", "HEAD"], text=True).strip(),
               "runs": []}
@@ -186,7 +209,7 @@ def main():
     write_json(summary, result)
     rows = {row["speed_fraction"]: row for row in manifest["tapes"]}
     for fraction in fractions:
-        result["runs"].append(run_one(dataset, rows[fraction], controller, args.out))
+        result["runs"].append(replay(dataset, rows[fraction], controller, args.out, controller_id=args.controller))
         write_json(summary, result)
 
 
