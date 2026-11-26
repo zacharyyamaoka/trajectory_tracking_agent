@@ -1,0 +1,54 @@
+{
+  "schema": "tta.conveyor-cycle-baseline/1",
+  "dataset_manifest_sha256": "4095e1ec3fdf4079bd1c56996d80d3b5b77a93f1a916c7d2eea18a77cfe62411",
+  "controller": "p5s-damping185-mount-aware",
+  "controller_sha256": "238a5a2a55646b4620c2eba9c82bef5d4b70b631e5dfdcae9a496617ffb5ff24",
+  "scene": {
+    "collision_tolerance_m": 1e-06,
+    "geometry_source": "arm_motion_bench.robots.ur5e.mujoco_spec",
+    "id": "ur5e-portal-pep0032",
+    "minimum_clearance_m": 0.01,
+    "mount": "portal",
+    "moving_belt": false,
+    "payload": false,
+    "tool": "MuJoCo claw stand-in capsule"
+  },
+  "picks": 30,
+  "requested_fractions": [
+    0.9
+  ],
+  "ruler_scope": "off-score transfer on the frozen portal fixture, with a 4 kHz scene clearance check",
+  "mujoco": "4.0.1",
+  "runner_commit": "02170f50ac3d0d449294b9b3b365183eef0d3c13",
+  "runs": [
+    {
+      "tracking_rms_mm": 0.1311078752381526,
+      "kpis": {
+        "completed": true,
+        "stop_error_max_mm": 0.2497237283455261,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0
+      },
+      "verdicts": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "scene_clearance": true
+      },
+      "settle_max_mm": 0.11675350166179244,
+      "moving_samples": 19715,
+      "physics_samples": 871041,
+      "full_trajectory_rms_mm": 0.13065911554875087,
+      "max_error_mm": 0.45421696977619097,
+      "scene_clearance_violating_samples": 0,
+      "first_scene_violation": null,
+      "events": [],
+      "watchdog_events": 0,
+      "speed_fraction": 0.9,
+      "duration_s": 217.76,
+      "source_tape_sha256": "0372507662d9a1319c83caf4fc00cee4602cfebc0009dfdfbd184da759c15717",
+      "recording": "conveyor-cycle-09.npz"
+    }
+  ]
+}

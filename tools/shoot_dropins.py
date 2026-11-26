@@ -34,7 +34,9 @@ PAGES = (("models-datasets", "models-datasets/index.html"), ("comparison", "comp
          ("comparison-target", "comparison/index.html#/target/workspace-dev-016"),
          ("comparison-run", "comparison/runs/workspace-dev-016/report.html#tab=track"))
 LOOKS = (("light", 1440, 900), ("dark", 1440, 900), ("light", 390, 844), ("dark", 390, 844))
-HERO_SOLUTION = "p5s-pass3"
+# WHY read, not named: the solution the Comparison ships on every task moves with each new best (p5s-pass3 left it
+# for p5s-damping185-refit on 2026-11-25, and its cell then opened the landing player instead)
+HERO_SOLUTION = json.loads((SITE / "data" / "runs" / "index.json").read_text())["rule"]["full"]["best"]
 HERO_TASK = "workspace-dev-016"
 
 
@@ -67,9 +69,11 @@ def leaf_key(solution: str) -> str:
 
 
 def task_cell(page, solution: str, task: str):
-    """The pivot cell of one solution on one task (data-ui marks a cell with its column's id: '@' + its path, ' / ')."""
+    """The pivot cell of one solution on one task in ruler v1's dev column (data-ui marks a cell with its column's id: '@'
+    + its path, ' / '); the off-ruler speed columns hold the same task, so the column's start is named too."""
     short = task.replace("workspace-", "", 1)
-    return page.locator(f"data-views tr[data-row-key$='{leaf_key(solution)}']").first.locator(f'td[data-col$="/ {short}"]')
+    return (page.locator(f"data-views tr[data-row-key$='{leaf_key(solution)}']").first
+            .locator(f'td[data-col^="@ur5e_alone · dev / "][data-col$="/ {short}"]'))
 
 
 def dev_value(page, solution: str) -> str | None:
