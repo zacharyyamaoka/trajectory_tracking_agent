@@ -4,12 +4,24 @@
     "ur5e_worst_stop_error_mm": {
       "label": "Worst stop error across UR5e speeds",
       "unit": "mm",
-      "samples": []
+      "samples": [
+        {
+          "t": "2026-11-25T19:54:24-07:00",
+          "value": 0.26805228959907396,
+          "ref": "9db606800373629397d2c493b0d059c93580cdc9"
+        }
+      ]
     },
     "ur5e_worst_full_trajectory_rms_mm": {
       "label": "Worst full-trajectory RMS across UR5e speeds",
       "unit": "mm",
-      "samples": []
+      "samples": [
+        {
+          "t": "2026-11-25T19:54:24-07:00",
+          "value": 0.18776750023244287,
+          "ref": "9db606800373629397d2c493b0d059c93580cdc9"
+        }
+      ]
     }
   }
 }

@@ -14,4 +14,4 @@ Start with the 42 frozen upright workspace dev paths and the frozen 30-pick port
 
 Keep the frozen stop definition for each run. A stop is a target rest of at least 0.2 s, and its error is the target TCP versus the mean measured TCP over its last 0.1 s. RMS uses every sample from the first target instant through the last, including every hold. Missing runs, invalid samples, or an unmeasured stop leave the data incomplete. Publish the two maxima together against one replay revision after measuring the whole matrix. Report deployment gate results alongside the measurements.
 
-The frozen ruler continues to rank upright speed-1.0 trials by its moving-sample median. The new benchmarks belong in [goal measurements](metrics.json).
+The frozen ruler continues to rank upright speed-1.0 trials by its moving-sample median. See the [goal measurements](metrics.json), [verified sweep evidence](G1-ur5e-tracking-evidence.json), and [playback report](../reports/ur5e-accuracy/index.html).

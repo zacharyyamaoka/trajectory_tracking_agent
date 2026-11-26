@@ -5,8 +5,9 @@ never delete it.
 
 ## I'll try
 
-- [ ] Measure the worst stop and full-trajectory RMS across the matched UR5e workspace and conveyor runs, with one controller revision and all ten speeds in the report.
+- [x] Measure the worst stop and full-trajectory RMS across the matched UR5e workspace and conveyor runs, with one controller revision and all ten speeds in the report.
   - Goal: G1 · step 1
+  - The locked mount-aware controller measured 0.268052 mm worst stop and 0.187768 mm worst full-run RMS across 550 simulations. [Evidence](goals/G1-ur5e-tracking-evidence.json) and [playback](reports/ur5e-accuracy/index.html).
 
 - [x] ~~Host Coulomb feed-forward on the best gen-0 layout. Expect: tool RMS down where the joints reverse (real_kp2's lever on BAM FB, never tried on the UR5e here).~~ → done at plan time instead of the host (the plan knows the target velocity): `p5s-bus` (given Coulomb, once the lookahead stopped double-counting it) then `p5s-fric` / `p5s-fric2` (identified curves).
 - [x] ~~Per-joint lookahead calibrated on dev tasks only, not on robot_controllers' calibration sweep. Expect: lag down, RMS down a little.~~ → derived instead of fitted: bus command delay − (encoder delay + one board tick), `p5s-bus-enc`; the dev regression's qd coefficient is ~0 on every joint after it, so there is nothing left to calibrate.

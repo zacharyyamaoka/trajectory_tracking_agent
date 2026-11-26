@@ -1,0 +1,46 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UR5e tracking at every speed</title>
+<style>
+:root {color-scheme:light dark;--paper:#f7f6f2;--ink:#222b29;--edge:#cad6d0;--link:#09645b}
+@media(prefers-color-scheme:dark) {:root {--paper:#141b19;--ink:#e5f1ef;--edge:#41554e;--link:#9adbd2}}
+* {box-sizing:border-box} body {margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+main {margin:auto;max-width:1180px;padding:clamp(16px,5vw,68px)} h1 {font-size:clamp(2.2rem,5vw,4rem);line-height:1.05;margin:.35em 0}
+p {max-width:76ch} a {color:var(--link)} figure {margin:1.5em 0} video {display:block;width:100%;aspect-ratio:16/9;background:#202927;border-radius:8px}
+figcaption {padding-top:.5em} table {width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th,td {padding:.5em .65em;text-align:left;border-bottom:1px solid var(--edge)} th {font-size:.85em} .scroll {overflow:auto}
+iframe {width:100%;height:680px;border:1px solid var(--edge);border-radius:8px} section {margin-top:2em}
+</style><body><main>
+<header><h1>UR5e tracking at every speed</h1>
+<p>The locked controller <strong>met both targets across 550 simulated runs</strong>.
+The worst stop was <strong>0.268 mm</strong> against a 0.5 mm target at nominal 0.1.
+The worst full-run RMS was <strong>0.188 mm</strong> against a 1.0 mm target at nominal 0.1.
+The runs include 42 upright dev paths, 12 upright holdout paths and one 30-pick conveyor route.</p>
+<p><a href="../../dashboard/#goals">Blackbox Goals</a> · <a href="accuracy.json">Measurements and source checksums</a> ·
+<a href="../conveyor-baseline/">Unchanged-controller baseline</a> · <a href="../../comparison/#/sweeps">Upright speed sweeps</a></p>
+
+<p><a href="comparison.html">Open stock full-speed playback and sweep charts</a> · <a href="baseline.json">Machine-readable results</a></p></header>
+<figure><video controls autoplay muted loop playsinline preload="metadata" poster="media/poster.webp" aria-label="Recorded walkthrough of the stock playback">
+<source src="media/walkthrough.mp4" type="video/mp4"><img src="media/walkthrough.gif" alt="The simulated arm replays the conveyor route"></video>
+<figcaption>Browser recording of the stock trajectory comparison. <a href="media/walkthrough.gif">GIF fallback</a></figcaption></figure>
+<section><h2>All three test sets</h2><div class="scroll"><table><thead><tr><th scope="col">Test set</th>
+<th scope="col">Runs</th><th scope="col">Worst stop (mm)</th><th scope="col">Worst full RMS (mm)</th>
+<th scope="col">Passed all gates</th></tr></thead><tbody><tr><th scope="row">Upright dev</th><td>420</td><td>0.236</td><td>0.120</td><td>420/420</td></tr><tr><th scope="row">Upright holdout</th><td>120</td><td>0.128</td><td>0.071</td><td>120/120</td></tr><tr><th scope="row">Portal</th><td>10</td><td>0.268</td><td>0.188</td><td>10/10</td></tr></tbody></table></div>
+<p><a href="comparison.html#tab=summary">Compare error distributions by nominal speed</a></p></section>
+<section><h2>Tracking across the same route</h2><p>Each speed uses the same ordered pick and bin poses. All distance
+measurements use the portal station’s tool point. The clearance column counts 4 kHz physics samples inside the
+station’s margin, which includes close approaches.</p>
+<div class="scroll"><table><thead><tr><th scope=col>Nominal speed</th><th scope=col>Duration (s)</th><th scope=col>Full TCP RMS (mm)</th><th scope=col>Worst stop (mm)</th><th scope=col>Final settle (mm)</th><th scope=col>Physics samples inside scene margin</th><th scope=col>Failed checks</th></tr></thead><tbody><tr><td>0.1</td><td>1805.30</td><td>0.188</td><td>0.268</td><td>0.130</td><td>0</td><td>None</td></tr>
+<tr><td>0.2</td><td>911.90</td><td>0.171</td><td>0.248</td><td>0.136</td><td>0</td><td>None</td></tr>
+<tr><td>0.3</td><td>614.10</td><td>0.159</td><td>0.249</td><td>0.162</td><td>0</td><td>None</td></tr>
+<tr><td>0.4</td><td>465.74</td><td>0.150</td><td>0.249</td><td>0.149</td><td>0</td><td>None</td></tr>
+<tr><td>0.5</td><td>375.86</td><td>0.144</td><td>0.234</td><td>0.126</td><td>0</td><td>None</td></tr>
+<tr><td>0.6</td><td>316.30</td><td>0.139</td><td>0.247</td><td>0.145</td><td>0</td><td>None</td></tr>
+<tr><td>0.7</td><td>274.98</td><td>0.136</td><td>0.249</td><td>0.150</td><td>0</td><td>None</td></tr>
+<tr><td>0.8</td><td>242.76</td><td>0.133</td><td>0.246</td><td>0.168</td><td>0</td><td>None</td></tr>
+<tr><td>0.9</td><td>217.76</td><td>0.131</td><td>0.250</td><td>0.117</td><td>0</td><td>None</td></tr>
+<tr><td>1.0</td><td>197.18</td><td>0.129</td><td>0.241</td><td>0.098</td><td>0</td><td>None</td></tr></tbody></table></div></section>
+<section><h2>Full-speed replay</h2><iframe title="Stock trajectory comparison" src="comparison.html#tab=track" loading="lazy"></iframe></section>
+<section><h2>What ran</h2><p>The stock arm_motion_bench PEP 0032 portal fixture has a static belt, four bins and a capsule
+that stands in for the claw. The arm carried no payload. The controller used the mount orientation to correct the sign of the gravity term. These are simulation results.
+Physical part pickup and the dynamic Robotiq gripper remain unmeasured.</p></section>
+</main></body></html>
