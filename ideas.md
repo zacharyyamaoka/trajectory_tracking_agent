@@ -13,19 +13,21 @@ never delete it.
   - Goal: G2 · step 2 · bam_fb_conveyor_sim_worst_stop_mm · bam_fb_conveyor_sim_worst_full_rms_mm
   - Effort: 90 min
   - By: 2026-11-25T23:30-07:00
-- [ ] Verify the shoulder pendulum workspace corpus and replay the highest rung.
+- [x] Verify the shoulder pendulum workspace corpus and replay the highest rung.
   - Goal: G2 · step 3 · pendulum_workspace_sim_worst_stop_mm · pendulum_workspace_sim_worst_full_rms_mm
   - Effort: 60 min
   - By: 2026-11-25T22:30-07:00
+  - All 52 paths passed on the locked simulation controller, including independent holdout. [Verified result](experiments/pendulum_workspace/qualification.json).
 - [ ] Test identified friction and load feedforward on matched development tapes, then lock each candidate for holdout.
   - Goal: G2 · step 4
   - Effort: 120 min
   - By: 2026-11-26T02:30-07:00
   - Expect: bam_fb_workspace_sim_worst_full_rms_mm −20 %
-- [ ] Audit physical traces for system identification, matched targets, output-side sensing and acquisition coverage.
+- [x] Audit physical traces for system identification, matched targets, output-side sensing and acquisition coverage.
   - Goal: G3 · step 1
   - Effort: 60 min
   - By: 2026-11-25T22:00-07:00
+  - [Replay audit](experiments/physical_tracking/archive-evidence.json) verified 468 matched CAN 11 encoder traces and one historical BAM FB workspace course on a different clock. Synchronized load-side tool position is still missing.
 - [ ] Compare calibrated friction and backlash against the same disjoint physical traces before commissioning a controller.
   - Goal: G3 · step 2
   - Effort: 120 min

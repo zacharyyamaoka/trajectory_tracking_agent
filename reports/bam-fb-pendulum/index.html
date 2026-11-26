@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BAM FB and pendulum tracking evidence</title><style>
+body {margin:0;background:#f7f6f2;color:#202b28;font:16px/1.5 system-ui}
+main {max-width:1060px;margin:auto;padding:clamp(16px,5vw,64px)} h1 {font-size:clamp(2rem,6vw,3.7rem);line-height:1.08;margin:.4em 0}
+p {max-width:72ch} a {color:#11695b} figure {margin:1.4em 0} video {display:block;width:100%;aspect-ratio:16/9;background:#26302d;border-radius:8px}
+figcaption {padding-top:.5em} article {margin:2rem 0}
+</style><body><main>
+<h1>BAM FB and pendulum tracking</h1>
+<p><strong>CAN 11 met both simulation targets at rung 1.0.</strong> Across 52 workspace paths the worst stop was
+0.097 mm and worst full-trajectory RMS was 0.100 mm.
+The simulation used higher board stiffness than the archived hardware controllers.</p>
+<p><a href="../../dashboard/#goals">Blackbox Goals</a> · <a href="comparison.html#tab=track">Matched CAN 11 playback</a> ·
+<a href="pendulum-qualification.json">Simulation evidence</a> · <a href="physical-archive-audit.json">Physical archive audit</a></p>
+<figure><video controls autoplay muted loop playsinline preload="metadata" poster="media/poster.webp" aria-label="Browser recording of the matched CAN 11 playback">
+<source src="media/walkthrough.mp4" type="video/mp4"><img src="media/walkthrough.gif" alt="CAN 11 playback in the trajectory comparison"></video>
+<figcaption>Recorded stock trajectory comparison. <a href="media/walkthrough.gif">GIF fallback</a></figcaption></figure>
+<article><h2>Hardware archive</h2><p>CAN 11 has 468 top-rung encoder traces across three historical controllers. Their tool estimates
+use board encoder FK on the plan clock. Each controller missed at least one target. The older BAM FB workspace run
+<code>jtc-20261121T010031Z-2999031</code> scored 4.634 mm at its stop and
+12.961 mm full-trace RMS over one course. The current hardware goal requires the matched full dataset,
+acquisition timebase and an independent output-side measurement.</p></article>
+</main></body></html>
