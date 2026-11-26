@@ -979,7 +979,7 @@ def test_run(out: Path) -> bool:
     with tempfile.TemporaryDirectory() as tmp:
         raw = Path(tmp) / "junit.xml"
         run = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", f"--junitxml={raw}",
-                              "--ignore-glob=tests/test_site_*", "--ignore=tests/test_dropins.py"],
+                              "--ignore-glob=tests/test_site_*", "--ignore=tests/test_dropins.py", "tests"],
                              cwd=REPO, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         if not raw.exists():
             out.unlink(missing_ok=True)

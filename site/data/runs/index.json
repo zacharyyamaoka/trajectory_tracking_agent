@@ -11,7 +11,7 @@
    "workspace-dev-016"
   ],
   "full": {
-   "best": "p5s-pass3",
+   "best": "p5s-damping185-refit",
    "gen0_best": "p6s"
   },
   "excluded": {
@@ -48,7 +48,7 @@
     "abl-path7+reid"
    ]
   },
-  "count": 254
+  "count": 299
  },
  "made_by": {
   "export": "tools/build_site.py",
@@ -328,6 +328,2063 @@
  ],
  "solutions": [
   {
+   "id": "p5s-damping185-refit",
+   "parent": "p5s-damping185",
+   "change": "Refit the inherited feedforward model once using dev tracking errors at its configured gains",
+   "tags": [
+    "transfer-risk:stiffness"
+   ],
+   "objective": 0.029714463381969192,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "ced15c8f2457ac7b3608f5870c0828e265ae8b02",
+    "dirty": false,
+    "evaluated": "2026-11-25T17:50:57-07:00",
+    "solution_sha256": "e8a2da319c7528f8130fe1d86325a459e464409fc4094cb2f46ade8d4e5480e7",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "3159fe98d5e7306a46b998bfc2e535485469034e"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "8827f5fa5c4d1714eec3b2f10fd4f35a6497e568"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-000.json",
+     "bytes": 176782,
+     "objective": 0.051616874984584296,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.051616874984584296,
+       "record": 0.05161854720886941,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.12251710305541752,
+       "record": 0.12251962602093822,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-001": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-001.json",
+     "bytes": 213785,
+     "objective": 0.04662163458200334,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.04662163458200334,
+       "record": 0.04662205440048731,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.10970824213319506,
+       "record": 0.1097199191631192,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-002": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-002.json",
+     "bytes": 122185,
+     "objective": 0.029266090663118242,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.029266090663118242,
+       "record": 0.029262508469264644,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.09769393436283891,
+       "record": 0.09769580423578465,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-003": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-003.json",
+     "bytes": 86926,
+     "objective": 0.017444896418654682,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.017444896418654682,
+       "record": 0.017449605153127913,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.10853792077922192,
+       "record": 0.10853182265551105,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-004": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-004.json",
+     "bytes": 91221,
+     "objective": 0.02754693340792686,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.02754693340792686,
+       "record": 0.027540999739780612,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.09758551901705843,
+       "record": 0.09757604112515542,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-005": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-005.json",
+     "bytes": 87638,
+     "objective": 0.02318284562768997,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.02318284562768997,
+       "record": 0.023185417831039702,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.17966547248426562,
+       "record": 0.17962675282523874,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-006": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-006.json",
+     "bytes": 88170,
+     "objective": 0.028902294341472123,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.028902294341472123,
+       "record": 0.028904381696382434,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.10965327464361242,
+       "record": 0.10965355322815969,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-007": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-007.json",
+     "bytes": 101485,
+     "objective": 0.0342115901680709,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.0342115901680709,
+       "record": 0.03420661415008728,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.10962009032746604,
+       "record": 0.10962589577655435,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-008": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-008.json",
+     "bytes": 96904,
+     "objective": 0.05179516090597608,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.05179516090597608,
+       "record": 0.05179804632164799,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.12360720030000344,
+       "record": 0.12358133568191192,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.02537749016622256,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-009": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-009.json",
+     "bytes": 108189,
+     "objective": 0.057824365882950604,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.057824365882950604,
+       "record": 0.0578233384593808,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.1342082590484837,
+       "record": 0.13421905617809926,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-010": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-010.json",
+     "bytes": 85185,
+     "objective": 0.04069995775743741,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.04069995775743741,
+       "record": 0.04070001482674171,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.10676294265914371,
+       "record": 0.10671989598182442,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-011": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-011.json",
+     "bytes": 110409,
+     "objective": 0.03655844446974196,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.03655844446974196,
+       "record": 0.03656324999230544,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.08843857786444037,
+       "record": 0.08843753783991663,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-012": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-012.json",
+     "bytes": 97981,
+     "objective": 0.02884094031893902,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.02884094031893902,
+       "record": 0.028840572638853895,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.12811871199474473,
+       "record": 0.1281201737651683,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-013": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-013.json",
+     "bytes": 98981,
+     "objective": 0.026542698990513265,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.026542698990513265,
+       "record": 0.02654220142293728,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.07419226180129601,
+       "record": 0.07416361017644972,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-014": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-014.json",
+     "bytes": 79138,
+     "objective": 0.019782855658476324,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.019782855658476324,
+       "record": 0.019780502249203743,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.01112976054318849,
+       "record": 0.011081229009635738,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-015": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-015.json",
+     "bytes": 139456,
+     "objective": 0.023354356986197276,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.023354356986197276,
+       "record": 0.023356665921642827,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.06270595262726533,
+       "record": 0.06274949606324716,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-016": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-016.json",
+     "bytes": 116234,
+     "objective": 0.02446042985533448,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.02446042985533448,
+       "record": 0.024456118974994827,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.04368153293059488,
+       "record": 0.0436786641563044,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-017": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-017.json",
+     "bytes": 131214,
+     "objective": 0.028177304592776023,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.028177304592776023,
+       "record": 0.02817741227472712,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.021050381470544003,
+       "record": 0.021027612700328137,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-018": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-018.json",
+     "bytes": 139846,
+     "objective": 0.04159420966453452,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.04159420966453452,
+       "record": 0.041598295687226054,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.09491929724232988,
+       "record": 0.09492442143690978,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-019": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-019.json",
+     "bytes": 164699,
+     "objective": 0.04549270734463068,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.04549270734463068,
+       "record": 0.045491090102223325,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.08495315586359911,
+       "record": 0.08491653899581605,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.007021978793624044,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-020": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-020.json",
+     "bytes": 114093,
+     "objective": 0.027420047719701406,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.027420047719701406,
+       "record": 0.027425046791013236,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.0449165187507679,
+       "record": 0.04495182177620961,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-021": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-021.json",
+     "bytes": 118775,
+     "objective": 0.029002987016214617,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.029002987016214617,
+       "record": 0.02900384439502641,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.11124537203761858,
+       "record": 0.11129758969139689,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-022": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-022.json",
+     "bytes": 193445,
+     "objective": 0.01286072240190791,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.01286072240190791,
+       "record": 0.012860054327434584,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.017521445218952516,
+       "record": 0.01757121519141462,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-023": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-023.json",
+     "bytes": 111402,
+     "objective": 0.0333003596568837,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.0333003596568837,
+       "record": 0.03329706565157865,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.09333618256083324,
+       "record": 0.09336366026359015,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.010868383871318336,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-024": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-024.json",
+     "bytes": 88398,
+     "objective": 0.029461497372257058,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.029461497372257058,
+       "record": 0.029452470185028588,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.13279452912226658,
+       "record": 0.13278437408072438,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-025": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-025.json",
+     "bytes": 95082,
+     "objective": 0.06170921611518067,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.06170921611518067,
+       "record": 0.06170134588415303,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.1795131977423758,
+       "record": 0.17952487292851832,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-026": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-026.json",
+     "bytes": 81481,
+     "objective": 0.03531310694306525,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.03531310694306525,
+       "record": 0.03531233495536799,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.038133640418442076,
+       "record": 0.03813437853787934,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-027": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-027.json",
+     "bytes": 100594,
+     "objective": 0.033401174811547224,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.033401174811547224,
+       "record": 0.03340060652337336,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.15737588417069587,
+       "record": 0.15732844231214124,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-028": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-028.json",
+     "bytes": 86049,
+     "objective": 0.019806866085451083,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.019806866085451083,
+       "record": 0.01980450655785,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.06397189402359947,
+       "record": 0.06399824248614464,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-029": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-029.json",
+     "bytes": 148678,
+     "objective": 0.03860052261639076,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.03860052261639076,
+       "record": 0.03860377507206038,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.1131149322108471,
+       "record": 0.11309686369876427,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-030": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-030.json",
+     "bytes": 112990,
+     "objective": 0.02612175806397788,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.02612175806397788,
+       "record": 0.026125965318623,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.026997871116520314,
+       "record": 0.027013412646455764,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-031": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-031.json",
+     "bytes": 88136,
+     "objective": 0.033381025359268165,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.033381025359268165,
+       "record": 0.03338216800366463,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.031241758802041074,
+       "record": 0.03123899475628265,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-032": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-032.json",
+     "bytes": 78440,
+     "objective": 0.013712482846731095,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.013712482846731095,
+       "record": 0.013715645894660521,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.013840041938863306,
+       "record": 0.01384034108399522,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-033": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-033.json",
+     "bytes": 137889,
+     "objective": 0.02662293375129121,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.02662293375129121,
+       "record": 0.026628958790777306,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.0893198950902283,
+       "record": 0.08932612270972454,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-034": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-034.json",
+     "bytes": 79522,
+     "objective": 0.037409828310128596,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.037409828310128596,
+       "record": 0.0374039292753263,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.06877912446003644,
+       "record": 0.06881049554767234,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-035": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-035.json",
+     "bytes": 116620,
+     "objective": 0.02728929707139688,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.02728929707139688,
+       "record": 0.027292468707821052,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.027955405339615224,
+       "record": 0.02801165931983547,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-036": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-036.json",
+     "bytes": 102022,
+     "objective": 0.029967429391681327,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.029967429391681327,
+       "record": 0.029967869925109452,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.11840757033138596,
+       "record": 0.11844664384453657,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-037": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-037.json",
+     "bytes": 100346,
+     "objective": 0.03146805410665812,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.03146805410665812,
+       "record": 0.0314710271263498,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.09310630762783435,
+       "record": 0.09310224096547547,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-038": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-038.json",
+     "bytes": 87438,
+     "objective": 0.03216671614300221,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.03216671614300221,
+       "record": 0.032166428782584765,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.13944481073397724,
+       "record": 0.1394177861354989,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-039": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-039.json",
+     "bytes": 121754,
+     "objective": 0.03495283471735605,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.03495283471735605,
+       "record": 0.03495355353554397,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.20226337404098316,
+       "record": 0.20226079454078158,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-040": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-040.json",
+     "bytes": 152694,
+     "objective": 0.027762300171106605,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.027762300171106605,
+       "record": 0.027764984288091366,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.021159242237450943,
+       "record": 0.021145606972039606,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-041": {
+     "record": "runs/p5s-damping185-refit/workspace-dev-041.json",
+     "bytes": 101492,
+     "objective": 0.04793678661973646,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.04793678661973646,
+       "record": 0.047931065277474365,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.026768169536372163,
+       "record": 0.026751657089263595,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "p5s-damping185",
+   "parent": "p5s-pass3",
+   "change": "Change the board damping multiplier from 2.0 to 1.85",
+   "tags": [
+    "transfer-risk:stiffness"
+   ],
+   "objective": 0.03108265184569549,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "dff7a2f5ba0b3873c2bdcab6278d527ef84d1400",
+    "dirty": false,
+    "evaluated": "2026-11-25T17:48:23-07:00",
+    "solution_sha256": "0e591df1a3dea135a9a60b3897f50a46ca141d54cbed7e0ae0bfbc32a68d9805",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "3159fe98d5e7306a46b998bfc2e535485469034e"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "8827f5fa5c4d1714eec3b2f10fd4f35a6497e568"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "record": "runs/p5s-damping185/workspace-dev-000.json",
+     "bytes": 177380,
+     "objective": 0.05058195724751273,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.05058195724751273,
+       "record": 0.05058258655583108,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.07585515588194985,
+       "record": 0.07586419412612166,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-001": {
+     "record": "runs/p5s-damping185/workspace-dev-001.json",
+     "bytes": 213728,
+     "objective": 0.04981850924901386,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.04981850924901386,
+       "record": 0.049816233167077714,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.11575228853205068,
+       "record": 0.11574749876803779,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-002": {
+     "record": "runs/p5s-damping185/workspace-dev-002.json",
+     "bytes": 122837,
+     "objective": 0.030388358123453765,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.030388358123453765,
+       "record": 0.030384041864110662,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.1060279368185854,
+       "record": 0.10602121766431177,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-003": {
+     "record": "runs/p5s-damping185/workspace-dev-003.json",
+     "bytes": 86904,
+     "objective": 0.017196075115895913,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.017196075115895913,
+       "record": 0.017200595338537884,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.10976570629090339,
+       "record": 0.10975382521243618,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-016": {
+     "record": "runs/p5s-damping185/workspace-dev-016.json",
+     "bytes": 116233,
+     "objective": 0.025382411637464512,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.025382411637464512,
+       "record": 0.0253801669092298,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.02671651743572444,
+       "record": 0.02668699655494531,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "p5s-task-balanced-fit",
+   "parent": "p5s-onefit",
+   "change": "Give every dev task equal total sample weight during the p5s-pass3 identification pass",
+   "tags": [
+    "transfer-risk:stiffness"
+   ],
+   "objective": 0.031185902359609788,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "6c756a02898cf4fc0d93f6e26171dfbaa1ad03ff",
+    "dirty": false,
+    "evaluated": "2026-11-25T17:52:29-07:00",
+    "solution_sha256": "79771bddbb8ebf4da5c17bf32200c68c9fba8bd1b3222315494737d49e1e6de2",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "3159fe98d5e7306a46b998bfc2e535485469034e"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "8827f5fa5c4d1714eec3b2f10fd4f35a6497e568"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "record": "runs/p5s-task-balanced-fit/workspace-dev-000.json",
+     "bytes": 177502,
+     "objective": 0.05102630065674584,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.05102630065674584,
+       "record": 0.051028709588613295,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.09940343059367725,
+       "record": 0.09940483841751885,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-001": {
+     "record": "runs/p5s-task-balanced-fit/workspace-dev-001.json",
+     "bytes": 213238,
+     "objective": 0.050478215826415214,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.050478215826415214,
+       "record": 0.05047675013655175,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.11478451742043345,
+       "record": 0.11478167561881181,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-002": {
+     "record": "runs/p5s-task-balanced-fit/workspace-dev-002.json",
+     "bytes": 123463,
+     "objective": 0.02960403604796844,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.02960403604796844,
+       "record": 0.029598620328636888,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.1164382043286071,
+       "record": 0.11642963362811583,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-003": {
+     "record": "runs/p5s-task-balanced-fit/workspace-dev-003.json",
+     "bytes": 86306,
+     "objective": 0.016802571032051256,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.016802571032051256,
+       "record": 0.016805665711305023,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.10604029189225238,
+       "record": 0.10603939935173927,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-016": {
+     "record": "runs/p5s-task-balanced-fit/workspace-dev-016.json",
+     "bytes": 115673,
+     "objective": 0.024565681960246978,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.024565681960246978,
+       "record": 0.024566633226494407,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.043043154119077734,
+       "record": 0.04304271278590276,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    }
+   }
+  },
+  {
    "id": "p5s-pass3",
    "parent": "p5s-onefit",
    "change": "identification pass 3 (identify_pass.py on p5s-onefit's dev runs), added into model.json",
@@ -352,7 +2409,7 @@
    "tasks": {
     "workspace-dev-000": {
      "record": "runs/p5s-pass3/workspace-dev-000.json",
-     "bytes": 176927,
+     "bytes": 176922,
      "objective": 0.050734970764066065,
      "pass": true,
      "checks": {
@@ -390,7 +2447,7 @@
     },
     "workspace-dev-001": {
      "record": "runs/p5s-pass3/workspace-dev-001.json",
-     "bytes": 212618,
+     "bytes": 212613,
      "objective": 0.048684558853953515,
      "pass": true,
      "checks": {
@@ -428,7 +2485,7 @@
     },
     "workspace-dev-002": {
      "record": "runs/p5s-pass3/workspace-dev-002.json",
-     "bytes": 124033,
+     "bytes": 124028,
      "objective": 0.030477085296143423,
      "pass": true,
      "checks": {
@@ -466,7 +2523,7 @@
     },
     "workspace-dev-003": {
      "record": "runs/p5s-pass3/workspace-dev-003.json",
-     "bytes": 86920,
+     "bytes": 86915,
      "objective": 0.016879716030849527,
      "pass": true,
      "checks": {
@@ -502,465 +2559,9 @@
       }
      }
     },
-    "workspace-dev-004": {
-     "record": "runs/p5s-pass3/workspace-dev-004.json",
-     "bytes": 91877,
-     "objective": 0.026627493855613173,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.026627493855613173,
-       "record": 0.026622388239141762,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.09588472468163244,
-       "record": 0.09587629426325593,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-005": {
-     "record": "runs/p5s-pass3/workspace-dev-005.json",
-     "bytes": 86987,
-     "objective": 0.02373390478563672,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.02373390478563672,
-       "record": 0.02373337228461585,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.19047838418841703,
-       "record": 0.19044865579949297,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-006": {
-     "record": "runs/p5s-pass3/workspace-dev-006.json",
-     "bytes": 89466,
-     "objective": 0.02806910763465088,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.02806910763465088,
-       "record": 0.02807458258817125,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.10816095030731554,
-       "record": 0.10815136813637774,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-007": {
-     "record": "runs/p5s-pass3/workspace-dev-007.json",
-     "bytes": 102742,
-     "objective": 0.03517481391853393,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.03517481391853393,
-       "record": 0.03517741302450883,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.10868247201960274,
-       "record": 0.10868903781951846,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-008": {
-     "record": "runs/p5s-pass3/workspace-dev-008.json",
-     "bytes": 96866,
-     "objective": 0.05387646676182719,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.05387646676182719,
-       "record": 0.05387825761692813,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.11435792136708708,
-       "record": 0.11434240986710037,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.01268874508311128,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-009": {
-     "record": "runs/p5s-pass3/workspace-dev-009.json",
-     "bytes": 106347,
-     "objective": 0.05482179888013762,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.05482179888013762,
-       "record": 0.0548230098750961,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.07632710093163377,
-       "record": 0.07635642444292888,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-010": {
-     "record": "runs/p5s-pass3/workspace-dev-010.json",
-     "bytes": 85191,
-     "objective": 0.04423499085483748,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.04423499085483748,
-       "record": 0.044235275165485456,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.11757392368412012,
-       "record": 0.11755042912915793,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-011": {
-     "record": "runs/p5s-pass3/workspace-dev-011.json",
-     "bytes": 110387,
-     "objective": 0.038152539556561206,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.038152539556561206,
-       "record": 0.0381538579307528,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.10115578696337041,
-       "record": 0.10113151040455684,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-012": {
-     "record": "runs/p5s-pass3/workspace-dev-012.json",
-     "bytes": 97961,
-     "objective": 0.02785871501079661,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.02785871501079661,
-       "record": 0.027859117196329254,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.12291703694096523,
-       "record": 0.12290133414198787,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-013": {
-     "record": "runs/p5s-pass3/workspace-dev-013.json",
-     "bytes": 98267,
-     "objective": 0.026723540499971964,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.026723540499971964,
-       "record": 0.026722608129351264,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.061823736845378,
-       "record": 0.06177774145154617,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-014": {
-     "record": "runs/p5s-pass3/workspace-dev-014.json",
-     "bytes": 79082,
-     "objective": 0.021694261970665884,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.021694261970665884,
-       "record": 0.021689513595282112,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.020184517436194357,
-       "record": 0.02014188104178932,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-015": {
-     "record": "runs/p5s-pass3/workspace-dev-015.json",
-     "bytes": 139462,
-     "objective": 0.0245364765750572,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.0245364765750572,
-       "record": 0.024541531673054732,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.05934822654317733,
-       "record": 0.0593965480255257,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
     "workspace-dev-016": {
      "record": "runs/p5s-pass3/workspace-dev-016.json",
-     "bytes": 116226,
+     "bytes": 116221,
      "objective": 0.024755348998418455,
      "pass": true,
      "checks": {
@@ -995,22 +2596,49 @@
        "consistent": true
       }
      }
+    }
+   }
+  },
+  {
+   "id": "p5s-accel-residual",
+   "parent": "p5s-pass3",
+   "change": "Add a fitted diagonal target-acceleration term to the parent feedforward",
+   "tags": [
+    "transfer-risk:stiffness"
+   ],
+   "objective": 0.03133700199014382,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "003c9be8d6c5713fec2826fe13b80e1ecb44ac41",
+    "dirty": false,
+    "evaluated": "2026-11-25T17:45:48-07:00",
+    "solution_sha256": "6bff2c08ad9c8f345c602e4e782027feffc20f83e9e3d070e61ba5ef7cd580c5",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "3159fe98d5e7306a46b998bfc2e535485469034e"
     },
-    "workspace-dev-017": {
-     "record": "runs/p5s-pass3/workspace-dev-017.json",
-     "bytes": 131138,
-     "objective": 0.02903245412651295,
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "8827f5fa5c4d1714eec3b2f10fd4f35a6497e568"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "record": "runs/p5s-accel-residual/workspace-dev-000.json",
+     "bytes": 176801,
+     "objective": 0.049669394675533905,
      "pass": true,
      "checks": {
       "tool_track_rms_mm": {
-       "ruler": 0.02903245412651295,
-       "record": 0.029034037137465427,
+       "ruler": 0.049669394675533905,
+       "record": 0.04967002197121559,
        "tolerance": 0.001,
        "ok": true
       },
       "stop_error_max_mm": {
-       "ruler": 0.011755113581394078,
-       "record": 0.011739690395319876,
+       "ruler": 0.09694469825919552,
+       "record": 0.09695366875103092,
        "tolerance": 0.001,
        "ok": true
       }
@@ -1034,21 +2662,21 @@
       }
      }
     },
-    "workspace-dev-018": {
-     "record": "runs/p5s-pass3/workspace-dev-018.json",
-     "bytes": 139776,
-     "objective": 0.04056758661145817,
+    "workspace-dev-001": {
+     "record": "runs/p5s-accel-residual/workspace-dev-001.json",
+     "bytes": 213190,
+     "objective": 0.04781419757899483,
      "pass": true,
      "checks": {
       "tool_track_rms_mm": {
-       "ruler": 0.04056758661145817,
-       "record": 0.04056649215441627,
+       "ruler": 0.04781419757899483,
+       "record": 0.04781224965834005,
        "tolerance": 0.001,
        "ok": true
       },
       "stop_error_max_mm": {
-       "ruler": 0.08992628311514131,
-       "record": 0.08990791845925415,
+       "ruler": 0.13561644591402966,
+       "record": 0.13562280245404365,
        "tolerance": 0.001,
        "ok": true
       }
@@ -1072,59 +2700,21 @@
       }
      }
     },
-    "workspace-dev-019": {
-     "record": "runs/p5s-pass3/workspace-dev-019.json",
-     "bytes": 165326,
-     "objective": 0.04679914146086635,
+    "workspace-dev-002": {
+     "record": "runs/p5s-accel-residual/workspace-dev-002.json",
+     "bytes": 123472,
+     "objective": 0.029495254911004336,
      "pass": true,
      "checks": {
       "tool_track_rms_mm": {
-       "ruler": 0.04679914146086635,
-       "record": 0.04679577009047493,
+       "ruler": 0.029495254911004336,
+       "record": 0.029491047218243638,
        "tolerance": 0.001,
        "ok": true
       },
       "stop_error_max_mm": {
-       "ruler": 0.08557568952042957,
-       "record": 0.08555135956818587,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.014043957587248088,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-020": {
-     "record": "runs/p5s-pass3/workspace-dev-020.json",
-     "bytes": 114666,
-     "objective": 0.029312488390710618,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.029312488390710618,
-       "record": 0.02931678137539583,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.04297306733341482,
-       "record": 0.043007363390320755,
+       "ruler": 0.11206114890946382,
+       "record": 0.11205802584829092,
        "tolerance": 0.001,
        "ok": true
       }
@@ -1148,21 +2738,21 @@
       }
      }
     },
-    "workspace-dev-021": {
-     "record": "runs/p5s-pass3/workspace-dev-021.json",
-     "bytes": 117488,
-     "objective": 0.027993897987303763,
+    "workspace-dev-003": {
+     "record": "runs/p5s-accel-residual/workspace-dev-003.json",
+     "bytes": 86927,
+     "objective": 0.01786184063592131,
      "pass": true,
      "checks": {
       "tool_track_rms_mm": {
-       "ruler": 0.027993897987303763,
-       "record": 0.027997385739521687,
+       "ruler": 0.01786184063592131,
+       "record": 0.017863992834751947,
        "tolerance": 0.001,
        "ok": true
       },
       "stop_error_max_mm": {
-       "ruler": 0.10389532484538244,
-       "record": 0.10393663080542886,
+       "ruler": 0.1087159114697873,
+       "record": 0.10873148251195416,
        "tolerance": 0.001,
        "ok": true
       }
@@ -1186,21 +2776,86 @@
       }
      }
     },
-    "workspace-dev-022": {
-     "record": "runs/p5s-pass3/workspace-dev-022.json",
-     "bytes": 192774,
-     "objective": 0.01380971873528203,
+    "workspace-dev-016": {
+     "record": "runs/p5s-accel-residual/workspace-dev-016.json",
+     "bytes": 115645,
+     "objective": 0.023500462692026863,
      "pass": true,
      "checks": {
       "tool_track_rms_mm": {
-       "ruler": 0.01380971873528203,
-       "record": 0.013809339001769212,
+       "ruler": 0.023500462692026863,
+       "record": 0.023495322078540787,
        "tolerance": 0.001,
        "ok": true
       },
       "stop_error_max_mm": {
-       "ruler": 0.017250586701871375,
-       "record": 0.017299484060390384,
+       "ruler": 0.024842018840277702,
+       "record": 0.024826636921373903,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "p5s-friction-asym",
+   "parent": "p5s-pass3",
+   "change": "Add one bounded even-velocity friction term per joint to the parent feedforward",
+   "tags": [
+    "transfer-risk:stiffness"
+   ],
+   "objective": 0.031401896261106566,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "4637badead17df5f94a358934d99ad321e5cb253",
+    "dirty": false,
+    "evaluated": "2026-11-25T17:41:03-07:00",
+    "solution_sha256": "bee6cb99c033c6dc250b262a69ac507811e5d6c4bd51ddbd3da49df95d169916",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "3159fe98d5e7306a46b998bfc2e535485469034e"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "8827f5fa5c4d1714eec3b2f10fd4f35a6497e568"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "record": "runs/p5s-friction-asym/workspace-dev-000.json",
+     "bytes": 175809,
+     "objective": 0.05061672964220127,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.05061672964220127,
+       "record": 0.05061691214279817,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.08494407881493894,
+       "record": 0.08494988994497174,
        "tolerance": 0.001,
        "ok": true
       }
@@ -1224,59 +2879,21 @@
       }
      }
     },
-    "workspace-dev-023": {
-     "record": "runs/p5s-pass3/workspace-dev-023.json",
-     "bytes": 111349,
-     "objective": 0.03504680458484487,
+    "workspace-dev-001": {
+     "record": "runs/p5s-friction-asym/workspace-dev-001.json",
+     "bytes": 212582,
+     "objective": 0.049926356037767336,
      "pass": true,
      "checks": {
       "tool_track_rms_mm": {
-       "ruler": 0.03504680458484487,
-       "record": 0.03504401462295376,
+       "ruler": 0.049926356037767336,
+       "record": 0.04992476208822189,
        "tolerance": 0.001,
        "ok": true
       },
       "stop_error_max_mm": {
-       "ruler": 0.09397666397114657,
-       "record": 0.09399543904876924,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.010868383871318336,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-024": {
-     "record": "runs/p5s-pass3/workspace-dev-024.json",
-     "bytes": 87144,
-     "objective": 0.031028399028333705,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.031028399028333705,
-       "record": 0.03102218045205872,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.1516154594712627,
-       "record": 0.1516230378927994,
+       "ruler": 0.1294770032851551,
+       "record": 0.12948429433479092,
        "tolerance": 0.001,
        "ok": true
       }
@@ -1300,21 +2917,21 @@
       }
      }
     },
-    "workspace-dev-025": {
-     "record": "runs/p5s-pass3/workspace-dev-025.json",
-     "bytes": 95657,
-     "objective": 0.06005040571419467,
+    "workspace-dev-002": {
+     "record": "runs/p5s-friction-asym/workspace-dev-002.json",
+     "bytes": 122794,
+     "objective": 0.029922711184378482,
      "pass": true,
      "checks": {
       "tool_track_rms_mm": {
-       "ruler": 0.06005040571419467,
-       "record": 0.06004570287344753,
+       "ruler": 0.029922711184378482,
+       "record": 0.029916230732561656,
        "tolerance": 0.001,
        "ok": true
       },
       "stop_error_max_mm": {
-       "ruler": 0.1948429425385948,
-       "record": 0.19484680844277327,
+       "ruler": 0.11173534404339507,
+       "record": 0.11173257809722313,
        "tolerance": 0.001,
        "ok": true
       }
@@ -1338,21 +2955,21 @@
       }
      }
     },
-    "workspace-dev-026": {
-     "record": "runs/p5s-pass3/workspace-dev-026.json",
-     "bytes": 80880,
-     "objective": 0.03998980952018681,
+    "workspace-dev-003": {
+     "record": "runs/p5s-friction-asym/workspace-dev-003.json",
+     "bytes": 86314,
+     "objective": 0.016532809531682752,
      "pass": true,
      "checks": {
       "tool_track_rms_mm": {
-       "ruler": 0.03998980952018681,
-       "record": 0.0399813786200976,
+       "ruler": 0.016532809531682752,
+       "record": 0.016530263155802756,
        "tolerance": 0.001,
        "ok": true
       },
       "stop_error_max_mm": {
-       "ruler": 0.02840539061333946,
-       "record": 0.028410797039804266,
+       "ruler": 0.1058875440872378,
+       "record": 0.10587710363609396,
        "tolerance": 0.001,
        "ok": true
       }
@@ -1376,553 +2993,21 @@
       }
      }
     },
-    "workspace-dev-027": {
-     "record": "runs/p5s-pass3/workspace-dev-027.json",
-     "bytes": 101231,
-     "objective": 0.0332740745804019,
+    "workspace-dev-016": {
+     "record": "runs/p5s-friction-asym/workspace-dev-016.json",
+     "bytes": 115652,
+     "objective": 0.02449900745058357,
      "pass": true,
      "checks": {
       "tool_track_rms_mm": {
-       "ruler": 0.0332740745804019,
-       "record": 0.03327167738676575,
+       "ruler": 0.02449900745058357,
+       "record": 0.024497950413615226,
        "tolerance": 0.001,
        "ok": true
       },
       "stop_error_max_mm": {
-       "ruler": 0.16591903210696676,
-       "record": 0.16587085611739674,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-028": {
-     "record": "runs/p5s-pass3/workspace-dev-028.json",
-     "bytes": 87879,
-     "objective": 0.01759695651323993,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.01759695651323993,
-       "record": 0.017595142511500805,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.06260640589467574,
-       "record": 0.06262154000598871,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-029": {
-     "record": "runs/p5s-pass3/workspace-dev-029.json",
-     "bytes": 148703,
-     "objective": 0.03940194535508596,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.03940194535508596,
-       "record": 0.03940091143059268,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.11119070359050737,
-       "record": 0.11114342346046037,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.007811889696117491,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-030": {
-     "record": "runs/p5s-pass3/workspace-dev-030.json",
-     "bytes": 113577,
-     "objective": 0.02619956351335847,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.02619956351335847,
-       "record": 0.026204426497927334,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.02754877098901814,
-       "record": 0.027566758938065827,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-031": {
-     "record": "runs/p5s-pass3/workspace-dev-031.json",
-     "bytes": 89365,
-     "objective": 0.031638790749303244,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.031638790749303244,
-       "record": 0.031644744330613386,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.04475128246616655,
-       "record": 0.04472716001460357,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.013964530093562352,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-032": {
-     "record": "runs/p5s-pass3/workspace-dev-032.json",
-     "bytes": 77756,
-     "objective": 0.015075851295314682,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.015075851295314682,
-       "record": 0.01507977504423272,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.009649059881402213,
-       "record": 0.009663520909198657,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-033": {
-     "record": "runs/p5s-pass3/workspace-dev-033.json",
-     "bytes": 139120,
-     "objective": 0.030355693409506317,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.030355693409506317,
-       "record": 0.03035678746927152,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.08414175207762076,
-       "record": 0.08416212267150518,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-034": {
-     "record": "runs/p5s-pass3/workspace-dev-034.json",
-     "bytes": 79445,
-     "objective": 0.037389471260878264,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.037389471260878264,
-       "record": 0.037386417394656014,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.06692256577323447,
-       "record": 0.06693156798839374,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-035": {
-     "record": "runs/p5s-pass3/workspace-dev-035.json",
-     "bytes": 116007,
-     "objective": 0.029067417585065137,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.029067417585065137,
-       "record": 0.0290744845947482,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.04270291498738353,
-       "record": 0.042667676038249565,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-036": {
-     "record": "runs/p5s-pass3/workspace-dev-036.json",
-     "bytes": 102577,
-     "objective": 0.03174871821213985,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.03174871821213985,
-       "record": 0.03174884130249103,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.12008732367869156,
-       "record": 0.12013301752990259,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-037": {
-     "record": "runs/p5s-pass3/workspace-dev-037.json",
-     "bytes": 100308,
-     "objective": 0.033708147636072376,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.033708147636072376,
-       "record": 0.033706203123944796,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.06255407914013769,
-       "record": 0.06255353740079006,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-038": {
-     "record": "runs/p5s-pass3/workspace-dev-038.json",
-     "bytes": 86750,
-     "objective": 0.033229528439710436,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.033229528439710436,
-       "record": 0.03323114361935324,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.14097222917477578,
-       "record": 0.14094995214003667,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-039": {
-     "record": "runs/p5s-pass3/workspace-dev-039.json",
-     "bytes": 122312,
-     "objective": 0.035256965377578706,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.035256965377578706,
-       "record": 0.035256899358579334,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.19684904022025976,
-       "record": 0.19685534899961318,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-040": {
-     "record": "runs/p5s-pass3/workspace-dev-040.json",
-     "bytes": 153924,
-     "objective": 0.028531077563075474,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.028531077563075474,
-       "record": 0.02853516510346798,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.02012190474866268,
-       "record": 0.02011361530561109,
-       "tolerance": 0.001,
-       "ok": true
-      }
-     },
-     "subset": {
-      "saturation_share_pct": {
-       "ruler": 0.0,
-       "record_samples": 0,
-       "consistent": true,
-       "record_share_pct": 0.0
-      },
-      "limit_violations": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      },
-      "floor_clearance": {
-       "ruler": 0,
-       "record_samples": 0,
-       "consistent": true
-      }
-     }
-    },
-    "workspace-dev-041": {
-     "record": "runs/p5s-pass3/workspace-dev-041.json",
-     "bytes": 101532,
-     "objective": 0.051023235163738134,
-     "pass": true,
-     "checks": {
-      "tool_track_rms_mm": {
-       "ruler": 0.051023235163738134,
-       "record": 0.051016088681393686,
-       "tolerance": 0.001,
-       "ok": true
-      },
-      "stop_error_max_mm": {
-       "ruler": 0.011743584950231669,
-       "record": 0.011743783303804356,
+       "ruler": 0.025677938253852714,
+       "record": 0.025658761975508867,
        "tolerance": 0.001,
        "ok": true
       }
@@ -2379,6 +3464,440 @@
    }
   },
   {
+   "id": "p5s-damping215",
+   "parent": "p5s-pass3",
+   "change": "Change the board damping multiplier from 2.0 to 2.15",
+   "tags": [
+    "transfer-risk:stiffness"
+   ],
+   "objective": 0.03162749668839333,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "dff7a2f5ba0b3873c2bdcab6278d527ef84d1400",
+    "dirty": false,
+    "evaluated": "2026-11-25T17:48:41-07:00",
+    "solution_sha256": "ca32065cb753f5e1c29d89cdca3b85ba4f304450135f071e1acc3e7e234f6c87",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "3159fe98d5e7306a46b998bfc2e535485469034e"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "8827f5fa5c4d1714eec3b2f10fd4f35a6497e568"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "record": "runs/p5s-damping215/workspace-dev-000.json",
+     "bytes": 177433,
+     "objective": 0.05322188747757545,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.05322188747757545,
+       "record": 0.053223360443192556,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.0838168908233929,
+       "record": 0.08381340648991978,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-001": {
+     "record": "runs/p5s-damping215/workspace-dev-001.json",
+     "bytes": 212687,
+     "objective": 0.05323200619038198,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.05323200619038198,
+       "record": 0.053232697535978146,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.12140214135129201,
+       "record": 0.12139243716827704,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-002": {
+     "record": "runs/p5s-damping215/workspace-dev-002.json",
+     "bytes": 122877,
+     "objective": 0.029840340467600056,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.029840340467600056,
+       "record": 0.02983269456605964,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.10419320009978021,
+       "record": 0.10419468467267076,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-003": {
+     "record": "runs/p5s-damping215/workspace-dev-003.json",
+     "bytes": 87564,
+     "objective": 0.016919242204892913,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.016919242204892913,
+       "record": 0.01692136873896641,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.10420170329766901,
+       "record": 0.10420789971800344,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-016": {
+     "record": "runs/p5s-damping215/workspace-dev-016.json",
+     "bytes": 115645,
+     "objective": 0.02517893684684346,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.02517893684684346,
+       "record": 0.025181102547978285,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.024392481508993386,
+       "record": 0.02437243057022095,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "p5s-filter-history",
+   "parent": "p5s-pass3",
+   "change": "Use a board-rate causal filter of encoder-delayed target velocity for damping feedforward compensation",
+   "tags": [
+    "transfer-risk:stiffness"
+   ],
+   "objective": 0.0317323121914596,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "47d83d889e62d7013d8a0d0257856fabed5d084f",
+    "dirty": false,
+    "evaluated": "2026-11-25T17:49:47-07:00",
+    "solution_sha256": "1a1916527820330fd158ef9de68e6f6e27cc5d3c4847dc457f04b3cf6c4dd60e",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "3159fe98d5e7306a46b998bfc2e535485469034e"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "8827f5fa5c4d1714eec3b2f10fd4f35a6497e568"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "record": "runs/p5s-filter-history/workspace-dev-000.json",
+     "bytes": 177479,
+     "objective": 0.052001960647064825,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.052001960647064825,
+       "record": 0.05200491758469924,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.10142598683524784,
+       "record": 0.10141958667814546,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-001": {
+     "record": "runs/p5s-filter-history/workspace-dev-001.json",
+     "bytes": 213867,
+     "objective": 0.052462701947488304,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.052462701947488304,
+       "record": 0.05246251125286448,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.1350790547516701,
+       "record": 0.1350853482890139,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-002": {
+     "record": "runs/p5s-filter-history/workspace-dev-002.json",
+     "bytes": 123468,
+     "objective": 0.029529303442174953,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.029529303442174953,
+       "record": 0.02952359286884187,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.10689535727118266,
+       "record": 0.10690439460922034,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-003": {
+     "record": "runs/p5s-filter-history/workspace-dev-003.json",
+     "bytes": 86915,
+     "objective": 0.016566120325843606,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.016566120325843606,
+       "record": 0.016565745380156267,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.10797595277514274,
+       "record": 0.1079792182331265,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-016": {
+     "record": "runs/p5s-filter-history/workspace-dev-016.json",
+     "bytes": 115645,
+     "objective": 0.025160205435990634,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.025160205435990634,
+       "record": 0.02515680293762587,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.0256533251777155,
+       "record": 0.02563094075463497,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    }
+   }
+  },
+  {
    "id": "p5s-inertia",
    "parent": "p5s-onefit",
    "change": "Add the given model\u2019s inertial torque from acceleration error to the next identification pass",
@@ -2570,6 +4089,440 @@
       "stop_error_max_mm": {
        "ruler": 0.025557097432404315,
        "record": 0.025535976889519172,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "p5s-hold-average",
+   "parent": "p5s-pass3",
+   "change": "Use the exact mean of planned feedforward torque over each joint\u2019s compensated host hold window",
+   "tags": [
+    "transfer-risk:stiffness"
+   ],
+   "objective": 0.03194352812818804,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "319224d51eb1f56ce04b6770e2e8e4f7e151f415",
+    "dirty": false,
+    "evaluated": "2026-11-25T17:41:58-07:00",
+    "solution_sha256": "fadfced01ce371a3b7ceb3ba1f4f3ac0c9efdaf4a19c90ab43ce673f60696c35",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "3159fe98d5e7306a46b998bfc2e535485469034e"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "8827f5fa5c4d1714eec3b2f10fd4f35a6497e568"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "record": "runs/p5s-hold-average/workspace-dev-000.json",
+     "bytes": 176826,
+     "objective": 0.05123614262297106,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.05123614262297106,
+       "record": 0.051241100957632346,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.12601760532563833,
+       "record": 0.1260274002739886,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-001": {
+     "record": "runs/p5s-hold-average/workspace-dev-001.json",
+     "bytes": 212644,
+     "objective": 0.05192486551769871,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.05192486551769871,
+       "record": 0.05192431281076,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.12824989899273323,
+       "record": 0.12824235868865216,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-002": {
+     "record": "runs/p5s-hold-average/workspace-dev-002.json",
+     "bytes": 123420,
+     "objective": 0.031410580071960785,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.031410580071960785,
+       "record": 0.03140375590860735,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.12130976760541866,
+       "record": 0.12128197116191168,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-003": {
+     "record": "runs/p5s-hold-average/workspace-dev-003.json",
+     "bytes": 86919,
+     "objective": 0.016892586668116206,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.016892586668116206,
+       "record": 0.016891813401769283,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.10708649818909562,
+       "record": 0.10708778124773659,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-016": {
+     "record": "runs/p5s-hold-average/workspace-dev-016.json",
+     "bytes": 115610,
+     "objective": 0.0256425597055071,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.0256425597055071,
+       "record": 0.025641152926578495,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.02467576026562753,
+       "record": 0.024641599577806515,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "p5s-chord-integral",
+   "parent": "p5s-pass3",
+   "change": "Use the exact mean position intercept for each joint\u2019s unchanged secant velocity",
+   "tags": [
+    "transfer-risk:stiffness"
+   ],
+   "objective": 0.03226538450139816,
+   "admissible": true,
+   "gate_pass_rate": 1.0,
+   "scored": {
+    "commit": "003c9be8d6c5713fec2826fe13b80e1ecb44ac41",
+    "dirty": false,
+    "evaluated": "2026-11-25T17:46:17-07:00",
+    "solution_sha256": "dbd464edbf90f679b1b2917eb9d9d199c1184d31f494fc713214db61a8e93b4a",
+    "robot_controllers": {
+     "version": "0.1.0",
+     "commit": "3159fe98d5e7306a46b998bfc2e535485469034e"
+    },
+    "robot_msgs": {
+     "version": "0.3.1",
+     "commit": "8827f5fa5c4d1714eec3b2f10fd4f35a6497e568"
+    }
+   },
+   "tasks": {
+    "workspace-dev-000": {
+     "record": "runs/p5s-chord-integral/workspace-dev-000.json",
+     "bytes": 177483,
+     "objective": 0.04993388281064525,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.04993388281064525,
+       "record": 0.049938601903877916,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.07083894854989743,
+       "record": 0.07084091944468905,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-001": {
+     "record": "runs/p5s-chord-integral/workspace-dev-001.json",
+     "bytes": 213727,
+     "objective": 0.04698398109513961,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.04698398109513961,
+       "record": 0.04697784584248341,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.11174993218284905,
+       "record": 0.11175151523370319,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-002": {
+     "record": "runs/p5s-chord-integral/workspace-dev-002.json",
+     "bytes": 122290,
+     "objective": 0.028862440268703167,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.028862440268703167,
+       "record": 0.02885570436917547,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.10867986656603343,
+       "record": 0.10866650247581937,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-003": {
+     "record": "runs/p5s-chord-integral/workspace-dev-003.json",
+     "bytes": 87558,
+     "objective": 0.017679051932835217,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.017679051932835217,
+       "record": 0.01767851803744155,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.10693350029303358,
+       "record": 0.10694739805350563,
+       "tolerance": 0.001,
+       "ok": true
+      }
+     },
+     "subset": {
+      "saturation_share_pct": {
+       "ruler": 0.0,
+       "record_samples": 0,
+       "consistent": true,
+       "record_share_pct": 0.0
+      },
+      "limit_violations": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      },
+      "floor_clearance": {
+       "ruler": 0,
+       "record_samples": 0,
+       "consistent": true
+      }
+     }
+    },
+    "workspace-dev-016": {
+     "record": "runs/p5s-chord-integral/workspace-dev-016.json",
+     "bytes": 115637,
+     "objective": 0.024590092586669367,
+     "pass": true,
+     "checks": {
+      "tool_track_rms_mm": {
+       "ruler": 0.024590092586669367,
+       "record": 0.024587398389711364,
+       "tolerance": 0.001,
+       "ok": true
+      },
+      "stop_error_max_mm": {
+       "ruler": 0.025245485337738953,
+       "record": 0.025217883592652875,
        "tolerance": 0.001,
        "ok": true
       }
@@ -10995,7 +12948,7 @@
   }
  ],
  "left_out": [],
- "bytes": 33814559,
+ "bytes": 40255127,
  "check_worst_mm": {
   "tool_track_rms_mm": 1.015279042870798e-05,
   "stop_error_max_mm": 6.987847481260134e-05

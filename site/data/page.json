@@ -2,24 +2,24 @@
  "status": {
   "kpi": {
    "name": "tool_track_rms_mm (best admissible, dev)",
-   "value": 0.031333594888818476,
+   "value": 0.029714463381969192,
    "unit": "mm",
    "direction": "down",
    "target": null,
-   "level": "33 of 36 admissible",
+   "level": "42 of 45 admissible",
    "level_name": "ruler v1 \u00b7 ur5e_alone \u00b7 workspace/v2 dev",
-   "next_gate": "an admissible solution below 0.031 mm",
+   "next_gate": "an admissible solution below 0.030 mm",
    "on_track": true
   },
   "counter_kpi": {
    "name": "holdout - dev of the best (mm; reporting only, never selected on)",
-   "value": -0.0006686573781421526,
+   "value": 0.0011312482482089131,
    "unit": "mm",
    "owner": "Trajectory Tracking Agent"
   },
   "todo": {
    "open": 1,
-   "done_7d": 23,
+   "done_7d": 31,
    "top": [
     "Identify from a dedicated calibration run (a rich excitation trajectory, its own runs only) instead of the dev records, so the identified model never sees the tasks it is scored on. Needs a way to run a non-dataset trajectory through the boundary without `deployment.plant()` (see Suggestions for Zach)."
    ]
@@ -160,6 +160,90 @@
  "leaderboard": {
   "rows": [
    {
+    "id": "p5s-damping185-refit",
+    "parent": "p5s-damping185",
+    "change": "Refit the inherited feedforward model once using dev tracking errors at its configured gains",
+    "split": "dev",
+    "objective": 0.029714463381969192,
+    "admissible": true,
+    "gate_pass_rate": 1.0,
+    "failed_gates": {
+     "completed": 0,
+     "stop_error_max_mm": 0,
+     "saturation_share_pct": 0,
+     "limit_violations": 0,
+     "floor_clearance": 0
+    },
+    "diagnostics": {
+     "tool_track_max_mm": 0.24692487825935922,
+     "joint_track_rms_deg": 0.003972919290187255,
+     "tool_lag_ms": -0.00017882582960016889,
+     "stop_error_mm": 0.0932212450943338,
+     "saturation_share_pct": 0.02537749016622256,
+     "energy_j": 2172.0769809407916,
+     "tool_jerk_rms_m_s3": 11.40160773043559,
+     "host_compute_ms_p95": 0.29753900000000005,
+     "wall_time_s": 14.237149149063043,
+     "aggregation": "tool_track_max_mm, saturation_share_pct: worst task; energy_j, wall_time_s: sum over tasks; host_compute_ms_p95: over every tick of every task; the rest: median over tasks"
+    }
+   },
+   {
+    "id": "p5s-damping185",
+    "parent": "p5s-pass3",
+    "change": "Change the board damping multiplier from 2.0 to 1.85",
+    "split": "dev",
+    "objective": 0.03108265184569549,
+    "admissible": true,
+    "gate_pass_rate": 1.0,
+    "failed_gates": {
+     "completed": 0,
+     "stop_error_max_mm": 0,
+     "saturation_share_pct": 0,
+     "limit_violations": 0,
+     "floor_clearance": 0
+    },
+    "diagnostics": {
+     "tool_track_max_mm": 0.24411534757379982,
+     "joint_track_rms_deg": 0.00398651426887121,
+     "tool_lag_ms": -0.00017882582960016889,
+     "stop_error_mm": 0.08607513868769606,
+     "saturation_share_pct": 0.02537749016622256,
+     "energy_j": 2172.481281829084,
+     "tool_jerk_rms_m_s3": 11.420636275704904,
+     "host_compute_ms_p95": 0.309352,
+     "wall_time_s": 15.112702385988086,
+     "aggregation": "tool_track_max_mm, saturation_share_pct: worst task; energy_j, wall_time_s: sum over tasks; host_compute_ms_p95: over every tick of every task; the rest: median over tasks"
+    }
+   },
+   {
+    "id": "p5s-task-balanced-fit",
+    "parent": "p5s-onefit",
+    "change": "Give every dev task equal total sample weight during the p5s-pass3 identification pass",
+    "split": "dev",
+    "objective": 0.031185902359609788,
+    "admissible": true,
+    "gate_pass_rate": 1.0,
+    "failed_gates": {
+     "completed": 0,
+     "stop_error_max_mm": 0,
+     "saturation_share_pct": 0,
+     "limit_violations": 0,
+     "floor_clearance": 0
+    },
+    "diagnostics": {
+     "tool_track_max_mm": 0.22593737992384477,
+     "joint_track_rms_deg": 0.004076714680706287,
+     "tool_lag_ms": -0.00017882582960016889,
+     "stop_error_mm": 0.08532413731311245,
+     "saturation_share_pct": 0.02537749016622256,
+     "energy_j": 2240.3837955173217,
+     "tool_jerk_rms_m_s3": 11.407437151814245,
+     "host_compute_ms_p95": 0.33865700000000004,
+     "wall_time_s": 16.847616370068863,
+     "aggregation": "tool_track_max_mm, saturation_share_pct: worst task; energy_j, wall_time_s: sum over tasks; host_compute_ms_p95: over every tick of every task; the rest: median over tasks"
+    }
+   },
+   {
     "id": "p5s-pass3",
     "parent": "p5s-onefit",
     "change": "identification pass 3 (identify_pass.py on p5s-onefit's dev runs), added into model.json",
@@ -184,6 +268,62 @@
      "tool_jerk_rms_m_s3": 11.400985527036072,
      "host_compute_ms_p95": 0.145293,
      "wall_time_s": 7.829459159926046,
+     "aggregation": "tool_track_max_mm, saturation_share_pct: worst task; energy_j, wall_time_s: sum over tasks; host_compute_ms_p95: over every tick of every task; the rest: median over tasks"
+    }
+   },
+   {
+    "id": "p5s-accel-residual",
+    "parent": "p5s-pass3",
+    "change": "Add a fitted diagonal target-acceleration term to the parent feedforward",
+    "split": "dev",
+    "objective": 0.03133700199014382,
+    "admissible": true,
+    "gate_pass_rate": 1.0,
+    "failed_gates": {
+     "completed": 0,
+     "stop_error_max_mm": 0,
+     "saturation_share_pct": 0,
+     "limit_violations": 0,
+     "floor_clearance": 0
+    },
+    "diagnostics": {
+     "tool_track_max_mm": 0.24597092988336539,
+     "joint_track_rms_deg": 0.0041134370498464344,
+     "tool_lag_ms": -0.00017882582960016889,
+     "stop_error_mm": 0.08845382864619916,
+     "saturation_share_pct": 0.02537749016622256,
+     "energy_j": 2240.172012979608,
+     "tool_jerk_rms_m_s3": 11.387687729952887,
+     "host_compute_ms_p95": 0.37923400000000007,
+     "wall_time_s": 25.378104141913354,
+     "aggregation": "tool_track_max_mm, saturation_share_pct: worst task; energy_j, wall_time_s: sum over tasks; host_compute_ms_p95: over every tick of every task; the rest: median over tasks"
+    }
+   },
+   {
+    "id": "p5s-friction-asym",
+    "parent": "p5s-pass3",
+    "change": "Add one bounded even-velocity friction term per joint to the parent feedforward",
+    "split": "dev",
+    "objective": 0.031401896261106566,
+    "admissible": true,
+    "gate_pass_rate": 1.0,
+    "failed_gates": {
+     "completed": 0,
+     "stop_error_max_mm": 0,
+     "saturation_share_pct": 0,
+     "limit_violations": 0,
+     "floor_clearance": 0
+    },
+    "diagnostics": {
+     "tool_track_max_mm": 0.25072003729443243,
+     "joint_track_rms_deg": 0.004057080507805282,
+     "tool_lag_ms": -0.00017882582960016889,
+     "stop_error_mm": 0.08563396500974571,
+     "saturation_share_pct": 0.02537749016622256,
+     "energy_j": 2240.2871863919054,
+     "tool_jerk_rms_m_s3": 11.418416528902847,
+     "host_compute_ms_p95": 0.319981,
+     "wall_time_s": 18.270553611801006,
      "aggregation": "tool_track_max_mm, saturation_share_pct: worst task; energy_j, wall_time_s: sum over tasks; host_compute_ms_p95: over every tick of every task; the rest: median over tasks"
     }
    },
@@ -244,6 +384,62 @@
     }
    },
    {
+    "id": "p5s-damping215",
+    "parent": "p5s-pass3",
+    "change": "Change the board damping multiplier from 2.0 to 2.15",
+    "split": "dev",
+    "objective": 0.03162749668839333,
+    "admissible": true,
+    "gate_pass_rate": 1.0,
+    "failed_gates": {
+     "completed": 0,
+     "stop_error_max_mm": 0,
+     "saturation_share_pct": 0,
+     "limit_violations": 0,
+     "floor_clearance": 0
+    },
+    "diagnostics": {
+     "tool_track_max_mm": 0.2593356524464361,
+     "joint_track_rms_deg": 0.004202580996681735,
+     "tool_lag_ms": -0.00017882582960016889,
+     "stop_error_mm": 0.0855680799732995,
+     "saturation_share_pct": 0.24884062888813485,
+     "energy_j": 2311.2778415008993,
+     "tool_jerk_rms_m_s3": 11.398133821722816,
+     "host_compute_ms_p95": 0.318699,
+     "wall_time_s": 15.56426347384695,
+     "aggregation": "tool_track_max_mm, saturation_share_pct: worst task; energy_j, wall_time_s: sum over tasks; host_compute_ms_p95: over every tick of every task; the rest: median over tasks"
+    }
+   },
+   {
+    "id": "p5s-filter-history",
+    "parent": "p5s-pass3",
+    "change": "Use a board-rate causal filter of encoder-delayed target velocity for damping feedforward compensation",
+    "split": "dev",
+    "objective": 0.0317323121914596,
+    "admissible": true,
+    "gate_pass_rate": 1.0,
+    "failed_gates": {
+     "completed": 0,
+     "stop_error_max_mm": 0,
+     "saturation_share_pct": 0,
+     "limit_violations": 0,
+     "floor_clearance": 0
+    },
+    "diagnostics": {
+     "tool_track_max_mm": 0.24799975987208933,
+     "joint_track_rms_deg": 0.004030399908065694,
+     "tool_lag_ms": -0.00017882582959991738,
+     "stop_error_mm": 0.08492903322248133,
+     "saturation_share_pct": 0.02537749016622256,
+     "energy_j": 2240.5416541131494,
+     "tool_jerk_rms_m_s3": 11.395318655980482,
+     "host_compute_ms_p95": 0.349768,
+     "wall_time_s": 19.388531909906305,
+     "aggregation": "tool_track_max_mm, saturation_share_pct: worst task; energy_j, wall_time_s: sum over tasks; host_compute_ms_p95: over every tick of every task; the rest: median over tasks"
+    }
+   },
+   {
     "id": "p5s-inertia",
     "parent": "p5s-onefit",
     "change": "Add the given model\u2019s inertial torque from acceleration error to the next identification pass",
@@ -268,6 +464,62 @@
      "tool_jerk_rms_m_s3": 11.407132100625624,
      "host_compute_ms_p95": 0.24732500000000002,
      "wall_time_s": 10.215886561898515,
+     "aggregation": "tool_track_max_mm, saturation_share_pct: worst task; energy_j, wall_time_s: sum over tasks; host_compute_ms_p95: over every tick of every task; the rest: median over tasks"
+    }
+   },
+   {
+    "id": "p5s-hold-average",
+    "parent": "p5s-pass3",
+    "change": "Use the exact mean of planned feedforward torque over each joint\u2019s compensated host hold window",
+    "split": "dev",
+    "objective": 0.03194352812818804,
+    "admissible": true,
+    "gate_pass_rate": 1.0,
+    "failed_gates": {
+     "completed": 0,
+     "stop_error_max_mm": 0,
+     "saturation_share_pct": 0,
+     "limit_violations": 0,
+     "floor_clearance": 0
+    },
+    "diagnostics": {
+     "tool_track_max_mm": 0.2110387563270607,
+     "joint_track_rms_deg": 0.0040441207955436535,
+     "tool_lag_ms": -0.00017882582960016889,
+     "stop_error_mm": 0.08909086105723317,
+     "saturation_share_pct": 0.03806623524933384,
+     "energy_j": 2240.517467846201,
+     "tool_jerk_rms_m_s3": 11.428885217113269,
+     "host_compute_ms_p95": 0.41341700000000003,
+     "wall_time_s": 21.60909475106746,
+     "aggregation": "tool_track_max_mm, saturation_share_pct: worst task; energy_j, wall_time_s: sum over tasks; host_compute_ms_p95: over every tick of every task; the rest: median over tasks"
+    }
+   },
+   {
+    "id": "p5s-chord-integral",
+    "parent": "p5s-pass3",
+    "change": "Use the exact mean position intercept for each joint\u2019s unchanged secant velocity",
+    "split": "dev",
+    "objective": 0.03226538450139816,
+    "admissible": true,
+    "gate_pass_rate": 1.0,
+    "failed_gates": {
+     "completed": 0,
+     "stop_error_max_mm": 0,
+     "saturation_share_pct": 0,
+     "limit_violations": 0,
+     "floor_clearance": 0
+    },
+    "diagnostics": {
+     "tool_track_max_mm": 0.22238796980510983,
+     "joint_track_rms_deg": 0.004123913884601075,
+     "tool_lag_ms": -0.00017882582960016889,
+     "stop_error_mm": 0.08473317526997547,
+     "saturation_share_pct": 0.02537749016622256,
+     "energy_j": 2240.3629294989123,
+     "tool_jerk_rms_m_s3": 11.401852069422873,
+     "host_compute_ms_p95": 0.370346,
+     "wall_time_s": 18.860199609654956,
      "aggregation": "tool_track_max_mm, saturation_share_pct: worst task; energy_j, wall_time_s: sum over tasks; host_compute_ms_p95: over every tick of every task; the rest: median over tasks"
     }
    },
@@ -1168,7 +1420,7 @@
     }
    }
   ],
-  "best": "p5s-pass3",
+  "best": "p5s-damping185-refit",
   "scored": true,
   "excluded": {
    "ablation": [
@@ -1207,8 +1459,8 @@
   "progress_svg": true
  },
  "best_solution": {
-  "id": "p5s-pass3",
-  "path": "solutions/p5s-pass3/solution.py",
-  "code": "\"\"\"p5s-pass3: p5s-onefit plus one more identification pass (the first made with identify_pass.py).\n\nParent p5s-onefit. One change: model.json gains pass 5 (`identify_pass.py p5s-onefit`: gravity shapes + friction basis\nfitted to p5s-onefit's dev joint errors as torque at kp x4 / kd x2, subtracted). WHY: p5s-pass2's pass took 27 % off\nwhen a regression on (qd, sign, qdd, 1) promised ~5 %; this measures whether a further pass still pays, and exercises\nthe one-command pass tool the next agent would use. Expectation: small (the in-sample torque-error rms barely moves).\n\np5s-onefit: p5s-pass2's controller with its four stacked fits merged into one model.json (merge_stack.py, no new data).\n\nThe controller, all of it (gen-1 lane lineage p5s -> p5s-bus -> p5s-bus-enc -> p5s-fric -> p5s-chord -> p5s-grav ->\np5s-fric2 -> p5s-kp2 -> p5s-kp4 -> p5s-vlag -> p5s-pass2; each step's WHY is in that solution's docstring):\n\n- **Feed-forward at plan time** (once per trajectory sample, sampled at the middle of each host period, secant_mid_ff):\n  the given `rigid_body` model (10 % wrong, robot_controllers' base scenario), plus the identified friction\n  `sum_s w_js tanh(qd_j / s) + w_j qd_j` and gravity error `sum_m c_jm phi_m(q)` (model.json), minus `kd_j tau_v qdd_j`,\n  the torque the board's own damping adds while accelerating because its velocity estimate lags by\n  tau_v = encoder delay + 1/(2 pi velocity filter Hz) = 1.3 ms.\n- **Feedback on the board**: PD at kp 4 x and kd 2 x the boards' configured gains (`deployment.board`), sent with every\n  command. Transfer risk: the twin has no compliance, so stiffness is cheap here.\n- **Timing**: each joint samples its reference at bus command delay - (encoder delay + one board tick) ahead, so the\n  board's PD balances with the joint on the target at the same instant.\n- **Shape**: each command's position is the sample minus a(s + T/2) T\u00b2/12, so the board's straight walk over a host\n  period is the least-squares line of the curve, not its chord.\n\nEverything identified comes from dev run records (measured joints and the boards' applied torque, outputs of\n`tta evaluate`), never from the plant; everything else is a public deployment field or a given model.\n\"\"\"\n\nfrom __future__ import annotations\n\nimport dataclasses\nimport json\nfrom pathlib import Path\n\nimport numpy as np\nfrom robot_controllers.bench.arms import arm as registered_arm\nfrom robot_controllers.bench.scenarios import base_scenario\nfrom robot_controllers.controllers.layout import LayoutConfig, LayoutController\nfrom robot_controllers.models import PD, Layout\n\nMODEL = json.loads((Path(__file__).resolve().parent / \"model.json\").read_text())\nKP_SCALE = 4.0\nKD_SCALE = 2.0\n\n\ndef gravity_shapes(q):\n    \"\"\"The shapes a gravity torque takes on this arm (pan axis vertical; lift, elbow, wrist_1 parallel): (N, 6) -> (N, 13).\"\"\"\n    q = np.atleast_2d(np.asarray(q, dtype=float))\n    a2, a23, a234, a5 = q[:, 1], q[:, 1] + q[:, 2], q[:, 1] + q[:, 2] + q[:, 3], q[:, 4]\n    return np.column_stack([\n        np.ones(len(q)), np.cos(a2), np.sin(a2), np.cos(a23), np.sin(a23), np.cos(a234), np.sin(a234),\n        np.cos(a234) * np.cos(a5), np.sin(a234) * np.cos(a5), np.cos(a234) * np.sin(a5), np.sin(a234) * np.sin(a5),\n        np.sin(a5), np.cos(a5),\n    ])\n\n\ndef friction_basis(qd, scales):\n    \"\"\"Odd in qd, zero at rest: tanh(qd / s) for each scale, then qd: (..., n) -> (..., n, S + 1).\"\"\"\n    qd = np.asarray(qd, dtype=float)\n    return np.concatenate([np.tanh(qd[..., None] / scales), qd[..., None]], axis=-1)\n\n\nclass IdentifiedModel:\n    \"\"\"`ff(q, qd, qdd)`: the given model + model.json's friction and gravity terms - kd tau_v qdd (pure; (n,) or (N, n)).\"\"\"\n\n    def __init__(self, given, joint_names, kd_tau_v):\n        rows = [MODEL[\"joints\"][name] for name in joint_names]\n        self.given = given\n        self.scales = np.asarray(MODEL[\"basis\"][\"friction_scales_rad_s\"], dtype=float)\n        self.friction = np.array([row[\"friction_nm\"] for row in rows])  # (n, S + 1)\n        self.gravity = np.array([row[\"gravity_nm\"] for row in rows]).T  # (13, n)\n        self.kd_tau_v = np.asarray(kd_tau_v, dtype=float)\n\n    def __call__(self, q, qd, qdd):\n        gravity = gravity_shapes(q) @ self.gravity\n        if np.ndim(q) == 1:\n            gravity = gravity[0]\n        friction = np.sum(friction_basis(qd, self.scales) * self.friction, axis=-1)\n        return (np.asarray(self.given(q, qd, qdd), dtype=float) + friction + gravity\n                - self.kd_tau_v * np.asarray(qdd, dtype=float))\n\n\nclass ChordCorrected:\n    \"\"\"The layout controller with each command's position moved by -a(s + T/2)\u00b7T\u00b2/12 (everything else its own).\"\"\"\n\n    def __init__(self, inner, trajectory, lookahead_s, period_s):\n        self._inner = inner\n        self._t = np.asarray(trajectory.t, dtype=float)\n        self._end = float(self._t[-1])\n        self._acceleration = np.asarray(trajectory.accelerations, dtype=float)\n        self._lookahead = np.asarray(lookahead_s, dtype=float)\n        self._period = float(period_s)\n\n    def __getattr__(self, name):\n        return getattr(self._inner, name)\n\n    def tick(self, state, dt):\n        command, defines = self._inner.tick(state, dt)\n        if self._inner.status != \"running\" and self._inner.status != \"done\":\n            return command, defines  # an abort's hold is the JTC's, untouched\n        middle = self._inner.clock_s + self._lookahead + 0.5 * self._period\n        shift = np.zeros(len(middle))\n        for joint, when in enumerate(middle):\n            if when < self._end:  # held at rest after the end: no curvature\n                shift[joint] = np.interp(when, self._t, self._acceleration[:, joint]) * self._period**2 / 12.0\n        position = np.asarray(command.position, dtype=float) - shift\n        return dataclasses.replace(command, position=position), defines\n\n\ndef build(trajectory, deployment):\n    \"\"\"A robot_controllers LayoutController (a robot_msgs JointController) for `trajectory` on `deployment`.\"\"\"\n    scenario = dataclasses.replace(\n        base_scenario(deployment.arm), host_rate_hz=deployment.host_rate_hz, bus=deployment.bus\n    )\n    board = deployment.board\n    period_s = 1.0 / deployment.host_rate_hz\n    kp = tuple(KP_SCALE * float(k) for k in board.kp_nm_rad)\n    kd = tuple(KD_SCALE * float(k) for k in board.kd_nm_s_rad)\n    velocity_lag_s = board.encoder_delay_s + 1.0 / (2.0 * np.pi * board.velocity_filter_hz)\n    given = registered_arm(deployment.arm).feedforward(\"rigid_body\", scenario.model_error)\n    feedforward = IdentifiedModel(given, trajectory.joint_names, np.asarray(kd) * velocity_lag_s)\n    board_lead_s = board.encoder_delay_s + 1.0 / board.rate_hz  # 0.5 ms + 0.25 ms\n    bus_delay_s = deployment.bus.per_joint(len(deployment.joint_names))\n    lookahead_s = tuple(max(0.0, float(delay) - board_lead_s) for delay in bus_delay_s)\n    layout = Layout(\"plan\", \"board\", lookahead_s=lookahead_s, interpolation=\"secant_mid_ff\")\n    config = LayoutConfig(feedforward=feedforward, feedback=PD(kp, kd), layout=layout, control_period_s=period_s)\n    return ChordCorrected(LayoutController(trajectory, config), trajectory, lookahead_s, period_s)\n"
+  "id": "p5s-damping185-refit",
+  "path": "solutions/p5s-damping185-refit/solution.py",
+  "code": "\"\"\"p5s-pass3: p5s-onefit plus one more identification pass (the first made with identify_pass.py).\n\nParent p5s-onefit. One change: model.json gains pass 5 (`identify_pass.py p5s-onefit`: gravity shapes + friction basis\nfitted to p5s-onefit's dev joint errors as torque at kp x4 / kd x2, subtracted). WHY: p5s-pass2's pass took 27 % off\nwhen a regression on (qd, sign, qdd, 1) promised ~5 %; this measures whether a further pass still pays, and exercises\nthe one-command pass tool the next agent would use. Expectation: small (the in-sample torque-error rms barely moves).\n\np5s-onefit: p5s-pass2's controller with its four stacked fits merged into one model.json (merge_stack.py, no new data).\n\nThe controller, all of it (gen-1 lane lineage p5s -> p5s-bus -> p5s-bus-enc -> p5s-fric -> p5s-chord -> p5s-grav ->\np5s-fric2 -> p5s-kp2 -> p5s-kp4 -> p5s-vlag -> p5s-pass2; each step's WHY is in that solution's docstring):\n\n- **Feed-forward at plan time** (once per trajectory sample, sampled at the middle of each host period, secant_mid_ff):\n  the given `rigid_body` model (10 % wrong, robot_controllers' base scenario), plus the identified friction\n  `sum_s w_js tanh(qd_j / s) + w_j qd_j` and gravity error `sum_m c_jm phi_m(q)` (model.json), minus `kd_j tau_v qdd_j`,\n  the torque the board's own damping adds while accelerating because its velocity estimate lags by\n  tau_v = encoder delay + 1/(2 pi velocity filter Hz) = 1.3 ms.\n- **Feedback on the board**: PD at kp 4 x and kd 2 x the boards' configured gains (`deployment.board`), sent with every\n  command. Transfer risk: the twin has no compliance, so stiffness is cheap here.\n- **Timing**: each joint samples its reference at bus command delay - (encoder delay + one board tick) ahead, so the\n  board's PD balances with the joint on the target at the same instant.\n- **Shape**: each command's position is the sample minus a(s + T/2) T\u00b2/12, so the board's straight walk over a host\n  period is the least-squares line of the curve, not its chord.\n\nEverything identified comes from dev run records (measured joints and the boards' applied torque, outputs of\n`tta evaluate`), never from the plant; everything else is a public deployment field or a given model.\n\"\"\"\n\nfrom __future__ import annotations\n\nimport dataclasses\nimport json\nfrom pathlib import Path\n\nimport numpy as np\nfrom robot_controllers.bench.arms import arm as registered_arm\nfrom robot_controllers.bench.scenarios import base_scenario\nfrom robot_controllers.controllers.layout import LayoutConfig, LayoutController\nfrom robot_controllers.models import PD, Layout\n\nMODEL = json.loads((Path(__file__).resolve().parent / \"model.json\").read_text())\nKP_SCALE = 4.0\nKD_SCALE = 1.85\n\n\ndef gravity_shapes(q):\n    \"\"\"The shapes a gravity torque takes on this arm (pan axis vertical; lift, elbow, wrist_1 parallel): (N, 6) -> (N, 13).\"\"\"\n    q = np.atleast_2d(np.asarray(q, dtype=float))\n    a2, a23, a234, a5 = q[:, 1], q[:, 1] + q[:, 2], q[:, 1] + q[:, 2] + q[:, 3], q[:, 4]\n    return np.column_stack([\n        np.ones(len(q)), np.cos(a2), np.sin(a2), np.cos(a23), np.sin(a23), np.cos(a234), np.sin(a234),\n        np.cos(a234) * np.cos(a5), np.sin(a234) * np.cos(a5), np.cos(a234) * np.sin(a5), np.sin(a234) * np.sin(a5),\n        np.sin(a5), np.cos(a5),\n    ])\n\n\ndef friction_basis(qd, scales):\n    \"\"\"Odd in qd, zero at rest: tanh(qd / s) for each scale, then qd: (..., n) -> (..., n, S + 1).\"\"\"\n    qd = np.asarray(qd, dtype=float)\n    return np.concatenate([np.tanh(qd[..., None] / scales), qd[..., None]], axis=-1)\n\n\nclass IdentifiedModel:\n    \"\"\"`ff(q, qd, qdd)`: the given model + model.json's friction and gravity terms - kd tau_v qdd (pure; (n,) or (N, n)).\"\"\"\n\n    def __init__(self, given, joint_names, kd_tau_v):\n        rows = [MODEL[\"joints\"][name] for name in joint_names]\n        self.given = given\n        self.scales = np.asarray(MODEL[\"basis\"][\"friction_scales_rad_s\"], dtype=float)\n        self.friction = np.array([row[\"friction_nm\"] for row in rows])  # (n, S + 1)\n        self.gravity = np.array([row[\"gravity_nm\"] for row in rows]).T  # (13, n)\n        self.kd_tau_v = np.asarray(kd_tau_v, dtype=float)\n\n    def __call__(self, q, qd, qdd):\n        gravity = gravity_shapes(q) @ self.gravity\n        if np.ndim(q) == 1:\n            gravity = gravity[0]\n        friction = np.sum(friction_basis(qd, self.scales) * self.friction, axis=-1)\n        return (np.asarray(self.given(q, qd, qdd), dtype=float) + friction + gravity\n                - self.kd_tau_v * np.asarray(qdd, dtype=float))\n\n\nclass ChordCorrected:\n    \"\"\"The layout controller with each command's position moved by -a(s + T/2)\u00b7T\u00b2/12 (everything else its own).\"\"\"\n\n    def __init__(self, inner, trajectory, lookahead_s, period_s):\n        self._inner = inner\n        self._t = np.asarray(trajectory.t, dtype=float)\n        self._end = float(self._t[-1])\n        self._acceleration = np.asarray(trajectory.accelerations, dtype=float)\n        self._lookahead = np.asarray(lookahead_s, dtype=float)\n        self._period = float(period_s)\n\n    def __getattr__(self, name):\n        return getattr(self._inner, name)\n\n    def tick(self, state, dt):\n        command, defines = self._inner.tick(state, dt)\n        if self._inner.status != \"running\" and self._inner.status != \"done\":\n            return command, defines  # an abort's hold is the JTC's, untouched\n        middle = self._inner.clock_s + self._lookahead + 0.5 * self._period\n        shift = np.zeros(len(middle))\n        for joint, when in enumerate(middle):\n            if when < self._end:  # held at rest after the end: no curvature\n                shift[joint] = np.interp(when, self._t, self._acceleration[:, joint]) * self._period**2 / 12.0\n        position = np.asarray(command.position, dtype=float) - shift\n        return dataclasses.replace(command, position=position), defines\n\n\ndef build(trajectory, deployment):\n    \"\"\"A robot_controllers LayoutController (a robot_msgs JointController) for `trajectory` on `deployment`.\"\"\"\n    scenario = dataclasses.replace(\n        base_scenario(deployment.arm), host_rate_hz=deployment.host_rate_hz, bus=deployment.bus\n    )\n    board = deployment.board\n    period_s = 1.0 / deployment.host_rate_hz\n    kp = tuple(KP_SCALE * float(k) for k in board.kp_nm_rad)\n    kd = tuple(KD_SCALE * float(k) for k in board.kd_nm_s_rad)\n    velocity_lag_s = board.encoder_delay_s + 1.0 / (2.0 * np.pi * board.velocity_filter_hz)\n    given = registered_arm(deployment.arm).feedforward(\"rigid_body\", scenario.model_error)\n    feedforward = IdentifiedModel(given, trajectory.joint_names, np.asarray(kd) * velocity_lag_s)\n    board_lead_s = board.encoder_delay_s + 1.0 / board.rate_hz  # 0.5 ms + 0.25 ms\n    bus_delay_s = deployment.bus.per_joint(len(deployment.joint_names))\n    lookahead_s = tuple(max(0.0, float(delay) - board_lead_s) for delay in bus_delay_s)\n    layout = Layout(\"plan\", \"board\", lookahead_s=lookahead_s, interpolation=\"secant_mid_ff\")\n    config = LayoutConfig(feedforward=feedforward, feedback=PD(kp, kd), layout=layout, control_period_s=period_s)\n    return ChordCorrected(LayoutController(trajectory, config), trajectory, lookahead_s, period_s)\n"
  }
 }

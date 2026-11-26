@@ -3,22 +3,22 @@
  "what": "Trajectory Comparison, written by tools/build_dropins.py build from committed files (the tapes, the bb-run/1 records in site/data/runs/, the scorecards); never edit, rebuild.",
  "made_by": {
   "repo": {
-   "commit": "831d3b1",
+   "commit": "6c756a0",
    "dirty": true
   },
   "traj_compare": {
-   "commit": "a4c3c79",
-   "dirty": true,
+   "commit": "e413020",
+   "dirty": false,
    "version": "0.1.0"
   },
   "robot_msgs": {
-   "commit": "3023fce",
-   "dirty": true
+   "commit": "8827f5f",
+   "dirty": false
   }
  },
  "solutions": [
   {
-   "id": "p5s-pass3",
+   "id": "p5s-damping185-refit",
    "role": "best admissible"
   },
   {
@@ -71,14 +71,15 @@
   "workspace-dev-041"
  ],
  "assets": {
-  "plots.js": "c5e11e00ef66bb521e2d23f6281850c14401cb9dab290099e3dcfebbf0d0c34b",
-  "style.css": "32ff6270a1b75e3a86cc29c145aa62b873bab5a33d2d692ec5c7aa4251db274e",
+  "plots.js": "dbec72a233aaeb5c14dc5c1eec003b2ea02317a9182f3b6078e6a364c447a6d8",
+  "style.css": "11766ddf7a6c63dd7f0de65c6b297db112f980fbb352f5da48c2a381be13a90a",
   "three.min.js": "170c6789f43217c96b3170f4b42fafe135de7f7cd48497a4218f9757ee1d49fa",
+  "timeline.js": "c59dcd37a82a46cf384af9f134107ae82c7e5e694c2f4241080d23bcc6b910a6",
   "uplot.iife.min.js": "7f29cd14e36d84141ab49c5e0a806d88e4d855596a9bc0e10799bc2c114b4c4f",
   "uplot.min.css": "df630c6a8d6f8eeaff264b50f73ce5b114f646ffd9a0bb74f049b0a00135fa04",
   "viewer3d.js": "f644471cc1a48aa7d71ba0e34446e1a9a26feae089e00a27412f77673c98ceee",
   "viewhelper.js": "3c5e9d7e97247bdac20607053430d7a05a3e49fa1baeacf8283a4c8e7ef80889"
  },
- "fk_check_worst_mm": 0.0019125316353895666,
- "bytes": 23700672
+ "fk_check_worst_mm": 0.001910650301660398,
+ "bytes": 23855455
 }

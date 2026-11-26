@@ -1,0 +1,278 @@
+{
+  "scope": "simulation-only off-score experiment",
+  "model_joint_order": [
+    "shoulder_pan_joint",
+    "shoulder_lift_joint",
+    "elbow_joint",
+    "wrist_1_joint",
+    "wrist_2_joint",
+    "wrist_3_joint"
+  ],
+  "feature_names": [
+    "bias",
+    "cos_lift",
+    "cos_lift_elbow",
+    "cos_lift_elbow_wrist",
+    "sin_lift",
+    "sin_lift_elbow",
+    "sin_lift_elbow_wrist",
+    "tanh_velocity",
+    "velocity"
+  ],
+  "learned_feedforward_coefficients": [
+    [
+      3.0056651899526194,
+      -2.391903690905719,
+      0.05000994967566047,
+      4.003730138163751,
+      -0.6837036903332103,
+      -5.5161622803805725,
+      3.249301812433356,
+      4.536725359101171,
+      0.6300359116775486
+    ],
+    [
+      2.7644948119702555,
+      0.653960876512568,
+      1.8945024876484398,
+      -5.077602643874,
+      0.4532800321691372,
+      3.3218092220088464,
+      3.926609270944881,
+      1.4812160809862194,
+      4.733245055924959
+    ],
+    [
+      0.3074104928280962,
+      -0.06269367095993801,
+      -1.315283047018791,
+      0.04956016285986723,
+      1.1037796259377681,
+      -0.22055549372694522,
+      -1.4017200894247523,
+      3.156101481023556,
+      1.9641477192751327
+    ],
+    [
+      -0.2650845673236101,
+      0.15519328459749973,
+      0.24774774805829622,
+      0.31006895526490297,
+      -0.11036487763746648,
+      -1.018196651758627,
+      0.1463990942680279,
+      0.6522089639847075,
+      0.22644658532876658
+    ],
+    [
+      0.29777142249324196,
+      -0.08670063277468709,
+      -0.10627326603077576,
+      -0.27783379962917254,
+      -0.187929382261929,
+      0.4559007479406372,
+      0.391377741498959,
+      0.4037423011886324,
+      0.8066803230957282
+    ],
+    [
+      0.12782111090928275,
+      -0.13345624717435214,
+      0.0029195887373536333,
+      -0.08422045387488733,
+      -0.15080014973676242,
+      0.06357295808834781,
+      0.19666218063026508,
+      -0.017177715447106244,
+      0.22323770732954107
+    ]
+  ],
+  "feature_matrix_diagnostics_by_joint": [
+    {
+      "rank": 9,
+      "condition_number": 366.23517494816605
+    },
+    {
+      "rank": 9,
+      "condition_number": 366.6424222787228
+    },
+    {
+      "rank": 9,
+      "condition_number": 365.4034706470649
+    },
+    {
+      "rank": 9,
+      "condition_number": 366.962757802716
+    },
+    {
+      "rank": 9,
+      "condition_number": 366.0862481500049
+    },
+    {
+      "rank": 9,
+      "condition_number": 395.52084351745293
+    }
+  ],
+  "training": [
+    {
+      "seed": 2718,
+      "centre_deg_from_home": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "tape_sha256": "e3018450786c17b50379bf576568d69303b397ce124f12047b32c8b3c35e5eba",
+      "tool_track_rms_mm": 1.688882516169592,
+      "gates": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "floor_clearance": true
+      },
+      "gate_inputs": {
+        "stop_error_max_mm": 0.39841899220367205,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0,
+        "floor_clearance_violations": 0,
+        "completed": true
+      },
+      "moving_observations": 399,
+      "host_ticks": 431
+    },
+    {
+      "seed": 2818,
+      "centre_deg_from_home": [
+        15,
+        20,
+        -11,
+        16,
+        -18,
+        5
+      ],
+      "tape_sha256": "fa3ed9b9a68e851a9867b64720e4b86bdd69e98002678d732e18f1e9016a1157",
+      "tool_track_rms_mm": 1.6828445736959812,
+      "gates": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "floor_clearance": true
+      },
+      "gate_inputs": {
+        "stop_error_max_mm": 0.4243074726988674,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0,
+        "floor_clearance_violations": 0,
+        "completed": true
+      },
+      "moving_observations": 399,
+      "host_ticks": 431
+    }
+  ],
+  "independent_validation": [
+    {
+      "seed": 3141,
+      "centre_deg_from_home": [
+        -10,
+        8,
+        6,
+        -10,
+        12,
+        4
+      ],
+      "tape_sha256": "c564186cfe4059a0211de5244bbf621bcf3f7dd2c90189215df6a7366a4fcd76",
+      "unfitted": {
+        "tool_track_rms_mm": 1.8403187937768248,
+        "gates": {
+          "completed": true,
+          "stop_error_max_mm": true,
+          "saturation_share_pct": true,
+          "limit_violations": true,
+          "floor_clearance": true
+        },
+        "gate_inputs": {
+          "stop_error_max_mm": 0.4124828690871444,
+          "saturation_share_pct": 0.0,
+          "limit_violations": 0,
+          "floor_clearance_violations": 0,
+          "completed": true
+        },
+        "moving_observations": 399,
+        "host_ticks": 431
+      },
+      "fitted": {
+        "tool_track_rms_mm": 0.5936343977778805,
+        "gates": {
+          "completed": true,
+          "stop_error_max_mm": true,
+          "saturation_share_pct": true,
+          "limit_violations": true,
+          "floor_clearance": true
+        },
+        "gate_inputs": {
+          "stop_error_max_mm": 0.6612544463793966,
+          "saturation_share_pct": 0.0,
+          "limit_violations": 0,
+          "floor_clearance_violations": 0,
+          "completed": true
+        },
+        "moving_observations": 399,
+        "host_ticks": 431
+      }
+    },
+    {
+      "seed": 3241,
+      "centre_deg_from_home": [
+        8,
+        -12,
+        12,
+        9,
+        16,
+        -4
+      ],
+      "tape_sha256": "fb2bee0cc47b3efd83f7341e0dd0356130343d4b52f095eef6e435a2938727bf",
+      "unfitted": {
+        "tool_track_rms_mm": 1.5481453693024148,
+        "gates": {
+          "completed": true,
+          "stop_error_max_mm": true,
+          "saturation_share_pct": true,
+          "limit_violations": true,
+          "floor_clearance": true
+        },
+        "gate_inputs": {
+          "stop_error_max_mm": 0.29188325640126334,
+          "saturation_share_pct": 0.0,
+          "limit_violations": 0,
+          "floor_clearance_violations": 0,
+          "completed": true
+        },
+        "moving_observations": 399,
+        "host_ticks": 431
+      },
+      "fitted": {
+        "tool_track_rms_mm": 0.30790821454269063,
+        "gates": {
+          "completed": true,
+          "stop_error_max_mm": true,
+          "saturation_share_pct": true,
+          "limit_violations": true,
+          "floor_clearance": true
+        },
+        "gate_inputs": {
+          "stop_error_max_mm": 0.32048108838996237,
+          "saturation_share_pct": 0.0,
+          "limit_violations": 0,
+          "floor_clearance_violations": 0,
+          "completed": true
+        },
+        "moving_observations": 399,
+        "host_ticks": 431
+      }
+    }
+  ]
+}

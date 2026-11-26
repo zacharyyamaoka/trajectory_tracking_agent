@@ -190,6 +190,18 @@ table.tc-metrics tr.tone-muted { color: #8a8983; }
 /* uPlot restyling to match */
 .uplot { font: 10.5px -apple-system, 'Segoe UI', Roboto, sans-serif; }
 .u-select { background: rgba(42, 120, 214, 0.1); }
+/* every plot is a scrubber (plots.js attachTimeGestures): the committed time is a solid line with a grip in the page's
+   ink, not a run colour; uPlot's dashed cursor stays the hover preview. pan-y: a finger dragging sideways moves the
+   time, one swiping up or down scrolls the page. WHY a border, not a background: the dark theme keeps a dark
+   background as it is (a video's letterbox) but inverts an ink border, so the line turns light on the dark page. */
+.tc-scrubbable { cursor: ew-resize; touch-action: pan-y; }
+.tc-playhead { position: absolute; top: 0; bottom: 0; width: 0; margin-left: -1px; border-left: 2px solid #1d1d1b;
+               pointer-events: none; z-index: 5; }
+.tc-playhead-grip { position: absolute; top: -1px; left: -7px; width: 0; height: 0;
+                    border-left: 6px solid transparent; border-right: 6px solid transparent;
+                    border-top: 8px solid #1d1d1b; }
+body.tc-scrubbing, body.tc-scrubbing * { cursor: ew-resize !important; user-select: none; }
+.tc-zoom-hint { font-size: 11px; color: #8a8983; }
 
 /* 3D viewer */
 .tc-3dwrap { display: flex; gap: 12px; align-items: stretch; }
@@ -449,6 +461,206 @@ table.tc-metrics td.wrap { white-space: normal; text-align: left; min-width: 220
   .tc-stage .tc-3dpanel { flex: 0 0 auto; width: 100%; }
 }
 
+/* ── one timeline for the page: the time lane under the tabs, one playhead line through every chart ──
+   (docs/NAVIGATION.md Part B; Zach's pick round 2026-11-24, R2 "One timeline for the page", applied 2026-11-25;
+   timeline.js). The page's ink #1d1d1b marks the committed time (never a run colour, never the torque blue/orange),
+   drawn as a border so the dark theme turns it light. */
+
+/* the chips stay as state machinery: the lane's tracks, Δ and Angles replace them on screen */
+.tc-timeline .tc-qhead .tc-controls { display: none; }
+.tc-timeline .tc-qtabs { margin-bottom: 0; }
+
+/* Charts stack one per row, full width, in every tab. A card is [title column | plot]: the title column is as wide as
+   the lane's names column (--tc-lane-names, dragged from the lane) and wraps the whole title; with the fixed y-axis
+   width (plots.js LANE_AXIS_PX) every plotting area starts and ends at the x of the lane's ruler. */
+.tc-sheet { position: relative; }
+.tc-timeline .tc-sheet { padding: 10px 0 16px; }
+.tc-timeline .tc-sheet .tc-grid, .tc-timeline .tc-sheet .tc-grid.pathgrid, .tc-timeline .tc-sheet .tc-grid.tc-channel-grid,
+.tc-timeline .tc-sheet .tc-joint-row.multi, .tc-timeline .tc-sheet .tc-finger-cols, .tc-timeline .tc-sheet .tc-videogrid {
+  grid-template-columns: minmax(0, 1fr); overflow: visible; gap: 8px; }
+.tc-timeline .tc-sheet .tc-part-block, .tc-timeline .tc-sheet .tc-joint-row, .tc-timeline .tc-sheet .tc-finger-col { gap: 8px; }
+.tc-timeline .tc-sheet .tc-section { background: transparent; border: 0; border-radius: 0; padding: 0; margin: 0 0 18px; }
+.tc-timeline .tc-sheet .tc-section > h3 { font-size: 13px; margin: 2px 0 8px; }
+.tc-timeline .tc-sheet .tc-track-grid { margin: 0 0 14px; }
+.tc-timeline .tc-sheet .tc-plotcard { display: grid; grid-template-columns: var(--tc-lane-names, 216px) minmax(0, 1fr);
+  align-items: stretch; padding: 0; }
+.tc-timeline .tc-sheet .tc-plotcard > .ptitle { white-space: normal; overflow: visible; text-overflow: clip;
+  overflow-wrap: anywhere; margin: 0; padding: 9px 12px; border-right: 1px solid #efeee9; font-size: 11.5px;
+  line-height: 1.4; color: #3d3c39; }
+.tc-timeline .tc-sheet .tc-plotcard > .ptitle + div { min-width: 0; }
+/* the one line carries the grip; each chart's own playhead lies under it */
+.tc-timeline .tc-sheet .tc-playhead-grip { display: none; }
+/* The line passes BEHIND what is not on the time axis (cards, tables, headings, chip rows), never over their text: they
+   sit above it, and the ones without a box of their own get the page's background, only as wide as their text. */
+.tc-timeline .tc-sheet .tc-panel > :not(.tc-section):not(.tc-grid), .tc-timeline .tc-sheet .tc-section > h3,
+.tc-timeline .tc-sheet .tc-tableblock, .tc-timeline .tc-sheet .tc-torque-legend, .tc-timeline .tc-sheet .tc-finger-label,
+.tc-timeline .tc-sheet .tc-empty, .tc-timeline .tc-sheet .tc-figure { position: relative; z-index: 8; }
+.tc-timeline .tc-sheet .tc-tab-heading, .tc-timeline .tc-sheet .tc-panel > .tc-desc, .tc-timeline .tc-sheet .tc-derived,
+.tc-timeline .tc-sheet .tc-panel-chips, .tc-timeline .tc-sheet .tc-partbar, .tc-timeline .tc-sheet .tc-section > h3,
+.tc-timeline .tc-sheet .tc-tableblock.embedded, .tc-timeline .tc-sheet .tc-torque-legend,
+.tc-timeline .tc-sheet .tc-finger-label { width: fit-content; max-width: 100%; padding-right: 8px; background: #f4f4f2; }
+
+/* the ONE playhead line, from the first chart down the sheet at the committed time; dashed at a lane-hovered instant */
+.tc-line { position: absolute; bottom: 0; width: 0; border-left: 2px solid #1d1d1b; z-index: 7; pointer-events: none; }
+.tc-line::before { content: ''; position: absolute; top: 0; left: -7px; border-left: 6px solid transparent;
+  border-right: 6px solid transparent; border-top: 8px solid #1d1d1b; }
+.tc-line.ghost { border-left: 1px dashed #8a8983; z-index: 6; }
+.tc-line.ghost::before { display: none; }
+
+/* ---- the lane: docked at the bottom of the tabs column while the page scrolls ---- */
+.tc-lane { position: sticky; bottom: 0; z-index: 15; display: flex; flex-direction: column; min-height: 0;
+  margin-top: 8px; background: #fcfcfb; border: 1px solid #dddcd6; border-radius: 8px; user-select: none;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05); --tc-lane-x0: 250px; --tc-lane-w: 600px; }
+.tc-lane-resize { position: absolute; left: 0; right: 0; top: -6px; height: 11px; cursor: row-resize; z-index: 9;
+  touch-action: none; }
+.tc-lane-resize::after { content: ''; position: absolute; left: 50%; top: 4px; width: 40px; height: 3px;
+  margin-left: -20px; border-radius: 2px; background: transparent; }
+.tc-lane-resize:hover::after, .tc-lane-resize.dragging::after { background: #9dbde4; }
+.tc-lane.folded .tc-lane-resize { display: none; }
+
+.tc-lane-bar { flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 6px 10px;
+  min-width: 0; border-bottom: 1px solid #e6e5e0; }
+.tc-lane-tools { display: inline-flex; align-items: center; gap: 3px; flex: 0 0 auto; }
+.tc-lane-tool { display: inline-flex; align-items: center; justify-content: center; gap: 5px; height: 26px; min-width: 28px;
+  padding: 0 7px; color: #3d3c39; font: inherit; font-size: 12px; white-space: nowrap; }
+.tc-lane-tool svg { display: block; flex: 0 0 auto; }
+.tc-lane-tool:disabled { opacity: 0.45; cursor: default; }
+.tc-lane-tool:disabled:hover { border-color: #cfcec8; }
+.tc-lane-play { min-width: 34px; }
+.tc-lane-play.on { background: #eef3fa; border-color: #9dbde4; }
+.tc-lane-readout { flex: 0 0 auto; min-width: 92px; font-size: 13px; color: #22211f; }
+.tc-lane-worst svg { color: #6f6e69; }
+.tc-lane-spacer { flex: 1 1 auto; min-width: 0; }
+.tc-lane-view { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: 11.5px; color: #52514e; font-variant-numeric: tabular-nums; }
+.tc-lane-units { display: inline-flex; align-items: center; gap: 4px; flex: 0 0 auto; }
+.tc-lane-units .grouplabel { font-size: 11px; color: #8a8983; text-transform: uppercase; letter-spacing: 0.04em;
+  margin-right: 2px; }
+.tc-lane-units .chip { padding: 2px 8px; font-size: 12px; }
+.tc-lane-fold { min-width: 26px; padding: 0 5px; }
+
+.tc-lane-body { position: relative; flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.tc-lane-row { position: relative; flex: 0 0 auto; }
+.tc-lane-head { position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--tc-lane-x0) - 10px); display: flex;
+  align-items: center; gap: 6px; padding-left: 8px; min-width: 0; }
+.tc-lane-time { position: absolute; top: 0; bottom: 0; left: var(--tc-lane-x0); width: var(--tc-lane-w); }
+.tc-lane-canvas { position: absolute; left: 0; top: 0; display: block; pointer-events: none; }
+.tc-lane-label { font-size: 11px; color: #8a8983; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; }
+
+.tc-lane-legend-row { height: 22px; border-bottom: 1px solid #efeee9; }
+.tc-lane-legend-row .tc-lane-head { gap: 8px; }
+.tc-lane-count { font-size: 11.5px; color: #52514e; white-space: nowrap; }
+.tc-lane-legend { display: flex; align-items: center; gap: 14px; padding-left: 6px; overflow: hidden; white-space: nowrap;
+  font-size: 11px; color: #6f6e69; }
+.tc-lane-key-item { display: inline-flex; align-items: center; gap: 5px; flex: 0 0 auto; }
+.tc-lane-key-item:first-child { flex: 0 1 auto; min-width: 0; }
+.tc-lane-key-item:first-child span { overflow: hidden; text-overflow: ellipsis; }
+.tc-lane-key { display: inline-block; flex: 0 0 auto; }
+.tc-lane-key.band { width: 18px; height: 10px; border-bottom: 1.5px solid #6f6e69; background: #e2e1dd;
+  clip-path: polygon(0 100%, 0 70%, 30% 45%, 55% 60%, 78% 5%, 100% 40%, 100% 100%); }
+.tc-lane-key.worst { width: 7px; height: 7px; transform: rotate(45deg); border: 3.5px solid #6f6e69; margin: 0 1px; }
+.tc-lane-key.rise { width: 0; height: 0; border-left: 4.5px solid transparent; border-right: 4.5px solid transparent;
+  border-bottom: 7px solid #6f6e69; }
+.tc-lane-key.limit { color: #b3261e; font-style: normal; font-weight: 700; }
+
+.tc-lane-ruler-row { height: 26px; background: #f4f4f2; border-bottom: 1px solid #e6e5e0; }
+.tc-lane-now { margin-left: auto; padding-right: 26px; font-size: 10.5px; color: #8a8983; white-space: nowrap; }
+.tc-lane-ruler { cursor: ew-resize; outline: none; touch-action: none; }
+.tc-lane-ruler:focus-visible { box-shadow: inset 0 0 0 2px #9dbde4; border-radius: 3px; }
+.tc-lane-grip { position: absolute; top: 2px; height: 15px; padding: 0 5px; border-radius: 4px; background: #3d3c39;
+  color: #fcfcfb; font-size: 10.5px; line-height: 15px; font-variant-numeric: tabular-nums; white-space: nowrap;
+  z-index: 3; pointer-events: none; }
+.tc-lane-grip.edge { background: #8a8983; pointer-events: auto; cursor: pointer; }
+.tc-lane-grip.edge:hover { background: #52514e; }
+.tc-lane-grip-tip { position: absolute; top: 16px; margin-left: -4px; border-left: 4px solid transparent;
+  border-right: 4px solid transparent; border-top: 5px solid #3d3c39; z-index: 3; pointer-events: none; }
+
+.tc-lane-tracks { flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; scrollbar-gutter: stable; }
+.tc-lane-track { height: 22px; border-bottom: 1px solid #f1f0ec; }
+.tc-lane-track:hover { background: #f6f8fb; }
+.tc-lane-track.off .tc-lane-name, .tc-lane-track.off .tc-lane-value, .tc-lane-track.off .tc-lane-swatch { opacity: 0.45; }
+.tc-lane-eye { flex: 0 0 auto; width: 20px; height: 20px; padding: 0; border: 0; border-radius: 4px; background: transparent;
+  color: #52514e; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.tc-lane-eye:hover { background: #eef3fa; color: #0b0b0b; }
+.tc-lane-eye.small svg { width: 13px; height: 13px; }
+.tc-lane-track.off .tc-lane-eye, .tc-lane-group.off .tc-lane-eye { color: #a8a7a2; }
+.tc-lane-eye-gap { flex: 0 0 20px; }
+.tc-lane-swatch { flex: 0 0 12px; width: 12px; height: 3px; border-radius: 2px; }
+.tc-lane-swatch.dashed { background-color: transparent !important; background-size: 6px 3px;
+  background-image: linear-gradient(90deg, currentColor 60%, transparent 40%) !important; }
+.tc-lane-name { flex: 1 1 auto; min-width: 0; display: flex; font-size: 12px; color: #22211f; white-space: nowrap; }
+.tc-lane-name-pre { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.tc-lane-name-pre:not(:last-child) { color: #8a8983; }
+.tc-lane-name-post { flex: 0 0 auto; white-space: pre; }
+.tc-lane-value { flex: 0 0 auto; min-width: 46px; text-align: right; font-size: 11px; color: #52514e;
+  font-variant-numeric: tabular-nums; }
+.tc-lane-delta { flex: 0 0 18px; width: 18px; height: 18px; padding: 0; border: 1px solid transparent; border-radius: 4px;
+  background: transparent; color: #a8a7a2; font: inherit; font-size: 11px; line-height: 1; cursor: pointer; }
+.tc-lane-delta:hover { border-color: #cfcec8; color: #52514e; }
+.tc-lane-delta.on { background: #eef3fa; border-color: #9dbde4; color: #0b0b0b; }
+.tc-lane-delta-gap { flex: 0 0 18px; }
+.tc-lane-track-time { cursor: ew-resize; touch-action: pan-y; }
+.tc-lane-note { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); padding: 0 4px; font-size: 10.5px;
+  color: #8a8983; white-space: nowrap; background: #fcfcfb; pointer-events: none; }
+.tc-lane-track.nodata .tc-lane-time { pointer-events: none; }
+.tc-lane-group { height: 19px; background: #f4f4f2; border-bottom: 1px solid #ebeae5; }
+.tc-lane-group .tc-lane-head { gap: 3px; padding-left: 4px; }
+.tc-lane-group-fold { flex: 0 0 auto; width: 16px; height: 16px; padding: 0; border: 0; border-radius: 3px;
+  background: transparent; color: #8a8983; cursor: pointer; display: inline-flex; align-items: center;
+  justify-content: center; }
+.tc-lane-group-fold:hover { background: #e9e8e3; color: #22211f; }
+.tc-lane-group-fold svg { width: 11px; height: 11px; }
+.tc-lane-group-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: 11px; font-weight: 600; color: #52514e; }
+.tc-lane-group-count { flex: 0 0 auto; padding-right: 26px; font-size: 10.5px; color: #8a8983;
+  font-variant-numeric: tabular-nums; }
+.tc-lane-group.off .tc-lane-group-name { color: #a8a7a2; }
+
+.tc-lane-mark { position: absolute; top: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; padding: 0; border: 0;
+  background: transparent; cursor: pointer; z-index: 2; display: flex; align-items: center; justify-content: center; }
+.tc-lane-mark i { display: block; }
+.tc-lane-mark.worst i { width: 8px; height: 8px; transform: rotate(45deg); background: currentColor;
+  box-shadow: 0 0 0 1.5px #fcfcfb, 0 0 0 2.5px #8a8983; }
+.tc-lane-mark.rise i { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent;
+  border-bottom: 8px solid currentColor; }
+.tc-lane-mark.limit { color: #b3261e !important; font-size: 14px; font-weight: 700; line-height: 1; }
+.tc-lane-mark:hover { transform: scale(1.3); }
+.tc-lane-mark:focus-visible { outline: 2px solid #9dbde4; border-radius: 3px; }
+.tc-lane-track.off .tc-lane-mark { opacity: 0.45; }
+
+.tc-lane-range-row { height: 24px; border-top: 1px solid #e6e5e0; background: #f7f7f5; border-radius: 0 0 8px 8px; }
+.tc-lane-hint { font-size: 11px; color: #8a8983; white-space: nowrap; }
+.tc-lane-range { cursor: crosshair; overflow: hidden; touch-action: none; }
+.tc-lane-window { position: absolute; top: 3px; bottom: 3px; border: 1px solid #7fa6d6; border-radius: 3px;
+  background: rgba(42, 120, 214, 0.1); box-shadow: 0 0 0 9999px rgba(244, 244, 242, 0.62); cursor: grab; }
+.tc-lane-range.dragging .tc-lane-window { cursor: grabbing; }
+.tc-lane-window.full { border-color: transparent; background: transparent; box-shadow: none; cursor: crosshair; }
+.tc-lane-window-edge { position: absolute; top: 0; bottom: 0; width: 9px; cursor: ew-resize; }
+.tc-lane-window-edge.left { left: -5px; }
+.tc-lane-window-edge.right { right: -5px; }
+.tc-lane-window-edge::after { content: ''; position: absolute; top: 3px; bottom: 3px; left: 3.5px; width: 2px;
+  border-radius: 1px; background: #7fa6d6; }
+.tc-lane-window.full .tc-lane-window-edge { display: none; }
+.tc-lane-range-tick { position: absolute; top: 0; bottom: 0; width: 0; margin-left: -1px; border-left: 1.5px solid #1d1d1b;
+  pointer-events: none; }
+
+.tc-lane-line { position: absolute; width: 0; border-left: 2px solid #1d1d1b; pointer-events: none; z-index: 4; }
+.tc-lane-line.ghost { border-left: 1px dashed #8a8983; z-index: 3; }
+.tc-lane-names-resize { position: absolute; top: 0; bottom: 0; width: 9px; cursor: col-resize; z-index: 5;
+  touch-action: none; }
+.tc-lane-names-resize::after { content: ''; position: absolute; top: 0; bottom: 0; left: 6px; width: 1px;
+  background: #ebeae5; }
+.tc-lane-names-resize:hover::after, .tc-lane-names-resize.dragging::after { left: 5px; width: 2px; background: #9dbde4; }
+
+.tc-lane.folded .tc-lane-legend-row, .tc-lane.folded .tc-lane-tracks, .tc-lane.folded .tc-lane-range-row,
+.tc-lane.folded .tc-lane-now { display: none; }
+.tc-lane.folded .tc-lane-ruler-row { border-bottom: 0; border-radius: 0 0 8px 8px; }
+
+@media (max-width: 720px) {
+  .tc-lane-readout { min-width: 0; }
+  .tc-lane-view { display: none; }
+}
+
 /* ── dark mode: generated by `python -m traj_compare._theme` from the light rules (and uPlot's for style.css); do not edit below this line ── */
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark; } }
 :root[data-theme="dark"] { color-scheme: dark; }
@@ -540,6 +752,9 @@ table.tc-metrics td.wrap { white-space: normal; text-align: left; min-width: 220
   :root:not([data-theme="light"]) .chip .swatch.torque-feedback { background-image: linear-gradient(currentColor 0 2px, rgba(249, 115, 22, 0.18) 2px); }
   :root:not([data-theme="light"]) .tc-empty { color: #767571; border-color: #42413e; }
   :root:not([data-theme="light"]) .u-select { background-color: rgba(42, 120, 214, 0.1); }
+  :root:not([data-theme="light"]) .tc-playhead { border-left-color: #dededc; }
+  :root:not([data-theme="light"]) .tc-playhead-grip { border-left-color: transparent; border-right-color: transparent; border-top-color: #dededc; }
+  :root:not([data-theme="light"]) .tc-zoom-hint { color: #767571; }
   :root:not([data-theme="light"]) .tc-3dcanvasbox canvas { border-color: #32322f; background-color: #262625; }
   :root:not([data-theme="light"]) .tc-3dpanel { color: #a8a7a4; }
   :root:not([data-theme="light"]) .tc-3dpanel input[type="checkbox"] { accent-color: #2a78d6; }
@@ -622,6 +837,72 @@ table.tc-metrics td.wrap { white-space: normal; text-align: left; min-width: 220
   :root:not([data-theme="light"]) .tc-finger-row { border-top-color: #1c1c19; }
   :root:not([data-theme="light"]) .tc-finger-label { color: #767571; }
   :root:not([data-theme="light"]) .tc-flash { outline-color: #2a78d6; }
+  :root:not([data-theme="light"]) .tc-timeline .tc-sheet .tc-section { background-color: transparent; }
+  :root:not([data-theme="light"]) .tc-timeline .tc-sheet .tc-plotcard > .ptitle { border-right-color: #1c1c19; color: #bdbcb9; }
+  :root:not([data-theme="light"]) .tc-timeline .tc-sheet .tc-tab-heading, :root:not([data-theme="light"]) .tc-timeline .tc-sheet .tc-panel > .tc-desc, :root:not([data-theme="light"]) .tc-timeline .tc-sheet .tc-derived, :root:not([data-theme="light"]) .tc-timeline .tc-sheet .tc-panel-chips, :root:not([data-theme="light"]) .tc-timeline .tc-sheet .tc-partbar, :root:not([data-theme="light"]) .tc-timeline .tc-sheet .tc-section > h3, :root:not([data-theme="light"]) .tc-timeline .tc-sheet .tc-tableblock.embedded, :root:not([data-theme="light"]) .tc-timeline .tc-sheet .tc-torque-legend, :root:not([data-theme="light"]) .tc-timeline .tc-sheet .tc-finger-label { background-color: #20201f; }
+  :root:not([data-theme="light"]) .tc-line { border-left-color: #dededc; }
+  :root:not([data-theme="light"]) .tc-line::before { border-left-color: transparent; border-right-color: transparent; border-top-color: #dededc; }
+  :root:not([data-theme="light"]) .tc-line.ghost { border-left-color: #767571; }
+  :root:not([data-theme="light"]) .tc-lane { background-color: #262625; border-color: #383834; box-shadow: 0 -4px 12px rgba(248, 248, 248, 0.05); }
+  :root:not([data-theme="light"]) .tc-lane-resize::after { background-color: transparent; }
+  :root:not([data-theme="light"]) .tc-lane-resize:hover::after, :root:not([data-theme="light"]) .tc-lane-resize.dragging::after { background-color: #3c5168; }
+  :root:not([data-theme="light"]) .tc-lane-bar { border-bottom-color: #32322f; }
+  :root:not([data-theme="light"]) .tc-lane-tool { color: #bdbcb9; }
+  :root:not([data-theme="light"]) .tc-lane-tool:disabled:hover { border-color: #42413e; }
+  :root:not([data-theme="light"]) .tc-lane-play.on { background-color: #1c1f23; border-color: #3c5168; }
+  :root:not([data-theme="light"]) .tc-lane-readout { color: #dad9d7; }
+  :root:not([data-theme="light"]) .tc-lane-worst svg { color: #8d8c89; }
+  :root:not([data-theme="light"]) .tc-lane-view { color: #a8a7a4; }
+  :root:not([data-theme="light"]) .tc-lane-units .grouplabel { color: #767571; }
+  :root:not([data-theme="light"]) .tc-lane-label { color: #767571; }
+  :root:not([data-theme="light"]) .tc-lane-legend-row { border-bottom-color: #1c1c19; }
+  :root:not([data-theme="light"]) .tc-lane-count { color: #a8a7a4; }
+  :root:not([data-theme="light"]) .tc-lane-legend { color: #8d8c89; }
+  :root:not([data-theme="light"]) .tc-lane-key.band { border-bottom-color: #8d8c89; background-color: #353432; }
+  :root:not([data-theme="light"]) .tc-lane-key.worst { border-color: #8d8c89; }
+  :root:not([data-theme="light"]) .tc-lane-key.rise { border-left-color: transparent; border-right-color: transparent; border-bottom-color: #8d8c89; }
+  :root:not([data-theme="light"]) .tc-lane-key.limit { color: #ff725c; }
+  :root:not([data-theme="light"]) .tc-lane-ruler-row { background-color: #20201f; border-bottom-color: #32322f; }
+  :root:not([data-theme="light"]) .tc-lane-now { color: #767571; }
+  :root:not([data-theme="light"]) .tc-lane-ruler:focus-visible { box-shadow: inset 0 0 0 2px #3c5168; }
+  :root:not([data-theme="light"]) .tc-lane-grip { background-color: #bdbcb9; color: #262625; }
+  :root:not([data-theme="light"]) .tc-lane-grip.edge { background-color: #767571; }
+  :root:not([data-theme="light"]) .tc-lane-grip.edge:hover { background-color: #a8a7a4; }
+  :root:not([data-theme="light"]) .tc-lane-grip-tip { border-left-color: transparent; border-right-color: transparent; border-top-color: #bdbcb9; }
+  :root:not([data-theme="light"]) .tc-lane-track { border-bottom-color: #1e1d1b; }
+  :root:not([data-theme="light"]) .tc-lane-track:hover { background-color: #222324; }
+  :root:not([data-theme="light"]) .tc-lane-eye { background-color: transparent; color: #a8a7a4; }
+  :root:not([data-theme="light"]) .tc-lane-eye:hover { background-color: #1c1f23; color: #f1f1f1; }
+  :root:not([data-theme="light"]) .tc-lane-track.off .tc-lane-eye, :root:not([data-theme="light"]) .tc-lane-group.off .tc-lane-eye { color: #5e5d5a; }
+  :root:not([data-theme="light"]) .tc-lane-swatch.dashed { background-color: transparent !important; }
+  :root:not([data-theme="light"]) .tc-lane-name { color: #dad9d7; }
+  :root:not([data-theme="light"]) .tc-lane-name-pre:not(:last-child) { color: #767571; }
+  :root:not([data-theme="light"]) .tc-lane-value { color: #a8a7a4; }
+  :root:not([data-theme="light"]) .tc-lane-delta { border-color: transparent; background-color: transparent; color: #5e5d5a; }
+  :root:not([data-theme="light"]) .tc-lane-delta:hover { border-color: #42413e; color: #a8a7a4; }
+  :root:not([data-theme="light"]) .tc-lane-delta.on { background-color: #1c1f23; border-color: #3c5168; color: #f1f1f1; }
+  :root:not([data-theme="light"]) .tc-lane-note { color: #767571; background-color: #262625; }
+  :root:not([data-theme="light"]) .tc-lane-group { background-color: #20201f; border-bottom-color: #2f2f2c; }
+  :root:not([data-theme="light"]) .tc-lane-group-fold { background-color: transparent; color: #767571; }
+  :root:not([data-theme="light"]) .tc-lane-group-fold:hover { background-color: #30302d; color: #dad9d7; }
+  :root:not([data-theme="light"]) .tc-lane-group-name { color: #a8a7a4; }
+  :root:not([data-theme="light"]) .tc-lane-group-count { color: #767571; }
+  :root:not([data-theme="light"]) .tc-lane-group.off .tc-lane-group-name { color: #5e5d5a; }
+  :root:not([data-theme="light"]) .tc-lane-mark { background-color: transparent; }
+  :root:not([data-theme="light"]) .tc-lane-mark.worst i { background-color: currentColor; box-shadow: 0 0 0 1.5px #262625, 0 0 0 2.5px #767571; }
+  :root:not([data-theme="light"]) .tc-lane-mark.rise i { border-left-color: transparent; border-right-color: transparent; border-bottom-color: currentColor; }
+  :root:not([data-theme="light"]) .tc-lane-mark.limit { color: #ff725c !important; }
+  :root:not([data-theme="light"]) .tc-lane-mark:focus-visible { outline-color: #3c5168; }
+  :root:not([data-theme="light"]) .tc-lane-range-row { border-top-color: #32322f; background-color: #222221; }
+  :root:not([data-theme="light"]) .tc-lane-hint { color: #767571; }
+  :root:not([data-theme="light"]) .tc-lane-window { border-color: #7fa6d6; background-color: rgba(42, 120, 214, 0.1); box-shadow: 0 0 0 9999px rgba(32, 32, 31, 0.62); }
+  :root:not([data-theme="light"]) .tc-lane-window.full { border-color: transparent; background-color: transparent; box-shadow: none; }
+  :root:not([data-theme="light"]) .tc-lane-window-edge::after { background-color: #7fa6d6; }
+  :root:not([data-theme="light"]) .tc-lane-range-tick { border-left-color: #dededc; }
+  :root:not([data-theme="light"]) .tc-lane-line { border-left-color: #dededc; }
+  :root:not([data-theme="light"]) .tc-lane-line.ghost { border-left-color: #767571; }
+  :root:not([data-theme="light"]) .tc-lane-names-resize::after { background-color: #2f2f2c; }
+  :root:not([data-theme="light"]) .tc-lane-names-resize:hover::after, :root:not([data-theme="light"]) .tc-lane-names-resize.dragging::after { background-color: #3c5168; }
 }
 :root[data-theme="dark"] body { background-color: #20201f; color: #f1f1f1; }
 :root[data-theme="dark"] header.tc { background-color: #262625; border-bottom-color: #383834; }
@@ -702,6 +983,9 @@ table.tc-metrics td.wrap { white-space: normal; text-align: left; min-width: 220
 :root[data-theme="dark"] .chip .swatch.torque-feedback { background-image: linear-gradient(currentColor 0 2px, rgba(249, 115, 22, 0.18) 2px); }
 :root[data-theme="dark"] .tc-empty { color: #767571; border-color: #42413e; }
 :root[data-theme="dark"] .u-select { background-color: rgba(42, 120, 214, 0.1); }
+:root[data-theme="dark"] .tc-playhead { border-left-color: #dededc; }
+:root[data-theme="dark"] .tc-playhead-grip { border-left-color: transparent; border-right-color: transparent; border-top-color: #dededc; }
+:root[data-theme="dark"] .tc-zoom-hint { color: #767571; }
 :root[data-theme="dark"] .tc-3dcanvasbox canvas { border-color: #32322f; background-color: #262625; }
 :root[data-theme="dark"] .tc-3dpanel { color: #a8a7a4; }
 :root[data-theme="dark"] .tc-3dpanel input[type="checkbox"] { accent-color: #2a78d6; }
@@ -784,3 +1068,69 @@ table.tc-metrics td.wrap { white-space: normal; text-align: left; min-width: 220
 :root[data-theme="dark"] .tc-finger-row { border-top-color: #1c1c19; }
 :root[data-theme="dark"] .tc-finger-label { color: #767571; }
 :root[data-theme="dark"] .tc-flash { outline-color: #2a78d6; }
+:root[data-theme="dark"] .tc-timeline .tc-sheet .tc-section { background-color: transparent; }
+:root[data-theme="dark"] .tc-timeline .tc-sheet .tc-plotcard > .ptitle { border-right-color: #1c1c19; color: #bdbcb9; }
+:root[data-theme="dark"] .tc-timeline .tc-sheet .tc-tab-heading, :root[data-theme="dark"] .tc-timeline .tc-sheet .tc-panel > .tc-desc, :root[data-theme="dark"] .tc-timeline .tc-sheet .tc-derived, :root[data-theme="dark"] .tc-timeline .tc-sheet .tc-panel-chips, :root[data-theme="dark"] .tc-timeline .tc-sheet .tc-partbar, :root[data-theme="dark"] .tc-timeline .tc-sheet .tc-section > h3, :root[data-theme="dark"] .tc-timeline .tc-sheet .tc-tableblock.embedded, :root[data-theme="dark"] .tc-timeline .tc-sheet .tc-torque-legend, :root[data-theme="dark"] .tc-timeline .tc-sheet .tc-finger-label { background-color: #20201f; }
+:root[data-theme="dark"] .tc-line { border-left-color: #dededc; }
+:root[data-theme="dark"] .tc-line::before { border-left-color: transparent; border-right-color: transparent; border-top-color: #dededc; }
+:root[data-theme="dark"] .tc-line.ghost { border-left-color: #767571; }
+:root[data-theme="dark"] .tc-lane { background-color: #262625; border-color: #383834; box-shadow: 0 -4px 12px rgba(248, 248, 248, 0.05); }
+:root[data-theme="dark"] .tc-lane-resize::after { background-color: transparent; }
+:root[data-theme="dark"] .tc-lane-resize:hover::after, :root[data-theme="dark"] .tc-lane-resize.dragging::after { background-color: #3c5168; }
+:root[data-theme="dark"] .tc-lane-bar { border-bottom-color: #32322f; }
+:root[data-theme="dark"] .tc-lane-tool { color: #bdbcb9; }
+:root[data-theme="dark"] .tc-lane-tool:disabled:hover { border-color: #42413e; }
+:root[data-theme="dark"] .tc-lane-play.on { background-color: #1c1f23; border-color: #3c5168; }
+:root[data-theme="dark"] .tc-lane-readout { color: #dad9d7; }
+:root[data-theme="dark"] .tc-lane-worst svg { color: #8d8c89; }
+:root[data-theme="dark"] .tc-lane-view { color: #a8a7a4; }
+:root[data-theme="dark"] .tc-lane-units .grouplabel { color: #767571; }
+:root[data-theme="dark"] .tc-lane-label { color: #767571; }
+:root[data-theme="dark"] .tc-lane-legend-row { border-bottom-color: #1c1c19; }
+:root[data-theme="dark"] .tc-lane-count { color: #a8a7a4; }
+:root[data-theme="dark"] .tc-lane-legend { color: #8d8c89; }
+:root[data-theme="dark"] .tc-lane-key.band { border-bottom-color: #8d8c89; background-color: #353432; }
+:root[data-theme="dark"] .tc-lane-key.worst { border-color: #8d8c89; }
+:root[data-theme="dark"] .tc-lane-key.rise { border-left-color: transparent; border-right-color: transparent; border-bottom-color: #8d8c89; }
+:root[data-theme="dark"] .tc-lane-key.limit { color: #ff725c; }
+:root[data-theme="dark"] .tc-lane-ruler-row { background-color: #20201f; border-bottom-color: #32322f; }
+:root[data-theme="dark"] .tc-lane-now { color: #767571; }
+:root[data-theme="dark"] .tc-lane-ruler:focus-visible { box-shadow: inset 0 0 0 2px #3c5168; }
+:root[data-theme="dark"] .tc-lane-grip { background-color: #bdbcb9; color: #262625; }
+:root[data-theme="dark"] .tc-lane-grip.edge { background-color: #767571; }
+:root[data-theme="dark"] .tc-lane-grip.edge:hover { background-color: #a8a7a4; }
+:root[data-theme="dark"] .tc-lane-grip-tip { border-left-color: transparent; border-right-color: transparent; border-top-color: #bdbcb9; }
+:root[data-theme="dark"] .tc-lane-track { border-bottom-color: #1e1d1b; }
+:root[data-theme="dark"] .tc-lane-track:hover { background-color: #222324; }
+:root[data-theme="dark"] .tc-lane-eye { background-color: transparent; color: #a8a7a4; }
+:root[data-theme="dark"] .tc-lane-eye:hover { background-color: #1c1f23; color: #f1f1f1; }
+:root[data-theme="dark"] .tc-lane-track.off .tc-lane-eye, :root[data-theme="dark"] .tc-lane-group.off .tc-lane-eye { color: #5e5d5a; }
+:root[data-theme="dark"] .tc-lane-swatch.dashed { background-color: transparent !important; }
+:root[data-theme="dark"] .tc-lane-name { color: #dad9d7; }
+:root[data-theme="dark"] .tc-lane-name-pre:not(:last-child) { color: #767571; }
+:root[data-theme="dark"] .tc-lane-value { color: #a8a7a4; }
+:root[data-theme="dark"] .tc-lane-delta { border-color: transparent; background-color: transparent; color: #5e5d5a; }
+:root[data-theme="dark"] .tc-lane-delta:hover { border-color: #42413e; color: #a8a7a4; }
+:root[data-theme="dark"] .tc-lane-delta.on { background-color: #1c1f23; border-color: #3c5168; color: #f1f1f1; }
+:root[data-theme="dark"] .tc-lane-note { color: #767571; background-color: #262625; }
+:root[data-theme="dark"] .tc-lane-group { background-color: #20201f; border-bottom-color: #2f2f2c; }
+:root[data-theme="dark"] .tc-lane-group-fold { background-color: transparent; color: #767571; }
+:root[data-theme="dark"] .tc-lane-group-fold:hover { background-color: #30302d; color: #dad9d7; }
+:root[data-theme="dark"] .tc-lane-group-name { color: #a8a7a4; }
+:root[data-theme="dark"] .tc-lane-group-count { color: #767571; }
+:root[data-theme="dark"] .tc-lane-group.off .tc-lane-group-name { color: #5e5d5a; }
+:root[data-theme="dark"] .tc-lane-mark { background-color: transparent; }
+:root[data-theme="dark"] .tc-lane-mark.worst i { background-color: currentColor; box-shadow: 0 0 0 1.5px #262625, 0 0 0 2.5px #767571; }
+:root[data-theme="dark"] .tc-lane-mark.rise i { border-left-color: transparent; border-right-color: transparent; border-bottom-color: currentColor; }
+:root[data-theme="dark"] .tc-lane-mark.limit { color: #ff725c !important; }
+:root[data-theme="dark"] .tc-lane-mark:focus-visible { outline-color: #3c5168; }
+:root[data-theme="dark"] .tc-lane-range-row { border-top-color: #32322f; background-color: #222221; }
+:root[data-theme="dark"] .tc-lane-hint { color: #767571; }
+:root[data-theme="dark"] .tc-lane-window { border-color: #7fa6d6; background-color: rgba(42, 120, 214, 0.1); box-shadow: 0 0 0 9999px rgba(32, 32, 31, 0.62); }
+:root[data-theme="dark"] .tc-lane-window.full { border-color: transparent; background-color: transparent; box-shadow: none; }
+:root[data-theme="dark"] .tc-lane-window-edge::after { background-color: #7fa6d6; }
+:root[data-theme="dark"] .tc-lane-range-tick { border-left-color: #dededc; }
+:root[data-theme="dark"] .tc-lane-line { border-left-color: #dededc; }
+:root[data-theme="dark"] .tc-lane-line.ghost { border-left-color: #767571; }
+:root[data-theme="dark"] .tc-lane-names-resize::after { background-color: #2f2f2c; }
+:root[data-theme="dark"] .tc-lane-names-resize:hover::after, :root[data-theme="dark"] .tc-lane-names-resize.dragging::after { background-color: #3c5168; }

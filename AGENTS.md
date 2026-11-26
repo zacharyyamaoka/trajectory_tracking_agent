@@ -10,7 +10,8 @@ accurately, inside the gates, by proposing better controllers. Read [`OBJECTIVES
    --agent "<your agent>" --model "<model id>" --session "<session id>"` (or set TTA_AGENT / TTA_MODEL / TTA_SESSION once).
 3. `tta evaluate <id>` (dev only). It writes [`solutions/<id>/scorecard.json`](solutions/), appends [`ledger.jsonl`](ledger.jsonl) and refreshes
    [`PROGRESS.md`](PROGRESS.md) and [`site/progress.svg`](site/progress.svg).
-4. Rebuild the page's data and commit it with the solution, win or lose:
+4. Commit the scorecards and [`ledger.jsonl`](ledger.jsonl) before rebuilding the page data. The stock fold reads Git
+   history, so this checkpoint makes a new best visible to the headline. Rebuild and commit the page data, win or lose:
    `uv run --all-extras python tools/build_site.py build` writes [`site/data/`](site/data/) (the bb-run/1 records, `state.json`, and
    `junit.xml`, the test run the Spec page reads, with the hostname dropped and paths relative: it is public; the run
    committed with the last commit goes into [`site/data/junit/<sha7>.xml.gz`](site/data/junit/), the Spec page's History), and

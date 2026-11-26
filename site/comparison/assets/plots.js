@@ -5,11 +5,17 @@
  * toggle (degrees by default), a reset-zoom button, and lazily-built uPlot
  * grids whose x zoom and cursor stay synchronized within a page.
  *
- * A per-page transport carries the shared time state: hovering any plot
- * previews that instant in the 3D viewer; the scrubbers (one under the 3D
- * canvas, one under the videos) and their step/play buttons commit a scrub
- * time that drives the cursor line on every plot, the video players (always
- * seeked together), and the 3D truncation + robot pose.
+ * A per-page transport carries the shared time state. Every plot is a
+ * scrubber: a press-and-drag on any plot (mouse, pen or a finger) commits the
+ * time at every move, as does the page's one time control: the time lane
+ * docked under the question tabs (timeline.js: transport, ruler, one track per
+ * run, zoom bar), or without it the scrubbers under the 3D canvas and the
+ * videos. The committed time drives the playhead on every plot (other tabs
+ * too) and the one line through them, the video players (always seeked
+ * together), the ruler, and the 3D truncation + robot pose. Hovering a plot
+ * only previews that instant in the 3D viewer. x zoom is Shift-drag (uPlot's
+ * box), Ctrl/⌘+wheel (a trackpad pinch) or the lane's zoom bar; Full range or
+ * a double-click restores the full range (see attachTimeGestures).
  *
  * A "Camera" section stacks a real video and a selectable sim render in one
  * box (opacity slider, mix/difference blend, flicker toggle); those videos
@@ -86,6 +92,11 @@ var TrajCompare = (function () {
   };
 
   var PLOT_HEIGHT = 150;
+  // Under the time lane (``page.timeline``) every chart stacks full width, its title in a left column as wide as the
+  // lane's names column, with a FIXED y-axis width and padding [top, right, bottom, left]: every plotting area then starts
+  // and ends at the same x as the lane's ruler, which is what lets one playhead line run through all of them.
+  var LANE_AXIS_PX = 56;
+  var LANE_PAD = [10, 16, 0, 0];
 
   var state = {
     unit: 'deg',
@@ -404,10 +415,11 @@ var TrajCompare = (function () {
   }
 
   /* Scrubber bar: one under the 3D canvas, one under the videos. Every bar of
-     a page stays in sync through the transport. */
+     a page stays in sync through the transport. None under the time lane: WHY (Zach's pick round 2026-11-24, R2) the
+     lane is the page's one time control, and a second slider would be a second one to keep in step. */
   function buildTransportBar(page, parent) {
     var transport = page.transport;
-    if (!transport) return null;
+    if (!transport || page.oneTimeline) return null;
     var bar = el('div', 'tc-transport', parent);
     var handle = { selfDriving: false };
 
@@ -526,6 +538,7 @@ var TrajCompare = (function () {
 
     // WHY 160 (2026-11-19, parts): a hand's finger row puts 3-4 joints side by side beside the stage
     function width() {
+      if (page.oneTimeline) return Math.max(80, chartEl.clientWidth);  // the plot column beside the title column
       return Math.max(160, card.clientWidth - 18);
     }
 
@@ -560,10 +573,14 @@ var TrajCompare = (function () {
         },
         axes: [
           { stroke: ink('#8a8983'), grid: { stroke: ink('#e6e5e0'), width: 0.5 }, ticks: { stroke: ink('#c9c8c2') }, size: 28 },
-          { stroke: ink('#8a8983'), grid: { stroke: ink('#e6e5e0'), width: 0.5 }, ticks: { stroke: ink('#c9c8c2') }, size: 44 },
+          { stroke: ink('#8a8983'), grid: { stroke: ink('#e6e5e0'), width: 0.5 }, ticks: { stroke: ink('#c9c8c2') },
+            size: page.oneTimeline ? LANE_AXIS_PX : 44 },
         ],
+        padding: page.oneTimeline ? LANE_PAD : undefined,
         hooks: {
           setScale: [function (u, key) {
+            if (key === 'x' && chart.paintPlayhead) chart.paintPlayhead();  // the playhead rides every zoom
+            if (key === 'x' && page.timeline) page.timeline.queue();       // and so do the lane and its line
             if (key !== 'x' || !u._tcReady || page.syncing) return;
             var scale = u.scales.x;
             page.syncing = true;
@@ -572,10 +589,15 @@ var TrajCompare = (function () {
             });
             page.xZoom = { min: scale.min, max: scale.max };
             page.syncing = false;
+            restoreCursors(page);
           }],
           setCursor: [function (u) {
             // hover preview for the 3D view; ignore our own programmatic sets
             if (page.cursorDriven || !page.transport) return;
+            // WHY only with a pointer over a plot, and not while one drags (measured 2026-11-25): a chart built when
+            // its tab first shows joins the cursor sync at its last sample, and that "hover" parked the 3D at the end
+            // of the run on every first open of a tab; during a drag the committed time is what the 3D shows
+            if (!page.hoverChart || page.scrubbing) return;
             var index = u.cursor.idx;
             page.transport.setHover(index == null ? null : page.data.plot_t[index]);
           }],
@@ -584,6 +606,7 @@ var TrajCompare = (function () {
       };
       chart.u = new uPlot(opts, data(), chartEl);
       if (page.xZoom) chart.u.setScale('x', page.xZoom);
+      attachTimeGestures(page, chart);
     };
 
     chart.refreshUnits = function () {
@@ -643,11 +666,165 @@ var TrajCompare = (function () {
     // A hidden card (its tab, part or run not shown) keeps its size; it is sized when it shows (activateTab).
     chart.resize = function () {
       if (chart.u && card.clientWidth) chart.u.setSize({ width: width(), height: PLOT_HEIGHT });
+      if (chart.paintPlayhead) {
+        chart.paintPlayhead();
+        restoreCursors(page);  // uPlot keeps its cursor at a pixel through a resize
+      }
+      if (page.timeline) page.timeline.queue();  // the lane re-measures the shared x pixels
     };
 
     chart.build();
     page.charts.push(chart);
     return chart;
+  }
+
+  /* ---------------- every plot is a scrubber ----------------
+
+     WHY (Zach, Daily Note 2026-11-24): "a important thing is that as you drag the time on any of the figures it syncs
+     across all of the other ones". The run-view round's five proposals (docs/proposals/run-view-2026-11-24/) all
+     shared this one mechanism (R1, "every figure is a scrubber"); the page layout around it stays Zach's pick.
+
+     - The playhead ``[data-tc-playhead]`` is the COMMITTED time (transport.t; the end of the run when none): a solid
+       line in the page's ink with a grip on top, on every plot. uPlot's own dashed cursor is the hover preview, put
+       back on the committed time when the pointer leaves, so its dots read the values there.
+     - A plain press-and-drag on a plot commits the time at every move (pointer events: mouse, pen and a finger;
+       ``touch-action: pan-y`` keeps a vertical swipe scrolling the page), snapped to the shared plot grid. The
+       transport does the rest: every other plot, the 3D pose, the videos and the slider follow while the pointer moves.
+     - Hover is kept from before (decided 2026-11-25, as R1 did): a pointer over a plot without a press previews that
+       instant in the 3D only; the playheads and the slider stay on the committed time, and leaving the plot puts the
+       3D back. A drag never previews: while it runs the 3D shows the committed time.
+     - x zoom moves off the plain drag: Shift-drag draws uPlot's zoom box (untouched), Ctrl/⌘+wheel (a trackpad pinch
+       is Ctrl+wheel in Chrome) zooms around the pointer, Reset zoom or a double-click restores the full range. A plain
+       wheel is left alone: a tab is a column of plots, so the pointer is nearly always over one and the wheel must keep
+       scrolling the page.
+     - A page without a transport (a report page's charts) keeps uPlot's plain-drag zoom. */
+
+  var WHEEL_ZOOM_PER_PX = 1.0015;  // a 100 px wheel notch zooms by 1.16x; a pinch's small deltas zoom smoothly
+  var MIN_ZOOM_SAMPLES = 4;        // the narrowest wheel zoom spans this many display samples
+
+  function committedTime(page) {
+    var transport = page.transport;
+    return transport.t === null ? transport.tMax : transport.t;
+  }
+
+  function paintPlayheads(page) {
+    page.charts.forEach(function (chart) { if (chart.paintPlayhead) chart.paintPlayhead(); });
+  }
+
+  // Full range on every plot: the lane's Full range, the Reset zoom chip (no lane), a double-click on the zoom bar
+  function resetZoom(page) {
+    page.xZoom = null;
+    page.charts.forEach(function (chart) { chart.resetZoom(); });
+    restoreCursors(page);
+  }
+
+  // uPlot hides its cursor when the mouse leaves a plot and keeps it at a pixel through a zoom: a frame later (uPlot
+  // commits a new scale after setScale returns), unless a pointer hovers or drags a plot, put it on the committed time.
+  function restoreCursors(page) {
+    if (!page.transport || page.cursorRestoreQueued) return;
+    page.cursorRestoreQueued = true;
+    requestAnimationFrame(function () {
+      page.cursorRestoreQueued = false;
+      if (!page.hoverChart && !page.scrubbing && page.transport.t !== null) paintCursors(page, page.transport.t);
+    });
+  }
+
+  function attachTimeGestures(page, chart) {
+    var u = chart.u;
+    var over = u.over;
+    var transport = page.transport;
+    if (!transport) return;
+    over.classList.add('tc-scrubbable');
+    var mark = el('div', 'tc-playhead', over);
+    mark.setAttribute('data-tc-playhead', '');
+    el('div', 'tc-playhead-grip', mark);
+    chart.paintPlayhead = function () {
+      var x = u.valToPos(committedTime(page), 'x');
+      var show = isFinite(x) && x >= -0.5 && x <= over.clientWidth + 0.5;
+      mark.style.display = show ? '' : 'none';
+      if (show) mark.style.left = x + 'px';
+    };
+    chart.paintPlayhead();
+
+    over.addEventListener('pointerenter', function (event) {
+      if (event.pointerType !== 'touch') page.hoverChart = chart;
+    });
+    over.addEventListener('pointerleave', function () {
+      if (page.hoverChart !== chart) return;
+      page.hoverChart = null;
+      transport.setHover(null);
+    });
+    over.addEventListener('mouseleave', function () { restoreCursors(page); });
+
+    // WHY the pointer's own clientX (R3, measured 2026-11-24): a mouse event's x is whole pixels, a pointer event's
+    // keeps the fraction; on a narrow plot one pixel is more than a sample
+    function timeAt(clientX) {
+      var box = over.getBoundingClientRect();
+      var x = Math.max(0, Math.min(box.width, clientX - box.left));
+      var grid = page.data.plot_t;
+      return grid[nearestIndex(grid, u.posToVal(x, 'x'))];
+    }
+    // Capture on uPlot's wrapper runs before anything on the plot. Cancelling the pointerdown also cancels the
+    // mousedown / mousemove / mouseup the browser would derive from it, so uPlot never starts its zoom box for a plain
+    // press, and its hover cursor stays where paintCursors puts it (the committed time) while the drag runs.
+    over.parentNode.addEventListener('pointerdown', function (event) {
+      if (!over.contains(event.target) || event.button !== 0 || event.shiftKey) return;  // Shift: uPlot's zoom box
+      event.preventDefault();
+      event.stopPropagation();
+      var id = event.pointerId;
+      var startX = event.clientX, startY = event.clientY;
+      // A finger commits once it moves sideways, or on a tap; a swipe that starts on a plot and goes up or down
+      // scrolls the page (the browser then cancels the pointer) and leaves the time alone.
+      var waiting = event.pointerType === 'touch';
+      try { over.setPointerCapture(id); } catch (error) {}
+      function commit(clientX) {
+        if (page.scrubbing !== chart) {
+          transport.pause();
+          page.scrubbing = chart;
+          transport.setHover(null);
+          document.body.classList.add('tc-scrubbing');
+        }
+        transport.setScrub(timeAt(clientX));
+      }
+      if (!waiting) commit(event.clientX);
+      function move(moveEvent) {
+        if (moveEvent.pointerId !== id) return;
+        if (waiting) {
+          var dx = Math.abs(moveEvent.clientX - startX), dy = Math.abs(moveEvent.clientY - startY);
+          if (dx < 4 || dx < dy) return;
+          waiting = false;
+        }
+        commit(moveEvent.clientX);
+      }
+      function end(endEvent) {
+        if (endEvent.pointerId !== id) return;
+        if (waiting && endEvent.type === 'pointerup') commit(endEvent.clientX);  // a tap
+        over.removeEventListener('pointermove', move);
+        over.removeEventListener('pointerup', end);
+        over.removeEventListener('pointercancel', end);
+        if (page.scrubbing === chart) page.scrubbing = null;
+        document.body.classList.remove('tc-scrubbing');
+      }
+      over.addEventListener('pointermove', move);
+      over.addEventListener('pointerup', end);
+      over.addEventListener('pointercancel', end);
+    }, true);
+
+    over.addEventListener('wheel', function (event) {
+      if (!event.ctrlKey && !event.metaKey) return;  // a plain wheel scrolls the page
+      event.preventDefault();
+      var box = over.getBoundingClientRect();
+      var pointer = u.posToVal(Math.max(0, Math.min(box.width, event.clientX - box.left)), 'x');
+      var min = u.scales.x.min, max = u.scales.x.max;
+      var pixels = event.deltaY * (event.deltaMode === 1 ? 33 : event.deltaMode === 2 ? box.height : 1);
+      var factor = Math.min(2, Math.max(0.5, Math.pow(WHEEL_ZOOM_PER_PX, pixels)));
+      var lo = Math.max(transport.tMin, pointer - (pointer - min) * factor);
+      var hi = Math.min(transport.tMax, pointer + (max - pointer) * factor);
+      var grid = page.data.plot_t;
+      var narrowest = grid.length > 1 ? MIN_ZOOM_SAMPLES * (grid[grid.length - 1] - grid[0]) / (grid.length - 1) : 0;
+      if (hi - lo < narrowest || (lo === min && hi === max)) return;
+      u.setScale('x', { min: lo, max: hi });
+    }, { passive: false });
   }
 
   /* ---------------- sections ---------------- */
@@ -1153,8 +1330,8 @@ var TrajCompare = (function () {
     // the same run, so they are never scrubbed or played independently.
     if (page.transport) buildTransportBar(page, body);
     el('div', 'tc-videonote', body,
-      'One scrubber drives every video, the plot cursors and the 3D view together; ' +
-      'clicking a video plays/pauses them all.');
+      (page.oneTimeline ? 'The time lane drives' : 'One scrubber drives') + ' every video, the plot cursors and the 3D view ' +
+      'together; clicking a video plays/pauses them all.');
   }
 
   /* ---------------- camera overlay: real video + sim render ---------------- */
@@ -1346,7 +1523,7 @@ var TrajCompare = (function () {
     if (page.transport) buildTransportBar(page, body);
     el('div', 'tc-videonote', body,
       'The real stream is the base layer; the slider fades the sim render over it ' +
-      '(Difference shows where they disagree). The scrubber drives both, offset by t0.');
+      '(Difference shows where they disagree). The ' + (page.oneTimeline ? 'time lane' : 'scrubber') + ' drives both, offset by t0.');
   }
 
   function viewer3dBuilder(page, body) {
@@ -1447,7 +1624,8 @@ var TrajCompare = (function () {
   // Sections whose plots carry the optional Δ-to-target overlay.
   var DELTA_SECTIONS = ['joint-q', 'joint-qd', 'joint-qdd', 'joint-tau', 'joint-current', 'tcp-pose', 'path'];
 
-  function sectionHint(id, data) {
+  function sectionHint(id, data, page) {
+    var timeControl = page && page.oneTimeline ? 'the time lane' : 'the scrubber';
     var channel = (data.channels || []).filter(function (entry) { return entry.section === id; })[0];
     if (channel) return channelHint(channel, data);
     var hint = '';
@@ -1468,9 +1646,12 @@ var TrajCompare = (function () {
       hint = 'commanded = feedforward + feedback is what goes to the FOC current loop; applied is what the drive delivered; ' +
         'the component chips toggle a torque on every card';
     }
-    if (id === 'videos') hint = 'always played together, seeked by the scrubber';
-    if (id === 'camera') hint = 'real video under the sim render; both follow the scrubber';
-    if (id === 'viewer3d') hint = 'hover any plot to preview that instant; scrub below the canvas';
+    if (id === 'videos') hint = 'always played together, seeked by ' + timeControl;
+    if (id === 'camera') hint = 'real video under the sim render; both follow ' + timeControl;
+    if (id === 'viewer3d') {
+      hint = 'drag any plot or ' + (page && page.oneTimeline ? 'the time lane' : 'the slider below') +
+        ' to move the time everywhere; hovering a plot previews that instant here';
+    }
     // tau and current are optional on the target; no target trace, no Δ to draw
     var needs = { 'joint-tau': 'tau', 'joint-current': 'current' }[id];
     var hasTarget = data.situations.some(function (sit) {
@@ -1950,7 +2131,8 @@ var TrajCompare = (function () {
     var head = el('div', 'tc-stage-head', stageEl);
     var names = { viewer3d: '3D view', camera: 'Camera', videos: 'Videos' };
     var title = el('span', 'tc-stage-title', head, sections.map(function (section) { return names[section.def.id]; }).join(' · '));
-    title.title = 'always visible: the scrubber drives the 3D pose, the videos and the cursor on every plot';
+    title.title = 'always visible: ' + (page.oneTimeline ? 'the time lane' : 'the scrubber') +
+      ' drives the 3D pose, the videos and the cursor on every plot';
     var fold = el('button', 'tc-stage-fold', head);
     fold.setAttribute('data-tc-stage-fold', '');
     var scroll = el('div', 'tc-stage-scroll', stageEl);
@@ -1999,7 +2181,7 @@ var TrajCompare = (function () {
     section.el.setAttribute('data-tc-section', section.def.id);
     var heading = el('h3', '', section.el);
     var title = el('span', 'tc-section-title', heading);
-    var hint = sectionHint(section.def.id, page.data);
+    var hint = sectionHint(section.def.id, page.data, page);
     if (hint) el('span', 'hint', heading, ' — ' + hint);
     function paint() { title.textContent = sectionTitle(section.def); }
     paint();
@@ -2075,13 +2257,16 @@ var TrajCompare = (function () {
 
   /* One number per joint, worst run first: ``error`` the RMS joint error (target − run), ``fbshare`` the share of
      the command the feedback supplied. */
-  function rankingRows(page, metric) {
+  function rankingRows(page, metric, everyRun) {
     var data = page.data;
     var partOf = {};
     page.parts.forEach(function (part) {
       partJoints(part).forEach(function (joint) { partOf[joint] = part.name; });
     });
-    var runs = data.situations.filter(function (sit) { return sit.role !== 'target' && sit.has_data; });
+    // WHY the shown runs (bug (b), 2026-11-25): each bar names its worst run; a hidden run must not be it
+    var runs = data.situations.filter(function (sit) {
+      return sit.role !== 'target' && sit.has_data && (everyRun || page.visible[sit.name] !== false);
+    });
     var rows = [];
     data.joint_names.forEach(function (joint, dof) {
       var worst = null;
@@ -2106,48 +2291,58 @@ var TrajCompare = (function () {
   function buildRanking(page, panel, metric) {
     var data = page.data;
     if (data.joint_names.length < 2) return;
-    var rows = rankingRows(page, metric);
-    if (rows.length < 2) return;
+    var all = rankingRows(page, metric, true);
+    if (all.length < 2) return;
     var box = el('section', 'tc-rank', panel);
     box.setAttribute('data-tc-rank', '');
     var title = el('h4', 'tc-rank-title', box);
     var hint = el('span', 'hint', box, metric === 'error'
-      ? 'the RMS over each run’s own samples; each bar is its worst run · click a bar to show that joint’s plot'
-      : 'Σ|feedback| / (Σ|feedforward| + Σ|feedback|) over the run; each bar is its worst run · click a bar to show that joint’s plots');
+      ? 'the RMS over each run’s own samples; each bar is its worst shown run · click a bar to show that joint’s plot'
+      : 'Σ|feedback| / (Σ|feedforward| + Σ|feedback|) over the run; each bar is its worst shown run · click a bar to show that joint’s plots');
     hint.className = 'tc-rank-hint';
-    var bars = el('div', 'tc-rank-bars' + (rows.length > 8 ? ' many' : ''), box);
-    var maximum = rows[0].value > 0 ? rows[0].value : 1;
+    var bars = el('div', 'tc-rank-bars' + (all.length > 8 ? ' many' : ''), box);
     var named = page.parts.length > 1;
     var paints = [];
     function valueText(value) {
       return metric === 'error' ? angleText(value) : (value * 100).toFixed(1) + ' %';
     }
-    rows.forEach(function (row) {
-      var label = named ? row.part + ' · ' + row.joint : row.joint;
-      var bar = el('button', 'tc-rank-bar', bars);
-      bar.setAttribute('data-tc-rank-bar', '');
-      bar.setAttribute('data-joint', row.joint);
-      el('span', 'tc-rank-label', bar, label);
-      var fill = el('span', 'tc-rank-fill', el('span', 'tc-rank-track', bar));
-      fill.style.width = Math.max(1, row.value / maximum * 100) + '%';
-      var value = el('span', 'tc-rank-value', bar);
-      paints.push(function () {
-        var text = valueText(row.value);
-        value.textContent = text;
-        var detail = label + ': ' + text + ' (' + row.run.title + ')';
-        bar.title = detail + ' · click to show its plot';
-        bar.setAttribute('aria-label', detail);
+    // the bars over the shown runs: rebuilt when a run is shown or hidden (the order can change)
+    function fill() {
+      bars.innerHTML = '';
+      paints = [];
+      var rows = rankingRows(page, metric, false);
+      box.style.display = rows.length ? '' : 'none';
+      if (!rows.length) return;
+      var maximum = rows[0].value > 0 ? rows[0].value : 1;
+      rows.forEach(function (row) {
+        var label = named ? row.part + ' · ' + row.joint : row.joint;
+        var bar = el('button', 'tc-rank-bar', bars);
+        bar.setAttribute('data-tc-rank-bar', '');
+        bar.setAttribute('data-joint', row.joint);
+        el('span', 'tc-rank-label', bar, label);
+        var fillEl = el('span', 'tc-rank-fill', el('span', 'tc-rank-track', bar));
+        fillEl.style.width = Math.max(1, row.value / maximum * 100) + '%';
+        var value = el('span', 'tc-rank-value', bar);
+        paints.push(function () {
+          var text = valueText(row.value);
+          value.textContent = text;
+          var detail = label + ': ' + text + ' (' + row.run.title + ')';
+          bar.title = detail + ' · click to show its plot';
+          bar.setAttribute('aria-label', detail);
+        });
+        bar.onclick = function () { revealJoint(page, row.joint); };
       });
-      bar.onclick = function () { revealJoint(page, row.joint); };
-    });
+    }
     function paint() {
       title.textContent = metric === 'error'
         ? 'RMS joint error, ' + referenceTitle(data) + ' − run [' + unitLabel('angle') + '], worst joint first'
         : 'Feedback share of the commanded torque [%], highest first';
       paints.forEach(function (paintBar) { paintBar(); });
     }
+    fill();
     paint();
     page.unitRepaints.push(paint);
+    page.selectionRepaints.push(function () { fill(); paint(); });
   }
 
   // A ranking bar: show the joint's part, scroll to its first plot in this tab, and outline it for a moment.
@@ -2210,29 +2405,41 @@ var TrajCompare = (function () {
 
   function buildAnswer(page, panel) {
     var data = page.data;
-    var runs = data.situations.filter(function (sit) {
+    var every = data.situations.filter(function (sit) {
       return sit.role !== 'target' && sit.has_data && sit.error_metrics;
     }).map(function (sit) {
       return { sit: sit, mean: meanJointRms(data, sit) };
     }).filter(function (entry) { return entry.mean !== null; });
-    if (!runs.length) return;
-    runs.sort(function (a, b) { return b.mean - a.mean; });
-    var worst = runs[0], best = runs[runs.length - 1];
-    var moment = worstMoment(data, worst.sit);
+    if (!every.length) return;
     var named = page.parts.length > 1;
     var box = el('section', 'tc-answer', panel);
     var lead = el('p', 'tc-answer-lead', box);
     var detail = el('p', 'tc-answer-detail', box);
     var momentText = el('span', '', detail);
-    if (moment && page.transport) {
-      var go = el('button', 'chip', detail, 'Go to t = ' + moment.t.toFixed(2) + ' s');
-      go.title = 'moves the scrubber there: the 3D pose, the videos and the cursor on every plot';
+    var moment = null;
+    var go = null;
+    if (page.transport) {
+      go = el('button', 'chip', detail);
+      go.title = 'moves the time there: the 3D pose, the videos and the playhead on every plot';
       go.onclick = function () {
+        if (!moment) return;
         page.transport.pause();
         page.transport.setScrub(moment.t);
       };
     }
+    // WHY over the shown runs only (the run-view round's bug (b), 2026-11-24): the answer ranked every run in the
+    // payload, so with a situation chip off (or #run= focusing one run) it named a run the page did not show
     function paint() {
+      var runs = every.filter(function (entry) { return page.visible[entry.sit.name] !== false; });
+      runs.sort(function (a, b) { return b.mean - a.mean; });
+      var worst = runs[0], best = runs[runs.length - 1];
+      moment = worst ? worstMoment(data, worst.sit) : null;
+      detail.style.display = moment ? '' : 'none';
+      if (go && moment) go.textContent = 'Go to t = ' + moment.t.toFixed(2) + ' s';
+      if (!worst) {
+        lead.textContent = 'No run is shown: turn one on with the situation chips.';
+        return;
+      }
       var minus = referenceTitle(data) + ' − run';
       lead.textContent = runs.length > 1
         ? 'Worst run: ' + worst.sit.title + ', mean joint RMS error ' + angleText(worst.mean) + ' (' + minus +
@@ -2246,6 +2453,7 @@ var TrajCompare = (function () {
     }
     paint();
     page.unitRepaints.push(paint);
+    page.selectionRepaints.push(paint);
   }
 
   // "When was it worst?" over time: the largest joint error at each instant, and the tool's position error.
@@ -2305,6 +2513,9 @@ var TrajCompare = (function () {
   function buildTrackPanel(page, panel) {
     var data = page.data;
     buildAnswer(page, panel);
+    // WHY first under the lane (R2, measured 2026-11-24 on 17 runs): stacked full width under a long statistics table,
+    // both "when was it worst" charts fell below the first screen
+    if (page.oneTimeline) buildWorstOverTime(page, panel);
     if (data.stats_mask) {
       // Comparison.stats_mask: every error statistic is over these samples; the plots still draw every sample
       el('p', 'tc-desc tc-stats-mask', panel, 'Error statistics are over ' + data.stats_mask.n + ' of ' + data.stats_mask.of +
@@ -2312,7 +2523,7 @@ var TrajCompare = (function () {
         .setAttribute('data-tc-stats-mask', '');
     }
     if (data.statistics) buildTable(panel, data.statistics, true);
-    buildWorstOverTime(page, panel);
+    if (!page.oneTimeline) buildWorstOverTime(page, panel);
     buildVerdictDetails(panel, data);
     buildAggregateCards(page, panel, data);
     buildDomainSummary(panel, data);
@@ -2359,12 +2570,23 @@ var TrajCompare = (function () {
       other.button.tabIndex = on ? 0 : -1;
       other.panel.hidden = !on;
     });
+    // a tab switch ends any hover preview: no pointer is on this tab's plots yet (the bug (a) fix's other half: the 3D
+    // stays on the committed time when a tab's charts are first built)
+    page.hoverChart = null;
+    if (page.transport) page.transport.setHover(null);
     if (!tab.built) buildPanel(page, tab);
     page.partViews.forEach(function (view) { syncPartView(page, view); });
     // WHY (measured 2026-11-19): a chart drawn or last sized while its panel was hidden keeps that width; size every
     // chart of the shown panel to it, and put the shared time cursor on the newly drawn ones
     resizeChartsIn(page, tab.panel);
     if (page.transport && page.transport.t !== null) paintCursors(page, page.transport.t);
+    if (page.transport) {
+      paintPlayheads(page);
+      // and again once uPlot has committed the new charts: their cursor joins the sync at the run's last sample
+      // after this returns, which left the value dots of a freshly opened tab on the end of the run
+      restoreCursors(page);
+    }
+    if (page.timeline) page.timeline.queue();
     if (fromUser) {
       state.prefs.set('tab', tab.id);
       writeHash(tab.id);
@@ -2419,8 +2641,17 @@ var TrajCompare = (function () {
     var data = page.data;
     var root = page.el;
 
-    if (data.plot_t) page.transport = makeTransport(page);
+    if (data.plot_t) {
+      page.transport = makeTransport(page);
+      page.transport.onChange(function (kind) { if (kind !== 'hover') paintPlayheads(page); });
+    }
+    // One timeline for the page (docs/NAVIGATION.md Part B; Zach's pick round 2026-11-24, R2): the time lane under the
+    // tabs is the page's one time control. A page without timeline.js (an older shared assets folder) keeps the stage's
+    // scrubber.
+    page.oneTimeline = !!(page.transport && window.TrajCompareTimeline);
+    if (page.oneTimeline) root.classList.add('tc-timeline');
     page.unitRepaints = [];
+    page.selectionRepaints = [];  // what names runs repaints when a run is shown or hidden (setSituationVisible)
     page.parts = partsOf(data);
     page.part = 0;
     page.partViews = [];
@@ -2447,7 +2678,11 @@ var TrajCompare = (function () {
     if (stageSections.length) buildStage(page, workspace, stageSections);
     var column = el('div', 'tc-qcol', workspace);
     var head = el('div', 'tc-qhead', column);
-    buildTabStrip(page, el('nav', 'tc-qtabs', head), column, tabs, byId);
+    // the sheet holds the tabs' panels and, under the lane, the one playhead line through their charts
+    var sheet = el('div', 'tc-sheet', column);
+    buildTabStrip(page, el('nav', 'tc-qtabs', head), sheet, tabs, byId);
+    // Under the lane these chips are hidden (style.css) and stay the state machinery: the lane's tracks call them, and
+    // so do the prefs of another scenario tab and ``#run=``. The Angles chips move into the lane's bar.
     var controls = el('div', 'tc-controls', head);
 
     // Situation chips are grouped semantically instead of becoming one long,
@@ -2530,6 +2765,7 @@ var TrajCompare = (function () {
           chip.className = 'chip ' + (show ? 'on' : 'off');
           if (remember) state.prefs.set('err:' + sit.name, show);
           page.charts.forEach(function (chart) { chart.setError(sit.name, show); });
+          if (page.timeline) page.timeline.paintSelection();
         }
         page.errChips.push({ sit: sit, apply: apply });
         chip.onclick = function () { apply(!page.errorOn[sit.name], true); };
@@ -2565,10 +2801,13 @@ var TrajCompare = (function () {
     el('span', 'grouplabel', zoomGroup, 'Zoom');
     var resetButton = el('button', 'chip', zoomGroup, 'Reset zoom');
     resetButton.title = 'restore the full time range on every plot (double-clicking a plot works too)';
-    resetButton.onclick = function () {
-      page.xZoom = null;
-      page.charts.forEach(function (chart) { chart.resetZoom(); });
-    };
+    resetButton.onclick = function () { resetZoom(page); };
+    if (page.transport) {
+      // WHY said on the page: a plain drag zoomed before 2026-11-25; it moves the time now
+      var zoomHint = el('span', 'tc-zoom-hint', zoomGroup, 'Shift-drag or Ctrl+wheel a plot');
+      zoomHint.title = 'Shift-drag a plot to zoom its time range on every plot, or Ctrl/⌘+wheel (a trackpad pinch) to ' +
+        'zoom around the pointer; a plain drag moves the time';
+    }
 
     // derived-channel footnotes, shown in the tab whose plots they qualify: qd / qdd by finite differences; a torque
     // from the other two of commanded / feedforward / feedback (TORQUE_DERIVED), which is arithmetic
@@ -2580,6 +2819,16 @@ var TrajCompare = (function () {
         })
         .filter(function (bit) { return bit; });
     }
+    // the time lane, docked under the tabs column: transport, ruler, one track per run, zoom bar (timeline.js)
+    if (page.oneTimeline) {
+      page.timeline = TrajCompareTimeline.create(page, { column: column, sheet: sheet, units: unitGroup }, {
+        el: el, store: store, recall: recall, ink: ink, state: state, nearestIndex: nearestIndex, worstMoment: worstMoment,
+        maxAbsOverJoints: maxAbsOverJoints, angleText: angleText, referenceTitle: referenceTitle, partIndexOf: partIndexOf,
+        violationText: violationText, verdictBadge: verdictBadge, activeTab: activeTab, resizeChartsIn: resizeChartsIn,
+        restoreCursors: restoreCursors, resetZoom: resetZoom, axisPx: LANE_AXIS_PX, padRightPx: LANE_PAD[1],
+      });
+    }
+
     var derivedBits = derivedNote(function (key) { return !TORQUE_DERIVED[key]; });
     var torqueBits = derivedNote(function (key) { return !!TORQUE_DERIVED[key]; });
     page.derived = {
@@ -2621,6 +2870,7 @@ var TrajCompare = (function () {
         page.stageWidth = recall('stage-width', page.stageWidth);
         setStageFolded(page, !!recall('stage-folded', false), false);
       }
+      if (page.timeline) page.timeline.applyShared();
       var wanted = state.prefs.get('tab', null);
       if (wanted && wanted !== page.activeTab) activateTab(page, wanted, false);
     };
@@ -2628,6 +2878,7 @@ var TrajCompare = (function () {
 
   function setSituationVisible(page, name, show) {
     page.charts.forEach(function (chart) { chart.setSituation(name, show); });
+    (page.selectionRepaints || []).forEach(function (repaint) { repaint(); });
     if (page.viewer3d) page.viewer3d.setSituationVisible(name, show);
     page.videos.forEach(function (entry) {
       if (entry.sit.name === name) {
@@ -2751,6 +3002,9 @@ var TrajCompare = (function () {
         seekQueued: false,
         pendingSeek: null,
         xZoom: null,
+        hoverChart: null,   // the chart a mouse or pen is over (only then does a hover preview the 3D)
+        scrubbing: null,    // the chart a press-and-drag is moving the time on
+        cursorRestoreQueued: false,
         builtPage: false,
         viewer3d: null,
         transport: null,

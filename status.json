@@ -5,29 +5,27 @@
   "remit": "make robots track a given trajectory more accurately, inside the gates (ruler v1, OBJECTIVES.md)",
   "kpi": {
     "name": "tool_track_rms_mm (best admissible, dev)",
-    "value": 0.031333594888818476,
+    "value": 0.029714463381969192,
     "unit": "mm",
     "direction": "down",
     "target": null,
-    "level": "33 of 36 admissible",
+    "level": "42 of 45 admissible",
     "level_name": "ruler v1 \u00b7 ur5e_alone \u00b7 workspace/v2 dev",
-    "next_gate": "an admissible solution below 0.031 mm",
+    "next_gate": "an admissible solution below 0.030 mm",
     "on_track": true
   },
   "counter_kpi": {
     "name": "holdout - dev of the best (mm; reporting only, never selected on)",
-    "value": -0.0006686573781421526,
+    "value": 0.0011312482482089131,
     "unit": "mm",
     "owner": "Trajectory Tracking Agent"
   },
-  "status": "working",
+  "status": "idle",
   "blocked_on": null,
   "todo": {
-    "open": 3,
-    "done_7d": 23,
+    "open": 1,
+    "done_7d": 31,
     "top": [
-      "Fit direction-dependent friction at the leading controller\u2019s fixed gains.",
-      "Average the leading controller\u2019s planned feedforward over each joint\u2019s command hold.",
       "Identify from a dedicated calibration run (a rich excitation trajectory, its own runs only) instead of the dev records, so the identified model never sees the tasks it is scored on. Needs a way to run a non-dataset trajectory through the boundary without `deployment.plant()` (see Suggestions for Zach)."
     ]
   },
@@ -37,5 +35,5 @@
     "wandb": "Trajectory Tracking",
     "vault": null
   },
-  "updated_t": 1795653601.3689458
+  "updated_t": 1795654929.9414792
 }
