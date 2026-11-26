@@ -21,7 +21,8 @@ def poses(positions, rotations):
     return result
 
 
-def build(qualification, archive, simulated_path, physical_path, output, bam_evidence=None, bam_sources=None, base=None):
+def build(qualification, archive, simulated_path, physical_path, output, bam_evidence=None, bam_sources=None, base=None,
+          transfer_sources=None):
     sim = json.loads(qualification.read_text())
     physical = json.loads(archive.read_text())
     target_id = sim["worst_rms"]["target"]
@@ -79,7 +80,22 @@ def build(qualification, archive, simulated_path, physical_path, output, bam_evi
         bam = json.loads(bam_evidence.read_text())
         build_bam(bam, bam_sources, np.asarray(base), output / "bam-fb.html")
         (output / "bam-fb-qualification.json").write_bytes(bam_evidence.read_bytes())
-    (output / "index.html").write_text(gallery(sim, legacy, bam))
+    transfer = ""
+    if transfer_sources:
+        pendulum_source, historical_source, geared_source = transfer_sources
+        pendulum = json.loads(pendulum_source.read_text())
+        historical = json.loads(historical_source.read_text())
+        geared = json.loads(geared_source.read_text())
+        if (pendulum["dataset_manifest_sha256"] != sim["dataset_manifest_sha256"] or
+                historical["dataset_manifest_sha256"] != sim["dataset_manifest_sha256"] or
+                historical["model_sha256"] != pendulum["model_sha256"] or
+                geared["controller_sha256"] != bam["controller_sha256"]):
+            raise ValueError("transfer evidence differs from the qualified corpus or controller")
+        for source, name in ((pendulum_source, "pendulum-transfer.json"), (historical_source, "pendulum-fallback.json"),
+                             (geared_source, "bam-fb-geared.json")):
+            (output / name).write_bytes(source.read_bytes())
+        transfer = transfer_overview(pendulum, historical, geared)
+    (output / "index.html").write_text(gallery(sim, legacy, bam, transfer))
 
 
 def bam_study(trace_file, cohort, evidence, base):
@@ -128,7 +144,34 @@ in simulation. <a href="bam-fb.html">Open BAM FB playback</a> · <a href="bam-fb
 <th>Existing gate passes</th></tr></thead><tbody>{rows}</tbody></table></div></article>'''
 
 
-def gallery(sim, legacy, bam=None):
+def transfer_overview(pendulum, historical, geared):
+    adopted = pendulum["adopted_lugre_encoder_scores"]
+    gap = pendulum["synthetic_gap"]
+    conditions = [
+        ("Adopted friction, archived feedforward at 4×/2×", adopted["historical_locked_gains"]),
+        ("Adopted friction, locked simulation controller", adopted["identified_locked"]),
+        ("Adopted friction plus synthetic gap, locked controller at load", gap["twin_load"]),
+        ("Adopted friction plus synthetic gap, archived feedforward at load", historical["synthetic_gap"]["twin_load"]),
+    ]
+    rows = "".join(f'<tr><th scope="row">{label}</th><td>{result["passes_both"]}/{result["runs"]}</td>'
+                   f'<td>{result["worst_stop_mm"]["mm"]:.3f}</td><td>{result["full_rms_mm"]["mm"]:.3f}</td></tr>'
+                   for label, result in conditions)
+    geared_runs = [run for run in geared["runs"] if run["condition"] != "zero-gap"]
+    trips = [run for run in geared_runs if run["detector_trip_s"] is not None]
+    trip_times = [run["detector_trip_s"] * 1000 for run in trips]
+    timing = f" in the first {max(trip_times):g} ms" if trip_times else ""
+    return f'''<article><h2>Friction and gearbox transfer</h2>
+<p>On three BAM FB development tapes the zero-gap replay matched every recorded tool-position sample.
+With synthetic gear gaps, the armed detector stopped {len(trips)} of {len(geared_runs)} replays{timing}.
+The stress test includes the detector's stop response. <a href="bam-fb-geared.json">BAM FB test evidence</a></p>
+<p>The CAN 11 study replayed the same 40 development paths in the adopted LuGre friction model. The gear-gap variant adds
+synthetic load-side motion. Its largest encoder-to-load difference was {gap["max_encoder_to_load_mm"]:.3f} mm.
+<a href="pendulum-transfer.json">Locked controller evidence</a> · <a href="pendulum-fallback.json">Archived feedforward test evidence</a></p>
+<div class="scroll"><table><thead><tr><th>CAN 11 simulation</th><th>Met both</th><th>Worst stop (mm)</th>
+<th>Worst full RMS (mm)</th></tr></thead><tbody>{rows}</tbody></table></div></article>'''
+
+
+def gallery(sim, legacy, bam=None, transfer=""):
     headline = "CAN 11 met both simulation targets at rung 1.0."
     can11 = f"Across {sim['runs']} workspace paths the worst stop was"
     video_stem = "walkthrough"
@@ -159,6 +202,7 @@ The simulation used higher board stiffness than the archived hardware controller
 <source src="media/{video_stem}.mp4" type="video/mp4"><img src="media/{video_stem}.gif" alt="{video_label}"></video>
 <figcaption>Recorded stock trajectory comparison. <a href="media/{video_stem}.gif">GIF fallback</a></figcaption></figure>
 {bam_overview(bam)}
+{transfer}
 <article><h2>Hardware archive</h2><p>CAN 11 has 468 top-rung encoder traces across three historical controllers. Their tool estimates
 use board encoder FK on the plan clock. Each controller missed at least one target. The older BAM FB workspace run
 <code>{html.escape(legacy['run_id'])}</code> scored {legacy['stop_error_max_mm']:.3f} mm at its stop and
@@ -174,12 +218,15 @@ def main():
     parser.add_argument("--bam-evidence", type=Path)
     parser.add_argument("--bam-sources", type=Path, nargs=2, metavar=("WORKSPACE", "CONVEYOR"))
     parser.add_argument("--bam-station", type=Path)
+    parser.add_argument("--transfer-sources", type=Path, nargs=3, metavar=("PENDULUM", "FALLBACK", "BAM"))
     args = parser.parse_args()
     if any((args.bam_evidence, args.bam_sources, args.bam_station)) and not all((args.bam_evidence, args.bam_sources, args.bam_station)):
         parser.error("BAM FB evidence, both playback traces and the frozen station must be supplied together")
+    if args.transfer_sources and not args.bam_evidence:
+        parser.error("transfer evidence needs BAM FB qualification evidence")
     base = json.loads(args.bam_station.read_text())["base_in_cell"] if args.bam_station else None
     build(args.qualification, args.archive, args.simulation, args.physical, args.output,
-          args.bam_evidence, args.bam_sources, base)
+          args.bam_evidence, args.bam_sources, base, args.transfer_sources)
 
 
 if __name__ == "__main__":

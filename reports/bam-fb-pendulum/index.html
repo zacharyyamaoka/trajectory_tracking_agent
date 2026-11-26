@@ -19,6 +19,15 @@ The simulation used higher board stiffness than the archived hardware controller
 in simulation. <a href="bam-fb.html">Open BAM FB playback</a> · <a href="bam-fb-qualification.json">Frozen evidence</a></p>
 <div class="scroll"><table><thead><tr><th>Dataset</th><th>Runs</th><th>Worst stop (mm)</th><th>Worst full RMS (mm)</th>
 <th>Existing gate passes</th></tr></thead><tbody><tr><th scope="row">Workspace</th><td>54</td><td>0.460</td><td>0.962</td><td>54</td></tr><tr><th scope="row">Conveyor</th><td>64</td><td>0.452</td><td>0.814</td><td>64</td></tr></tbody></table></div></article>
+<article><h2>Friction and gearbox transfer</h2>
+<p>On three BAM FB development tapes the zero-gap replay matched every recorded tool-position sample.
+With synthetic gear gaps, the armed detector stopped 6 of 6 replays in the first 20 ms.
+The stress test includes the detector's stop response. <a href="bam-fb-geared.json">BAM FB test evidence</a></p>
+<p>The CAN 11 study replayed the same 40 development paths in the adopted LuGre friction model. The gear-gap variant adds
+synthetic load-side motion. Its largest encoder-to-load difference was 0.347 mm.
+<a href="pendulum-transfer.json">Locked controller evidence</a> · <a href="pendulum-fallback.json">Archived feedforward test evidence</a></p>
+<div class="scroll"><table><thead><tr><th>CAN 11 simulation</th><th>Met both</th><th>Worst stop (mm)</th>
+<th>Worst full RMS (mm)</th></tr></thead><tbody><tr><th scope="row">Adopted friction, archived feedforward at 4×/2×</th><td>40/40</td><td>0.359</td><td>0.469</td></tr><tr><th scope="row">Adopted friction, locked simulation controller</th><td>31/40</td><td>0.612</td><td>0.921</td></tr><tr><th scope="row">Adopted friction plus synthetic gap, locked controller at load</th><td>27/40</td><td>0.795</td><td>0.980</td></tr><tr><th scope="row">Adopted friction plus synthetic gap, archived feedforward at load</th><td>27/40</td><td>0.706</td><td>0.701</td></tr></tbody></table></div></article>
 <article><h2>Hardware archive</h2><p>CAN 11 has 468 top-rung encoder traces across three historical controllers. Their tool estimates
 use board encoder FK on the plan clock. Each controller missed at least one target. The older BAM FB workspace run
 <code>jtc-20261121T010031Z-2999031</code> scored 4.634 mm at its stop and
