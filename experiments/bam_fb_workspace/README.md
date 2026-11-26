@@ -12,6 +12,8 @@ The [twofold moving-gain profile](gains-moving-twofold.json) changes moving stif
 
 The [cross-axis feature trial](cross_axis.py) adds an observed correction for J2 and C1. Predict that coupling terms reduce the full-trace error on development tasks where one drive is nearly stationary while the other accelerates. The correction vanishes at rest.
 
+The [development evidence](development-evidence.json) records six complete 42-task comparisons. The nominal calibrated move gains allowed the actual simulator linkage to switch branches on `workspace-dev-039`. Doubling moving gains prevented that branch switch but still missed both targets on that task. A coupled torque residual improved `workspace-dev-011` from 2.820 to 2.606 mm RMS at the same twofold gains and worsened `workspace-dev-039` from 7.103 to 8.275 mm, so it was dropped. The common eightfold profile passed both numerical targets and the existing gates in all 42 nominal development replays on both recorded TCP channels.
+
 Replay the [calibrated controller](candidate.py) with frozen [parameters](public-calibration.json). The [eightfold moving and hold gains](../bam_fb_conveyor/moving-800-hold-800.json) are a shared workspace and conveyor variant. It needs the composed bench's reference-only feedforward callback and synchronous TCP capture in arm_motion_bench commit `7a3bdc2`.
 
 ```bash
