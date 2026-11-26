@@ -157,7 +157,7 @@ def main():
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--record-states", action="store_true", help="record the JointState delivered to the controller on dev")
     parser.add_argument("--model", type=Path)
-    parser.add_argument("--model-sha256")
+    parser.add_argument("--lock", type=Path, help="precommitted controller and development evidence for holdout")
     parser.add_argument("--gain-scale", type=float, default=1.0)
     parser.add_argument("--damping-scale", type=float, default=1.0)
     args = parser.parse_args()
@@ -166,15 +166,21 @@ def main():
     scenario = replace(base_scenario("pendulum"), host_rate_hz=dataset.info.rate_hz)
     if args.model:
         model_sha = digest(args.model)
-        require(args.split == "dev" or args.model_sha256, "holdout requires the locked model SHA-256")
-        require(args.model_sha256 in (None, model_sha), "the candidate model hash differs from the lock")
+        require(args.split == "dev" or args.lock, "holdout requires the precommitted controller lock")
+        require(args.gain_scale > 0 and args.damping_scale > 0, "expected positive controller gain scales")
         model = json.loads(args.model.read_text())
         require(model["schema"] == "tta.pendulum-feedforward/1" and model["dataset_manifest_sha256"] == DATASET_SHA,
                 "expected an identified CAN 11 workspace model")
         spec = IdentifiedSpec(scenario, model["coefficients"], args.gain_scale, args.damping_scale)
         controller = {"name": spec.name, "model_sha256": model_sha, "gain_scale": args.gain_scale,
                       "damping_scale": args.damping_scale, "source_sha256": digest(Path(__file__).with_name("feedforward.py"))}
+        if args.lock:
+            lock = json.loads(args.lock.read_text())
+            require(lock["schema"] == "tta.pendulum-controller-lock/1" and lock["controller"] == controller
+                    and lock["dataset_manifest_sha256"] == DATASET_SHA and lock["top_rung"] == RUNG,
+                    "the holdout controller or dataset differs from the lock")
     else:
+        require(args.split == "dev", "the stock baseline uses development tapes only")
         spec = config_spec("P3s", scenario)
         controller = asdict(config("P3s"))
     args.out.mkdir(parents=True, exist_ok=False)

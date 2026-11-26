@@ -1,0 +1,919 @@
+{
+  "schema": "tta.pendulum-workspace/1",
+  "domain": "sim",
+  "deployment": "rack_shoulder_pendulum",
+  "dataset_manifest_sha256": "461445be5e01ae95ff0e1623059bc21d4f2ed446581e7557470e6bca856ec85f",
+  "top_rung": 1.0,
+  "split": "dev",
+  "controller": {
+    "name": "can11_identified_feedforward",
+    "model_sha256": "e2f4c736eef6579e72629306c44e0c7324b8599ed324288bac64132e41c2cab2",
+    "gain_scale": 1.0,
+    "damping_scale": 1.0,
+    "source_sha256": "7bd710cffc0b8e8937b7108e658b786c51657c7cacaf155c035b66b7a195e879"
+  },
+  "scenario": {
+    "arm": "pendulum",
+    "target": "pendulum/path@nominal",
+    "host_rate_hz": 100.0,
+    "bus": {
+      "command_delay_s": [
+        0.00125
+      ],
+      "reply_delay_s": 0.0015,
+      "jitter_s": 0.0,
+      "source": "datasheet:mjbots (fdcanusb ~800 Hz, one device)"
+    },
+    "model_error": {
+      "scale": 0.1,
+      "seed": 0,
+      "friction_scale": null
+    },
+    "gain_scale": 1.0,
+    "axis": "base"
+  },
+  "runs": [
+    {
+      "target": "workspace-dev-000",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "9e13a6dd072458f500ae471e48371f8f5715df1384ba65e7e4f72cae4e0128f3",
+      "full_trajectory_rms_mm": 0.26960175442193574,
+      "stop_error_max_mm": 0.16712819986406546,
+      "stops": 1,
+      "samples": 84,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-000.npz",
+      "recording_sha256": "71f8b9e0ae16a0087066a26fea94690774f24595090e47c267b4fa03cb24d698"
+    },
+    {
+      "target": "workspace-dev-001",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "ba332dede2539d9cef72e1a6e8602abf329bbad85047bcc3a497af62af388392",
+      "full_trajectory_rms_mm": 0.265318817167537,
+      "stop_error_max_mm": 0.11209743870949804,
+      "stops": 1,
+      "samples": 99,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-001.npz",
+      "recording_sha256": "044445379fd799c597afa45531d7e26776f7e2b9483cc19b00e81ba95d954ca8"
+    },
+    {
+      "target": "workspace-dev-002",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "cc6a8a6e7375152e6a228a5c8e28e525026509cf60c044f8e352610e0c8ff1b1",
+      "full_trajectory_rms_mm": 0.27057421777378937,
+      "stop_error_max_mm": 0.0010425846876346684,
+      "stops": 1,
+      "samples": 114,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-002.npz",
+      "recording_sha256": "a3eff69fd8ff1f75b5b5e71cb73ec74eaa182b81a853f3e623ab62a71dc5aa24"
+    },
+    {
+      "target": "workspace-dev-003",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "a8c2c16b42773b0a9ffc388cd550acd668147156527572f9c1033dff48d5168e",
+      "full_trajectory_rms_mm": 0.2669565312866983,
+      "stop_error_max_mm": 0.10333803297636815,
+      "stops": 1,
+      "samples": 99,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-003.npz",
+      "recording_sha256": "55ed80fbb5c451287f3bc431cdf42f85c2ed0791052f19a7a394ea7eeb9c9776"
+    },
+    {
+      "target": "workspace-dev-004",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "b7efd260f1d25aff57373e482fa0613645cb6cf0215687ca24b463be4525895c",
+      "full_trajectory_rms_mm": 0.26765215164584333,
+      "stop_error_max_mm": 0.07160419562481647,
+      "stops": 1,
+      "samples": 105,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-004.npz",
+      "recording_sha256": "9fbeaeab02afb8dba40c4748e2c2bde569c58b97a95a1cb67831cf503bedcefb"
+    },
+    {
+      "target": "workspace-dev-005",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "1f9538faca36f601592b038b58bf270e7b51430f05c962aa1e98797246ba26a0",
+      "full_trajectory_rms_mm": 0.2488049193795983,
+      "stop_error_max_mm": 0.06978982508886039,
+      "stops": 1,
+      "samples": 99,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-005.npz",
+      "recording_sha256": "30ed9e42e0789a8ede42ec4d20d532e38d2b942bc16ba9a6b22f471740fba7d7"
+    },
+    {
+      "target": "workspace-dev-006",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "0ac75a89455cb231078db54610a2d8809272d88bfae393d716c5b64b3b281e1d",
+      "full_trajectory_rms_mm": 0.24783305121026517,
+      "stop_error_max_mm": 0.07749529076927532,
+      "stops": 1,
+      "samples": 99,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-006.npz",
+      "recording_sha256": "b47bb308d0b19c0ad0c4f288b8b5ca86353be503b7469d1ad3447eb2160d7fbe"
+    },
+    {
+      "target": "workspace-dev-007",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "4c8f1f619c8a8966e2bf182d916ed04ee0ecd92b2edb2397a8d9dfffd7c3835f",
+      "full_trajectory_rms_mm": 0.2760093596174695,
+      "stop_error_max_mm": 0.017435051134316423,
+      "stops": 1,
+      "samples": 135,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-007.npz",
+      "recording_sha256": "d6f9b9eb3cba33b64a30ee21a9fc35ba5a9c049ab171d47f39629a750cde1b9c"
+    },
+    {
+      "target": "workspace-dev-008",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "b1b87ad024af6f6cc355bbd49c4cc0fa4211a7fb65c8dbbf341156d42e69b7f7",
+      "full_trajectory_rms_mm": 0.426139024349814,
+      "stop_error_max_mm": 0.4110130444667666,
+      "stops": 1,
+      "samples": 81,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-008.npz",
+      "recording_sha256": "015b0975b60bea9ed9c391f0658a63b043c445740de0881c8096551556d2d3e0"
+    },
+    {
+      "target": "workspace-dev-009",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "b18270a57528034d01d55e8487a28a3276bed4ef7454a4a01730a16ccc57baad",
+      "full_trajectory_rms_mm": 0.31447030178928037,
+      "stop_error_max_mm": 0.1801951223288709,
+      "stops": 1,
+      "samples": 90,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-009.npz",
+      "recording_sha256": "23fcb5ad5d1177cb3c37e5b48138bad28a3f062cc337ea5185627aacd5f67842"
+    },
+    {
+      "target": "workspace-dev-010",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "27f3eb22c2b20a1ac685d8bbb3be5d95b1237e22b7c246c1247973dccc0a6dd3",
+      "full_trajectory_rms_mm": 0.48903954509811043,
+      "stop_error_max_mm": 0.484768615793548,
+      "stops": 1,
+      "samples": 81,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-010.npz",
+      "recording_sha256": "83d362727fe332d00f9c9d33ce2330f7f7d8eb5e898dd562d6d15865745bce9e"
+    },
+    {
+      "target": "workspace-dev-011",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "6059e77d3795946a0ee3328faf0e71ced15bc9a7dd046e5caf1aa60581a07d2c",
+      "full_trajectory_rms_mm": 0.24460217111282714,
+      "stop_error_max_mm": 0.024366337391052265,
+      "stops": 1,
+      "samples": 150,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-011.npz",
+      "recording_sha256": "9f850e89927e72ae3337e2a7d9f147f481d5c5242d224b259a6b14df3f4b2265"
+    },
+    {
+      "target": "workspace-dev-012",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "7fdd555c19bad9f758209a0dccf399b12056524a293f5862a719afb6dc079cc0",
+      "full_trajectory_rms_mm": 0.3855987380531635,
+      "stop_error_max_mm": 0.355950556854869,
+      "stops": 1,
+      "samples": 81,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-012.npz",
+      "recording_sha256": "876305b99b62fbd9390a51c302a5767d818ac900e1094b9065caf82b6cad9c16"
+    },
+    {
+      "target": "workspace-dev-013",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "fdd7edb6f18368aaa0999556a6dcc2964cf005ac0aed36280f977b32a57d9100",
+      "full_trajectory_rms_mm": 0.26805710134117466,
+      "stop_error_max_mm": 0.021010720878386156,
+      "stops": 1,
+      "samples": 135,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-013.npz",
+      "recording_sha256": "470f974050bf49be39407eb0b8fbf5af2b25c9b7a5be4b66c9ce378987cf99d5"
+    },
+    {
+      "target": "workspace-dev-014",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "a70ac1521ca0869b10cfe8f12c0f9f652da48135895c5da02e716ddf47a64251",
+      "full_trajectory_rms_mm": 0.25997707141464876,
+      "stop_error_max_mm": 0.04850005621113469,
+      "stops": 1,
+      "samples": 168,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-014.npz",
+      "recording_sha256": "84b7258bc891ea00f520e5ea60060e56945eff74d67991d93d4b0c5d2ab8fab8"
+    },
+    {
+      "target": "workspace-dev-015",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "600183cf8edfda4f90191a7f80368833bd56852defb8534ab92bce581d0a2639",
+      "full_trajectory_rms_mm": 0.33008592064247555,
+      "stop_error_max_mm": 0.19040639419105912,
+      "stops": 1,
+      "samples": 93,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-015.npz",
+      "recording_sha256": "89df0c12e97b3a41c438ca93b4472d7a1fecf089ef15d92a631f3c147eb19f94"
+    },
+    {
+      "target": "workspace-dev-016",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "f698dfed0b54ee589c6f936dc548a8ee1f7e64576402ad504e3c60b7c43c7873",
+      "full_trajectory_rms_mm": 0.28806624867963965,
+      "stop_error_max_mm": 0.04732917867991058,
+      "stops": 1,
+      "samples": 126,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-016.npz",
+      "recording_sha256": "f88d1204130004906c4535a2cbbe118d00c8e8ae3a2a46677a3d08fd9ed77eab"
+    },
+    {
+      "target": "workspace-dev-017",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "81aa43625ad88c4a30afb32bd803381364891e7a7236f0e05aaac59eb9abe165",
+      "full_trajectory_rms_mm": 0.27291798544838647,
+      "stop_error_max_mm": 0.11207271543892985,
+      "stops": 1,
+      "samples": 96,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-017.npz",
+      "recording_sha256": "b347584efc34e5a1296c62d0564d201a992c8eaa750a7c6549c0382723a88822"
+    },
+    {
+      "target": "workspace-dev-018",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "4982d83d2db1a1baeca2355dd4ee93815271b9a52caeefc0e6d7875c65f18bfe",
+      "full_trajectory_rms_mm": 0.26407222057163676,
+      "stop_error_max_mm": 0.09513846648131578,
+      "stops": 1,
+      "samples": 99,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-018.npz",
+      "recording_sha256": "e018de390a80cbc243faf63473a5dbdf431d20b73807aa4c79e4877c8921aa44"
+    },
+    {
+      "target": "workspace-dev-019",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "b3a0f1fdfea9e3c4641c8fdb46b4d0cc16d1b0d1f34051b07985fc2753a7f272",
+      "full_trajectory_rms_mm": 0.2878232376138786,
+      "stop_error_max_mm": 0.06456024972063157,
+      "stops": 1,
+      "samples": 108,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-019.npz",
+      "recording_sha256": "ba94e421fd836253ec2f2db6e7d8d9b0cad956c1c5fafdc246707d5fa94bd038"
+    },
+    {
+      "target": "workspace-dev-020",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "0c9504a95c09b68f4ce188474ae07591c7168285e2c54450e43fc38808691b7f",
+      "full_trajectory_rms_mm": 0.2806746917938249,
+      "stop_error_max_mm": 0.16553314329869234,
+      "stops": 1,
+      "samples": 87,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-020.npz",
+      "recording_sha256": "a9601105e9f75f32aaa08bc7cda6cbc6291cb1d073dfa73348db7f7a11bc7d45"
+    },
+    {
+      "target": "workspace-dev-021",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "a699a40c12bd4541eb9a3d78776d07ebe236c55612053db29b6760253f20eb50",
+      "full_trajectory_rms_mm": 0.3489425829538218,
+      "stop_error_max_mm": 0.2285310722704662,
+      "stops": 1,
+      "samples": 90,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-021.npz",
+      "recording_sha256": "0bf070db5e83c6d106c18328a6313d47982b3d66f63229db4363af4386d6ae9c"
+    },
+    {
+      "target": "workspace-dev-022",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "cb7f4855498c9707208c13f72580b179b73deb25adb43cc6dfcabc79ff55abac",
+      "full_trajectory_rms_mm": 0.25742747245007225,
+      "stop_error_max_mm": 0.03153052860585075,
+      "stops": 1,
+      "samples": 171,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-022.npz",
+      "recording_sha256": "88336cab3836b9c9bdd5523ce50e8388c012ac7c32a181487555af0b95cee0b4"
+    },
+    {
+      "target": "workspace-dev-023",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "76370d52ff839e9dff196645e2e386ae56c386f3f8c769eac2b3f98e8e84c36c",
+      "full_trajectory_rms_mm": 0.312296543732081,
+      "stop_error_max_mm": 0.06674367306928743,
+      "stops": 1,
+      "samples": 108,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-023.npz",
+      "recording_sha256": "4a87b0748d30a60d368d4ecc6235c518fe73e7b71f99b66156bb96ee7d50cd82"
+    },
+    {
+      "target": "workspace-dev-024",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "42e542e027a9d088ac16c38a165429952c308ca48367d59285944245f9bf1c31",
+      "full_trajectory_rms_mm": 0.2523923048337094,
+      "stop_error_max_mm": 0.008192757503989128,
+      "stops": 1,
+      "samples": 147,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-024.npz",
+      "recording_sha256": "62bb1a6d181df3e5eb733af92b445ce045855f2f365570d1e42085b6060c64b1"
+    },
+    {
+      "target": "workspace-dev-025",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "89a196ffefec2c9206cf996630c347c36c4da6204f500b756d17f1f9e7ff07b4",
+      "full_trajectory_rms_mm": 0.2789182670542743,
+      "stop_error_max_mm": 0.015791442989708155,
+      "stops": 1,
+      "samples": 114,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-025.npz",
+      "recording_sha256": "379ecfaad98581b385c6a59e2c1bfd8b032e8350c3b92fd6533129d531bb8685"
+    },
+    {
+      "target": "workspace-dev-026",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "2499230dadc50485171586ee0786196cbbf36f70682f00f6eaab4f892156bd74",
+      "full_trajectory_rms_mm": 0.2702973119340264,
+      "stop_error_max_mm": 0.09084008240705439,
+      "stops": 1,
+      "samples": 93,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-026.npz",
+      "recording_sha256": "a2c317c9bd4acc60cdcf7060092d3cbe6af786667343308b9a8dea8390802c21"
+    },
+    {
+      "target": "workspace-dev-027",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "d536cec33b8641aebe538c0689e5353ce6396ca217e1a3fc98a8bd822e6d8468",
+      "full_trajectory_rms_mm": 0.2822051134194507,
+      "stop_error_max_mm": 0.05960490381866044,
+      "stops": 1,
+      "samples": 156,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-027.npz",
+      "recording_sha256": "e6f93cefed8f2dc04abbe096f53b00396f98eddde45771bc2750f8d1e5355be1"
+    },
+    {
+      "target": "workspace-dev-028",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "9117c7df933dc90e7f078aea1a1ff014b3b63746c2508c35f358d38d2b310414",
+      "full_trajectory_rms_mm": 0.2788704321486455,
+      "stop_error_max_mm": 0.02007128341198993,
+      "stops": 1,
+      "samples": 132,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-028.npz",
+      "recording_sha256": "d31083c484126631c536ee3e81d39d9bb94812531e397808ce2f08a230695472"
+    },
+    {
+      "target": "workspace-dev-029",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "7bad1ea01eb29026a93ef9b93b950a47065c7e6fcca3db2f58c022533b6f0d6d",
+      "full_trajectory_rms_mm": 0.3953016751069467,
+      "stop_error_max_mm": 0.3660316172419226,
+      "stops": 1,
+      "samples": 81,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-029.npz",
+      "recording_sha256": "97f2df93e2072792e7bcd50699dacf7c80a82b548f58de3d6c12114a8d14394b"
+    },
+    {
+      "target": "workspace-dev-030",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "55a923069cc0ab82eeefbd3b5051e98403be8755ff1cdca578545d396f079d91",
+      "full_trajectory_rms_mm": 0.2924851988614305,
+      "stop_error_max_mm": 0.049387388167557784,
+      "stops": 1,
+      "samples": 135,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-030.npz",
+      "recording_sha256": "e39ec606f7dd548c29bc01bde603e145d97d1c333df442d69151ce9655155ae8"
+    },
+    {
+      "target": "workspace-dev-031",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "d930ee60650d2194ac62bd3963be458bf9daafed2fa3d484eb8aff65a10818bd",
+      "full_trajectory_rms_mm": 0.27544934527266435,
+      "stop_error_max_mm": 0.04097974575463734,
+      "stops": 1,
+      "samples": 129,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-031.npz",
+      "recording_sha256": "c0f06318757317ecd4fc2bda2ba538c053bf7ff1092a29a9d970800ad2bbf743"
+    },
+    {
+      "target": "workspace-dev-032",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "9548178542329d7a9b96fcfa20073757f9dd465777ce31d9cdf9432c156837c3",
+      "full_trajectory_rms_mm": 0.2902726383151912,
+      "stop_error_max_mm": 0.039791076670962676,
+      "stops": 1,
+      "samples": 117,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-032.npz",
+      "recording_sha256": "cb4a04b806a552446d8cd1bb7c2ee8244b5fc307bba7f7a07e73039ac3a0bf67"
+    },
+    {
+      "target": "workspace-dev-033",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "a69b84810997ad9fae0502dd036fd8953b6fdea75ffec4eb8c7f3d8a45896f1d",
+      "full_trajectory_rms_mm": 0.28581426116608755,
+      "stop_error_max_mm": 0.01117519235473652,
+      "stops": 1,
+      "samples": 114,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-033.npz",
+      "recording_sha256": "e6449f8f4f1efe4543022832219723e0eba4f0b1a3bfb4d6852a6ea1b5ec7a9d"
+    },
+    {
+      "target": "workspace-dev-034",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "3510d1ae5c9a8ae760f80ec2abd6a3b66bd12b14955c1d8999c280718caa1714",
+      "full_trajectory_rms_mm": 0.2693161278102871,
+      "stop_error_max_mm": 0.032649462394987526,
+      "stops": 1,
+      "samples": 108,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-034.npz",
+      "recording_sha256": "d97648fb505c28c7b186029435d72fc827f8410c40fbed7685e06f6451ee7561"
+    },
+    {
+      "target": "workspace-dev-035",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "06950f62d87e28386ba33306d7ba62ad510c00703920b04d320ab6ededc5255e",
+      "full_trajectory_rms_mm": 0.27704077191199816,
+      "stop_error_max_mm": 0.035079533214253056,
+      "stops": 1,
+      "samples": 138,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-035.npz",
+      "recording_sha256": "c5d4158b46ff5eb8bd416ce49ba7ccadfb40286942ca7fe312e979fafdd412eb"
+    },
+    {
+      "target": "workspace-dev-036",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "da3fae4eef73ed4a2284042f94494b3679c5f11a35f66adcf218c6383159a3fe",
+      "full_trajectory_rms_mm": 0.26977274332438456,
+      "stop_error_max_mm": 0.04533859242170855,
+      "stops": 1,
+      "samples": 108,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-036.npz",
+      "recording_sha256": "225a90ba698fb9ea873c2520529a2114c90c4cc14bc228edf505b3268b3fe5c0"
+    },
+    {
+      "target": "workspace-dev-037",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "46fb7c7ef1e410382e3bead91a9ffc43f12ce0b7a4725218908db5d2e6521783",
+      "full_trajectory_rms_mm": 0.26692784664661434,
+      "stop_error_max_mm": 0.10856527478737918,
+      "stops": 1,
+      "samples": 102,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-037.npz",
+      "recording_sha256": "56af6583b93e1a31b4231184219a4e5de08e9a493d3df21aba78d393eb5bf54c"
+    },
+    {
+      "target": "workspace-dev-038",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "f5f0de2277cb802ff80e27af11632ad6d55712b3b3586e1154d85bcc9ee60ca8",
+      "full_trajectory_rms_mm": 0.27969484215799045,
+      "stop_error_max_mm": 0.11002462689962629,
+      "stops": 1,
+      "samples": 93,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-038.npz",
+      "recording_sha256": "ab13cf93b82015d8a14657fcce08db3ec9103be85eef498a4ee9117357f9db89"
+    },
+    {
+      "target": "workspace-dev-039",
+      "split": "dev",
+      "top_rung": 1.0,
+      "tape_sha256": "493c011dd125af2a75e0540343ac860e7e5a3e5a1ba0afa02a9dc22a53bd579d",
+      "full_trajectory_rms_mm": 0.2602347989552271,
+      "stop_error_max_mm": 0.018684467429998027,
+      "stops": 1,
+      "samples": 117,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-dev-039.npz",
+      "recording_sha256": "094febdfa8fbfbd4fe66d90b13d7f2f1ef28ec3cd31a50dada57d60a72fd356d"
+    }
+  ],
+  "worst_stop": {
+    "target": "workspace-dev-010",
+    "split": "dev",
+    "top_rung": 1.0,
+    "tape_sha256": "27f3eb22c2b20a1ac685d8bbb3be5d95b1237e22b7c246c1247973dccc0a6dd3",
+    "full_trajectory_rms_mm": 0.48903954509811043,
+    "stop_error_max_mm": 0.484768615793548,
+    "stops": 1,
+    "samples": 81,
+    "saturation_share_pct": 0.0,
+    "limit_violations": 0,
+    "events": [],
+    "checks": {
+      "completed": true,
+      "stop_error_max_mm": true,
+      "saturation_share_pct": true,
+      "limit_violations": true
+    },
+    "recording": "workspace-dev-010.npz",
+    "recording_sha256": "83d362727fe332d00f9c9d33ce2330f7f7d8eb5e898dd562d6d15865745bce9e"
+  },
+  "worst_rms": {
+    "target": "workspace-dev-010",
+    "split": "dev",
+    "top_rung": 1.0,
+    "tape_sha256": "27f3eb22c2b20a1ac685d8bbb3be5d95b1237e22b7c246c1247973dccc0a6dd3",
+    "full_trajectory_rms_mm": 0.48903954509811043,
+    "stop_error_max_mm": 0.484768615793548,
+    "stops": 1,
+    "samples": 81,
+    "saturation_share_pct": 0.0,
+    "limit_violations": 0,
+    "events": [],
+    "checks": {
+      "completed": true,
+      "stop_error_max_mm": true,
+      "saturation_share_pct": true,
+      "limit_violations": true
+    },
+    "recording": "workspace-dev-010.npz",
+    "recording_sha256": "83d362727fe332d00f9c9d33ce2330f7f7d8eb5e898dd562d6d15865745bce9e"
+  }
+}
