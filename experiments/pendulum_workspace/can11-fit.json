@@ -1,0 +1,14 @@
+{
+  "schema": "tta.pendulum-feedforward/1",
+  "probe_summary_sha256": "57dcd79df274b1795059574d51ddfc9216707c382649a890cda706a1375615cc",
+  "dataset_manifest_sha256": "461445be5e01ae95ff0e1623059bc21d4f2ed446581e7557470e6bca856ec85f",
+  "moving_samples": 1969,
+  "fit_residual_rms_nm": 0.03134203975896291,
+  "coefficients": {
+    "gravity_sin_nm": 4.113170343543896,
+    "gravity_cos_nm": -1.0819351381607598,
+    "coulomb_nm": 1.0731084073910766,
+    "viscous_nm_s_rad": 0.08660670531375508,
+    "inertia_kg_m2": 0.11270498439707005
+  }
+}

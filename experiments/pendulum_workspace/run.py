@@ -6,7 +6,7 @@ import argparse
 import hashlib
 import json
 import math
-from dataclasses import asdict, replace
+from dataclasses import asdict, dataclass, replace
 from pathlib import Path
 
 import numpy as np
@@ -20,6 +20,8 @@ from robot_controllers.registry import JOINT_TRAJECTORY
 
 from trajectory_tracking_agent.evaluate import _controller_trajectory
 from trajectory_tracking_agent.ruler import metrics
+
+from feedforward import IdentifiedSpec
 
 DATASET = REPO_ROOT / "datasets" / "pendulum" / "workspace" / "v2"
 DATASET_SHA = "461445be5e01ae95ff0e1623059bc21d4f2ed446581e7557470e6bca856ec85f"
@@ -100,7 +102,36 @@ def score(target, log, joint):
     return row, arrays
 
 
-def launch(dataset, task, scenario, spec):
+class StateRecorder:
+    """Capture the state supplied to a controller without sampling the simulation plant."""
+
+    def __init__(self, controller, rows):
+        self.controller = controller
+        self.rows = rows
+
+    def __getattr__(self, name):
+        return getattr(self.controller, name)
+
+    def tick(self, state, dt):
+        self.rows.append((state.header.stamp, state.position[0], state.velocity[0], state.effort[0]))
+        return self.controller.tick(state, dt)
+
+
+@dataclass(frozen=True)
+class RecordingSpec:
+    spec: object
+    rows: list
+    period: float
+
+    @property
+    def name(self):
+        return self.spec.name
+
+    def build(self, trajectory):
+        return StateRecorder(self.spec.build(trajectory, control_period_s=self.period), self.rows)
+
+
+def launch(dataset, task, scenario, spec, *, record_states=False):
     filename, target = frozen_target(dataset, task)
     safe_target = _controller_trajectory(target)
     timing = HostTiming.from_bus(scenario.bus, scenario.host_rate_hz, include_compute=False)
@@ -108,8 +139,13 @@ def launch(dataset, task, scenario, spec):
                 description="CAN 11 frozen workspace v2 tape at its top rung.", duration_s=float(target.t[-1]) + timing.period_s,
                 inputs=lambda _start: [(0.0, safe_target)], scene=Scene(start_q=(float(target.positions[0, 0]),)),
                 timing=timing, plant="pendulum")
+    states = []
+    if record_states:
+        spec = RecordingSpec(spec, states, timing.period_s)
     log = run_episode(spec, rung, plant_factory=scenario.plant_factory())
     result, arrays = score(target, log, dataset.info.joints[0])
+    if record_states:
+        arrays["controller_state"] = np.asarray(states)
     return {"target": task.task_id, "split": task.split, "top_rung": RUNG,
             "tape_sha256": dataset.manifest["files"][filename], **result}, arrays
 
@@ -119,20 +155,38 @@ def main():
     parser.add_argument("--dataset", type=Path, default=DATASET)
     parser.add_argument("--split", choices=tuple(SPLIT_COUNTS), required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--record-states", action="store_true", help="record the JointState delivered to the controller on dev")
+    parser.add_argument("--model", type=Path)
+    parser.add_argument("--model-sha256")
+    parser.add_argument("--gain-scale", type=float, default=1.0)
+    parser.add_argument("--damping-scale", type=float, default=1.0)
     args = parser.parse_args()
+    require(not args.record_states or args.split == "dev", "identification states can only be recorded on dev")
     dataset = inputs(args.dataset)
     scenario = replace(base_scenario("pendulum"), host_rate_hz=dataset.info.rate_hz)
-    spec = config_spec("P3s", scenario)
+    if args.model:
+        model_sha = digest(args.model)
+        require(args.split == "dev" or args.model_sha256, "holdout requires the locked model SHA-256")
+        require(args.model_sha256 in (None, model_sha), "the candidate model hash differs from the lock")
+        model = json.loads(args.model.read_text())
+        require(model["schema"] == "tta.pendulum-feedforward/1" and model["dataset_manifest_sha256"] == DATASET_SHA,
+                "expected an identified CAN 11 workspace model")
+        spec = IdentifiedSpec(scenario, model["coefficients"], args.gain_scale, args.damping_scale)
+        controller = {"name": spec.name, "model_sha256": model_sha, "gain_scale": args.gain_scale,
+                      "damping_scale": args.damping_scale, "source_sha256": digest(Path(__file__).with_name("feedforward.py"))}
+    else:
+        spec = config_spec("P3s", scenario)
+        controller = asdict(config("P3s"))
     args.out.mkdir(parents=True, exist_ok=False)
     rows = []
     for task in dataset.tasks_in(args.split):
-        row, arrays = launch(dataset, task, scenario, spec)
+        row, arrays = launch(dataset, task, scenario, spec, record_states=args.record_states)
         recording = args.out / f"{task.task_id}.npz"
         np.savez_compressed(recording, **arrays)
         rows.append({**row, "recording": recording.name, "recording_sha256": digest(recording)})
     result = {"schema": "tta.pendulum-workspace/1", "domain": "sim", "deployment": "rack_shoulder_pendulum",
               "dataset_manifest_sha256": DATASET_SHA, "top_rung": RUNG, "split": args.split,
-              "controller": asdict(config("P3s")), "scenario": asdict(scenario), "runs": rows,
+              "controller": controller, "scenario": asdict(scenario), "runs": rows,
               "worst_stop": max(rows, key=lambda row: row["stop_error_max_mm"]),
               "worst_rms": max(rows, key=lambda row: row["full_trajectory_rms_mm"])}
     (args.out / "summary.json").write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")

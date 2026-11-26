@@ -11,3 +11,9 @@ Use the installed arm motion bench environment with the tracking agent and robot
 ```bash
 python experiments/pendulum_workspace/run.py --split dev --out outputs/pendulum-workspace/p3s-dev
 ```
+
+The stock baseline completed all 40 development replays. The maxima were 6.746372 mm stop error and 6.744523 mm full-trajectory RMS. The [baseline summary](baseline-dev.json) retains the per-run admission results and recording hashes.
+
+## Identified feedforward prediction
+
+The [identification script](identify.py) uses only the 100 Hz JointState delivered to the controller. It estimates gravity, inertia, Coulomb friction and viscous friction from the same development paths, then writes the [fitted model](can11-fit.json). The board receives a continuous secant position/velocity command and a torque term based on those coefficients. Expect the worst development error on both metrics to drop by at least half. Compare unchanged board gains to the more rigid simulation-only setting of four times stiffness and twice damping, which may reduce residual near each stop.
