@@ -1,0 +1,61 @@
+{
+  "schema": "tta.pendulum-workspace-qualification/1",
+  "domain": "sim",
+  "top_rung": 1.0,
+  "controller_lock_sha256": "4f19b3ec1f5212608d7cb43664a19d303706cc8b85f6eb96ee79595001ce1931",
+  "controller": {
+    "name": "can11_identified_feedforward",
+    "model_sha256": "e2f4c736eef6579e72629306c44e0c7324b8599ed324288bac64132e41c2cab2",
+    "gain_scale": 4.0,
+    "damping_scale": 2.0,
+    "source_sha256": "7bd710cffc0b8e8937b7108e658b786c51657c7cacaf155c035b66b7a195e879"
+  },
+  "dataset_manifest_sha256": "461445be5e01ae95ff0e1623059bc21d4f2ed446581e7557470e6bca856ec85f",
+  "runs": 52,
+  "dev_summary_sha256": "d9c63109594aa0d8a8cfb9c5aac07a44e4c57b1df4c55d065407d8f8ea403547",
+  "holdout_summary_sha256": "094181fbb93084bbe87f478c598b258f0940c150ac21a1a41b6f26046b500521",
+  "scored_stops": 52,
+  "all_admission_checks_passed": true,
+  "worst_stop": {
+    "target": "workspace-holdout-011",
+    "split": "holdout",
+    "top_rung": 1.0,
+    "tape_sha256": "4cf20847e00809234bcdbd9c264e76dba06c12fb1d3d725d18ed279500c3224d",
+    "full_trajectory_rms_mm": 0.09909104217639021,
+    "stop_error_max_mm": 0.0972850656741417,
+    "stops": 1,
+    "samples": 96,
+    "saturation_share_pct": 0.0,
+    "limit_violations": 0,
+    "events": [],
+    "checks": {
+      "completed": true,
+      "stop_error_max_mm": true,
+      "saturation_share_pct": true,
+      "limit_violations": true
+    },
+    "recording": "workspace-holdout-011.npz",
+    "recording_sha256": "7c5244e56bfff3ba4c9ba224097489c92d0f68250b5f41c417fd930188aa2b8b"
+  },
+  "worst_rms": {
+    "target": "workspace-dev-026",
+    "split": "dev",
+    "top_rung": 1.0,
+    "tape_sha256": "2499230dadc50485171586ee0786196cbbf36f70682f00f6eaab4f892156bd74",
+    "full_trajectory_rms_mm": 0.0996352181195757,
+    "stop_error_max_mm": 0.09272116101486544,
+    "stops": 1,
+    "samples": 93,
+    "saturation_share_pct": 0.0,
+    "limit_violations": 0,
+    "events": [],
+    "checks": {
+      "completed": true,
+      "stop_error_max_mm": true,
+      "saturation_share_pct": true,
+      "limit_violations": true
+    },
+    "recording": "workspace-dev-026.npz",
+    "recording_sha256": "7f574cd2365eeed9f575a6089e4466ccba99ebd6e61d9ad3b7f28d95a6c78b3c"
+  }
+}

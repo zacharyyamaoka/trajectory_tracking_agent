@@ -1,0 +1,331 @@
+{
+  "schema": "tta.pendulum-workspace/1",
+  "domain": "sim",
+  "deployment": "rack_shoulder_pendulum",
+  "dataset_manifest_sha256": "461445be5e01ae95ff0e1623059bc21d4f2ed446581e7557470e6bca856ec85f",
+  "top_rung": 1.0,
+  "split": "holdout",
+  "controller": {
+    "name": "can11_identified_feedforward",
+    "model_sha256": "e2f4c736eef6579e72629306c44e0c7324b8599ed324288bac64132e41c2cab2",
+    "gain_scale": 4.0,
+    "damping_scale": 2.0,
+    "source_sha256": "7bd710cffc0b8e8937b7108e658b786c51657c7cacaf155c035b66b7a195e879"
+  },
+  "scenario": {
+    "arm": "pendulum",
+    "target": "pendulum/path@nominal",
+    "host_rate_hz": 100.0,
+    "bus": {
+      "command_delay_s": [
+        0.00125
+      ],
+      "reply_delay_s": 0.0015,
+      "jitter_s": 0.0,
+      "source": "datasheet:mjbots (fdcanusb ~800 Hz, one device)"
+    },
+    "model_error": {
+      "scale": 0.1,
+      "seed": 0,
+      "friction_scale": null
+    },
+    "gain_scale": 1.0,
+    "axis": "base"
+  },
+  "runs": [
+    {
+      "target": "workspace-holdout-000",
+      "split": "holdout",
+      "top_rung": 1.0,
+      "tape_sha256": "2a090284caa3beaa5eeb233f833c1061b83bf05e1357b2fd9f98755ba205f930",
+      "full_trajectory_rms_mm": 0.09066584812406764,
+      "stop_error_max_mm": 0.07319188033582173,
+      "stops": 1,
+      "samples": 144,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-holdout-000.npz",
+      "recording_sha256": "2889b1a22810f7ee983577820f0fb30c0c4bb405a3b01aed2d3cf903177ed300"
+    },
+    {
+      "target": "workspace-holdout-001",
+      "split": "holdout",
+      "top_rung": 1.0,
+      "tape_sha256": "41b2c27ae265e37696f878bccde2428dde383d387c2d2ba931435693f5b86885",
+      "full_trajectory_rms_mm": 0.0955022524620026,
+      "stop_error_max_mm": 0.0735696266637637,
+      "stops": 1,
+      "samples": 102,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-holdout-001.npz",
+      "recording_sha256": "a4f0c055f2e59d53050b05422a5e86fd8cd06ac1492f0e192600ebcb70f56bfb"
+    },
+    {
+      "target": "workspace-holdout-002",
+      "split": "holdout",
+      "top_rung": 1.0,
+      "tape_sha256": "f8ebddd9ee3b646a658b5442053a01ea4fbbbedf14a93fdff26e5127747b3ecf",
+      "full_trajectory_rms_mm": 0.09695179450170253,
+      "stop_error_max_mm": 0.08612989410166769,
+      "stops": 1,
+      "samples": 99,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-holdout-002.npz",
+      "recording_sha256": "af3dea2b5179584ed1becee228edaeb1b3f9044c3fe0ffa4bf30fc5a3de15ac7"
+    },
+    {
+      "target": "workspace-holdout-003",
+      "split": "holdout",
+      "top_rung": 1.0,
+      "tape_sha256": "4386e462bf4973a9a662028b60f05f6644c3bf4bee7254c4c263267bd01bce6a",
+      "full_trajectory_rms_mm": 0.07803330453223008,
+      "stop_error_max_mm": 0.0736495321627588,
+      "stops": 1,
+      "samples": 186,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-holdout-003.npz",
+      "recording_sha256": "cf0491fe9840a35f7f359082df5473ec8442087971054eaeb4a7b1b234f20ade"
+    },
+    {
+      "target": "workspace-holdout-004",
+      "split": "holdout",
+      "top_rung": 1.0,
+      "tape_sha256": "e6a354322e93f01c65a85a74f4df46eed06e6fa1e613d9ec2c67c0f238091898",
+      "full_trajectory_rms_mm": 0.0924644053793963,
+      "stop_error_max_mm": 0.07643795155844257,
+      "stops": 1,
+      "samples": 90,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-holdout-004.npz",
+      "recording_sha256": "022b2aae5f7fcca0747379e85a847d174ab3108b673dc92a96222c7167285095"
+    },
+    {
+      "target": "workspace-holdout-005",
+      "split": "holdout",
+      "top_rung": 1.0,
+      "tape_sha256": "c48b4c2f176bda4ec336832872ba2cbe2e18558a2c6e960356e89725a984e024",
+      "full_trajectory_rms_mm": 0.08777265930579523,
+      "stop_error_max_mm": 0.08042411214349168,
+      "stops": 1,
+      "samples": 138,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-holdout-005.npz",
+      "recording_sha256": "9406d973ebf0b816cbba5ea70eb3bac7dd6857bd72bc6e7f73080c212206a968"
+    },
+    {
+      "target": "workspace-holdout-006",
+      "split": "holdout",
+      "top_rung": 1.0,
+      "tape_sha256": "5beab245ba1f5d52976b3aa4c58f3f002b7253ef0eb5884bf3c57d032e7a0f33",
+      "full_trajectory_rms_mm": 0.09627458435824875,
+      "stop_error_max_mm": 0.07542837912183692,
+      "stops": 1,
+      "samples": 123,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-holdout-006.npz",
+      "recording_sha256": "e2a6633946a2017cd39d7d323f913fc74f1dbadf379db54705d8caa92e88fa94"
+    },
+    {
+      "target": "workspace-holdout-007",
+      "split": "holdout",
+      "top_rung": 1.0,
+      "tape_sha256": "36e5071ec5c45c211e38a1e26ea1d21faaa7ec69b325734aba62a2a556410dcb",
+      "full_trajectory_rms_mm": 0.07967310405405387,
+      "stop_error_max_mm": 0.07332821755645406,
+      "stops": 1,
+      "samples": 177,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-holdout-007.npz",
+      "recording_sha256": "d8a8060ecdb88b2d294d9f158798e2452300407783e50bbaa7928f36bb96f089"
+    },
+    {
+      "target": "workspace-holdout-008",
+      "split": "holdout",
+      "top_rung": 1.0,
+      "tape_sha256": "7d477ad0f53a6c5eb3a177492aa1e78fea9b2d60f876f60fc7299ae667276d59",
+      "full_trajectory_rms_mm": 0.08956088783703949,
+      "stop_error_max_mm": 0.06346501986051378,
+      "stops": 1,
+      "samples": 105,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-holdout-008.npz",
+      "recording_sha256": "50e23b840f82838bf1fe68405bac2256f08299975b939d092052343b34226258"
+    },
+    {
+      "target": "workspace-holdout-009",
+      "split": "holdout",
+      "top_rung": 1.0,
+      "tape_sha256": "f13027be41d65f4d7d627e9ad398286b865a3ad8c7a6ce175127c74085c542ab",
+      "full_trajectory_rms_mm": 0.0912249306071082,
+      "stop_error_max_mm": 0.07458195348614911,
+      "stops": 1,
+      "samples": 111,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-holdout-009.npz",
+      "recording_sha256": "46737968f4f17f2b95a89aa4adc29a15cf07d4b112997daab88c42fd2233f713"
+    },
+    {
+      "target": "workspace-holdout-010",
+      "split": "holdout",
+      "top_rung": 1.0,
+      "tape_sha256": "92f3d43e464c729326c54b83a18cc0833480904b8375c9bcabc815109f590983",
+      "full_trajectory_rms_mm": 0.08354775680238913,
+      "stop_error_max_mm": 0.06887675041154705,
+      "stops": 1,
+      "samples": 84,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-holdout-010.npz",
+      "recording_sha256": "82388ae61870be81281295f74121fb1567752728c6bcbac7f6515301bbb0ade5"
+    },
+    {
+      "target": "workspace-holdout-011",
+      "split": "holdout",
+      "top_rung": 1.0,
+      "tape_sha256": "4cf20847e00809234bcdbd9c264e76dba06c12fb1d3d725d18ed279500c3224d",
+      "full_trajectory_rms_mm": 0.09909104217639021,
+      "stop_error_max_mm": 0.0972850656741417,
+      "stops": 1,
+      "samples": 96,
+      "saturation_share_pct": 0.0,
+      "limit_violations": 0,
+      "events": [],
+      "checks": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true
+      },
+      "recording": "workspace-holdout-011.npz",
+      "recording_sha256": "7c5244e56bfff3ba4c9ba224097489c92d0f68250b5f41c417fd930188aa2b8b"
+    }
+  ],
+  "worst_stop": {
+    "target": "workspace-holdout-011",
+    "split": "holdout",
+    "top_rung": 1.0,
+    "tape_sha256": "4cf20847e00809234bcdbd9c264e76dba06c12fb1d3d725d18ed279500c3224d",
+    "full_trajectory_rms_mm": 0.09909104217639021,
+    "stop_error_max_mm": 0.0972850656741417,
+    "stops": 1,
+    "samples": 96,
+    "saturation_share_pct": 0.0,
+    "limit_violations": 0,
+    "events": [],
+    "checks": {
+      "completed": true,
+      "stop_error_max_mm": true,
+      "saturation_share_pct": true,
+      "limit_violations": true
+    },
+    "recording": "workspace-holdout-011.npz",
+    "recording_sha256": "7c5244e56bfff3ba4c9ba224097489c92d0f68250b5f41c417fd930188aa2b8b"
+  },
+  "worst_rms": {
+    "target": "workspace-holdout-011",
+    "split": "holdout",
+    "top_rung": 1.0,
+    "tape_sha256": "4cf20847e00809234bcdbd9c264e76dba06c12fb1d3d725d18ed279500c3224d",
+    "full_trajectory_rms_mm": 0.09909104217639021,
+    "stop_error_max_mm": 0.0972850656741417,
+    "stops": 1,
+    "samples": 96,
+    "saturation_share_pct": 0.0,
+    "limit_violations": 0,
+    "events": [],
+    "checks": {
+      "completed": true,
+      "stop_error_max_mm": true,
+      "saturation_share_pct": true,
+      "limit_violations": true
+    },
+    "recording": "workspace-holdout-011.npz",
+    "recording_sha256": "7c5244e56bfff3ba4c9ba224097489c92d0f68250b5f41c417fd930188aa2b8b"
+  }
+}
