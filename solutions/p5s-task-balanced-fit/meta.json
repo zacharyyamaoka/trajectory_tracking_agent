@@ -1,0 +1,18 @@
+{
+  "id": "p5s-task-balanced-fit",
+  "parent": "p5s-onefit",
+  "change": "Give every dev task equal total sample weight during the p5s-pass3 identification pass",
+  "proposed_by": {
+    "agent": "Codex (Trajectory Tracking Agent task-balanced fit lane)",
+    "model": "gpt-6.2-sol",
+    "session": "01a21549-fc20-76d2-ad50-3784c73cf690"
+  },
+  "created": "2026-11-25T17:49:28-07:00",
+  "tags": [
+    "transfer-risk:stiffness"
+  ],
+  "name": "P5.s.onefit.task-balanced",
+  "summary": "Give every dev task equal total weight in the same closed-loop identification pass as p5s-pass3.",
+  "description": "Fit the same PD error residual using the same gravity and friction bases and ridge penalty per effective unit of weight. Divide each moving sample’s weight by the number of moving samples in its task. The controller strategy and gains are identical to p5s-pass3.",
+  "expect": "Dev tool_track_rms_mm < 0.03100 mm, versus 0.031333594888818476 mm for p5s-pass3, with all five gates passing on all 42 dev tasks. Equal task weights may align the fit better with the task-level objective."
+}
