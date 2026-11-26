@@ -88,7 +88,7 @@ def build(data, output, audit_path=None, goal_path=None, parent_path=None):
                 "robot itself. The belt is static, the gripper is a collision capsule, and the arm carries no payload."),
     ])
     output.mkdir(parents=True, exist_ok=True)
-    write_comparison_report(comparison, output / "comparison.html", title="UR5e conveyor tracking",
+    write_comparison_report(comparison, output / "comparison.html", title="UR5e conveyor tracking", rerun=True,
                             subtitle=f"{baseline['picks']} picks · {baseline['controller']}", summary=summary, insights=insights,
                             provenance={"controller SHA-256": baseline["controller_sha256"],
                                         "dataset manifest SHA-256": baseline["dataset_manifest_sha256"]},
