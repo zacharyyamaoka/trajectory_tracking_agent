@@ -36,6 +36,10 @@ def summary_cell(case):
     return f"{case['mm']:.3f} mm ({case['task']})"
 
 
+def measurement_label(source):
+    return {"encoder_fk": "Encoder and closure FK", "synchronous_sim_site": "Synchronous simulated claw site"}[source]
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("dataset", type=Path)
@@ -49,6 +53,8 @@ def main():
     manifest_hash = sha256(dataset.path / "manifest.json")
     if any(report["corpus"]["manifest_sha256"] != manifest_hash for report in report_rows):
         raise ValueError("score reports do not refer to the same frozen curriculum")
+    if any(report["rung"] != 1.0 for report in report_rows):
+        raise ValueError("expected the same frozen highest rung in every report")
     robot = bam_fb_robot()
     base_from_world = station_for(dataset).base_from_world
     # WHY transform the rendering to the station's base frame: the mesh renderer is authored in cell coordinates.
@@ -75,10 +81,11 @@ def main():
         total = report["overall"]
         rows.append(TableRow(cells=[report["controller"], f"{total['measured_tasks']}/{total['expected_tasks']}",
                                    summary_cell(total["worst_stop"]), summary_cell(total["worst_full_rms"]),
-                                   total["both_goal_targets_passed"], total["all_gates_passed"], report["measurement_source"]]))
+                                   total["both_goal_targets_passed"], total["all_gates_passed"],
+                                   measurement_label(report["measurement_source"])]))
     summary = ReportPage("Summary", metrics=[MetricCard("Worst stop target", "<0.5 mm", "Final 0.1 s at stops"),
                                                MetricCard("Whole-trajectory RMS target", "<1.0 mm", "Every sample")],
-                         tables=[ReportTable(title="Highest-rung development runs",
+                         tables=[ReportTable(title="Highest-rung tracking results",
                                              columns=["Controller", "Coverage", "Worst stop", "Worst RMS",
                                                       "Both targets pass", "All run gates pass", "TCP measurement"], rows=rows)])
     insights = ReportPage("Insights", insights=[
@@ -87,7 +94,8 @@ def main():
         Insight("Conveyor model", "The benchmark uses a six-drive closed-chain arm and a reduced belt contact model. "
                 "Planning records include the bins and rims. Payload handling and the W3 workcell are separate tests."),
         Insight("Model provenance", "Stock comparisons used the same nominal plant model for feedforward. "
-                "Their measurements diagnose the baseline. Goal qualification requires an independently characterized candidate."),
+                "The calibrated controller uses the public model and measured development torque and position. "
+                "Its higher gains were tested in this simulator."),
     ])
     args.output.parent.mkdir(parents=True, exist_ok=True)
     write_comparison_report(comparisons, args.output, title="BAM FB conveyor tracking", summary=summary, insights=insights,

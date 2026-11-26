@@ -17,8 +17,8 @@
 </style>
 <main>
   <h1>BAM FB conveyor tracking</h1>
-  <p>The strongest stock controller measured <strong>0.374 mm worst stop</strong> and <strong>1.543 mm worst full-trajectory RMS</strong> across 48 full-speed development routes. All 48 passed the existing run gates. The new targets are below 0.5 mm and 1.0 mm.</p>
-  <p><a href="comparison.html#tab=track">Open trajectory comparison</a> · <a href="evidence.json">Benchmark evidence</a></p>
+  <p>The locked controller passed both performance targets on <strong>64 of 64 full-speed conveyor routes</strong>. The worst stop error was <strong>0.452 mm</strong> and the worst full-trajectory RMS was <strong>0.814 mm</strong>. All 64 passed the existing run gates.</p>
+  <p><a href="comparison.html#tab=track">Open trajectory comparison</a> · <a href="evidence.json">Benchmark evidence</a> · <a href="controller-lock.json">Controller lock</a></p>
   <video controls autoplay muted loop playsinline poster="media/playback.png" aria-label="Recorded BAM FB trajectory comparison walkthrough">
     <source src="media/walkthrough.mp4" type="video/mp4">
     <img src="media/walkthrough.gif" alt="Recorded sequence of the target, simulation tracks and summary">
@@ -26,15 +26,16 @@
   <p><a href="media/walkthrough.gif">Walkthrough GIF</a></p>
   <h2>Highest declared speed rung</h2>
   <div class="table"><table>
-    <thead><tr><th>Stock controller</th><th>Worst stop</th><th>Worst full RMS</th><th>All run gates</th></tr></thead>
+    <thead><tr><th>Controller</th><th>Worst stop</th><th>Worst full RMS</th><th>All run gates</th></tr></thead>
     <tbody>
+      <tr><th>Locked public model</th><td>0.452 mm</td><td>0.814 mm</td><td>64 / 64</td></tr>
       <tr><th>record</th><td>623.823 mm</td><td>356.231 mm</td><td>0 / 48</td></tr>
       <tr><th>hold_friction</th><td>0.506 mm</td><td>3.708 mm</td><td>47 / 48</td></tr>
       <tr><th>hold_friction_v2</th><td>0.374 mm</td><td>1.543 mm</td><td>48 / 48</td></tr>
       <tr><th>jtc_baseline</th><td>6.969 mm</td><td>8.719 mm</td><td>0 / 48</td></tr>
     </tbody>
   </table></div>
-  <p>The native Ruckig targets cover 24 stationary-belt and 24 moving-belt development routes. The 16 holdout routes are reserved for the locked controller. Fresh nominal <code>record</code> runs reproduced every archived measurement and gate value.</p>
-  <p>These legacy results use encoder and closure FK and stock feedforward with the simulation plant model. The mounted six-drive simulation uses reduced belt contact. Full physical fixture and payload delivery each require separate evidence.</p>
+  <p>The same controller revision passed 48 development routes and 16 holdout routes. It used a public dynamics model calibrated on exposed workspace joint and torque recordings, with higher feedback gains. Scores use the simulated claw site sampled at the same instants as the reference. Full RMS includes rest periods.</p>
+  <p>Legacy profiles used encoder and closure FK and simulator model feedforward across the 48 development routes. Fresh <code>record</code> replays reproduced those archived measurements and gate verdicts. The mounted six-drive simulation uses reduced belt contact. Its scores cover motion in that fixture.</p>
 </main>
 </html>

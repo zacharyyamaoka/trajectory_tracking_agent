@@ -1,0 +1,3341 @@
+{
+  "schema": "tta.bam-fb-conveyor-evidence/1",
+  "controller": "public-calibrated-moving-800-hold-800",
+  "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+  "measurement_source": "synchronous_sim_site",
+  "corpus": {
+    "manifest_sha256": "9e378456c94bde64ac2837c0dd3882fd141146d61e3d8809067f7b47d9553cff",
+    "station_sha256": "f40825e9981e776a5cecad5b8ba7a95ea5417b51c30a88aec90a9e5843f519f5",
+    "tapes_verified": 256,
+    "seeds": {
+      "dev": 1002,
+      "holdout": 2002
+    }
+  },
+  "rung": 1.0,
+  "repeat": 0,
+  "missing_tasks": [],
+  "overall": {
+    "expected_tasks": 64,
+    "measured_tasks": 64,
+    "tasks_with_both_measurements": 64,
+    "both_goal_targets_passed": 64,
+    "all_trajectories_met_both_targets": true,
+    "worst_stop": {
+      "mm": 0.45164502123789213,
+      "task": "conveyor-holdout-015"
+    },
+    "worst_full_rms": {
+      "mm": 0.8138332093867385,
+      "task": "conveyor-holdout-009"
+    },
+    "all_gates_passed": 64,
+    "failed_gates": {},
+    "dataset_false_alarm_rate_pct": 0.0,
+    "dataset_false_alarm_gate_pass": true,
+    "detector_counted_runs": 64,
+    "sim_truth_assisted_runs": 0
+  },
+  "splits": {
+    "dev": {
+      "expected_tasks": 48,
+      "measured_tasks": 48,
+      "tasks_with_both_measurements": 48,
+      "both_goal_targets_passed": 48,
+      "all_trajectories_met_both_targets": true,
+      "worst_stop": {
+        "mm": 0.41762569961085566,
+        "task": "conveyor-dev-018"
+      },
+      "worst_full_rms": {
+        "mm": 0.8021835521171747,
+        "task": "conveyor-dev-038"
+      },
+      "all_gates_passed": 48,
+      "failed_gates": {},
+      "dataset_false_alarm_rate_pct": 0.0,
+      "dataset_false_alarm_gate_pass": true,
+      "detector_counted_runs": 48,
+      "sim_truth_assisted_runs": 0
+    },
+    "holdout": {
+      "expected_tasks": 16,
+      "measured_tasks": 16,
+      "tasks_with_both_measurements": 16,
+      "both_goal_targets_passed": 16,
+      "all_trajectories_met_both_targets": true,
+      "worst_stop": {
+        "mm": 0.45164502123789213,
+        "task": "conveyor-holdout-015"
+      },
+      "worst_full_rms": {
+        "mm": 0.8138332093867385,
+        "task": "conveyor-holdout-009"
+      },
+      "all_gates_passed": 16,
+      "failed_gates": {},
+      "dataset_false_alarm_rate_pct": 0.0,
+      "dataset_false_alarm_gate_pass": true,
+      "detector_counted_runs": 16,
+      "sim_truth_assisted_runs": 0
+    }
+  },
+  "belt_modes": {
+    "B0": {
+      "expected_tasks": 32,
+      "measured_tasks": 32,
+      "tasks_with_both_measurements": 32,
+      "both_goal_targets_passed": 32,
+      "all_trajectories_met_both_targets": true,
+      "worst_stop": {
+        "mm": 0.41762569961085566,
+        "task": "conveyor-dev-018"
+      },
+      "worst_full_rms": {
+        "mm": 0.6553360132354158,
+        "task": "conveyor-dev-020"
+      },
+      "all_gates_passed": 32,
+      "failed_gates": {},
+      "dataset_false_alarm_rate_pct": 0.0,
+      "dataset_false_alarm_gate_pass": true,
+      "detector_counted_runs": 32,
+      "sim_truth_assisted_runs": 0
+    },
+    "B1": {
+      "expected_tasks": 32,
+      "measured_tasks": 32,
+      "tasks_with_both_measurements": 32,
+      "both_goal_targets_passed": 32,
+      "all_trajectories_met_both_targets": true,
+      "worst_stop": {
+        "mm": 0.45164502123789213,
+        "task": "conveyor-holdout-015"
+      },
+      "worst_full_rms": {
+        "mm": 0.8138332093867385,
+        "task": "conveyor-holdout-009"
+      },
+      "all_gates_passed": 32,
+      "failed_gates": {},
+      "dataset_false_alarm_rate_pct": 0.0,
+      "dataset_false_alarm_gate_pass": true,
+      "detector_counted_runs": 32,
+      "sim_truth_assisted_runs": 0
+    }
+  },
+  "rows": [
+    {
+      "task": "conveyor-dev-000",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 722,
+      "expected_samples": 722,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.36050531745134473,
+          "full_rms_mm": 0.4264939322066253
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.36055406671787193,
+          "full_rms_mm": 0.5592741126682735
+        }
+      },
+      "worst_stop_mm": 0.36055406671787193,
+      "full_rms_mm": 0.5592741126682735,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00035410265019467004,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "f450bd515a526993165f6cd4c62115a4f1569c21677633c9fff60d43695ed1d0"
+    },
+    {
+      "task": "conveyor-dev-001",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 764,
+      "expected_samples": 764,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3421556318367778,
+          "full_rms_mm": 0.4300653792726195
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.3420607793129042,
+          "full_rms_mm": 0.5613901683884104
+        }
+      },
+      "worst_stop_mm": 0.3420607793129042,
+      "full_rms_mm": 0.5613901683884104,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00033904766392298607,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "560223ad014be38df0fe3e8f75d19d1029ff74bfdaf520e219f3e081bcdb0c40"
+    },
+    {
+      "task": "conveyor-dev-002",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 746,
+      "expected_samples": 746,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.4173162230149854,
+          "full_rms_mm": 0.47086586025661914
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.41733334903108027,
+          "full_rms_mm": 0.5810848282759098
+        }
+      },
+      "worst_stop_mm": 0.41733334903108027,
+      "full_rms_mm": 0.5810848282759098,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00041183508851607526,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "1d63331506fb336230c76d95a646d43a9bb13e74c472629b39b60f0238541fdc"
+    },
+    {
+      "task": "conveyor-dev-003",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 671,
+      "expected_samples": 671,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3406223112881772,
+          "full_rms_mm": 0.4720772307564421
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.3406816236142856,
+          "full_rms_mm": 0.6027492353465219
+        }
+      },
+      "worst_stop_mm": 0.3406816236142856,
+      "full_rms_mm": 0.6027492353465219,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00033670272725382246,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "24a6ba31deb4419ffe9b6912723e1746509ba12bbdcc4b204ce9c216db12f24c"
+    },
+    {
+      "task": "conveyor-dev-004",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 824,
+      "expected_samples": 824,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3746487980074256,
+          "full_rms_mm": 0.41912859139926034
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.374680582450065,
+          "full_rms_mm": 0.5390653235371697
+        }
+      },
+      "worst_stop_mm": 0.374680582450065,
+      "full_rms_mm": 0.5390653235371697,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00036846948341889905,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "8b994ba18b007269250a1954e3fe7159f439578f8edb903bed8f97368d560b8b"
+    },
+    {
+      "task": "conveyor-dev-005",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 773,
+      "expected_samples": 773,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3425003540006196,
+          "full_rms_mm": 0.42575837429599583
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.34255922623049906,
+          "full_rms_mm": 0.575050183514402
+        }
+      },
+      "worst_stop_mm": 0.34255922623049906,
+      "full_rms_mm": 0.575050183514402,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003386014904929394,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "af7a57225fdf3831dec30a99d12b1d11a3083e0fa757bcbeedd63440d0fc06e3"
+    },
+    {
+      "task": "conveyor-dev-006",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 731,
+      "expected_samples": 731,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.39586733702048,
+          "full_rms_mm": 0.4512945460193085
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.3958924538710082,
+          "full_rms_mm": 0.5931389164497488
+        }
+      },
+      "worst_stop_mm": 0.3958924538710082,
+      "full_rms_mm": 0.5931389164497488,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00039004337225986043,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "59ee6aecd42899be6d6e389eb12e3453c873f5907a8dd9c5f7f0d560d6a51a3a"
+    },
+    {
+      "task": "conveyor-dev-007",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 716,
+      "expected_samples": 716,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3696693130199012,
+          "full_rms_mm": 0.44581848267588664
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.36971620624089835,
+          "full_rms_mm": 0.574871963487647
+        }
+      },
+      "worst_stop_mm": 0.36971620624089835,
+      "full_rms_mm": 0.574871963487647,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003633248681960861,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "dd1a0b5f84a99d2e5f0e62ebea854e4676f1b4862b9f73ec8df8446df7e91ad7"
+    },
+    {
+      "task": "conveyor-dev-008",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 761,
+      "expected_samples": 761,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.35332266121566913,
+          "full_rms_mm": 0.5174488270772309
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.35319927040971777,
+          "full_rms_mm": 0.6205705573402772
+        }
+      },
+      "worst_stop_mm": 0.35319927040971777,
+      "full_rms_mm": 0.6205705573402772,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003516170263905562,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "ac3ae0176223590ab6b112c517bd45e4df6f041c26a84adb2c0ef87b19785925"
+    },
+    {
+      "task": "conveyor-dev-009",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 773,
+      "expected_samples": 773,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.35730949429534464,
+          "full_rms_mm": 0.4096140919835438
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.3573489780020216,
+          "full_rms_mm": 0.5318966681067926
+        }
+      },
+      "worst_stop_mm": 0.3573489780020216,
+      "full_rms_mm": 0.5318966681067926,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003503546879004606,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "3b193644755b809aa465764b12ab4183f727055697e823a4cfa74a27a680a27f"
+    },
+    {
+      "task": "conveyor-dev-010",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 740,
+      "expected_samples": 740,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3579183042388209,
+          "full_rms_mm": 0.47120575997943154
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.3579675575275471,
+          "full_rms_mm": 0.5892878367263807
+        }
+      },
+      "worst_stop_mm": 0.3579675575275471,
+      "full_rms_mm": 0.5892878367263807,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003515073502958893,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "5e9891786be055188baecede3443fc85f72405020b321c7bb516e90e0fe2f0cd"
+    },
+    {
+      "task": "conveyor-dev-011",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 755,
+      "expected_samples": 755,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.36376003684570024,
+          "full_rms_mm": 0.4594743756872746
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.363780232924028,
+          "full_rms_mm": 0.5670146159456007
+        }
+      },
+      "worst_stop_mm": 0.363780232924028,
+      "full_rms_mm": 0.5670146159456007,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00035644814380302595,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "a6001d341276ba65870947809d3a86e4daf9409247108f75282f1591ab25401e"
+    },
+    {
+      "task": "conveyor-dev-012",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 815,
+      "expected_samples": 815,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3727434559319267,
+          "full_rms_mm": 0.4148554468735148
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.37277590231232827,
+          "full_rms_mm": 0.5402908504879985
+        }
+      },
+      "worst_stop_mm": 0.37277590231232827,
+      "full_rms_mm": 0.5402908504879985,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003665395180034868,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "61adfe36990ce58b3ebd1f75d34ed13f09ed451b43aa951dd5d1f696e7311621"
+    },
+    {
+      "task": "conveyor-dev-013",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 812,
+      "expected_samples": 812,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.32026211873096977,
+          "full_rms_mm": 0.4225085525526505
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.3203614241651343,
+          "full_rms_mm": 0.5348798288979981
+        }
+      },
+      "worst_stop_mm": 0.3203614241651343,
+      "full_rms_mm": 0.5348798288979981,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00031130961973847274,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "00b3353b4bc2c44bb5e6aace19a14d462f7d30711a948f4e20a293a70770f8e6"
+    },
+    {
+      "task": "conveyor-dev-014",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 767,
+      "expected_samples": 767,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3619208450223236,
+          "full_rms_mm": 0.4250315787356987
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.36197480267042964,
+          "full_rms_mm": 0.5671525559671486
+        }
+      },
+      "worst_stop_mm": 0.36197480267042964,
+      "full_rms_mm": 0.5671525559671486,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00035540155603723544,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "a767178192a0302790b048afb2335cd8264d8921eb1e9322008e3e7820806f90"
+    },
+    {
+      "task": "conveyor-dev-015",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 821,
+      "expected_samples": 821,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.37446584383798986,
+          "full_rms_mm": 0.42305573694667037
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.37450549475605055,
+          "full_rms_mm": 0.5450364464595067
+        }
+      },
+      "worst_stop_mm": 0.37450549475605055,
+      "full_rms_mm": 0.5450364464595067,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003682311693251049,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "0519129143c22bd95a78cceaecd7e4ecdce2a947147b0f6a595df27f2ba23e5b"
+    },
+    {
+      "task": "conveyor-dev-016",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 671,
+      "expected_samples": 671,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.40334341215267056,
+          "full_rms_mm": 0.47071796959649126
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.4033648107441702,
+          "full_rms_mm": 0.6111851926800395
+        }
+      },
+      "worst_stop_mm": 0.4033648107441702,
+      "full_rms_mm": 0.6111851926800395,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003977209097800067,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "bc2603bb7daf23370e6e451f1f794aa75649109ba714414dc9d9a4813ec7d3d3"
+    },
+    {
+      "task": "conveyor-dev-017",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 803,
+      "expected_samples": 803,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.4152228875784831,
+          "full_rms_mm": 0.4176329148277967
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.4152503104665767,
+          "full_rms_mm": 0.5448507746507685
+        }
+      },
+      "worst_stop_mm": 0.4152503104665767,
+      "full_rms_mm": 0.5448507746507685,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0004097940907874351,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "d58f26dc4194b845d4fc95fef723b087d786eec5a8ed8cc943eae22978570083"
+    },
+    {
+      "task": "conveyor-dev-018",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 779,
+      "expected_samples": 779,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.4176090483031728,
+          "full_rms_mm": 0.47268413411614635
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.41762569961085566,
+          "full_rms_mm": 0.5827726005957997
+        }
+      },
+      "worst_stop_mm": 0.41762569961085566,
+      "full_rms_mm": 0.5827726005957997,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0004121732794752778,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "7ed061c28e97a3d5a370340e6281708c48c17e3b3243a401f9c1ad9e0f47b0ea"
+    },
+    {
+      "task": "conveyor-dev-019",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 803,
+      "expected_samples": 803,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.41428561917832873,
+          "full_rms_mm": 0.47906407899049547
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.41430747866796613,
+          "full_rms_mm": 0.5828043899350854
+        }
+      },
+      "worst_stop_mm": 0.41430747866796613,
+      "full_rms_mm": 0.5828043899350854,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00040888222764673605,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "99689d9db10e647af8b79270e5dd802de7ab489d0138b7f30e8a1547e728f7a7"
+    },
+    {
+      "task": "conveyor-dev-020",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 722,
+      "expected_samples": 722,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3660405898235662,
+          "full_rms_mm": 0.5631085407927549
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.36608724275185817,
+          "full_rms_mm": 0.6553360132354158
+        }
+      },
+      "worst_stop_mm": 0.36608724275185817,
+      "full_rms_mm": 0.6553360132354158,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00035970415702262057,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "c4ac13ecaa0ee84e9ecf62d9fe2990679d950939bf9d7020b6cb8a1b1673c704"
+    },
+    {
+      "task": "conveyor-dev-021",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 695,
+      "expected_samples": 695,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.41335159350189427,
+          "full_rms_mm": 0.4759136152976464
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.4133769224313116,
+          "full_rms_mm": 0.599231927262571
+        }
+      },
+      "worst_stop_mm": 0.4133769224313116,
+      "full_rms_mm": 0.599231927262571,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0004077854815146309,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "7a7b331de2df40277a456af24c509a9f36c4b93c813040c0920b6d0db2c451ea"
+    },
+    {
+      "task": "conveyor-dev-022",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 698,
+      "expected_samples": 698,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.4031744687251277,
+          "full_rms_mm": 0.46363859939019697
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.40319464128339433,
+          "full_rms_mm": 0.589717081885163
+        }
+      },
+      "worst_stop_mm": 0.40319464128339433,
+      "full_rms_mm": 0.589717081885163,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003976152583998888,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "152517e74a7f19ae81e0a51c0bef365f93a3a0cacff4dcde3fb6e45849ddcf4b"
+    },
+    {
+      "task": "conveyor-dev-023",
+      "split": "dev",
+      "belt": "B0",
+      "samples": 725,
+      "expected_samples": 725,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.40082057332913834,
+          "full_rms_mm": 0.4521310278004746
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.4008453891439815,
+          "full_rms_mm": 0.5853905261722901
+        }
+      },
+      "worst_stop_mm": 0.4008453891439815,
+      "full_rms_mm": 0.5853905261722901,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003950338384996865,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "68a87351031ca7835e8232f7466967107863b0650516a8a1d2a85e6ef3ec6198"
+    },
+    {
+      "task": "conveyor-dev-024",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 755,
+      "expected_samples": 755,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3603431869454553,
+          "full_rms_mm": 0.4907448068314537
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.360367756190228,
+          "full_rms_mm": 0.6243566534820993
+        }
+      },
+      "worst_stop_mm": 0.360367756190228,
+      "full_rms_mm": 0.6243566534820993,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00035254131744232763,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "ceabb9822b5c987247174eeea280498ab0a785906cce4f13491e576ee082f72e"
+    },
+    {
+      "task": "conveyor-dev-025",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 807,
+      "expected_samples": 807,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.304362177646757,
+          "full_rms_mm": 0.477110371501149
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.30446648541185,
+          "full_rms_mm": 0.6160451074351347
+        }
+      },
+      "worst_stop_mm": 0.30446648541185,
+      "full_rms_mm": 0.6160451074351347,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0002949787534472563,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "65dccc8436fdbc359cc15a4854666101722e270bca70043809f28de8d6744523"
+    },
+    {
+      "task": "conveyor-dev-026",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 762,
+      "expected_samples": 762,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.38259562334530767,
+          "full_rms_mm": 0.5230635962621557
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.382626609397748,
+          "full_rms_mm": 0.6634482445098978
+        }
+      },
+      "worst_stop_mm": 0.382626609397748,
+      "full_rms_mm": 0.6634482445098978,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003767330680018464,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "ce448eccd8673e7f052ef0f38bc255bd6a7d12fd52eae05fd24ebf2c38337543"
+    },
+    {
+      "task": "conveyor-dev-027",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 842,
+      "expected_samples": 842,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.4087272659812628,
+          "full_rms_mm": 0.49979039397810715
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.4087563511220907,
+          "full_rms_mm": 0.6290816842000261
+        }
+      },
+      "worst_stop_mm": 0.4087563511220907,
+      "full_rms_mm": 0.6290816842000261,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0004032795295890145,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "668ef1a2b49fae229b42477ac9eb5ef980cc17b5c659822b516838186ed236de"
+    },
+    {
+      "task": "conveyor-dev-028",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 813,
+      "expected_samples": 813,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3725262469413032,
+          "full_rms_mm": 0.5451713351063784
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.37255952884210763,
+          "full_rms_mm": 0.6839332494533296
+        }
+      },
+      "worst_stop_mm": 0.37255952884210763,
+      "full_rms_mm": 0.6839332494533296,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003662624753962953,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "b53b0742255181590edbaa41e90b019fd3cd7aa25e62fcff910043d280d0e1eb"
+    },
+    {
+      "task": "conveyor-dev-029",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 823,
+      "expected_samples": 823,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3646072427555367,
+          "full_rms_mm": 0.46298864559332276
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.36464320136539674,
+          "full_rms_mm": 0.6025060135854509
+        }
+      },
+      "worst_stop_mm": 0.36464320136539674,
+      "full_rms_mm": 0.6025060135854509,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00035821711602969337,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "953b9c81261db1109514211f7112a6e1595f4378280e59ea8370bfc9b0ea831d"
+    },
+    {
+      "task": "conveyor-dev-030",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 680,
+      "expected_samples": 680,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3630091660444786,
+          "full_rms_mm": 0.592418113113516
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.3630563524157742,
+          "full_rms_mm": 0.7344267478197751
+        }
+      },
+      "worst_stop_mm": 0.3630563524157742,
+      "full_rms_mm": 0.7344267478197751,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003566852808448076,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "ce7be759a3240addfca4c587a50e7428dc3fa7d0bc7db8714b915260a40ab01d"
+    },
+    {
+      "task": "conveyor-dev-031",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 788,
+      "expected_samples": 788,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.40947617059074964,
+          "full_rms_mm": 0.6773701024169473
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.40950507326693214,
+          "full_rms_mm": 0.7761691327137336
+        }
+      },
+      "worst_stop_mm": 0.40950507326693214,
+      "full_rms_mm": 0.7761691327137336,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0004040225620829055,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "c4c6f8cfe8904354fc34d419919f388723be389a419c5e12f224662ca5f55d59"
+    },
+    {
+      "task": "conveyor-dev-032",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 690,
+      "expected_samples": 690,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.38193198952756185,
+          "full_rms_mm": 0.5540063258885065
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.38196982146504466,
+          "full_rms_mm": 0.6773976282842195
+        }
+      },
+      "worst_stop_mm": 0.38196982146504466,
+      "full_rms_mm": 0.6773976282842195,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003758127936959734,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "caf75d0629a6f20019f00b2e18726a1aa95bd5c4e4a175bb9c9e3560c2319c5e"
+    },
+    {
+      "task": "conveyor-dev-033",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 763,
+      "expected_samples": 763,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.41080622450155413,
+          "full_rms_mm": 0.5230373241667577
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.41083509894017955,
+          "full_rms_mm": 0.6216887395800197
+        }
+      },
+      "worst_stop_mm": 0.41083509894017955,
+      "full_rms_mm": 0.6216887395800197,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00040535516369946125,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "23efe40a52bcf75751f741228c7ffd0d8758b2d25a53f57a2bf193ea325f1e71"
+    },
+    {
+      "task": "conveyor-dev-034",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 848,
+      "expected_samples": 848,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.37279246057830845,
+          "full_rms_mm": 0.5511140733625729
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.37282617674130974,
+          "full_rms_mm": 0.6112625958112952
+        }
+      },
+      "worst_stop_mm": 0.37282617674130974,
+      "full_rms_mm": 0.6112625958112952,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003665239133996887,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "e0091ee33b5dc2853bc53a19cfcb427eb66c695b663aba2a7f73bb0d4b5b9c6d"
+    },
+    {
+      "task": "conveyor-dev-035",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 720,
+      "expected_samples": 720,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3757020286158388,
+          "full_rms_mm": 0.49413526073844055
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.37574243827506637,
+          "full_rms_mm": 0.6380546853796805
+        }
+      },
+      "worst_stop_mm": 0.37574243827506637,
+      "full_rms_mm": 0.6380546853796805,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003694500667334964,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "e078c929205241dd33def45453ff67a34e4c07cb0e8221c9cd757a5669a5d673"
+    },
+    {
+      "task": "conveyor-dev-036",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 702,
+      "expected_samples": 702,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.39062401108572115,
+          "full_rms_mm": 0.598424948291462
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.39041810772880714,
+          "full_rms_mm": 0.7180589654434996
+        }
+      },
+      "worst_stop_mm": 0.39041810772880714,
+      "full_rms_mm": 0.7180589654434996,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003878533044157928,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "c22ff6e021114b8819ec34303c77529478d5cdc66a8124705e765026ca3a8058"
+    },
+    {
+      "task": "conveyor-dev-037",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 867,
+      "expected_samples": 867,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3734667720851426,
+          "full_rms_mm": 0.4617622218982287
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.37351127865929,
+          "full_rms_mm": 0.5790247391454656
+        }
+      },
+      "worst_stop_mm": 0.37351127865929,
+      "full_rms_mm": 0.5790247391454656,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003672035195771986,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "f3b551d715503a7a7d7a16103e3fced52b3785d527a6c7b0486351a55d32dfaf"
+    },
+    {
+      "task": "conveyor-dev-038",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 757,
+      "expected_samples": 757,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.4012963000774519,
+          "full_rms_mm": 0.7310745904300836
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.40128571056435475,
+          "full_rms_mm": 0.8021835521171747
+        }
+      },
+      "worst_stop_mm": 0.40128571056435475,
+      "full_rms_mm": 0.8021835521171747,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00040007517603268605,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "d400c5c6dae644fc8fb4209790d76963cd258adf226ccaec21105b08523ea9da"
+    },
+    {
+      "task": "conveyor-dev-039",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 800,
+      "expected_samples": 800,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.4113973073322677,
+          "full_rms_mm": 0.5180274465307866
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.41142047983543345,
+          "full_rms_mm": 0.646374556368797
+        }
+      },
+      "worst_stop_mm": 0.41142047983543345,
+      "full_rms_mm": 0.646374556368797,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0004058755302118384,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "1c54dd7903b745a86baf354ba248005469a48d8b67cac2f45ef5bb3ff12b0a8a"
+    },
+    {
+      "task": "conveyor-dev-040",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 759,
+      "expected_samples": 759,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.40570909313253695,
+          "full_rms_mm": 0.5553569501518352
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.40572969615722126,
+          "full_rms_mm": 0.6659668017289586
+        }
+      },
+      "worst_stop_mm": 0.40572969615722126,
+      "full_rms_mm": 0.6659668017289586,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00040014815433645244,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "64e91d0d82e0959882c1c36a4a1aef2683cf7c711a6011f414709b89daddae01"
+    },
+    {
+      "task": "conveyor-dev-041",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 904,
+      "expected_samples": 904,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.4095589304618172,
+          "full_rms_mm": 0.46066454271743523
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.4095801051222082,
+          "full_rms_mm": 0.565301330428138
+        }
+      },
+      "worst_stop_mm": 0.4095801051222082,
+      "full_rms_mm": 0.565301330428138,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00040411496860351604,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "7ab0d428676471316b9860e23f5f67c0b7e889678cf8220f4f53ef79cb914f23"
+    },
+    {
+      "task": "conveyor-dev-042",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 753,
+      "expected_samples": 753,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.40587049447000945,
+          "full_rms_mm": 0.5416932785394145
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.40589594851831834,
+          "full_rms_mm": 0.6524973861755202
+        }
+      },
+      "worst_stop_mm": 0.40589594851831834,
+      "full_rms_mm": 0.6524973861755202,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00040037435285153906,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "b166bcfcb8697c9ccd76163944d7445a429ba466043a34d2452a7c6b26a82b5d"
+    },
+    {
+      "task": "conveyor-dev-043",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 663,
+      "expected_samples": 663,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3689341910711588,
+          "full_rms_mm": 0.5336273195041205
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.36898108947860725,
+          "full_rms_mm": 0.6564804035104461
+        }
+      },
+      "worst_stop_mm": 0.36898108947860725,
+      "full_rms_mm": 0.6564804035104461,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003626217037673178,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "4c84bfae97400b918a4ab110d67d2abb5d9f98f3d54d25fd65cd1e7733420061"
+    },
+    {
+      "task": "conveyor-dev-044",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 782,
+      "expected_samples": 782,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3598698129657933,
+          "full_rms_mm": 0.4703811666524183
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.35991931401869387,
+          "full_rms_mm": 0.6021939702526694
+        }
+      },
+      "worst_stop_mm": 0.35991931401869387,
+      "full_rms_mm": 0.6021939702526694,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00035340761844545763,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "b33fcb6c477b98cef8c7c51cd474e548918d41dfdd8f78d556b4a704410a8c1c"
+    },
+    {
+      "task": "conveyor-dev-045",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 738,
+      "expected_samples": 738,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3601061748413094,
+          "full_rms_mm": 0.5036698933413859
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.36015575652224635,
+          "full_rms_mm": 0.6206909771813073
+        }
+      },
+      "worst_stop_mm": 0.36015575652224635,
+      "full_rms_mm": 0.6206909771813073,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003536411891056205,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "588bda37dff12ff793833ede03cd8bd2b37c6c77dc8f8c0e0327bf5d09bc1d09"
+    },
+    {
+      "task": "conveyor-dev-046",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 928,
+      "expected_samples": 928,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.394926447707776,
+          "full_rms_mm": 0.4642623252871431
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.3949625011623564,
+          "full_rms_mm": 0.567745156108235
+        }
+      },
+      "worst_stop_mm": 0.3949625011623564,
+      "full_rms_mm": 0.567745156108235,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00038928937438867655,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "ccefc3af3f619db8bee059a3cd37fa882ccc5122ca0a3d261bc6687a7360f0e8"
+    },
+    {
+      "task": "conveyor-dev-047",
+      "split": "dev",
+      "belt": "B1",
+      "samples": 722,
+      "expected_samples": 722,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.358105414403118,
+          "full_rms_mm": 0.5196121025402759
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.3581556262474174,
+          "full_rms_mm": 0.6340056526796084
+        }
+      },
+      "worst_stop_mm": 0.3581556262474174,
+      "full_rms_mm": 0.6340056526796084,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003516328565504223,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "90d8c9c404783e0ed68d69becb0f4e0de6057729d126777c901ff53961a8f889"
+    },
+    {
+      "task": "conveyor-holdout-000",
+      "split": "holdout",
+      "belt": "B0",
+      "samples": 764,
+      "expected_samples": 764,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.41315049074855115,
+          "full_rms_mm": 0.46149323149675203
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.41316576852883724,
+          "full_rms_mm": 0.5819146167161681
+        }
+      },
+      "worst_stop_mm": 0.41316576852883724,
+      "full_rms_mm": 0.5819146167161681,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0004075406132302256,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "c79448758018886a6c349973914788fe43c79cb2e9e1a3017abbd81166647f3b"
+    },
+    {
+      "task": "conveyor-holdout-001",
+      "split": "holdout",
+      "belt": "B0",
+      "samples": 782,
+      "expected_samples": 782,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.4094570113779711,
+          "full_rms_mm": 0.4601092172119156
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.40947691804345104,
+          "full_rms_mm": 0.5620865126414557
+        }
+      },
+      "worst_stop_mm": 0.40947691804345104,
+      "full_rms_mm": 0.5620865126414557,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0004040577678396152,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "00ccc18deac070772683c6e44fb610ca8a6aec8f124859258e27a9b7aab068de"
+    },
+    {
+      "task": "conveyor-holdout-002",
+      "split": "holdout",
+      "belt": "B0",
+      "samples": 836,
+      "expected_samples": 836,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3757823311848836,
+          "full_rms_mm": 0.5533567101639322
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.3758209618417635,
+          "full_rms_mm": 0.6352851202391921
+        }
+      },
+      "worst_stop_mm": 0.3758209618417635,
+      "full_rms_mm": 0.6352851202391921,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00036949644053009453,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "471dae16e558f95a0156ff053ecece566ecb6c27275140a33102ff8fb7ddec11"
+    },
+    {
+      "task": "conveyor-holdout-003",
+      "split": "holdout",
+      "belt": "B0",
+      "samples": 833,
+      "expected_samples": 833,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.37725567958417977,
+          "full_rms_mm": 0.41835466222238815
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.3772886267703027,
+          "full_rms_mm": 0.5458068642003024
+        }
+      },
+      "worst_stop_mm": 0.3772886267703027,
+      "full_rms_mm": 0.5458068642003024,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003710111459182088,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "9eb79bc5f1d18c78ad0c2393d340430ce4a6f3de09fcba29cf6ac00a4b7b2b78"
+    },
+    {
+      "task": "conveyor-holdout-004",
+      "split": "holdout",
+      "belt": "B0",
+      "samples": 764,
+      "expected_samples": 764,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3641565770265597,
+          "full_rms_mm": 0.49491557672878156
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.3641923176966858,
+          "full_rms_mm": 0.5937482436168312
+        }
+      },
+      "worst_stop_mm": 0.3641923176966858,
+      "full_rms_mm": 0.5937482436168312,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00035777579510371687,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "85ecac4321782348cd0ee096982aade250d04276a95ed62440f355761e3d241c"
+    },
+    {
+      "task": "conveyor-holdout-005",
+      "split": "holdout",
+      "belt": "B0",
+      "samples": 731,
+      "expected_samples": 731,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.384538914693012,
+          "full_rms_mm": 0.4341424745585439
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.38457518627742654,
+          "full_rms_mm": 0.5485384719332653
+        }
+      },
+      "worst_stop_mm": 0.38457518627742654,
+      "full_rms_mm": 0.5485384719332653,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003785033572400921,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "f3394000efdcdf5e3a41bf745f9ba0b046010ca4fc098079e03c07cea3376d53"
+    },
+    {
+      "task": "conveyor-holdout-006",
+      "split": "holdout",
+      "belt": "B0",
+      "samples": 779,
+      "expected_samples": 779,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3221811678990022,
+          "full_rms_mm": 0.4346815391485212
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.3222817616247065,
+          "full_rms_mm": 0.5490658832651557
+        }
+      },
+      "worst_stop_mm": 0.3222817616247065,
+      "full_rms_mm": 0.5490658832651557,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003131447333600826,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "7155f17823a359b84cee9f66feef8ca60ec45227f2bd4e66a14b845ccbc86402"
+    },
+    {
+      "task": "conveyor-holdout-007",
+      "split": "holdout",
+      "belt": "B0",
+      "samples": 803,
+      "expected_samples": 803,
+      "stops": 3,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3710999407161543,
+          "full_rms_mm": 0.41982362079846836
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.37114389834280814,
+          "full_rms_mm": 0.5454880536479588
+        }
+      },
+      "worst_stop_mm": 0.37114389834280814,
+      "full_rms_mm": 0.5454880536479588,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00036487877009950675,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "08ca954fa32442ce025d68dca4ff4f0e69aadb8225b3c7d3041d7f5061b5e570"
+    },
+    {
+      "task": "conveyor-holdout-008",
+      "split": "holdout",
+      "belt": "B1",
+      "samples": 725,
+      "expected_samples": 725,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3132334801017412,
+          "full_rms_mm": 0.49431569752822196
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.3133267170656362,
+          "full_rms_mm": 0.6306344689164953
+        }
+      },
+      "worst_stop_mm": 0.3133267170656362,
+      "full_rms_mm": 0.6306344689164953,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003040662743387339,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "8fdcf766d40cbda6cac7d856ee947eae605dbe4f3013e0d23a9b603455c79d32"
+    },
+    {
+      "task": "conveyor-holdout-009",
+      "split": "holdout",
+      "belt": "B1",
+      "samples": 884,
+      "expected_samples": 884,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.4140156274161316,
+          "full_rms_mm": 0.7372811712597381
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.41403811748833974,
+          "full_rms_mm": 0.8138332093867385
+        }
+      },
+      "worst_stop_mm": 0.41403811748833974,
+      "full_rms_mm": 0.8138332093867385,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00040851018668129884,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "644577bc94819dd3696e3062c150384d9d60aed5a17c9dca8239e79d155c7861"
+    },
+    {
+      "task": "conveyor-holdout-010",
+      "split": "holdout",
+      "belt": "B1",
+      "samples": 696,
+      "expected_samples": 696,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.397194994123504,
+          "full_rms_mm": 0.5128025935494495
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.3972206062643862,
+          "full_rms_mm": 0.6187905359766707
+        }
+      },
+      "worst_stop_mm": 0.3972206062643862,
+      "full_rms_mm": 0.6187905359766707,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003913806549932217,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "24c7d048f64d644ce0e9947ba8f53439ecd6ece16477770dff0c9cf53cd08e2c"
+    },
+    {
+      "task": "conveyor-holdout-011",
+      "split": "holdout",
+      "belt": "B1",
+      "samples": 715,
+      "expected_samples": 715,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.4040321502686979,
+          "full_rms_mm": 0.60117933980768
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.40405787495890383,
+          "full_rms_mm": 0.736314067281043
+        }
+      },
+      "worst_stop_mm": 0.40405787495890383,
+      "full_rms_mm": 0.736314067281043,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00039842099331302306,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "85b07ae1d9d24946c11dd8009e95a9fe07403513c96371f9309c4c3da93f3296"
+    },
+    {
+      "task": "conveyor-holdout-012",
+      "split": "holdout",
+      "belt": "B1",
+      "samples": 681,
+      "expected_samples": 681,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3634645758830596,
+          "full_rms_mm": 0.5117572421075206
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.36351196873244884,
+          "full_rms_mm": 0.6442032463377323
+        }
+      },
+      "worst_stop_mm": 0.36351196873244884,
+      "full_rms_mm": 0.6442032463377323,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00035710590223746814,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "00dc7dc772b17b9930b21b572523ab199d05bdd5ff91c0951b35120eef7fdb14"
+    },
+    {
+      "task": "conveyor-holdout-013",
+      "split": "holdout",
+      "belt": "B1",
+      "samples": 879,
+      "expected_samples": 879,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.37970639885565305,
+          "full_rms_mm": 0.6761758944916393
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.37973760545622837,
+          "full_rms_mm": 0.7376229657771795
+        }
+      },
+      "worst_stop_mm": 0.37973760545622837,
+      "full_rms_mm": 0.7376229657771795,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003735455021238254,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "d4d3906fb0329baf9d8b554e07d719402d9713c312f0c21aaeb3bfe58722ea7c"
+    },
+    {
+      "task": "conveyor-holdout-014",
+      "split": "holdout",
+      "belt": "B1",
+      "samples": 828,
+      "expected_samples": 828,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.3495385264507803,
+          "full_rms_mm": 0.5191394110461123
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.34959238585920854,
+          "full_rms_mm": 0.6364984213973133
+        }
+      },
+      "worst_stop_mm": 0.34959238585920854,
+      "full_rms_mm": 0.6364984213973133,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.0003431109505400176,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "0a92bc36f7d2de18f256c38ee9d23977c2a6469b8141566985c78c2dd7889b93"
+    },
+    {
+      "task": "conveyor-holdout-015",
+      "split": "holdout",
+      "belt": "B1",
+      "samples": 753,
+      "expected_samples": 753,
+      "stops": 2,
+      "measurement_source": "synchronous_sim_site",
+      "measurements_by_source": {
+        "encoder_fk": {
+          "worst_stop_mm": 0.4516655456182177,
+          "full_rms_mm": 0.5339378298349592
+        },
+        "synchronous_sim_site": {
+          "worst_stop_mm": 0.45164502123789213,
+          "full_rms_mm": 0.6457316343284786
+        }
+      },
+      "worst_stop_mm": 0.45164502123789213,
+      "full_rms_mm": 0.6457316343284786,
+      "goal_both_pass": true,
+      "gates_pass": {
+        "completed": true,
+        "stop_error_max_mm": true,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "collisions": true
+      },
+      "gate_values_si": {
+        "completed": 1.0,
+        "stop_error_max_mm": 0.00045054582531247814,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0.0,
+        "collisions": 0.0
+      },
+      "gate_notes": {},
+      "detector_false_alarm": 0.0,
+      "aborted": false,
+      "fault_count": 0,
+      "idealized": false,
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+      "source": {
+        "git_sha": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+        "dirty": false,
+        "bam_ws_sha": "43670c05ff445ca7781583ff832fd10b900ac941",
+        "bam_arm_fb_sim_dirty": false,
+        "arm_model_key": "869c7d938677"
+      },
+      "trace_sha256": "56bbcfe876d711f65053ead7e6c77275f1e96ff5a3c61d6cae56ecb84e52cd03"
+    }
+  ],
+  "controller_lock_commit": "ac0c262f22d8732c68fdebeced15db7d6a058d68",
+  "raw_score_sha256": "f1ed20906fda4b6a2197f32d514c78a26e9dad89752b4865260128d00e6e1a9e",
+  "encoder_fk_worst": {
+    "worst_stop_mm": [
+      0.4516655456182177,
+      "conveyor-holdout-015"
+    ],
+    "full_rms_mm": [
+      0.7372811712597381,
+      "conveyor-holdout-009"
+    ]
+  }
+}
