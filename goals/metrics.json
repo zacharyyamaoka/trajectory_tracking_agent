@@ -46,12 +46,24 @@
     "pendulum_workspace_sim_worst_stop_mm": {
       "label": "Pendulum workspace worst stop error in simulation",
       "unit": "mm",
-      "samples": []
+      "samples": [
+        {
+          "t": "2026-11-25T21:07:03-07:00",
+          "value": 0.0972850656741417,
+          "ref": "7f2748ba4846d1fc5a5f1c721f7f63f86a702ddd"
+        }
+      ]
     },
     "pendulum_workspace_sim_worst_full_rms_mm": {
       "label": "Pendulum workspace worst full-trajectory RMS in simulation",
       "unit": "mm",
-      "samples": []
+      "samples": [
+        {
+          "t": "2026-11-25T21:07:03-07:00",
+          "value": 0.0996352181195757,
+          "ref": "7f2748ba4846d1fc5a5f1c721f7f63f86a702ddd"
+        }
+      ]
     },
     "bam_fb_workspace_real_worst_stop_mm": {
       "label": "BAM FB workspace worst stop error in hardware",
