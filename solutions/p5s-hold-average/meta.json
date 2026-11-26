@@ -1,0 +1,18 @@
+{
+  "id": "p5s-hold-average",
+  "parent": "p5s-pass3",
+  "change": "Use the exact mean of planned feedforward torque over each joint’s compensated host hold window",
+  "proposed_by": {
+    "agent": "Codex (Trajectory Tracking Agent hold average lane)",
+    "model": "gpt-6.2-sol",
+    "session": "01a21549-fc20-76d2-ad50-3784c73cf690"
+  },
+  "created": "2026-11-25T17:39:51-07:00",
+  "tags": [
+    "transfer-risk:stiffness"
+  ],
+  "name": "P5.s.pass3.hold-mean",
+  "summary": "Average the same planned torque over each hold window instead of sampling it at the midpoint.",
+  "description": "Integrate the existing piecewise-linear planned torque between each joint’s compensated command timestamps, holding the endpoint torque outside the tape. Keep the same trajectory, secant targets, position correction, gains, and lookahead.",
+  "expect": "Dev tool_track_rms_mm < 0.03100 mm, versus 0.031333594888818476 mm for p5s-pass3, with all five gates passing on all 42 dev tasks. Matching held torque impulse should reduce tracking error on windows spanning slope changes."
+}
