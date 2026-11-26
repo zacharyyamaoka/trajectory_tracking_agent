@@ -1,0 +1,146 @@
+{
+  "dataset_manifest_sha256": "461445be5e01ae95ff0e1623059bc21d4f2ed446581e7557470e6bca856ec85f",
+  "ranked_ledger_scope": false,
+  "rung": 1.0,
+  "split": "dev",
+  "model": {
+    "version": "can11-r18a",
+    "sha256": "a67a88b53838093c0176374feb64ca5026738d04c0a1630ffc12a629d93f8192",
+    "label": "twin of record (followup C), drive at 24 V (72 W), re-identified can11-r18a",
+    "mujoco": "3.11.0",
+    "runner_sha256": "344793964d75ca80e22ec48d504bd23a084ecfe4c0e0385bf5ce22d9f54a26a8",
+    "backlash_rad": null,
+    "gear_stiffness_nm_rad": null
+  },
+  "archive": [
+    {
+      "archive": "s01_can11_samples.npz",
+      "archive_sha256": "4c8cb4efc41361f83a77cb5a9c01727161c6638033961749bb030bff33ceca04",
+      "metadata_sha256": "e565d286e01342f231e2e669c7e415210ef9cab324eafde66241dc016f1fec5a",
+      "board": {
+        "kp": 400.0,
+        "ki": 16000.0,
+        "kd": 8.0,
+        "rotor_to_output_ratio": 0.1,
+        "max_current_A": 19.4,
+        "default_timeout_s": 0.5,
+        "timeout_mode": 12,
+        "output_sign": 1,
+        "position_min": -1.0,
+        "position_max": 1.0,
+        "Kv": 112.982,
+        "resistance_ohm": 0.211417,
+        "poles": 10,
+        "max_voltage": 46.0,
+        "voltage_mode_control": 0,
+        "ilimit": 0.5,
+        "source": "conf get, read-only, 2026-11-17T12:21:05Z (python -m bam_rack_twin.hardware config-record)"
+      },
+      "kp_scale": 2.0,
+      "kd_scale": 2.0,
+      "bus_voltage_v": 24.0
+    },
+    {
+      "archive": "s03_can11_samples.npz",
+      "archive_sha256": "ab74d5d59a4e88902232c4304aa3edff7f9c69367a49f7513ef4e1f0eec0b231",
+      "metadata_sha256": "f348dba68f966149378bf2dbfbc1c6d89e11ecf186e41a32d788cf313b9880c7",
+      "board": {
+        "kp": 400.0,
+        "ki": 16000.0,
+        "kd": 8.0,
+        "rotor_to_output_ratio": 0.1,
+        "max_current_A": 19.4,
+        "default_timeout_s": 0.5,
+        "timeout_mode": 12,
+        "output_sign": 1,
+        "position_min": -1.0,
+        "position_max": 1.0,
+        "Kv": 112.982,
+        "resistance_ohm": 0.211417,
+        "poles": 10,
+        "max_voltage": 46.0,
+        "voltage_mode_control": 0,
+        "ilimit": 0.5,
+        "source": "conf get, read-only, 2026-11-17T12:21:05Z (python -m bam_rack_twin.hardware config-record)"
+      },
+      "kp_scale": 2.0,
+      "kd_scale": 2.0,
+      "bus_voltage_v": 24.0
+    },
+    {
+      "archive": "s05_can11_samples.npz",
+      "archive_sha256": "0bb2a0085c4a916ae4df29c28270c9e57b5a03dfeb53f429b04271e102ba3db0",
+      "metadata_sha256": "8c4abbe55502bcbe83ff785127ca32f70e0751ca57815fb930236bd7692c7a0a",
+      "board": {
+        "kp": 400.0,
+        "ki": 16000.0,
+        "kd": 8.0,
+        "rotor_to_output_ratio": 0.1,
+        "max_current_A": 19.4,
+        "default_timeout_s": 0.5,
+        "timeout_mode": 12,
+        "output_sign": 1,
+        "position_min": -1.0,
+        "position_max": 1.0,
+        "Kv": 112.982,
+        "resistance_ohm": 0.211417,
+        "poles": 10,
+        "max_voltage": 46.0,
+        "voltage_mode_control": 0,
+        "ilimit": 0.5,
+        "source": "conf get, read-only, 2026-11-17T12:21:05Z (python -m bam_rack_twin.hardware config-record)"
+      },
+      "kp_scale": 2.0,
+      "kd_scale": 2.0,
+      "bus_voltage_v": 24.0
+    }
+  ],
+  "archive_encoder": {
+    "runs": 120,
+    "passes_both": 95,
+    "worst_stop_mm": {
+      "mm": 1.3410348169541224,
+      "task": "workspace-dev-008",
+      "recording": "s05_can11_samples.npz"
+    },
+    "full_rms_mm": {
+      "mm": 1.2076693760337214,
+      "task": "workspace-dev-008",
+      "recording": "s05_can11_samples.npz"
+    }
+  },
+  "paired_twin_encoder": {
+    "runs": 120,
+    "passes_both": 101,
+    "worst_stop_mm": {
+      "mm": 0.9814353263042422,
+      "task": "workspace-dev-029",
+      "recording": "s05_can11_samples.npz"
+    },
+    "full_rms_mm": {
+      "mm": 1.0527702633904819,
+      "task": "workspace-dev-027",
+      "recording": "s05_can11_samples.npz"
+    }
+  },
+  "paired_twin_load": null,
+  "paired_encoder_model_gap_max_rms_mm": 1.1648617459195676,
+  "nominal_gain_twin_encoder": {
+    "runs": 40,
+    "passes_both": 5,
+    "worst_stop_mm": {
+      "mm": 1.7133305599314346,
+      "task": "workspace-dev-012",
+      "recording": null
+    },
+    "full_rms_mm": {
+      "mm": 1.6590355726240424,
+      "task": "workspace-dev-027",
+      "recording": null
+    }
+  },
+  "nominal_gain_scale": {
+    "kp": 1.0,
+    "kd": 1.0
+  }
+}
