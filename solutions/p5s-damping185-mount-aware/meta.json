@@ -1,0 +1,19 @@
+{
+  "id": "p5s-damping185-mount-aware",
+  "parent": "p5s-damping185-refit",
+  "change": "Reorient nominal and learned gravity feedforward by the public base-frame gravity",
+  "proposed_by": {
+    "agent": "Codex (Trajectory Tracking portal mount lane)",
+    "model": "gpt-6.2-sol",
+    "session": "01a214e8-7cf0-7411-93c0-de3d5044293c/scene_catalog"
+  },
+  "created": "2026-11-25T19:29:21-07:00",
+  "tags": [
+    "transfer-risk:stiffness",
+    "off-score:conveyor-transfer"
+  ],
+  "name": "P5.s.pass3.Damping185.Refit.MountAware",
+  "summary": "Reorient nominal and learned gravity feedforward to match the arm's mount.",
+  "description": "Use signed vertical acceleration in the arm base frame to reorient the nominal 10%-error gravity term and the inherited upright gravity residual. Keep the same inertial terms, learned friction, board PD, timing and curvature. No new calibration or route fit.",
+  "expect": "Replay the parent's upright controller exactly. On the unloaded simulated portal conveyor, pass the runner gates and keep the maximum stop error <0.5 mm and full-trajectory tool RMS <1.0 mm at each nominal speed 0.1–1.0."
+}
