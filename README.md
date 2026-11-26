@@ -22,6 +22,7 @@ and keeps a scored population of every solution it tried.
 [Gain transfer review](reports/gain-transfer-2026-11-25.html) compares the PD-only and inertia-augmented fits on paired UR5e runs.
 [Controller search review](reports/controller-search-2026-11-25.html) covers the new leading controller, the paired trials, and the separate calibration proof.
 [UR5e speed study](https://zacharyyamaoka.github.io/trajectory_tracking_agent/reports/ur5e-speed-sweep.html) links to stock Coverage, Comparison and Targets, with time at speed and the joint-limit audit. [Reproduce the study](experiments/ur5e_speed_sweep/README.md).
+[UR5e conveyor baseline](reports/conveyor-baseline/index.html) replays the unchanged upright controller on a frozen 30-pick route at ten speeds. [Replay the dataset](experiments/conveyor_cycle/README.md).
 
 ```bash
 uv run tta evaluate p7s --split dev

@@ -16,4 +16,6 @@ PYTHONPATH="${PWD}/src:${ROBOT_CONTROLLERS}/src" "$ARM_MOTION_BENCH/.venv/bin/py
 
 The reported dataset froze from the generator later landed as `d69cba2`. Its manifest was recorded before that commit and includes the generator source SHA-256. The board bench's mounted scene support is `d2fe5af` in robot_controllers. The original two-pick pilot used fractions 0.1 and 1.0 before the full freeze and replay.
 
+The [unchanged controller's ten results](parent-results.json) and [playback report](../../reports/conveyor-baseline/index.html) preserve the baseline before the mount-aware change.
+
 Use `--controller p5s-damping185-mount-aware` to replay the controller selected for the [tracking goal](../../goals/G1-ur5e-tracking-at-every-speed.md). This revision uses the portal mount's base-frame gravity direction in the feedforward. The [scene check](scene_check.py) compares the default Scene DB export with the frozen planning geometry. The export includes the modeled gripper. The motion bench uses its unloaded capsule stand-in for replay.

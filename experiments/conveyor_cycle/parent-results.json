@@ -1,0 +1,379 @@
+{
+  "schema": "tta.conveyor-cycle-baseline/1",
+  "dataset_manifest_sha256": "4095e1ec3fdf4079bd1c56996d80d3b5b77a93f1a916c7d2eea18a77cfe62411",
+  "controller": "p5s-damping185-refit",
+  "controller_sha256": "e8a2da319c7528f8130fe1d86325a459e464409fc4094cb2f46ade8d4e5480e7",
+  "scene": {
+    "collision_tolerance_m": 1e-06,
+    "geometry_source": "arm_motion_bench.robots.ur5e.mujoco_spec",
+    "id": "ur5e-portal-pep0032",
+    "minimum_clearance_m": 0.01,
+    "mount": "portal",
+    "moving_belt": false,
+    "payload": false,
+    "tool": "MuJoCo claw stand-in capsule"
+  },
+  "picks": 30,
+  "requested_fractions": [
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0
+  ],
+  "ruler_scope": "off-score simulated transfer with unchanged upright calibration and a portal scene clearance check",
+  "mujoco": "4.0.1",
+  "runner_commit": "91d02a6ff5ea8e703279b7d186dc537c6a0184cb",
+  "runs": [
+    {
+      "tracking_rms_mm": 4.982694943819238,
+      "kpis": {
+        "completed": false,
+        "stop_error_max_mm": 9.417921036307657,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0
+      },
+      "verdicts": {
+        "completed": false,
+        "stop_error_max_mm": false,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "scene_clearance": false
+      },
+      "settle_max_mm": 3.6064253008945735,
+      "moving_samples": 170611,
+      "physics_samples": 7221201,
+      "full_trajectory_rms_mm": 4.987744862840999,
+      "max_error_mm": 9.695445529070211,
+      "scene_clearance_violating_samples": 2150,
+      "first_scene_violation": {
+        "time_s": 1662.35425,
+        "pairs": [
+          "claw_standin x conveyor_right_rim (10.0 mm apart, inside the 10 mm clearance)"
+        ]
+      },
+      "events": [],
+      "watchdog_events": 0,
+      "speed_fraction": 0.1,
+      "duration_s": 1805.3,
+      "source_tape_sha256": "50ef138fccbc7c202fb8a0735b5fe7577bf16f8b420b511d1cafe48560cfbdf5",
+      "recording": "conveyor-cycle-01.npz"
+    },
+    {
+      "tracking_rms_mm": 4.982409035036031,
+      "kpis": {
+        "completed": false,
+        "stop_error_max_mm": 9.424081830839459,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0
+      },
+      "verdicts": {
+        "completed": false,
+        "stop_error_max_mm": false,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "scene_clearance": false
+      },
+      "settle_max_mm": 3.5790928920716496,
+      "moving_samples": 86535,
+      "physics_samples": 3647601,
+      "full_trajectory_rms_mm": 4.992231785153761,
+      "max_error_mm": 9.66269934376407,
+      "scene_clearance_violating_samples": 1073,
+      "first_scene_violation": {
+        "time_s": 839.577,
+        "pairs": [
+          "claw_standin x conveyor_right_rim (10.0 mm apart, inside the 10 mm clearance)"
+        ]
+      },
+      "events": [],
+      "watchdog_events": 0,
+      "speed_fraction": 0.2,
+      "duration_s": 911.9,
+      "source_tape_sha256": "a77a04e2d2fbd94821a6b83851b8e95faacff4a3a75cde9bbb0ac9fd031174b8",
+      "recording": "conveyor-cycle-02.npz"
+    },
+    {
+      "tracking_rms_mm": 4.981086470019138,
+      "kpis": {
+        "completed": false,
+        "stop_error_max_mm": 9.424751862614622,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0
+      },
+      "verdicts": {
+        "completed": false,
+        "stop_error_max_mm": false,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "scene_clearance": false
+      },
+      "settle_max_mm": 3.5926392701202468,
+      "moving_samples": 58061,
+      "physics_samples": 2456401,
+      "max_error_mm": 9.664198186336822,
+      "scene_clearance_violating_samples": 716,
+      "first_scene_violation": {
+        "time_s": 565.318,
+        "pairs": [
+          "claw_standin x conveyor_right_rim (10.0 mm apart, inside the 10 mm clearance)"
+        ]
+      },
+      "events": [],
+      "watchdog_events": 0,
+      "speed_fraction": 0.3,
+      "duration_s": 614.1,
+      "source_tape_sha256": "15f45f747ce487f5edbe2046ba39dd6a6d00c06186807c2a0933a7b5d5c501a3",
+      "recording": "conveyor-cycle-03.npz",
+      "full_trajectory_rms_mm": 4.996602583775902
+    },
+    {
+      "tracking_rms_mm": 4.980670751272572,
+      "kpis": {
+        "completed": false,
+        "stop_error_max_mm": 9.449371217886261,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0
+      },
+      "verdicts": {
+        "completed": false,
+        "stop_error_max_mm": false,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "scene_clearance": false
+      },
+      "settle_max_mm": 3.559033026895994,
+      "moving_samples": 43676,
+      "physics_samples": 1862961,
+      "max_error_mm": 9.596493428670604,
+      "scene_clearance_violating_samples": 537,
+      "first_scene_violation": {
+        "time_s": 428.69125,
+        "pairs": [
+          "claw_standin x conveyor_right_rim (10.0 mm apart, inside the 10 mm clearance)"
+        ]
+      },
+      "events": [],
+      "watchdog_events": 0,
+      "speed_fraction": 0.4,
+      "duration_s": 465.74,
+      "source_tape_sha256": "c797171d551439728731bc8cdfc7a1666afa80ff7197a5434cc2a63bc576be57",
+      "recording": "conveyor-cycle-04.npz",
+      "full_trajectory_rms_mm": 5.001077932434904
+    },
+    {
+      "tracking_rms_mm": 4.978890920740241,
+      "kpis": {
+        "completed": false,
+        "stop_error_max_mm": 9.457366595426045,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0
+      },
+      "verdicts": {
+        "completed": false,
+        "stop_error_max_mm": false,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "scene_clearance": false
+      },
+      "settle_max_mm": 3.5767588985367,
+      "moving_samples": 35103,
+      "physics_samples": 1503441,
+      "max_error_mm": 9.586191345268627,
+      "scene_clearance_violating_samples": 429,
+      "first_scene_violation": {
+        "time_s": 345.91075,
+        "pairs": [
+          "claw_standin x conveyor_right_rim (10.0 mm apart, inside the 10 mm clearance)"
+        ]
+      },
+      "events": [],
+      "watchdog_events": 0,
+      "speed_fraction": 0.5,
+      "duration_s": 375.86,
+      "source_tape_sha256": "1cf10c4eb2572d940e5149732cd2415aaec2c1db2097c273b0ec6222d950025e",
+      "recording": "conveyor-cycle-05.npz",
+      "full_trajectory_rms_mm": 5.0048134710664485
+    },
+    {
+      "tracking_rms_mm": 4.9794551909263065,
+      "kpis": {
+        "completed": false,
+        "stop_error_max_mm": 9.43489075695992,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0
+      },
+      "verdicts": {
+        "completed": false,
+        "stop_error_max_mm": false,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "scene_clearance": false
+      },
+      "settle_max_mm": 3.6120411997980466,
+      "moving_samples": 29159,
+      "physics_samples": 1265201,
+      "max_error_mm": 9.542501739538542,
+      "scene_clearance_violating_samples": 358,
+      "first_scene_violation": {
+        "time_s": 291.05875000000003,
+        "pairs": [
+          "claw_standin x conveyor_right_rim (10.0 mm apart, inside the 10 mm clearance)"
+        ]
+      },
+      "events": [],
+      "watchdog_events": 0,
+      "speed_fraction": 0.6,
+      "duration_s": 316.3,
+      "source_tape_sha256": "a7b01aa37dd1cb26afaca2fa099d3df51ea49de83e92deb094662400dba8a4e5",
+      "recording": "conveyor-cycle-06.npz",
+      "full_trajectory_rms_mm": 5.008748233801469
+    },
+    {
+      "tracking_rms_mm": 4.981407683573989,
+      "kpis": {
+        "completed": false,
+        "stop_error_max_mm": 9.428288770459568,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0
+      },
+      "verdicts": {
+        "completed": false,
+        "stop_error_max_mm": false,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "scene_clearance": false
+      },
+      "settle_max_mm": 3.5994537437866003,
+      "moving_samples": 25200,
+      "physics_samples": 1099921,
+      "max_error_mm": 9.526673930056054,
+      "scene_clearance_violating_samples": 309,
+      "first_scene_violation": {
+        "time_s": 253.014,
+        "pairs": [
+          "claw_standin x conveyor_right_rim (10.0 mm apart, inside the 10 mm clearance)"
+        ]
+      },
+      "events": [],
+      "watchdog_events": 0,
+      "speed_fraction": 0.7,
+      "duration_s": 274.98,
+      "source_tape_sha256": "326261c0c1dc310fadde6a0a14287aff1b8827cfaaf047be72c7c3f53c8a57c6",
+      "recording": "conveyor-cycle-07.npz",
+      "full_trajectory_rms_mm": 5.013769232782209
+    },
+    {
+      "tracking_rms_mm": 4.976936539049777,
+      "kpis": {
+        "completed": false,
+        "stop_error_max_mm": 9.43504232754438,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0
+      },
+      "verdicts": {
+        "completed": false,
+        "stop_error_max_mm": false,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "scene_clearance": false
+      },
+      "settle_max_mm": 3.596563081009594,
+      "moving_samples": 22215,
+      "physics_samples": 971041,
+      "max_error_mm": 9.485846571357389,
+      "scene_clearance_violating_samples": 270,
+      "first_scene_violation": {
+        "time_s": 223.35025000000002,
+        "pairs": [
+          "claw_standin x conveyor_right_rim (10.0 mm apart, inside the 10 mm clearance)"
+        ]
+      },
+      "events": [],
+      "watchdog_events": 0,
+      "speed_fraction": 0.8,
+      "duration_s": 242.76,
+      "source_tape_sha256": "14d66c8bbd7ec267bd44f5fa8a82899250164fd3ff361eb6913f4d4ffec609fa",
+      "recording": "conveyor-cycle-08.npz",
+      "full_trajectory_rms_mm": 5.015886223655958
+    },
+    {
+      "tracking_rms_mm": 4.978540414244078,
+      "kpis": {
+        "completed": false,
+        "stop_error_max_mm": 9.438689034425842,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0
+      },
+      "verdicts": {
+        "completed": false,
+        "stop_error_max_mm": false,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "scene_clearance": false
+      },
+      "settle_max_mm": 3.6104003453634155,
+      "moving_samples": 19715,
+      "physics_samples": 871041,
+      "max_error_mm": 9.500123687171419,
+      "scene_clearance_violating_samples": 241,
+      "first_scene_violation": {
+        "time_s": 200.3225,
+        "pairs": [
+          "claw_standin x conveyor_right_rim (10.0 mm apart, inside the 10 mm clearance)"
+        ]
+      },
+      "events": [],
+      "watchdog_events": 0,
+      "speed_fraction": 0.9,
+      "duration_s": 217.76,
+      "source_tape_sha256": "0372507662d9a1319c83caf4fc00cee4602cfebc0009dfdfbd184da759c15717",
+      "recording": "conveyor-cycle-09.npz",
+      "full_trajectory_rms_mm": 5.0214683325116685
+    },
+    {
+      "tracking_rms_mm": 4.977833766757224,
+      "kpis": {
+        "completed": false,
+        "stop_error_max_mm": 9.425693561497857,
+        "saturation_share_pct": 0.0,
+        "limit_violations": 0
+      },
+      "verdicts": {
+        "completed": false,
+        "stop_error_max_mm": false,
+        "saturation_share_pct": true,
+        "limit_violations": true,
+        "scene_clearance": false
+      },
+      "settle_max_mm": 3.6127645585750967,
+      "moving_samples": 17657,
+      "physics_samples": 788721,
+      "max_error_mm": 9.4880840442474,
+      "scene_clearance_violating_samples": 217,
+      "first_scene_violation": {
+        "time_s": 181.355,
+        "pairs": [
+          "claw_standin x conveyor_right_rim (10.0 mm apart, inside the 10 mm clearance)"
+        ]
+      },
+      "events": [],
+      "watchdog_events": 0,
+      "speed_fraction": 1.0,
+      "duration_s": 197.18,
+      "source_tape_sha256": "055aac5dc3dba2d6440c7acb404531267238a7247e6cafef0a08e1daa63232e6",
+      "recording": "conveyor-cycle-10.npz",
+      "full_trajectory_rms_mm": 5.02516352573971
+    }
+  ],
+  "source_revisions": [
+    "91d02a6ff5ea8e703279b7d186dc537c6a0184cb",
+    "21038266ecff8077242fb1dbe24e4d5067e9c5d9",
+    "21038266ecff8077242fb1dbe24e4d5067e9c5d9"
+  ]
+}
