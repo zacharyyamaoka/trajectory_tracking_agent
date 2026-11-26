@@ -16,6 +16,8 @@ The [development evidence](development-evidence.json) records six complete 42-ta
 
 Replay the [calibrated controller](candidate.py) with frozen [parameters](public-calibration.json). The [eightfold moving and hold gains](../bam_fb_conveyor/moving-800-hold-800.json) are a shared workspace and conveyor variant. It needs the composed bench's reference-only feedforward callback and synchronous TCP capture in arm_motion_bench commit `7a3bdc2`.
 
+The [shared controller lock](../bam_fb_conveyor/controller-lock.json) predates both holdouts. The [workspace confirmation](holdout-evidence.json) passed all 12 reserved trajectories, with 0.377 mm worst stop error and 0.834 mm worst whole-trace RMS. Across all 54 development and holdout runs, the worst stop was 0.460 mm and the worst full-trace RMS was 0.962 mm. All 54 run gates passed. The eightfold simulated stiffness is tied to the rigid evaluation plant and has separate transfer risk on the physical drive train.
+
 ```bash
 PYTHONPATH="src:${ROBOT_CONTROLLERS}/src" "$ARM_MOTION_BENCH/scripts/bam_fb_python.sh" experiments/bam_fb_workspace/candidate.py run --dataset "$ARM_MOTION_BENCH/datasets/bam_fb/workspace/v2" --parameters experiments/bam_fb_workspace/public-calibration.json --gains-json experiments/bam_fb_conveyor/moving-800-hold-800.json --name public-calibrated-x8hold8 --output outputs/bam-fb-workspace/reproduction --workers 1
 PYTHONPATH=src "$ARM_MOTION_BENCH/scripts/bam_fb_python.sh" experiments/bam_fb_workspace/audit.py "$ARM_MOTION_BENCH/datasets/bam_fb/workspace/v2" outputs/bam-fb-workspace/reproduction --controller public-calibrated-x8hold8 --acquisition synchronous-tcp --output outputs/bam-fb-workspace/reproduction-dev.json
