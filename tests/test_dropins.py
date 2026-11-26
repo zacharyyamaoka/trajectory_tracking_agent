@@ -88,6 +88,13 @@ def _mxd_rows() -> list[dict]:
                 for row in csv.DictReader(handle)]
 
 
+RULER = "ruler v1"  # the ranked rows (solutions/*/scorecard*.json); every other row is off-ruler evidence
+
+
+def _ruler_rows() -> list[dict]:
+    return [row for row in _mxd_rows() if row["ruler"] == RULER]
+
+
 def _split_card(sid: str, split: str) -> dict:
     return _json(REPO / "solutions" / sid / SCORECARDS[split])
 
@@ -103,7 +110,7 @@ def test_the_pages_are_current():
     build = _json(COMPARISON / "build.json")
     assert [s["id"] for s in build["solutions"]] == _full(), f"stale: {REBUILD}"
     assert build["tasks"] == _tasks(), f"stale: {REBUILD}"
-    rows = _mxd_rows()
+    rows = _ruler_rows()
     for split, name in SCORECARDS.items():
         scored = sorted(p.parent.name for p in (REPO / "solutions").glob(f"*/{name}"))
         assert sorted({row["solution"] for row in rows if row["split"] == split}) == scored, f"stale: {REBUILD}"
@@ -201,12 +208,12 @@ def test_models_datasets_cells_are_the_scorecards():
     tool_track_rms_mm), dev and holdout; the dataset roll-up a §57 pivot draws for a leaf row (the median of its tasks:
     the mean of the middle two of an even count, data-ui's pivot-cube) IS each scorecard's objective; the other metrics
     and the gates are the row's."""
-    rows = _mxd_rows()
+    rows = _ruler_rows()
     metas = {p.parent.name: _json(p) for p in (REPO / "solutions").glob("*/meta.json")}
     per_card: dict = {}
     for row in rows:
         sid, task_id = row["id"].split("/", 1)
-        assert sid == row["solution"]
+        assert sid == row["solution"] and row["speed"] == "×1.0"
         card = _split_card(sid, row["split"])
         task_row = {r["task"]: r for r in card["tasks"]}[task_id]
         assert row["rms_mm"] == task_row["objective"], row["id"]
@@ -234,6 +241,10 @@ def test_models_datasets_families_follow_the_stated_rule():
     leaves: dict = {}
     for row in _mxd_rows():
         sid = row["solution"]
+        if row["variant"]:  # an off-ruler controller variant (W3: the feed-forward told the load): its own leaf
+            assert row["ruler"] != RULER and row["config"].endswith(f" · {row['variant']}"), row["id"]
+            assert leaves.setdefault((row["family"], row["model"], row["config"]), sid) == sid
+            continue
         tags = metas[sid].get("tags", [])
         if "ablation" in tags:
             kinds = [t.split(":", 1)[1] for t in tags if t.startswith("ablation:")]
@@ -272,14 +283,138 @@ def test_models_datasets_views_are_the_leaderboard_three():
     for row in _mxd_rows():
         if row["preview"]:
             assert (MXD / row["preview"]).is_file(), row["preview"]
-    assert {row["task"] for row in _mxd_rows() if not row["preview"]} == set()
+    # every workspace task has its picture; the conveyor cycle's tape is not committed here (it lives in arm_motion_bench's
+    # frozen output), so its column has none rather than one drawn from an uncommitted file
+    assert {row["task"] for row in _mxd_rows() if not row["preview"]} == {"conveyor-cycle-01"}
     data_ui = REPO.parent / "data-ui"
     if not (data_ui / ".git").exists():
         pytest.skip("no data-ui checkout beside this repo: the views were checked by name, not against the case")
     commit = _json(SITE / "vendor" / "data-ui" / "VENDOR.json")["commit"]
     case = subprocess.run(["git", "-C", str(data_ui), "show", f"{commit}:gallery/examples/models-datasets-tta/views.base"],
                           capture_output=True, text=True, check=True).stdout
-    assert base[base.index("\nviews:\n"):] == case[case.index("\nviews:\n"):]
+    # the port's one change to the case's views (2026-11-25, Zach: "no filters on the columns! I should be able to select
+    # which different datasets etc I want to be comparing it on"): a speed level above the dataset (a `group`: each
+    # speed's dataset is its own median, never pooled across speeds) and the goal's full-trajectory RMS as a metric
+    ported = (case[case.index("\nviews:\n"):]
+              .replace("splitBy: [deployment, dataset, kind, task]", "splitBy: [deployment, speed, dataset, kind, task]")
+              .replace("roles: { deployment: deployment, dataset: dataset }",
+                       "roles: { deployment: deployment, speed: group, dataset: dataset }")
+              .replace("metrics: [rms_mm, max_mm, stop_mm, gates]", "metrics: [rms_mm, full_mm, max_mm, stop_mm, gates]")
+              .replace("order: [model, config, solution, deployment, kind, task, rms_mm, max_mm,",
+                       "order: [model, config, solution, ruler, deployment, speed, dataset, kind, task, rms_mm, full_mm, max_mm,"))
+    assert base[base.index("\nviews:\n"):] == ported
+
+
+# ── Every measured dataset is a column (Zach, 2026-11-25) ─────────────────────────────────────────────────────────
+# WHY (Zach, 2026-11-25, on the Leaderboard; "the new dataset" is the 30-pick portal conveyor cycle,
+# experiments/conveyor_cycle):
+# "on the leaderboard view, Codex says it has added a new dataset but I don't see it here"
+# "in the left filter bar I can filter by family, models etc so lots of filters on the rows, but no filters on the columns! I should be able to select which different datasets etc I want to be comparing it on."
+# Each source below is read here with json, never through the build.
+
+FRACTIONS = [round(step / 10, 1) for step in range(1, 11)]
+
+
+def _speed(fraction: float) -> str:
+    return f"×{fraction:.1f}"
+
+
+def _off_ruler_sources() -> dict:
+    """{(source, solution, variant, split, speed, task): the source's own numbers} for every measured off-ruler result."""
+    out = {}
+    study = _json(REPO / "experiments" / "ur5e_speed_sweep" / "study.json")
+    for sid, per_speed in study["tracking_rms_mm"].items():
+        for fraction, values in zip(study["fractions"], per_speed):
+            for task, value in zip(study["targets"], values):
+                out[("speed study", sid, None, "dev", _speed(fraction), task)] = {"rms_mm": value}
+    evidence = _json(REPO / "goals" / "G1-ur5e-tracking-evidence.json")
+    import hashlib
+
+    for split in ("dev", "holdout"):
+        path = REPO / "goals" / "G1-runs" / f"upright-{split}.json"
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == evidence["evidence"][f"upright_{split}_sha256"], path
+        for run in _json(path)["runs"]:
+            out[("goal G1", run["solution"], None, split, _speed(run["fraction"]), run["target"])] = {
+                "rms_mm": run["tool_track_rms_mm"], "full_mm": run["full_trajectory_rms_mm"],
+                "stop_mm": run["stop_error_max_mm"], "sat_pct": run["saturation_share_pct"],
+                "gates": sum(1 for ok in run["gates"].values() if ok is True)}
+    portal = [("conveyor baseline", _json(REPO / "experiments" / "conveyor_cycle" / "parent-results.json"))]
+    for entry in evidence["evidence"]["portal"]:
+        path = REPO / "goals" / "G1-runs" / f"portal-{entry['fraction']:.1f}.json"
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == entry["summary_sha256"], path
+        portal.append(("goal G1", _json(path)))
+    for source, doc in portal:
+        for run in doc["runs"]:
+            out[(source, doc["controller"], None, "single route", _speed(run["speed_fraction"]), "conveyor-cycle-01")] = {
+                "rms_mm": run["tracking_rms_mm"], "full_mm": run["full_trajectory_rms_mm"], "max_mm": run["max_error_mm"],
+                "stop_mm": run["kpis"]["stop_error_max_mm"], "sat_pct": run["kpis"]["saturation_share_pct"],
+                "gates": sum(1 for ok in run["verdicts"].values() if ok is True)}
+    w3 = _json(REPO / "experiments" / "w3_loaded_ur5e_2f85" / "results.json")
+    for case in w3["cases"].values():
+        if case["plant_load"] is None:  # the bare cases reproduce the scorecards bit for bit: they ARE the ruler's rows
+            assert case["reproduces_scorecard"]["bit_identical"] is True
+            continue
+        for task in case["tasks"]:
+            variant = f"feed-forward told {case['model_load']}" if case["model_load"] else None
+            out[(f"W3 {case['plant_load']}", case["solution"], variant, case["split"], "×1.0", task["task"])] = {
+                "rms_mm": task["objective"], "max_mm": task["diagnostics"]["tool_track_max_mm"],
+                "stop_mm": task["kpis"]["stop_error_max_mm"], "sat_pct": task["kpis"]["saturation_share_pct"],
+                "gates": sum(1 for ok in task["verdicts"].values() if ok is True)}
+    return out
+
+
+def test_models_datasets_has_a_column_per_measured_dataset():
+    """Every measured dataset is on the page as its own columns: ruler v1's dev (ranked) and holdout, and, off the ruler
+    and labelled so, the speed study and goal G1's sweep over 0.1…1.0 on the upright paths (dev and holdout), the 30-pick
+    portal conveyor cycle at every fraction (the unchanged and the mount-aware controller), and W3's loaded UR5e. A
+    column is (deployment, speed, dataset): no column holds rows of two rulers, two splits or two speeds."""
+    rows = _mxd_rows()
+    ruler = [row for row in rows if row["ruler"] == RULER]
+    off = [row for row in rows if row["ruler"] != RULER]
+    assert {row["deployment"] for row in ruler} == {"ur5e_alone · dev", "ur5e_alone · holdout"}
+    assert {row["speed"] for row in ruler} == {"×1.0"} and {row["dataset"] for row in ruler} == {"workspace/v2"}
+    assert off and all(row["ruler"] == "off-ruler" and row["deployment"].endswith("off-ruler") for row in off)
+    columns: dict = {}
+    for row in rows:
+        columns.setdefault((row["deployment"], row["speed"], row["dataset"]), set()).add((row["ruler"], row["split"]))
+    assert all(len(owners) == 1 for owners in columns.values()), {k: v for k, v in columns.items() if len(v) > 1}
+    have = set(columns)
+    conveyor = [k for k in have if k[2] == "conveyor cycle · 30 picks"]
+    assert sorted(k[1] for k in conveyor) == [_speed(f) for f in FRACTIONS], conveyor
+    for split in ("dev", "holdout"):
+        speeds = {k[1] for k in have if k[0] == f"ur5e_alone · {split} · off-ruler" and k[2] == "workspace/v2"}
+        assert speeds == {_speed(f) for f in FRACTIONS}, (split, speeds)
+    assert any(k[0].startswith("ur5e + 2F-85") for k in have), "W3's loaded check"
+    measured = _off_ruler_sources()
+    keys = {(row["source"], row["solution"], row["variant"], row["split"], row["speed"], row["task_id"]) for row in off}
+    assert keys == set(measured), (sorted(set(measured) - keys)[:5], sorted(keys - set(measured))[:5])
+    assert len(off) == len(measured)
+
+
+def test_models_datasets_off_ruler_cells_are_their_sources():
+    """Every off-ruler task result is its source's float, bit for bit (rms_mm is each source's moving-sample tool RMS,
+    the ruler's own measure; full_mm the goal's full-trajectory RMS); a number the source does not keep stays empty."""
+    measured = _off_ruler_sources()
+    for row in _mxd_rows():
+        if row["ruler"] == RULER:
+            assert row["full_mm"] is None
+            continue
+        source = measured[(row["source"], row["solution"], row["variant"], row["split"], row["speed"], row["task_id"])]
+        for metric in ("rms_mm", "full_mm", "max_mm", "stop_mm", "sat_pct", "gates"):
+            assert row[metric] == source.get(metric), (row["id"], metric, row[metric], source.get(metric))
+
+
+def test_models_datasets_rail_filters_the_columns():
+    """The rail filters columns as well as rows: Dataset, Split, Speed fraction, Task kind and Ruler (ranked or
+    off-ruler) are facets on the column levels, so picking one leaves only its columns (data-ui's facets filter the
+    records; the pivot's columns are the records' values)."""
+    base = (MXD / "models-datasets.base").read_text()
+    facets = base[base.index("\nfacets:\n"):base.index("\nproperties:\n")]
+    for prop in ("dataset", "split", "speed", "kind", "ruler", "family", "model"):
+        assert re.search(rf"^  - (?:\{{ property: )?{prop}\b", facets, re.M), prop
+    leaderboard = base.split("\n  - type: ")[1]
+    assert "splitBy: [deployment, speed, dataset, kind, task]" in leaderboard
+    assert "displayName: Speed fraction" in base and "displayName: Ruler" in base
 
 
 def test_models_datasets_cells_open_their_run():
@@ -291,6 +426,9 @@ def test_models_datasets_cells_open_their_run():
     dev = set(_tasks())
     records = {(s["id"], t): e["record"] for s in _runs_index()["solutions"] for t, e in s["tasks"].items()}
     for row in _mxd_rows():
+        if row["ruler"] != RULER:  # off-ruler evidence keeps summaries only: no saved run, no report, no link
+            assert row["url"] is None and "off-ruler" in row["opens"], row["id"]
+            continue
         sid, task = row["id"].split("/", 1)
         if task in dev and sid in full:
             assert row["url"] == f"../comparison/runs/{task}/report.html#tab=track&run={sid}"

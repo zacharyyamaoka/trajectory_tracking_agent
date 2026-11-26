@@ -38,7 +38,11 @@ What it writes, and from where (every input is committed; nothing is simulated o
   task's target tool path from its tape. The rows, the sidecar's fields and the three views are data-ui's gallery case
   `gallery/examples/models-datasets-tta/` (views.base, tta.schema.json, source/build.py at 74be0c9a), ported here so
   the page is built from this repo's files: rows nest family › model › config (`FAMILY_RULE`), columns deployment ·
-  split › dataset › task kind › task; **Leaderboard** (the default: ranked on the dev deployment, ablations left out),
+  split › speed › dataset › task kind › task. Beside the scorecards' rows (`ruler v1`), every other measured per-task
+  result in the repo is a row marked `off-ruler` (`OFF_RULER_SOURCES`: the speed study, goal G1's sweep, the conveyor
+  baseline, W3's loaded check), each source its own deployment column ending "off-ruler", never pooled with dev or
+  holdout and never the sort column; the rail's Ruler, Dataset, Split, Speed fraction and Task kind facets pick columns
+  (Zach, 2026-11-25: "no filters on the columns!"); **Leaderboard** (the default: ranked on the dev deployment, ablations left out),
   **Pivot** (everything open, ablations drawn, nothing ranked), **Rows**. A dataset cell is the median of its tasks
   (the objective), a folded row the median of its rows, a deployment the equal-weight mean of its datasets, dev and
   holdout never pooled. A cell over one task result opens its run: the Comparison report on that run
@@ -749,15 +753,26 @@ MXD_FIELDS = [
     ("change", "string", {}),
     ("ablation", "boolean", {"description": "tagged 'ablation' in meta.json: never ranked, never in the default view"}),
     ("admissible", "boolean", {"description": "the scorecard's verdict: every gate on every task"}),
-    ("deployment", "string", {"description": "the scorecard's deployment and split: dev and holdout are never pooled"}),
+    ("ruler", "string", {"description": "'ruler v1': the scorecards, what the Leaderboard ranks on (dev); 'off-ruler': "
+                         "measured evidence outside the ranked objective (other speeds, scenes, loads), never pooled with it"}),
+    ("source", "string", {"description": "where the row's numbers come from (OFF_RULER_SOURCES)"}),
+    ("deployment", "string", {"description": "the deployment and split (and 'off-ruler' when it is): never pooled"}),
     ("deployment_order", "integer", {"hidden": True}),
+    ("speed", "string", {"description": "the time-scale fraction the target was flown at (×1.0: the frozen tapes)"}),
+    ("speed_order", "integer", {"hidden": True}),
     ("dataset", "string", {"description": "the dataset (its cell is the median of its tasks: the ruler's objective)"}),
     ("split", "string", {}),
     ("kind", "string", {}),
     ("kind_order", "integer", {"hidden": True}),
     ("task", "string", {}),
+    ("task_id", "string", {"description": "the task's full id in its source"}),
+    ("variant", "string", {"description": "an off-ruler controller variant of the solution (W3: what its feed-forward is "
+                           "told about the load); empty: the solution as committed"}),
     ("rms_mm", "number", {"unit": "mm", "decimals": 4, "better": "lower",
                           "description": "RMS tool-point error over the task's moving samples (the task's objective)"}),
+    ("full_mm", "number", {"unit": "mm", "decimals": 4, "better": "lower",
+                           "description": "RMS tool-point error over every sample, holds included (goal G1's measure; "
+                                          "only the sources that keep it)"}),
     ("max_mm", "number", {"unit": "mm", "decimals": 3, "better": "lower"}),
     ("stop_mm", "number", {"unit": "mm", "decimals": 3, "better": "lower",
                            "description": "the largest error at a stop (gate: at most 1 mm)"}),
@@ -771,9 +786,128 @@ MXD_FIELDS = [
 MXD_TITLES = {"family": "Family", "model": "Model", "config": "Config", "solution": "Solution", "parent": "Parent",
               "change": "Change", "ablation": "Ablation", "admissible": "Admissible (every gate, every task)",
               "deployment": "Deployment · split", "dataset": "Dataset", "split": "Split", "kind": "Task kind",
-              "task": "Task", "rms_mm": "Tool tracking RMS", "max_mm": "Tool tracking max", "stop_mm": "Stop error",
+              "task": "Task", "ruler": "Ruler", "source": "Source", "speed": "Speed fraction", "task_id": "Task id",
+              "variant": "Variant", "full_mm": "Full-trajectory RMS", "rms_mm": "Tool tracking RMS", "max_mm": "Tool tracking max", "stop_mm": "Stop error",
               "sat_pct": "Saturation share", "gates": "Gates passed (of 5)", "gates_failed": "Gates failed",
               "opens": "Opens", "url": "Link"}
+
+
+RULER = "ruler v1"
+OFF_RULER = "off-ruler"
+CONVEYOR = "conveyor cycle · 30 picks"
+CONVEYOR_KIND = ("Pick-and-place cycle", 5)
+STUDY = REPO / "experiments" / "ur5e_speed_sweep" / "study.json"
+G1_EVIDENCE = REPO / "goals" / "G1-ur5e-tracking-evidence.json"
+G1_RUNS = REPO / "goals" / "G1-runs"  # the run summaries G1_EVIDENCE names by sha256 (checked here)
+CONVEYOR_BASELINE = REPO / "experiments" / "conveyor_cycle" / "parent-results.json"
+W3 = REPO / "experiments" / "w3_loaded_ur5e_2f85" / "results.json"
+# WHY (Zach, 2026-11-25, on the Leaderboard): "Codex says it has added a new dataset but I don't see it here" (the
+# 30-pick portal conveyor cycle) and "no filters on the columns! I should be able to select which different datasets etc
+# I want to be comparing it on". Every measured per-task result in the repo is a row; only the scorecards are ruler v1.
+OFF_RULER_SOURCES = (
+    "the speed study (experiments/ur5e_speed_sweep/study.json: 5 solutions × 42 dev tasks × speeds 0.1…1.0, the "
+    "moving-sample tool RMS only)",
+    "goal G1's sweep (goals/G1-runs/, the files goals/G1-ur5e-tracking-evidence.json names by sha256: the mount-aware "
+    "controller on the 42 dev and 12 holdout upright tasks and the portal conveyor cycle at 0.1…1.0)",
+    "the conveyor baseline (experiments/conveyor_cycle/parent-results.json: the unchanged controller on the conveyor cycle "
+    "at 0.1…1.0)",
+    "W3's loaded check (experiments/w3_loaded_ur5e_2f85/results.json: a UR5e carrying a Robotiq 2F-85 and an object; "
+    "its bare cases are the scorecards bit for bit, so they are not repeated)",
+)
+
+
+def _speed(fraction: float) -> tuple[str, int]:
+    return f"×{fraction:.1f}", round(fraction * 10)
+
+
+def off_ruler_rows(metas: dict[str, dict[str, Any]], base_change: dict[str, str],
+                   pictures: dict[str, str] | None) -> list[dict[str, Any]]:
+    """One row per measured off-ruler task result (OFF_RULER_SOURCES), every number its source's float, unrounded; a
+    number the source does not keep stays empty. Each source gets its own deployment column ending in 'off-ruler', so no
+    column holds rows of two rulers, splits or speeds."""
+    kinds = {t["task_id"]: t["kind"] for line in (REPO / DATASET_DIR / "tasks.jsonl").read_text().splitlines()
+             if line.strip() for t in [json.loads(line)]}
+    rows: list[dict[str, Any]] = []
+
+    def add(source: str, sid: str, variant: str | None, deployment: str, order: int, fraction: float, dataset: str,
+            split: str, task_id: str, kind: tuple[str, int], numbers: dict[str, Any]) -> None:
+        info = metas.get(sid, {})
+        family, family_order, model, config = mxd_family(sid, info, base_change)
+        speed, speed_order = _speed(fraction)
+        rows.append({
+            "id": "/".join([sid + (f" · {variant}" if variant else ""), source, split, speed, task_id]),
+            "family": family, "family_order": family_order, "model": model,
+            "config": config + (f" · {variant}" if variant else ""), "solution": sid, "parent": info.get("parent"),
+            "change": info.get("change") or None, "ablation": EXCLUDED_TAG in (info.get("tags") or []),
+            "admissible": (_json(SOLUTIONS / sid / "scorecard.json").get("admissible") is True
+                           if (SOLUTIONS / sid / "scorecard.json").exists() else None),
+            "ruler": OFF_RULER, "source": source, "deployment": deployment, "deployment_order": order,
+            "speed": speed, "speed_order": speed_order, "dataset": dataset, "split": split,
+            "kind": kind[0], "kind_order": kind[1], "task": task_id.replace("workspace-", "", 1), "task_id": task_id,
+            "variant": variant, "rms_mm": numbers.get("rms_mm"), "full_mm": numbers.get("full_mm"),
+            "max_mm": numbers.get("max_mm"), "stop_mm": numbers.get("stop_mm"), "sat_pct": numbers.get("sat_pct"),
+            "gates": numbers.get("gates"),
+            "gates_failed": (", ".join(numbers["failed"]) or None) if "failed" in numbers else None,
+            "preview": (pictures or {}).get(task_id),
+            "opens": "nothing: off-ruler evidence keeps only its scores (no saved run)", "url": None,
+        })
+
+    def gates(verdicts: dict[str, Any]) -> dict[str, Any]:
+        return {"gates": sum(1 for ok in verdicts.values() if ok is True),
+                "failed": [g for g, ok in verdicts.items() if ok is not True]}
+
+    upright = {"dev": ("ur5e_alone · dev · off-ruler", 2), "holdout": ("ur5e_alone · holdout · off-ruler", 3)}
+    study = _json(STUDY)
+    if study["dataset"] != f"{DEPLOYMENT}/{DATASET}" or study["split"] != "dev":
+        raise SystemExit(f"{STUDY.relative_to(REPO)}: not {DEPLOYMENT}/{DATASET} dev")
+    for sid, per_speed in study["tracking_rms_mm"].items():
+        for fraction, values in zip(study["fractions"], per_speed, strict=True):
+            for task_id, value in zip(study["targets"], values, strict=True):
+                add("speed study", sid, None, *upright["dev"], fraction, DATASET, "dev", task_id,
+                    MXD_KIND[kinds[task_id]], {"rms_mm": value})
+    evidence = _json(G1_EVIDENCE)
+
+    def verified(path: Path, digest: str) -> dict[str, Any]:
+        if hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+            raise SystemExit(f"{path.relative_to(REPO)} is not the file {G1_EVIDENCE.relative_to(REPO)} names")
+        return _json(path)
+
+    for split in ("dev", "holdout"):
+        doc = verified(G1_RUNS / f"upright-{split}.json", evidence["evidence"][f"upright_{split}_sha256"])
+        for run in doc["runs"]:
+            add("goal G1", run["solution"], None, *upright[split], run["fraction"], DATASET, split, run["target"],
+                MXD_KIND[run["kind"]], {"rms_mm": run["tool_track_rms_mm"], "full_mm": run["full_trajectory_rms_mm"],
+                                        "stop_mm": run["stop_error_max_mm"], "sat_pct": run["saturation_share_pct"],
+                                        **gates(run["gates"])})
+    portal = [("conveyor baseline", _json(CONVEYOR_BASELINE))]
+    portal += [("goal G1", verified(G1_RUNS / f"portal-{entry['fraction']:.1f}.json", entry["summary_sha256"]))
+               for entry in evidence["evidence"]["portal"]]
+    for source, doc in portal:
+        for run in doc["runs"]:
+            add(source, doc["controller"], None, "ur5e portal · conveyor · off-ruler", 4, run["speed_fraction"], CONVEYOR,
+                "single route", "conveyor-cycle-01", CONVEYOR_KIND,
+                {"rms_mm": run["tracking_rms_mm"], "full_mm": run["full_trajectory_rms_mm"], "max_mm": run["max_error_mm"],
+                 "stop_mm": run["kpis"]["stop_error_max_mm"], "sat_pct": run["kpis"]["saturation_share_pct"],
+                 **gates(run["verdicts"])})
+    w3 = _json(W3)
+    loads = sorted({c["plant_load"] for c in w3["cases"].values() if c["plant_load"]},
+                   key=lambda name: w3["loads"][name]["object_kg"])
+    for case in w3["cases"].values():
+        if case["plant_load"] is None:  # bare: the scorecards bit for bit (reproduces_scorecard), already the ruler's rows
+            if not case.get("reproduces_scorecard", {}).get("bit_identical"):
+                raise SystemExit(f"W3 {case['solution']} bare {case['split']}: not the scorecard")
+            continue
+        grams = w3["loads"][case["plant_load"]]["object_kg"] * 1000
+        order = 5 + 2 * loads.index(case["plant_load"]) + (case["split"] == "holdout")
+        variant = f"feed-forward told {case['model_load']}" if case["model_load"] else None
+        for task in case["tasks"]:
+            add(f"W3 {case['plant_load']}", case["solution"], variant,
+                f"ur5e + 2F-85 + {grams:g} g object · {case['split']} · off-ruler", order, 1.0, DATASET, case["split"],
+                task["task"], MXD_KIND[task["kind"]],
+                {"rms_mm": task["objective"], "max_mm": task["diagnostics"]["tool_track_max_mm"],
+                 "stop_mm": task["kpis"]["stop_error_max_mm"], "sat_pct": task["kpis"]["saturation_share_pct"],
+                 **gates(task["verdicts"])})
+    return rows
 
 
 def mxd_rows(pictures: dict[str, str] | None = None) -> list[dict[str, Any]]:
@@ -810,10 +944,12 @@ def mxd_rows(pictures: dict[str, str] | None = None) -> list[dict[str, Any]]:
                     # WHY the whole change (the case cut it at 90 characters): a stored property is shown as written
                     "change": info.get("change") or None,
                     "ablation": EXCLUDED_TAG in (info.get("tags") or []), "admissible": bool(card.get("admissible")),
-                    "deployment": deployment, "deployment_order": 0 if split == "dev" else 1, "dataset": dataset,
+                    "ruler": RULER, "source": path.relative_to(REPO).as_posix(),
+                    "deployment": deployment, "deployment_order": 0 if split == "dev" else 1,
+                    "speed": "×1.0", "speed_order": 10, "dataset": dataset,
                     "split": split, "kind": kind, "kind_order": kind_order,
-                    "task": task["task"].replace("workspace-", "", 1),
-                    "rms_mm": task.get("objective"),
+                    "task": task["task"].replace("workspace-", "", 1), "task_id": task["task"], "variant": None,
+                    "rms_mm": task.get("objective"), "full_mm": None,
                     "max_mm": _field(task, ("diagnostics", "tool_track_max_mm")),
                     "stop_mm": _field(task, ("kpis", "stop_error_max_mm")),
                     "sat_pct": _field(task, ("kpis", "saturation_share_pct")),
@@ -822,7 +958,9 @@ def mxd_rows(pictures: dict[str, str] | None = None) -> list[dict[str, Any]]:
                     "preview": (pictures or {}).get(task["task"]),
                     "opens": opens, "url": url,
                 })
-    rows.sort(key=lambda r: (r["family_order"], r["model"], r["config"], r["deployment_order"], r["kind_order"], r["task"]))
+    rows += off_ruler_rows(metas, base_change, pictures)
+    rows.sort(key=lambda r: (r["family_order"], r["model"], r["config"], r["deployment_order"], r["speed_order"],
+                             r["kind_order"], r["task"]))
     if len({r["id"] for r in rows}) != len(rows):
         raise SystemExit("models-datasets: two rows share an id")
     leaf: dict[tuple[str, str, str], str] = {}
@@ -890,9 +1028,13 @@ MXD_BASE = """# Model × Dataset · the solution leaderboard as ONE pivot over e
 data: __DATA__
 noun: [task result, task results]
 facets:
+  - { property: ruler, label: "Ruler (columns)" }
+  - { property: dataset, label: "Dataset (columns)" }
+  - { property: split, label: "Split (columns)" }
+  - { property: speed, label: "Speed fraction (columns)", sort: alpha }
+  - { property: kind, label: "Task kind (columns)" }
   - family
   - { property: model, parent: family, searchable: true, limit: 8 }
-  - kind
   - { property: admissible, as: toggle, value: true, text: "Admissible solutions only" }
 properties:
   family: { displayName: Family }
@@ -903,11 +1045,16 @@ properties:
   change: { displayName: Change }
   ablation: { displayName: Ablation }
   admissible: { displayName: "Admissible (every gate, every task)" }
+  ruler: { displayName: Ruler }
+  source: { displayName: Source }
   deployment: { displayName: "Deployment · split" }
+  speed: { displayName: Speed fraction }
   dataset: { displayName: Dataset }
   split: { displayName: Split }
   kind: { displayName: Task kind }
   task: { displayName: Task }
+  variant: { displayName: Variant }
+  full_mm: { displayName: Full-trajectory RMS }
   rms_mm: { displayName: Tool tracking RMS }
   max_mm: { displayName: Tool tracking max }
   stop_mm: { displayName: Stop error }
@@ -919,13 +1066,13 @@ views:
   - type: pivot
     name: Leaderboard
     filters: "ablation == false"
-    splitBy: [deployment, dataset, kind, task]
+    splitBy: [deployment, speed, dataset, kind, task]
     value: { property: rms_mm, summary: Median }
     pivot:
       rows: [family, model, config]
-      roles: { deployment: deployment, dataset: dataset }
+      roles: { deployment: deployment, speed: group, dataset: dataset }
       rollup: median
-      metrics: [rms_mm, max_mm, stop_mm, gates]
+      metrics: [rms_mm, full_mm, max_mm, stop_mm, gates]
       color: rank
       interval: median
       reference: ablation
@@ -936,13 +1083,13 @@ views:
       headers: vertical
   - type: pivot
     name: Pivot
-    splitBy: [deployment, dataset, kind, task]
+    splitBy: [deployment, speed, dataset, kind, task]
     value: { property: rms_mm, summary: Median }
     pivot:
       rows: [family, model, config]
-      roles: { deployment: deployment, dataset: dataset }
+      roles: { deployment: deployment, speed: group, dataset: dataset }
       rollup: median
-      metrics: [rms_mm, max_mm, stop_mm, gates]
+      metrics: [rms_mm, full_mm, max_mm, stop_mm, gates]
       color: none
       reference: ablation
       layout: compact
@@ -950,7 +1097,7 @@ views:
       headers: horizontal
   - type: table
     name: Rows
-    order: [model, config, solution, deployment, kind, task, rms_mm, max_mm, stop_mm, gates, gates_failed, admissible, ablation, change]
+    order: [model, config, solution, ruler, deployment, speed, dataset, kind, task, rms_mm, full_mm, max_mm, stop_mm, gates, gates_failed, admissible, ablation, change]
     groupBy: { property: family }
     fold: open
 """
@@ -1000,12 +1147,14 @@ __BAR__
 <header class="page-head">
   <h1>Model × Dataset</h1>
   <p>__LEDE__</p>
+  <p class="small" data-off-ruler>__OFF__</p>
   <p class="small" data-rollup-rule>__ROLLUP__</p>
   <details>
     <summary>How the rows, the views and the links are made</summary>
     <p>__FAMILIES__</p>
     <p>__VIEWS__</p>
     <p>__LINKS__</p>
+    <p>__SOURCES__</p>
   </details>
 </header>
 <div class="frame">
@@ -1042,28 +1191,42 @@ def models_datasets() -> dict[str, Any]:
     rows = mxd_rows(pictures)
     (MXD / MXD_DATA).write_text(_mxd_csv(rows), encoding="utf-8")
     _write_json(MXD / MXD_DATA.replace(".csv", ".schema.json"), _mxd_schema())
-    sort = next(r["deployment"] for r in rows if r["split"] == SPLIT)
+    sort = next(r["deployment"] for r in rows if r["ruler"] == RULER and r["split"] == SPLIT)
     (MXD / "models-datasets.base").write_text(MXD_BASE.replace("__CASE__", MXD_CASE).replace("__DATA__", MXD_DATA)
                                               .replace("__SORT__", sort))
-    ranked = sorted({r["solution"] for r in rows if not r["ablation"]})
-    ablations = sorted({r["solution"] for r in rows if r["ablation"]})
+    ruler = [r for r in rows if r["ruler"] == RULER]
+    off = [r for r in rows if r["ruler"] != RULER]
+    ranked = sorted({r["solution"] for r in ruler if not r["ablation"]})
+    ablations = sorted({r["solution"] for r in ruler if r["ablation"]})
     families = sorted({(r["family_order"], r["family"]) for r in rows if not r["ablation"]})
-    per_split = {split: sorted({r["task"] for r in rows if r["split"] == split}) for split, _ in SPLITS}
-    holdout = sorted({r["solution"] for r in rows if r["split"] == "holdout"})
-    deployment = next(r["deployment"] for r in rows).split(" · ")[0]
-    dataset = next(r["dataset"] for r in rows)
-    lede = (f"The solution leaderboard: {len(ranked)} solutions in {len(families)} families, nested family › model › "
+    per_split = {split: sorted({r["task"] for r in ruler if r["split"] == split}) for split, _ in SPLITS}
+    holdout = sorted({r["solution"] for r in ruler if r["split"] == "holdout"})
+    off_columns = sorted({(r["deployment_order"], r["deployment"]) for r in off})
+    deployment = next(r["deployment"] for r in ruler).split(" · ")[0]
+    dataset = next(r["dataset"] for r in ruler)
+    lede = (f"The solution leaderboard (ruler v1): {len(ranked)} solutions in {len(families)} families, nested family › model › "
             f"config, on every task of <code>{deployment}</code> › <code>{dataset}</code>: the "
             f"{len(per_split['dev'])} dev tasks, and the {len(per_split['holdout'])} holdout tasks for the "
             f"{len(holdout)} solutions scored there (holdout is scored only to report a finished solution, never to "
             f"pick one). A task's cell is its <code>tool_track_rms_mm</code> from the solution's scorecard: the RMS "
-            f"tool error over the samples where the target moves. Unfold a column to its task kinds and tasks; click a "
-            f"task's cell to open its run.")
+            f"tool error over the samples where the target moves. Unfold a column to its speeds, task kinds and tasks; "
+            f"click a task's cell to open its run.")
+    datasets = sorted({r["dataset"] for r in off})
+    speeds = sorted({r["speed"] for r in off}, key=lambda s: float(s[1:]))
+    off_words = (f"Beside it, every other measured dataset in this repo is its own column group marked <b>off-ruler</b> "
+                 f"({len(off_columns)} groups, {len(off)} task results: "
+                 + ", ".join(f"<code>{html.escape(d)}</code>" for d in datasets)
+                 + f" at speeds {speeds[0]}…{speeds[-1]}, on the upright, portal and loaded UR5e). Off-ruler columns are "
+                 "evidence: never pooled with the ruler's dev or holdout, never what the sort ranks on. The rail's "
+                 "<b>(columns)</b> filters pick which columns you compare: Ruler, Dataset, Split, Speed fraction, Task "
+                 "kind.")
+    sources = "Where the off-ruler rows come from: " + "; ".join(html.escape(s) for s in OFF_RULER_SOURCES) + "."
     rollup = ("<b>Roll-up, in plain words:</b> a solution's score on a dataset is the <b>median</b> of its per-task "
               "numbers (that median is the objective); a folded row (a model, a family) is the median of the rows "
               "under it, one vote per row; a deployment is the plain average of its datasets' scores, every dataset "
               "counted once, and dev and holdout are never pooled; a deployment ranks only the rows scored on every one "
-              f"of its datasets. Ruler v1 has one dataset, so the <b>{html.escape(sort)}</b> column is each "
+              f"of its datasets, and a speed group the plain average of its one dataset per speed. Ruler v1 has one "
+              f"dataset at one speed, so the <b>{html.escape(sort)}</b> column is each "
               "solution's objective, and the Leaderboard ranks on it. The Roll up buttons over the grid switch the "
               "method (Median, Mean, Best, Rank, Count) and the grid says the rule it is using in words.")
     views = (f"Three views of the same rows (data-ui's leaderboard pivot, CONTRACT §57): <b>Leaderboard</b> (the "
@@ -1072,16 +1235,19 @@ def models_datasets() -> dict[str, Any]:
              "<b>Pivot</b> is the bare pivot with every row and column open, the ablations drawn but never ranked. "
              "<b>Rows</b> is every task result. In both pivots a column group folds into one roll-up column that says "
              "its method and count; the Metric control switches the number (tool tracking RMS or max, stop error, "
-             "gates passed), and the left panel filters by family, model, task kind and admissible.")
+             "full-trajectory RMS, gates passed), and the left panel filters the columns (ruler, dataset, split, speed, "
+             "task kind) and the rows (family, model, admissible).")
     links = ("A cell over one task result opens its run: in the Trajectory Comparison for the solutions saved on every "
              "dev task, in the landing page's player for those saved on one task per kind, else the task's Comparison "
              "(this run is not saved, only its score); a holdout task has no saved run, so its cell opens the records "
-             "behind it, as every cell over several does. Each task result's <b>Opens</b> says which.")
-    page = (MXD_PAGE.replace("__LEDE__", lede).replace("__ROLLUP__", rollup).replace("__FAMILIES__", FAMILY_RULE)
+             "behind it, as every cell over several does; so does an off-ruler cell (only its scores are kept). Each "
+             "task result's <b>Opens</b> says which.")
+    page = (MXD_PAGE.replace("__LEDE__", lede).replace("__OFF__", off_words).replace("__SOURCES__", sources).replace("__ROLLUP__", rollup).replace("__FAMILIES__", FAMILY_RULE)
             .replace("__VIEWS__", views).replace("__LINKS__", links).replace("__DATA__", MXD_DATA)
             .replace("__BAR__", site_bar.tag(MXD / "index.html", "models-datasets")))
     (MXD / "index.html").write_text(page)
-    return {"rows": len(rows), "solutions": len(ranked), "ablations": len(ablations),
+    return {"rows": len(rows), "off_ruler_rows": len(off), "off_ruler_columns": [name for _, name in off_columns],
+            "solutions": len(ranked), "ablations": len(ablations),
             "families": [name for _, name in families], "tasks": {s: len(t) for s, t in per_split.items()},
             "holdout_solutions": len(holdout), "pictures": len(pictures)}
 
@@ -1220,6 +1386,8 @@ def number_problems() -> list[str]:
     # tasks: the mean of the middle two of an even count) is the scorecard's objective
     by_card: dict[tuple[str, str], list[float]] = {}
     for row in mxd_table():
+        if row["ruler"] != RULER:  # off-ruler rows: tests/test_dropins.py reads each against its own source file
+            continue
         solution, task_id = row["id"].split("/", 1)
         card = _json(SOLUTIONS / solution / dict(SPLITS)[row["split"]])
         task_row = task_rows(card).get(task_id)

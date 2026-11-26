@@ -62,13 +62,36 @@
     "description": "the scorecard's verdict: every gate on every task"
    },
    {
+    "name": "ruler",
+    "type": "string",
+    "title": "Ruler",
+    "description": "'ruler v1': the scorecards, what the Leaderboard ranks on (dev); 'off-ruler': measured evidence outside the ranked objective (other speeds, scenes, loads), never pooled with it"
+   },
+   {
+    "name": "source",
+    "type": "string",
+    "title": "Source",
+    "description": "where the row's numbers come from (OFF_RULER_SOURCES)"
+   },
+   {
     "name": "deployment",
     "type": "string",
     "title": "Deployment · split",
-    "description": "the scorecard's deployment and split: dev and holdout are never pooled"
+    "description": "the deployment and split (and 'off-ruler' when it is): never pooled"
    },
    {
     "name": "deployment_order",
+    "type": "integer",
+    "hidden": true
+   },
+   {
+    "name": "speed",
+    "type": "string",
+    "title": "Speed fraction",
+    "description": "the time-scale fraction the target was flown at (×1.0: the frozen tapes)"
+   },
+   {
+    "name": "speed_order",
     "type": "integer",
     "hidden": true
    },
@@ -99,6 +122,18 @@
     "title": "Task"
    },
    {
+    "name": "task_id",
+    "type": "string",
+    "title": "Task id",
+    "description": "the task's full id in its source"
+   },
+   {
+    "name": "variant",
+    "type": "string",
+    "title": "Variant",
+    "description": "an off-ruler controller variant of the solution (W3: what its feed-forward is told about the load); empty: the solution as committed"
+   },
+   {
     "name": "rms_mm",
     "type": "number",
     "title": "Tool tracking RMS",
@@ -106,6 +141,15 @@
     "decimals": 4,
     "better": "lower",
     "description": "RMS tool-point error over the task's moving samples (the task's objective)"
+   },
+   {
+    "name": "full_mm",
+    "type": "number",
+    "title": "Full-trajectory RMS",
+    "unit": "mm",
+    "decimals": 4,
+    "better": "lower",
+    "description": "RMS tool-point error over every sample, holds included (goal G1's measure; only the sources that keep it)"
    },
    {
     "name": "max_mm",

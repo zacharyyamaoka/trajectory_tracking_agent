@@ -9,9 +9,13 @@
 data: models-datasets.csv
 noun: [task result, task results]
 facets:
+  - { property: ruler, label: "Ruler (columns)" }
+  - { property: dataset, label: "Dataset (columns)" }
+  - { property: split, label: "Split (columns)" }
+  - { property: speed, label: "Speed fraction (columns)", sort: alpha }
+  - { property: kind, label: "Task kind (columns)" }
   - family
   - { property: model, parent: family, searchable: true, limit: 8 }
-  - kind
   - { property: admissible, as: toggle, value: true, text: "Admissible solutions only" }
 properties:
   family: { displayName: Family }
@@ -22,11 +26,16 @@ properties:
   change: { displayName: Change }
   ablation: { displayName: Ablation }
   admissible: { displayName: "Admissible (every gate, every task)" }
+  ruler: { displayName: Ruler }
+  source: { displayName: Source }
   deployment: { displayName: "Deployment · split" }
+  speed: { displayName: Speed fraction }
   dataset: { displayName: Dataset }
   split: { displayName: Split }
   kind: { displayName: Task kind }
   task: { displayName: Task }
+  variant: { displayName: Variant }
+  full_mm: { displayName: Full-trajectory RMS }
   rms_mm: { displayName: Tool tracking RMS }
   max_mm: { displayName: Tool tracking max }
   stop_mm: { displayName: Stop error }
@@ -38,13 +47,13 @@ views:
   - type: pivot
     name: Leaderboard
     filters: "ablation == false"
-    splitBy: [deployment, dataset, kind, task]
+    splitBy: [deployment, speed, dataset, kind, task]
     value: { property: rms_mm, summary: Median }
     pivot:
       rows: [family, model, config]
-      roles: { deployment: deployment, dataset: dataset }
+      roles: { deployment: deployment, speed: group, dataset: dataset }
       rollup: median
-      metrics: [rms_mm, max_mm, stop_mm, gates]
+      metrics: [rms_mm, full_mm, max_mm, stop_mm, gates]
       color: rank
       interval: median
       reference: ablation
@@ -55,13 +64,13 @@ views:
       headers: vertical
   - type: pivot
     name: Pivot
-    splitBy: [deployment, dataset, kind, task]
+    splitBy: [deployment, speed, dataset, kind, task]
     value: { property: rms_mm, summary: Median }
     pivot:
       rows: [family, model, config]
-      roles: { deployment: deployment, dataset: dataset }
+      roles: { deployment: deployment, speed: group, dataset: dataset }
       rollup: median
-      metrics: [rms_mm, max_mm, stop_mm, gates]
+      metrics: [rms_mm, full_mm, max_mm, stop_mm, gates]
       color: none
       reference: ablation
       layout: compact
@@ -69,6 +78,6 @@ views:
       headers: horizontal
   - type: table
     name: Rows
-    order: [model, config, solution, deployment, kind, task, rms_mm, max_mm, stop_mm, gates, gates_failed, admissible, ablation, change]
+    order: [model, config, solution, ruler, deployment, speed, dataset, kind, task, rms_mm, full_mm, max_mm, stop_mm, gates, gates_failed, admissible, ablation, change]
     groupBy: { property: family }
     fold: open
