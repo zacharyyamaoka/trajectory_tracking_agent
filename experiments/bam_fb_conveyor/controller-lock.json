@@ -1,0 +1,54 @@
+{
+  "schema": "tta.bam-fb-simulation-controller-lock/1",
+  "selected_at": "2026-11-25T21:20:06-07:00",
+  "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+  "bench_commit": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+  "arm_model_key": "869c7d938677",
+  "acquisition": "simulated claw site at the frozen target sample clock",
+  "nominal_speed_rung": 1.0,
+  "repeat": 0,
+  "controller_source": {
+    "revision": "9da6a0f4d1c0f854c099a30ad0cb284267475267",
+    "sha256": "4a8fc3d97c7cd5560f5bafa9fc553799a214e916d23cc1402f7332ce53d46951"
+  },
+  "calibration_source": {
+    "revision": "552ff66965904e367f5554b8db5de35a2a038a9c",
+    "sha256": "d2acc7cb9c7d2fb75706687183d884a1b8b5286a8f290418e1ff8a4149064919"
+  },
+  "gains_source": {
+    "revision": "b85d75f3600884b766f484bdff4a08ef384bacdd",
+    "sha256": "dad250288a336930523a58359506f83db0bc96c23a238fa5170904853f07278a"
+  },
+  "detector": "stock hold_friction_v2 settings, armed",
+  "projects": {
+    "workspace": {
+      "manifest_sha256": "145dc741e48691920478e2084839cee0cb523c5c698a31f49bf5a3cf95ef8c9b",
+      "dev_audit_sha256": "f49a72f565e8a1a54cc0bde13e1a89e6b659fc4469ae75a671747c54066b43e2",
+      "dev_count": 42,
+      "dev_worst_stop": {
+        "task": "workspace-dev-014",
+        "mm": 0.4595658841007982
+      },
+      "dev_worst_full_rms": {
+        "task": "workspace-dev-038",
+        "mm": 0.9624655604049531
+      },
+      "heldout_count": 12
+    },
+    "conveyor": {
+      "manifest_sha256": "9e378456c94bde64ac2837c0dd3882fd141146d61e3d8809067f7b47d9553cff",
+      "dev_audit_sha256": "05368ac74ee8d6007434dca28a8c938542b89342d9a4819a5b3074e22badafc5",
+      "dev_count": 48,
+      "dev_worst_stop": {
+        "mm": 0.41762569961085566,
+        "task": "conveyor-dev-018"
+      },
+      "dev_worst_full_rms": {
+        "mm": 0.8021835521171747,
+        "task": "conveyor-dev-038"
+      },
+      "heldout_count": 16
+    }
+  },
+  "holdout_scored_before_this_lock": false
+}
