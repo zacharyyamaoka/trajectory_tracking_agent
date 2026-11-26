@@ -1,0 +1,15 @@
+{
+  "schema": "bb-goal-metrics/1",
+  "metrics": {
+    "ur5e_worst_stop_error_mm": {
+      "label": "Worst stop error across UR5e speeds",
+      "unit": "mm",
+      "samples": []
+    },
+    "ur5e_worst_full_trajectory_rms_mm": {
+      "label": "Worst full-trajectory RMS across UR5e speeds",
+      "unit": "mm",
+      "samples": []
+    }
+  }
+}
