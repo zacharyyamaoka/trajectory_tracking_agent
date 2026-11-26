@@ -1,0 +1,18 @@
+{
+  "id": "p5s-damping185",
+  "parent": "p5s-pass3",
+  "change": "Change the board damping multiplier from 2.0 to 1.85",
+  "proposed_by": {
+    "agent": "Codex (Trajectory Tracking friction_asymmetry lane)",
+    "model": "gpt-6.2-sol",
+    "session": "01a214e8-7cf0-7411-93c0-de3d5044293c/friction_asymmetry"
+  },
+  "created": "2026-11-25T17:47:50-07:00",
+  "tags": [
+    "transfer-risk:stiffness"
+  ],
+  "name": "P5.s.pass3.Damping185",
+  "summary": "Measure the 1.85× damping neighbor of p5s-pass3 with its fitted model fixed.",
+  "description": "One side of a symmetric damping check around 2.0×. Set KD_SCALE to 1.85 and let the existing velocity-filter lag compensation follow the resulting kd. Keep kp, the fitted model, timing, and trajectory input fixed.",
+  "expect": "Pass all five frozen gates on 42/42 dev tasks. Count a win if median dev tool_track_rms_mm is below 0.03100 mm (p5s-pass3 scored 0.031333594889 mm)."
+}
