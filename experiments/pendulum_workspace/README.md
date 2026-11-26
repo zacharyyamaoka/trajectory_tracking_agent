@@ -28,6 +28,8 @@ The [development replays](identified-locked-dev.json) and [untouched holdout rep
 
 The stock arm motion bench verifier regenerated every frozen workspace v2 tape and sidecar with the original manifest hashes. A fresh development replay reproduced the summary and worst-RMS trace byte for byte. The holdout command refused a changed damping scale before it created an output directory.
 
+The replay used MuJoCo 4.0.1 and robot_msgs 0.3.2. The pendulum twin, board simulation and layout controller came from robot_controllers `04d0d58804682237ff606cf85f8958e73a2086df`. The CAN 11 model XML hash was `ed7fdf67cb5c1459e2645a19568080a3a09d477a31fa0d4c57b326a92acc8318`. The frozen workspace manifest was recorded in arm_motion_bench `1cec0ef33f9af790a2bb292dedcdbf4eca28b067`.
+
 ```bash
 python experiments/pendulum_workspace/run.py --split dev --record-states --out outputs/pendulum-workspace/p3s-probes
 python experiments/pendulum_workspace/identify.py outputs/pendulum-workspace/p3s-probes outputs/pendulum-workspace/reproduced-fit.json
