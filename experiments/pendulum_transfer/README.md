@@ -1,12 +1,12 @@
 # CAN 11 transfer on the adopted rack twin
 
-This is a development-only transfer check for the [simulation goal](../../goals/G2-bam-fb-and-pendulum-simulation.md). The [qualified pendulum corpus](../pendulum_workspace/README.md) used the compact rigid plant. The adopted rack model `can11-r18a` includes LuGre friction, rotor-periodic torque ripple and drive limits. Its adopted parameters do not contain a measured transmission gap. That leaves physical load-side accuracy unmeasured.
+This is a development-only transfer check for the [simulation goal](../../goals/G2-bam-fb-and-pendulum-simulation.md). The [qualified pendulum corpus](../pendulum_workspace/README.md) used the compact rigid plant. The adopted rack model `can11-r18a` includes LuGre friction, rotor-periodic torque ripple and drive limits. The adopted rack parameters leave gear clearance unspecified. Physical load-side accuracy remains unmeasured.
 
 ## Prediction before replay
 
 Keep the same frozen workspace v2 development tapes and periods at 1.0. Replay the three archived physical `ff_model` tours as sent, including their historical command gains. Then run all 40 development tapes on the adopted rack model with the same real-data feedforward and a 1× command multiplier on the stock board PID. No coefficient is tuned from these replays. We predict the nominal-gain simulation will miss at least one of the 0.5 mm stop and 1.0 mm full-trajectory RMS targets. The richer rack plant has dynamics absent from the compact plant and the historical feedforward is distinct from the qualified simulation controller.
 
-Report positions on the nominal 100 Hz plan grid, after verifying that the archive and the replay issued the frozen targets to the source precision. Use the synchronous tool-point distance, its RMS over the whole tape, and the frozen final-0.1-second stop metric. The archive has encoder positions and a command clock. It does not contain a common-clock measurement of the load-side tip. Record only development diagnostics here. No hardware runs and no UR ruler changes.
+Report positions on the nominal 100 Hz plan grid, after verifying that the archive and the replay issued the frozen targets to the source precision. Use the synchronous tool-point distance, its RMS over the whole tape, and the frozen final-0.1-second stop metric. The archive has encoder positions and a command clock. Physical load-side tip measurements on the same clock are unavailable. These diagnostics use existing development tapes, recordings and the frozen ruler.
 
 ## Full-speed development results
 
@@ -41,6 +41,16 @@ The historical feedforward at the higher gains was the only configuration to mee
 
 Keep the exact historical `ff_model` command streams that ran at 4× stiffness and 2× damping on the adopted model. Apply those same commands to the pre-existing synthetic LuGre-plus-gap plant at the same 100 Hz clock. Use all 40 development tapes, score both encoder and load, and preserve the prior locked-controller gap result. Expect the simulated load to meet both targets on more than 27 paths but miss the 0.5 mm stop target on at least one path. The adopted-model stop margin is 0.1405 mm, while the synthetic gap can separate the encoder and load by about 0.34 mm at the tip.
 
+## Historical feedforward under synthetic backlash
+
+| Historical `ff_model` at 4× stiffness and 2× damping | Runs meeting both targets | Worst stop (mm) | Worst full-trajectory RMS (mm) |
+| --- | ---: | ---: | ---: |
+| Adopted twin encoder | 40/40 | 0.3595 | 0.4691 |
+| Synthetic gap twin encoder | 40/40 | 0.3643 | 0.4744 |
+| Synthetic gap twin load | 27/40 | 0.7056 | 0.7012 |
+
+The simulated load missed the stop target on 13 paths and met the RMS target on all 40. Its pass count matched the locked identified controller. The historical feedforward reduced the largest load-side stop error from 0.7952 to 0.7056 mm and the largest load-side RMS from 0.9797 to 0.7012 mm. The largest encoder-to-load separation was 0.3465 mm on `workspace-dev-023`. This stress comparison uses assumed transmission clearance and simulation gains. [Historical gap score evidence](historical-gap-evidence.json)
+
 ## Reproduce the archived comparison
 
 The runner uses rack source revision `05573c957f9c7fb073bedf9a376c30ea38715305` through the rack Python environment with MuJoCo 3.11.0. Set `RACK_WORKTREE`, `ARM_MOTION_BENCH`, `ROBOT_MSGS`, and `ROBOT_TRAJECTORIES` to local checkouts. Run from this repository.
@@ -64,5 +74,11 @@ PYTHONPATH="$PWD/outputs/pendulum-transfer/source-05573c957/src/dev/bam_rack_twi
 The transfer keeps the rack runner's start pose, prelude duration, torque cap and 100 Hz scoring window. During the prelude the identified controller holds its start pose with its own gravity feedforward. The controller command grid in the scoring window stays unchanged. The original compact bench and the rack command extraction agreed on all five command fields within `1e-12` SI units at both gains for development tapes `000` and `026`. Every transferred tape also produced identical command arrays when host position, velocity and torque observations were varied. The rack replay keeps its board feedback and latch setting, which resolves to zero added delay in `r18a`.
 
 The bridge resolves model gravity in the rack's currently accepted frame, as the stock runner does. The 1× historical summary reproduces the stock runner on all 40 cases. On tape `027`, all 356 samples of time, encoder position, velocity, torque and mode matched exactly. [Transfer source](locked_controller.py)
+
+The historical synthetic comparison consumes the per-case output from the locked controller transfer above. It verifies each historical high-gain command stream against that recording before running the separated transmission plant.
+
+```bash
+PYTHONPATH="$PWD/outputs/pendulum-transfer/source-05573c957/src/dev/bam_rack_twin:$ARM_MOTION_BENCH/src:$ROBOT_MSGS/src:$ROBOT_TRAJECTORIES/src:$ROBOT_CONTROLLERS/src:$PWD/src:$PWD/experiments/pendulum_workspace" OPENBLAS_NUM_THREADS=1 "$RACK_WORKTREE/src/dev/bam_rack_twin/.venv/bin/python" experiments/pendulum_transfer/historical_gap.py "$ARM_MOTION_BENCH/datasets/pendulum/workspace/v2" outputs/pendulum-transfer/locked.rows.json outputs/pendulum-transfer/historical-gap.json
+```
 
 The historical CAN 11 camera estimate of 4.49 arcmin had a 95% interval of approximately −19 to +34 arcmin and was refused by the rack. The gear-gap parameter in the Sim2Real frozen-schedule oracle `can11-frozen-schedule-2f32ddbc.json` was recovered against a sealed simulated 0.002 rad gap in revision `7355462d9dd38e127c122c5cccbd546a67916ba1`. The rack camera review aligns phase and angle zero against the same encoder run. See `tests/test_priors_gravity.py` and `docs/can11_envelope_challenge.py` in the archived rack source.

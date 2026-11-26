@@ -133,17 +133,22 @@ def replay_batch(arguments):
     return {label: replay_case(task, tape, window, twin, commands, board, label) for label, commands in variants.items()}
 
 
+def rack_template(task, tape):
+    plan = pendulum_sim.plan_step(tape.positions[:, 0], CONTROLLER, label=task)
+    template = rack.commands_for(rack.runner_arguments(plan), plan["origin_rad"])
+    first = np.searchsorted(template.t, template.prelude_s - 1e-9)
+    window = slice(first, first + len(tape.t))
+    np.testing.assert_allclose(template.t[window] - template.t[first], tape.t, atol=1e-12, rtol=0)
+    matched_target(task, template.q_target[window], tape)
+    return template, window
+
+
 def development_cases(tapes, board, parameters, scene_dir, nominal, locked, workers):
     rows = {case: [] for case in ("historical_nominal", "historical_locked_gains", "identified_nominal", "identified_locked")}
     locked_commands = {}
     batches = []
     for task, tape in tapes.items():
-        plan = pendulum_sim.plan_step(tape.positions[:, 0], CONTROLLER, label=task)
-        template = rack.commands_for(rack.runner_arguments(plan), plan["origin_rad"])
-        first = np.searchsorted(template.t, template.prelude_s - 1e-9)
-        window = slice(first, first + len(tape.t))
-        np.testing.assert_allclose(template.t[window] - template.t[first], tape.t, atol=1e-12, rtol=0)
-        matched_target(task, template.q_target[window], tape)
+        template, window = rack_template(task, tape)
         identified_nominal = identified_commands(tape, nominal, template, window, board)
         identified_locked = identified_commands(tape, locked, template, window, board)
         locked_commands[task] = (window, identified_locked)
@@ -161,14 +166,14 @@ def development_cases(tapes, board, parameters, scene_dir, nominal, locked, work
     return rows, locked_commands
 
 
-def sealed_stress(tapes, locked_commands, board, adopted, scene_dir, workers):
+def sealed_stress(tapes, frozen_commands, board, adopted, scene_dir, workers):
     # WHY these are plant inputs: the command streams were finalized with zero access to the synthetic gap or load histories.
     stress = replace(adopted, version="can11-r18a-synthetic-gap", backlash_rad=0.002,
                      rotor_inertia_fraction=0.022, output_friction_fraction=1.0)
     twin = rack.joint_twin(board, stress, scene_dir=scene_dir)
     batches = []
     for task, tape in tapes.items():
-        window, commands = locked_commands[task]
+        window, commands = frozen_commands[task]
         batches.append((task, tape, window, {stress.version: commands}, board, stress, scene_dir))
     with ProcessPoolExecutor(max_workers=workers) as pool:
         rows = [batch[stress.version] for batch in pool.map(replay_batch, batches)]

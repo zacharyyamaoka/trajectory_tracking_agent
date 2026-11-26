@@ -1,0 +1,70 @@
+{
+  "dataset_manifest_sha256": "461445be5e01ae95ff0e1623059bc21d4f2ed446581e7557470e6bca856ec85f",
+  "split": "dev",
+  "rung": 1.0,
+  "model_version": "can11-r18a",
+  "model_sha256": "a67a88b53838093c0176374feb64ca5026738d04c0a1630ffc12a629d93f8192",
+  "controller": "historical ff_model",
+  "kp_scale": 4.0,
+  "kd_scale": 2.0,
+  "reference_rows_sha256": "fc91425e2ba46ad30cffd9ec1f9a843051de150a0f3f1ae5dcc62116fb38297e",
+  "model_frame": {
+    "rest_rad": 0.26,
+    "source": "facts rest_rad",
+    "gravity_bottom_rad": 0.257822
+  },
+  "adopted_lugre_encoder": {
+    "runs": 40,
+    "passes_both": 40,
+    "worst_stop_mm": {
+      "mm": 0.3594607666395641,
+      "task": "workspace-dev-015",
+      "recording": null
+    },
+    "full_rms_mm": {
+      "mm": 0.4690760937787078,
+      "task": "workspace-dev-035",
+      "recording": null
+    }
+  },
+  "synthetic_gap": {
+    "assumptions": {
+      "synthetic": true,
+      "total_gap_rad": 0.002,
+      "rotor_inertia_fraction": 0.022,
+      "output_friction_fraction": 1.0,
+      "mesh_stiffness_nm_rad": "stock rack wrapper default",
+      "physics_step_s": 0.0002
+    },
+    "twin_encoder": {
+      "runs": 40,
+      "passes_both": 40,
+      "worst_stop_mm": {
+        "mm": 0.36427834374946483,
+        "task": "workspace-dev-015",
+        "recording": null
+      },
+      "full_rms_mm": {
+        "mm": 0.47437340962108143,
+        "task": "workspace-dev-035",
+        "recording": null
+      }
+    },
+    "twin_load": {
+      "runs": 40,
+      "passes_both": 27,
+      "worst_stop_mm": {
+        "mm": 0.7055974105116924,
+        "task": "workspace-dev-015",
+        "recording": null
+      },
+      "full_rms_mm": {
+        "mm": 0.7011708216476853,
+        "task": "workspace-dev-035",
+        "recording": null
+      }
+    },
+    "max_encoder_to_load_mm": 0.34650688138831826,
+    "max_encoder_to_load_task": "workspace-dev-023"
+  }
+}
