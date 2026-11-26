@@ -55,11 +55,11 @@ def check_twin():
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--sim2real", type=Path, required=True)
-    parser.add_argument("--bam-ws", type=Path, required=True)
+    parser.add_argument("--robot-stack", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     result = check_twin()
-    for name, path in (("sim2real", args.sim2real), ("bam_ws", args.bam_ws)):
+    for name, path in (("sim2real", args.sim2real), ("robot_stack", args.robot_stack)):
         result[f"{name}_commit"] = subprocess.check_output(["git", "-C", str(path), "rev-parse", "HEAD"], text=True).strip()
     args.output.write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")
 
