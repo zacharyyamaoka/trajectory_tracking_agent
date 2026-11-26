@@ -37,6 +37,10 @@ For the separate synthetic stress, freeze those same commands before revealing a
 
 The historical feedforward at the higher gains was the only configuration to meet both targets on all 40 development paths. Those gains were tested in simulation. The locked G2 controller met the RMS target on the adopted twin and missed the stop target on nine paths. With identical per-task command hashes in the synthetic gap case, the largest instantaneous encoder-to-load difference was 0.3467 mm on `workspace-dev-023`. This test provides a synthetic separation check. Physical load-side tracking remains unverified. [Locked transfer score evidence](locked-evidence.json)
 
+## Prediction for historical feedforward under synthetic backlash
+
+Keep the exact historical `ff_model` command streams that ran at 4× stiffness and 2× damping on the adopted model. Apply those same commands to the pre-existing synthetic LuGre-plus-gap plant at the same 100 Hz clock. Use all 40 development tapes, score both encoder and load, and preserve the prior locked-controller gap result. Expect the simulated load to meet both targets on more than 27 paths but miss the 0.5 mm stop target on at least one path. The adopted-model stop margin is 0.1405 mm, while the synthetic gap can separate the encoder and load by about 0.34 mm at the tip.
+
 ## Reproduce the archived comparison
 
 The runner uses rack source revision `05573c957f9c7fb073bedf9a376c30ea38715305` through the rack Python environment with MuJoCo 3.11.0. Set `RACK_WORKTREE`, `ARM_MOTION_BENCH`, `ROBOT_MSGS`, and `ROBOT_TRAJECTORIES` to local checkouts. Run from this repository.
