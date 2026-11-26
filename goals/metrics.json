@@ -26,22 +26,46 @@
     "bam_fb_workspace_sim_worst_stop_mm": {
       "label": "BAM FB workspace worst stop error in simulation",
       "unit": "mm",
-      "samples": []
+      "samples": [
+        {
+          "t": "2026-11-25T21:24:01-07:00",
+          "value": 0.4595658841007937,
+          "ref": "e88b723a7d6378145f591792d49b0d708b32df9f"
+        }
+      ]
     },
     "bam_fb_workspace_sim_worst_full_rms_mm": {
       "label": "BAM FB workspace worst full-trajectory RMS in simulation",
       "unit": "mm",
-      "samples": []
+      "samples": [
+        {
+          "t": "2026-11-25T21:24:01-07:00",
+          "value": 0.9624655604049531,
+          "ref": "e88b723a7d6378145f591792d49b0d708b32df9f"
+        }
+      ]
     },
     "bam_fb_conveyor_sim_worst_stop_mm": {
       "label": "BAM FB conveyor worst stop error in simulation",
       "unit": "mm",
-      "samples": []
+      "samples": [
+        {
+          "t": "2026-11-25T21:24:01-07:00",
+          "value": 0.4516450212379311,
+          "ref": "e88b723a7d6378145f591792d49b0d708b32df9f"
+        }
+      ]
     },
     "bam_fb_conveyor_sim_worst_full_rms_mm": {
       "label": "BAM FB conveyor worst full-trajectory RMS in simulation",
       "unit": "mm",
-      "samples": []
+      "samples": [
+        {
+          "t": "2026-11-25T21:24:01-07:00",
+          "value": 0.8138332093867385,
+          "ref": "e88b723a7d6378145f591792d49b0d708b32df9f"
+        }
+      ]
     },
     "pendulum_workspace_sim_worst_stop_mm": {
       "label": "Pendulum workspace worst stop error in simulation",
@@ -51,6 +75,11 @@
           "t": "2026-11-25T21:07:03-07:00",
           "value": 0.0972850656741417,
           "ref": "7f2748ba4846d1fc5a5f1c721f7f63f86a702ddd"
+        },
+        {
+          "t": "2026-11-25T21:24:01-07:00",
+          "value": 0.0972850656741417,
+          "ref": "e88b723a7d6378145f591792d49b0d708b32df9f"
         }
       ]
     },
@@ -62,6 +91,11 @@
           "t": "2026-11-25T21:07:03-07:00",
           "value": 0.0996352181195757,
           "ref": "7f2748ba4846d1fc5a5f1c721f7f63f86a702ddd"
+        },
+        {
+          "t": "2026-11-25T21:24:01-07:00",
+          "value": 0.0996352181195757,
+          "ref": "e88b723a7d6378145f591792d49b0d708b32df9f"
         }
       ]
     },

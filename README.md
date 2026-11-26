@@ -24,7 +24,7 @@ and keeps a scored population of every solution it tried.
 [UR5e speed study](https://zacharyyamaoka.github.io/trajectory_tracking_agent/reports/ur5e-speed-sweep.html) links to stock Coverage, Comparison and Targets, with time at speed and the joint-limit audit. [Reproduce the study](experiments/ur5e_speed_sweep/README.md).
 [UR5e conveyor baseline](reports/conveyor-baseline/index.html) replays the unchanged upright controller on a frozen 30-pick route at ten speeds. [Replay the dataset](experiments/conveyor_cycle/README.md).
 [UR5e tracking goal](reports/ur5e-accuracy/index.html) reports both accuracy targets on the locked mount-aware controller, including the upright holdout and the conveyor speed sweep. [Goal evidence](goals/G1-ur5e-tracking-evidence.json).
-[BAM FB and pendulum review](reports/bam-fb-pendulum/index.html) shows the CAN 11 qualification, its matched historic playback and the [physical archive audit](experiments/physical_tracking/README.md).
+[BAM FB and pendulum review](reports/bam-fb-pendulum/index.html) shows the 170-run simulation qualification, matched playback, and the [physical archive audit](experiments/physical_tracking/README.md).
 
 ```bash
 uv run tta evaluate p7s --split dev

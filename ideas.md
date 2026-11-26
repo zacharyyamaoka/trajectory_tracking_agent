@@ -5,24 +5,27 @@ never delete it.
 
 ## I'll try
 
-- [ ] Verify the BAM FB workspace corpus and record its highest-speed simulation baseline.
+- [x] Verify the BAM FB workspace corpus and record its highest-speed simulation baseline.
   - Goal: G2 · step 1 · bam_fb_workspace_sim_worst_stop_mm · bam_fb_workspace_sim_worst_full_rms_mm
   - Effort: 45 min
   - By: 2026-11-25T22:00-07:00
-- [ ] Verify the BAM FB conveyor corpus against the deployment and replay the highest rung.
+  - The frozen workspace verified byte for byte. The [development sweep](experiments/bam_fb_workspace/development-evidence.json) retains the measured baseline and the attempted controllers.
+- [x] Verify the BAM FB conveyor corpus against the deployment and replay the highest rung.
   - Goal: G2 · step 2 · bam_fb_conveyor_sim_worst_stop_mm · bam_fb_conveyor_sim_worst_full_rms_mm
   - Effort: 90 min
   - By: 2026-11-25T23:30-07:00
+  - The conveyor [baseline replay](experiments/bam_fb_conveyor/README.md) verified all 64 frozen cases and stored fresh dev traces. The legacy fixture geometry is recorded with this evidence.
 - [x] Verify the shoulder pendulum workspace corpus and replay the highest rung.
   - Goal: G2 · step 3 · pendulum_workspace_sim_worst_stop_mm · pendulum_workspace_sim_worst_full_rms_mm
   - Effort: 60 min
   - By: 2026-11-25T22:30-07:00
   - All 52 paths passed on the locked simulation controller, including independent holdout. [Verified result](experiments/pendulum_workspace/qualification.json).
-- [ ] Test identified friction and load feedforward on matched development tapes, then lock each candidate for holdout.
+- [x] Test identified friction and load feedforward on matched development tapes, then lock each candidate for holdout.
   - Goal: G2 · step 4
   - Effort: 120 min
   - By: 2026-11-26T02:30-07:00
   - Expect: bam_fb_workspace_sim_worst_full_rms_mm −20 %
+  - The two locked controllers met both targets on all 170 paths. [Combined evidence](goals/G2-simulation-evidence.json).
 - [x] Audit physical traces for system identification, matched targets, output-side sensing and acquisition coverage.
   - Goal: G3 · step 1
   - Effort: 60 min
