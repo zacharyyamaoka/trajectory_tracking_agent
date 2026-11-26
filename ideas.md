@@ -31,28 +31,28 @@ never delete it.
 - [x] ~~Make the identification gain-portable by adding M(q)·ë to the PD error torque fit and running the same model at x1 and x4.~~ [Stiff gains](solutions/p5s-inertia/scorecard.json) scored 0.03179 mm vs 0.03133 mm for the matched PD-only fit. [Configured gains](solutions/p5s-inertia-g1/scorecard.json) scored 0.15701 mm vs 0.15645 mm for PD-only, missing the 10% improvement target. All 84 dev task runs passed every gate. Keep separate fits for each gain setting.
 - [x] ~~Middle rung: the same pass at kp ×2~~ → `p5s-kp2-pass2` 0.045 mm. Frontier fitted at each gain: x1 0.070 · x2 0.045 · x4 0.031 mm.
 - [x] Fit direction-dependent friction at the leading controller’s fixed gains.
-  - Expect: dev `tool_track_rms_mm` below 0.03100 mm and every task passes all five gates.
+  - Prediction before replay: dev `tool_track_rms_mm` below 0.03100 mm and every task passes all five gates.
   - [p5s-friction-asym scorecard](solutions/p5s-friction-asym/scorecard.json). 0.031402 mm with 42/42 tasks passing all gates. The median was higher than the parent's 0.031334 mm.
 - [x] Average the leading controller’s planned feedforward over each joint’s command hold.
-  - Expect: dev `tool_track_rms_mm` below 0.03100 mm and every task passes all five gates.
+  - Prediction before replay: dev `tool_track_rms_mm` below 0.03100 mm and every task passes all five gates.
   - [p5s-hold-average scorecard](solutions/p5s-hold-average/scorecard.json). 0.031944 mm with 42/42 tasks passing all gates. Midpoint sampling gave the lower median.
 - [x] Fit a diagonal acceleration-proportional feedforward residual at the leading controller’s fixed gains.
-  - Expect: dev `tool_track_rms_mm` below 0.03100 mm and every task passes all five gates.
+  - Prediction before replay: dev `tool_track_rms_mm` below 0.03100 mm and every task passes all five gates.
   - [p5s-accel-residual scorecard](solutions/p5s-accel-residual/scorecard.json). 0.031337 mm with 42/42 tasks passing all gates. The median was slightly higher than the parent's 0.031334 mm.
 - [x] Use the exact position intercept for the leading controller’s fixed secant slope over each command hold.
-  - Expect: dev `tool_track_rms_mm` below 0.03100 mm and every task passes all five gates.
+  - Prediction before replay: dev `tool_track_rms_mm` below 0.03100 mm and every task passes all five gates.
   - [p5s-chord-integral scorecard](solutions/p5s-chord-integral/scorecard.json). 0.032265 mm with 42/42 tasks passing all gates. The parent's acceleration-based intercept gave the lower median.
 - [x] Use the board’s causal velocity-filter response to compensate target-velocity lag.
-  - Expect: dev `tool_track_rms_mm` below 0.03100 mm and every task passes all five gates.
+  - Prediction before replay: dev `tool_track_rms_mm` below 0.03100 mm and every task passes all five gates.
   - [p5s-filter-history scorecard](solutions/p5s-filter-history/scorecard.json). 0.031732 mm with 42/42 tasks passing all gates. The parent's constant-lag model gave the lower median.
 - [x] Compare damping multipliers 1.85 and 2.15 around the leading controller’s 2.0.
-  - Expect: dev `tool_track_rms_mm` below 0.03100 mm and every task passes all five gates.
+  - Prediction before replay: dev `tool_track_rms_mm` below 0.03100 mm and every task passes all five gates.
   - [1.85 scorecard](solutions/p5s-damping185/scorecard.json), [2.15 scorecard](solutions/p5s-damping215/scorecard.json). 0.031083 and 0.031627 mm respectively. Both passed every gate on all 42 tasks, and 1.85 improved on the parent.
 - [x] Refit one residual pass at damping multiplier 1.85.
-  - Expect: dev `tool_track_rms_mm` below 0.03100 mm and every task passes all five gates.
+  - Prediction before replay: dev `tool_track_rms_mm` below 0.03100 mm and every task passes all five gates.
   - [p5s-damping185-refit scorecard](solutions/p5s-damping185-refit/scorecard.json). 0.029714 mm with 42/42 tasks passing all gates. The [reporting-only holdout](solutions/p5s-damping185-refit/scorecard_holdout.json) scored 0.030846 mm with 12/12 tasks passing all gates.
 - [x] Give every dev task equal total weight in the leading model’s identification pass.
-  - Expect: dev `tool_track_rms_mm` below 0.03100 mm and every task passes all five gates.
+  - Prediction before replay: dev `tool_track_rms_mm` below 0.03100 mm and every task passes all five gates.
   - [p5s-task-balanced-fit scorecard](solutions/p5s-task-balanced-fit/scorecard.json). 0.031186 mm with 42/42 tasks passing all gates. The median improved on the 0.031334 mm baseline and missed the 0.03100 mm milestone.
 - [ ] Identify from a dedicated calibration run (a rich excitation trajectory, its own runs only) instead of the dev records, so the identified model never sees the tasks it is scored on. Needs a way to run a non-dataset trajectory through the boundary without `deployment.plant()` (see Suggestions for Zach).
   - [Calibration proof](experiments/calibration_only/README.md). A fit from two independent training tapes reduced error on both separate validation tapes and passed all five checks. Full-workspace transfer to the ranked dev split is the remaining step.
