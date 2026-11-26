@@ -1,0 +1,369 @@
+{
+  "schema": "tta.bam-fb-geared-dev/1",
+  "mujoco": "3.11.0",
+  "rung": 1.0,
+  "repeat": 0,
+  "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+  "base_bench_source": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+  "base_arm_model_key": "869c7d938677",
+  "roles": [
+    "j1",
+    "j2",
+    "c1",
+    "w1",
+    "w2",
+    "w3"
+  ],
+  "composition_revision": "43670c05ff445ca7781583ff832fd10b900ac941",
+  "gear_model_revision": "43670c05ff445ca7781583ff832fd10b900ac941",
+  "synthetic_input_revision": "7355462d9dd38e127c122c5cccbd546a67916ba1",
+  "input_manifests": {
+    "workspace": "145dc741e48691920478e2084839cee0cb523c5c698a31f49bf5a3cf95ef8c9b",
+    "conveyor": "9e378456c94bde64ac2837c0dd3882fd141146d61e3d8809067f7b47d9553cff"
+  },
+  "gap_source": "synthetic Sim2Real fullarm_plant.hidden_specs('B2'), applied through gear_backlash",
+  "gaps_deg": [
+    0.058333333333333334,
+    0.041666666666666664,
+    0.06666666666666667,
+    0.25,
+    0.3,
+    0.19999999999999998
+  ],
+  "mesh_stiffness_nm_per_rad": [
+    44690.70802020421,
+    44690.70802020421,
+    44690.70802020421,
+    171.88733853924697,
+    171.88733853924697,
+    171.88733853924697
+  ],
+  "geometry": {
+    "zero-gap": {
+      "waypoints": 33,
+      "site": "tcp",
+      "branch": -1.0,
+      "claw_position_delta_max_m": 0.0,
+      "claw_rotation_delta_max_component": 0.0,
+      "loop_closure_residual_max_m": 7.58240010912399e-11,
+      "joint_coordinates": 9
+    },
+    "b2": {
+      "waypoints": 33,
+      "site": "tcp",
+      "branch": -1.0,
+      "claw_position_delta_max_m": 0.0,
+      "claw_rotation_delta_max_component": 0.0,
+      "loop_closure_residual_max_m": 7.58240010912399e-11,
+      "joint_coordinates": 15
+    },
+    "b2-friction-1.25": {
+      "waypoints": 33,
+      "site": "tcp",
+      "branch": -1.0,
+      "claw_position_delta_max_m": 0.0,
+      "claw_rotation_delta_max_component": 0.0,
+      "loop_closure_residual_max_m": 7.58240010912399e-11,
+      "joint_coordinates": 15
+    }
+  },
+  "runs": [
+    {
+      "task": "workspace-dev-000",
+      "condition": "zero-gap",
+      "target_samples": 441,
+      "samples": 441,
+      "detector_trip_s": null,
+      "faults": [],
+      "collisions": 0,
+      "aborted": false,
+      "loop_stretch_max_mm": 7.84397797019337e-06,
+      "off_working_branch_samples": 0,
+      "physics_clock_max_delta_s": 4.360956040727615e-13,
+      "mujoco_warnings": {},
+      "maximum_shaft_split_deg": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "archive_parity_tcp_max_mm": 0.0,
+      "actual_claw": {
+        "full_rms_mm": 0.5750258583428719,
+        "max_stop_mm": 0.13857807249539328
+      },
+      "motor_encoder_fk": {
+        "full_rms_mm": 0.542368256530676,
+        "max_stop_mm": 0.13857963121957523
+      },
+      "passes_stress": true,
+      "trace_sha256": "54fd19c3bafc225e0829f1b19385bf0c9660761fcea8983c26a1425b458149ac"
+    },
+    {
+      "task": "workspace-dev-038",
+      "condition": "zero-gap",
+      "target_samples": 189,
+      "samples": 189,
+      "detector_trip_s": null,
+      "faults": [],
+      "collisions": 0,
+      "aborted": false,
+      "loop_stretch_max_mm": 2.802309955525538e-06,
+      "off_working_branch_samples": 0,
+      "physics_clock_max_delta_s": 1.745270594710746e-13,
+      "mujoco_warnings": {},
+      "maximum_shaft_split_deg": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "archive_parity_tcp_max_mm": 0.0,
+      "actual_claw": {
+        "full_rms_mm": 0.9624655604049531,
+        "max_stop_mm": 0.28611312769009584
+      },
+      "motor_encoder_fk": {
+        "full_rms_mm": 0.9350047283566051,
+        "max_stop_mm": 0.2862190441542095
+      },
+      "passes_stress": true,
+      "trace_sha256": "f07afad230a2f09b1741003e7e04ace6f41463469b76d88d8bcc280f3fabe8fb"
+    },
+    {
+      "task": "conveyor-dev-018",
+      "condition": "zero-gap",
+      "target_samples": 779,
+      "samples": 779,
+      "detector_trip_s": null,
+      "faults": [],
+      "collisions": 0,
+      "aborted": false,
+      "loop_stretch_max_mm": 2.4080231148163134e-05,
+      "off_working_branch_samples": 0,
+      "physics_clock_max_delta_s": 7.569056492684467e-12,
+      "mujoco_warnings": {},
+      "maximum_shaft_split_deg": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "archive_parity_tcp_max_mm": 0.0,
+      "actual_claw": {
+        "full_rms_mm": 0.5827726005957997,
+        "max_stop_mm": 0.41762569961085566
+      },
+      "motor_encoder_fk": {
+        "full_rms_mm": 0.47268413411614635,
+        "max_stop_mm": 0.4176090483031728
+      },
+      "passes_stress": true,
+      "trace_sha256": "184434e00c651ed71b9e838377828e252cee28e0070be53f1f55a4c212c8f427"
+    },
+    {
+      "task": "workspace-dev-000",
+      "condition": "b2",
+      "target_samples": 441,
+      "samples": 441,
+      "detector_trip_s": 0.02,
+      "faults": [],
+      "collisions": 0,
+      "aborted": false,
+      "loop_stretch_max_mm": 5.666366938632254e-06,
+      "off_working_branch_samples": 0,
+      "physics_clock_max_delta_s": 4.360956040727615e-13,
+      "mujoco_warnings": {},
+      "maximum_shaft_split_deg": [
+        0.037600637381219486,
+        0.032431124624009905,
+        0.04070445061388324,
+        0.32656276174960325,
+        0.024154279984838576,
+        0.0007698905748029505
+      ],
+      "archive_parity_tcp_max_mm": null,
+      "actual_claw": {
+        "full_rms_mm": 70.03623625752094,
+        "max_stop_mm": 1.369037653869657
+      },
+      "motor_encoder_fk": {
+        "full_rms_mm": 69.21153693129662,
+        "max_stop_mm": 0.08835035658488728
+      },
+      "passes_stress": false,
+      "trace_sha256": "a5751934d89fc8269f546ffabb2db8f2b7847970c823b88088eae53590ef0937"
+    },
+    {
+      "task": "workspace-dev-038",
+      "condition": "b2",
+      "target_samples": 189,
+      "samples": 189,
+      "detector_trip_s": 0.01,
+      "faults": [],
+      "collisions": 0,
+      "aborted": false,
+      "loop_stretch_max_mm": 3.964895374443899e-06,
+      "off_working_branch_samples": 0,
+      "physics_clock_max_delta_s": 1.745270594710746e-13,
+      "mujoco_warnings": {},
+      "maximum_shaft_split_deg": [
+        0.04004836749161322,
+        0.025028421863026704,
+        0.03832992530933952,
+        0.17740604954075123,
+        0.17351406242995399,
+        0.017745606275463968
+      ],
+      "archive_parity_tcp_max_mm": null,
+      "actual_claw": {
+        "full_rms_mm": 113.68508866233906,
+        "max_stop_mm": 163.2895173491426
+      },
+      "motor_encoder_fk": {
+        "full_rms_mm": 113.98628499995503,
+        "max_stop_mm": 163.8999171615067
+      },
+      "passes_stress": false,
+      "trace_sha256": "1e1b188960fa6ef85873b6dd3b804602759a9281655ecac8f37b1cd0db88f28c"
+    },
+    {
+      "task": "conveyor-dev-018",
+      "condition": "b2",
+      "target_samples": 779,
+      "samples": 779,
+      "detector_trip_s": 0.01,
+      "faults": [],
+      "collisions": 0,
+      "aborted": false,
+      "loop_stretch_max_mm": 5.133925187124369e-06,
+      "off_working_branch_samples": 0,
+      "physics_clock_max_delta_s": 7.569056492684467e-12,
+      "mujoco_warnings": {},
+      "maximum_shaft_split_deg": [
+        0.03907352893865179,
+        0.03181229398102936,
+        0.03996708893808653,
+        0.3223763862347242,
+        0.011835111755763818,
+        0.008431976475313978
+      ],
+      "archive_parity_tcp_max_mm": null,
+      "actual_claw": {
+        "full_rms_mm": 274.8497282943004,
+        "max_stop_mm": 481.7260170625974
+      },
+      "motor_encoder_fk": {
+        "full_rms_mm": 275.4987272131213,
+        "max_stop_mm": 482.86213611231204
+      },
+      "passes_stress": false,
+      "trace_sha256": "3175eacd4aa0e53dd52b97a6a38c1b83de325f0772935dff53d00a6ee467de6b"
+    },
+    {
+      "task": "workspace-dev-000",
+      "condition": "b2-friction-1.25",
+      "target_samples": 441,
+      "samples": 441,
+      "detector_trip_s": 0.01,
+      "faults": [],
+      "collisions": 0,
+      "aborted": false,
+      "loop_stretch_max_mm": 5.304261303563342e-06,
+      "off_working_branch_samples": 0,
+      "physics_clock_max_delta_s": 4.360956040727615e-13,
+      "mujoco_warnings": {},
+      "maximum_shaft_split_deg": [
+        0.040056666627946456,
+        0.032181430237597244,
+        0.04069984506793439,
+        0.3243815450387463,
+        0.005456213280614211,
+        0.0008115252141086674
+      ],
+      "archive_parity_tcp_max_mm": null,
+      "actual_claw": {
+        "full_rms_mm": 69.87525229999632,
+        "max_stop_mm": 1.0378603236146038
+      },
+      "motor_encoder_fk": {
+        "full_rms_mm": 69.03845009178826,
+        "max_stop_mm": 0.43435945626922395
+      },
+      "passes_stress": false,
+      "trace_sha256": "fff8e0f657b76cbed74b735a4230ad5a575a5209ca8740da099bb0c94235df10"
+    },
+    {
+      "task": "workspace-dev-038",
+      "condition": "b2-friction-1.25",
+      "target_samples": 189,
+      "samples": 189,
+      "detector_trip_s": 0.01,
+      "faults": [],
+      "collisions": 0,
+      "aborted": false,
+      "loop_stretch_max_mm": 4.069407619385368e-06,
+      "off_working_branch_samples": 0,
+      "physics_clock_max_delta_s": 1.745270594710746e-13,
+      "mujoco_warnings": {},
+      "maximum_shaft_split_deg": [
+        0.0396751915259379,
+        0.0246116194749398,
+        0.03804095420776941,
+        0.16828662320272467,
+        0.17351710050226132,
+        0.017747617156912775
+      ],
+      "archive_parity_tcp_max_mm": null,
+      "actual_claw": {
+        "full_rms_mm": 113.7414303253385,
+        "max_stop_mm": 163.38964926861968
+      },
+      "motor_encoder_fk": {
+        "full_rms_mm": 114.04248176875714,
+        "max_stop_mm": 163.99951873348414
+      },
+      "passes_stress": false,
+      "trace_sha256": "3174ce088f664fe1c7174b4675f1a642e4753cacfeb841fcf7690b840bd6af92"
+    },
+    {
+      "task": "conveyor-dev-018",
+      "condition": "b2-friction-1.25",
+      "target_samples": 779,
+      "samples": 779,
+      "detector_trip_s": 0.01,
+      "faults": [],
+      "collisions": 0,
+      "aborted": false,
+      "loop_stretch_max_mm": 5.282826541455159e-06,
+      "off_working_branch_samples": 0,
+      "physics_clock_max_delta_s": 7.569056492684467e-12,
+      "mujoco_warnings": {},
+      "maximum_shaft_split_deg": [
+        0.0381435341852768,
+        0.031562619331198916,
+        0.039962682317582994,
+        0.3216695926948465,
+        0.012083007384921483,
+        0.00842280450496156
+      ],
+      "archive_parity_tcp_max_mm": null,
+      "actual_claw": {
+        "full_rms_mm": 274.905151286363,
+        "max_stop_mm": 481.81123988981324
+      },
+      "motor_encoder_fk": {
+        "full_rms_mm": 275.55495306498204,
+        "max_stop_mm": 482.9475572755849
+      },
+      "passes_stress": false,
+      "trace_sha256": "802defad271ebe9da85a653e98fd6a47f648d2dd0bd5157eb6f132301fb492f8"
+    }
+  ]
+}
