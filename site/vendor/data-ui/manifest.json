@@ -28,6 +28,16 @@
    "status": "built"
   },
   {
+   "type": "ranks",
+   "folder": "chart",
+   "status": "built"
+  },
+  {
+   "type": "bars",
+   "folder": "chart",
+   "status": "built"
+  },
+  {
    "type": "compare",
    "folder": "compare",
    "status": "built"
@@ -225,12 +235,12 @@
    "sha256": "f69e52a860363c368db675d871dc23739b56f35568c3913a13d54d2626f01230"
   },
   "data-ui.js": {
-   "bytes": 727776,
-   "sha256": "2934c43597e44e67bc35ce708ae2b62ffe76327e0291c39e9fea54c11eec71e9"
+   "bytes": 748004,
+   "sha256": "aa76281d549a98dc0a647a998e354d507f67d2eb9f2eabacfb4af9987ef969a3"
   },
   "data-ui.js.map": {
-   "bytes": 2760520,
-   "sha256": "2aa4d14b3e3ae3f895b140b9b3131d3629102ea4f06e6a3861d75b39c45a3d6c"
+   "bytes": 2843247,
+   "sha256": "085df9b9b2a1f4308c3db11effacdc864688e96cce0920ed574ba3d8682ca9f3"
   },
   "like-obsidian/LICENSE": {
    "bytes": 1072,
@@ -741,12 +751,12 @@
    "sha256": "45fc7a44300fece8dcee7f11438bd31ddbe85924cffc8a9faf51f09311ae7d67"
   },
   "rowmodel-worker.js": {
-   "bytes": 117693,
-   "sha256": "d285dc58311e3caf0691cf49d8f3485a43571eb25c58945d3c74ca2befdf1c3c"
+   "bytes": 118396,
+   "sha256": "4c3913445bf2d4ae9da9072ed045d2e97a4c37effc9009ea6b8c45a754a67e3a"
   },
   "rowmodel-worker.js.map": {
-   "bytes": 654213,
-   "sha256": "2814046570946e7005a51870700dfdf95bf0f21742632feb125fa920a69c859c"
+   "bytes": 705012,
+   "sha256": "49d9f3053405a35c6655ea258c1bea5d8ae8f4992cc1de3dd8a296550b82ccae"
   },
   "sources.js": {
    "bytes": 24374,
@@ -780,29 +790,29 @@
    "bytes": 74209,
    "sha256": "cba05ea836a94f424b0efc7eb2af8efbe8803a48c390471251600b48e1f36cf8"
   },
-  "views/chart-chunk-KE4OBKQS.js": {
-   "bytes": 863373,
-   "sha256": "8db371fa71201b9479bb28c44d8f86bc92228f3bab50adbd811d1b1b3b463dca"
+  "views/chart-chunk-4KBJSCMR.js": {
+   "bytes": 863386,
+   "sha256": "be8fd83ba5aa1027844c3798438667b22db65be57c439b9ead935f7c88f7dd5b"
   },
-  "views/chart-chunk-KE4OBKQS.js.map": {
+  "views/chart-chunk-4KBJSCMR.js.map": {
    "bytes": 4464241,
    "sha256": "1b85f17f396d6628309ac23aba93ace25ee86b4343e5ecc2887af408a34148b9"
   },
-  "views/chart-plot-Y6EP62H6.js": {
-   "bytes": 70144,
-   "sha256": "38d5e76fce11766f4839c565a238ce3be073e1fa6498586a21c3b8e14ce5a40b"
+  "views/chart-plot-NSCRHRYP.js": {
+   "bytes": 70157,
+   "sha256": "83a6534617cd4718a42c1f4e55e29e5a71f2beb96a95421896a858ef070f095b"
   },
-  "views/chart-plot-Y6EP62H6.js.map": {
+  "views/chart-plot-NSCRHRYP.js.map": {
    "bytes": 344357,
    "sha256": "c6c0d614e90a0228e99b892502a1083385096acd876f15a0e5f31a1b246ce983"
   },
   "views/chart.js": {
-   "bytes": 63649,
-   "sha256": "93b329b099dcccf87747360bcd2999a2f1009f908eb34fc48670e6abf6f4dff2"
+   "bytes": 109563,
+   "sha256": "134d344a3f78a59e1cfcd33f94c4f89262fe161a674b23f7cbbe2bf621148e98"
   },
   "views/chart.js.map": {
-   "bytes": 185366,
-   "sha256": "0b8076d123f275b9e5a1002fe7d9587ae2006c702ef38046de24943bf92789ba"
+   "bytes": 317215,
+   "sha256": "37c7e076b5eb81550fa5c171cb88f67fc0f3e5068ce5bb6a29342dc050315978"
   },
   "views/compare.js": {
    "bytes": 23043,
@@ -813,12 +823,12 @@
    "sha256": "7f6cf24a110e559079125f2a4ca2afc5b18c2a23dd09c05b015ab81a1c2ec32a"
   },
   "views/coverage.js": {
-   "bytes": 53615,
-   "sha256": "1e71e36c4b4e9c5bef7a8567ebd2e5303a883162317f1e1e74b857d8421ac5c2"
+   "bytes": 56635,
+   "sha256": "b4fbd2604fa05dbde66aada2d0688374adb8ece4fc50cdd2962c776d8fb6ec95"
   },
   "views/coverage.js.map": {
-   "bytes": 181089,
-   "sha256": "6f5a201b8bb44ccd3b9aa597308ad469eadd2e4fda61667f633306852c0451a7"
+   "bytes": 192824,
+   "sha256": "c81e7248d161237df981cc4584c96e4711a231b3a36de1ba92afe3bad4824e0a"
   },
   "views/graph-abnfDiagram-WEYOIA3C-AQUUGHU5.js": {
    "bytes": 2607,
@@ -1905,12 +1915,12 @@
    "sha256": "30fcdde467e5b04c487e5eab07be2ac27d2685162d39bb98827d4631ccd1477d"
   },
   "views/timeline.js": {
-   "bytes": 596853,
-   "sha256": "a51a1bd75a749143ec638f6a0720a333d8ab6fbe4d55582f4011b184895a50e5"
+   "bytes": 597790,
+   "sha256": "9fc5a2fb164d5908dc94997a19c3336ea66220e3c432c3dd5dcfa17e544b295e"
   },
   "views/timeline.js.map": {
-   "bytes": 2275928,
-   "sha256": "7ac5d2a8c6724e716f91b4db14895af74ec0b14aa9761601ee5f8f3a75c80f1c"
+   "bytes": 2281028,
+   "sha256": "1cb5493ddd8ea6d0b1fb7823545473fd68ba85d3671613fb4420762c988468bc"
   }
  }
 }

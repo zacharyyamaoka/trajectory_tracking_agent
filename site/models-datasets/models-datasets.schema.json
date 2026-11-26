@@ -3,7 +3,7 @@
  "title": "Trajectory Tracking Agent: task results (solution × split × task)",
  "titleProperty": "solution",
  "linkProperty": "url",
- "source": "tools/build_dropins.py from solutions/<id>/scorecard.json and scorecard_holdout.json (each task row's objective, kpis, diagnostics, verdicts) and meta.json (tags, parent, change); links from site/data/runs/index.json; the shape is data-ui 74be0c9a gallery/examples/models-datasets-tta/",
+ "source": "tools/build_dropins.py from solutions/<id>/scorecard.json and scorecard_holdout.json (each task row's objective, kpis, diagnostics, verdicts) and meta.json (tags, parent, change); links from site/data/runs/index.json; the shape is data-ui dbc89e48 gallery/examples/models-datasets-tta/",
  "schema": {
   "fields": [
    {

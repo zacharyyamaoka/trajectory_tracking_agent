@@ -261,9 +261,9 @@ def test_models_datasets_families_follow_the_stated_rule():
     assert "first two phrases" in page and "median" in page and "data-rollup-rule" in page
 
 
-def test_models_datasets_views_are_the_leaderboard_three():
-    """Zach's ruling (2026-11-24 ~21:30, data-ui CONTRACT §57): three views over one .base, Leaderboard first (the
-    default, and the page opens it), then Pivot, then Rows; the Leaderboard leaves the ablations out and ranks on the dev
+def test_models_datasets_views_are_the_leaderboard_three_and_the_charts():
+    """Zach's ruling (2026-11-24 ~21:30, data-ui CONTRACT §57 and §58): one .base, Leaderboard first (the default, and
+    the page opens it), then Pivot, then Rows, then the charts (Ranks and the Bars presets, §58); the Leaderboard leaves the ablations out and ranks on the dev
     deployment, the Pivot ranks nothing. When the data-ui checkout is beside this repo, the views are its gallery case's
     (gallery/examples/models-datasets-tta/views.base) at the vendored commit, byte for byte.
 
@@ -271,7 +271,9 @@ def test_models_datasets_views_are_the_leaderboard_three():
     at the model x dataset here on the public landing page but I don't see it being updated! what happaned?" A view
     change is done when this page ships it (feedback/2026-11-25-model-dataset-page-not-updated.md)."""
     base = (MXD / "models-datasets.base").read_text()
-    assert _views(base) == [("pivot", "Leaderboard"), ("pivot", "Pivot"), ("table", "Rows")]
+    assert _views(base) == [("pivot", "Leaderboard"), ("pivot", "Pivot"), ("table", "Rows"), ("ranks", "Ranks"),
+                            ("bars", "Bars"), ("bars", "Intervals · one task kind"), ("bars", "Violin · tasks"),
+                            ("bars", "Normalised · × p1")]
     assert re.search(r'<data-views id="models-datasets" src="models-datasets\.base" view="Leaderboard"',
                      (MXD / "index.html").read_text())
     assert re.search(r"^data: models-datasets\.csv$", base, re.M)
@@ -280,6 +282,16 @@ def test_models_datasets_views_are_the_leaderboard_three():
     assert 'sort: { column: "@ur5e_alone · dev" }' in leaderboard and "color: rank" in leaderboard
     assert "media: { image: preview }" in leaderboard
     assert "filters:" not in pivot and "sort:" not in pivot and "color: none" in pivot and "reference: ablation" in pivot
+    # the charts (Zach, 2026-11-24 ~21:30: "lets add that one" (Ranks), "the trick is to support like presets"): Ranks
+    # and at least one Bars preset, each over the same pivot block, ranking on the sort column; one normalises against
+    # a row the records make
+    views = {name: block for (_, name), block in zip(_views(base), base.split("\n  - type: ")[1:])}
+    assert "ranks: { column: \"@ur5e_alone · dev\", blocks: task" in views["Ranks"]
+    assert "reference: ablation" in views["Ranks"] and "speed: group" in views["Ranks"]
+    presets = [name for kind, name in _views(base) if kind == "bars"]
+    assert presets and all("bars: { x: " in views[name] and "speed: group" in views[name] for name in presets)
+    against = re.search(r'normalize: \{ against: "([^"]+) › ([^"]+)"', views["Normalised · × p1"])
+    assert against and any(r["family"] == against[1] and r["model"] == against[2] for r in _mxd_rows())
     for row in _mxd_rows():
         if row["preview"]:
             assert (MXD / row["preview"]).is_file(), row["preview"]
@@ -294,14 +306,16 @@ def test_models_datasets_views_are_the_leaderboard_three():
                           capture_output=True, text=True, check=True).stdout
     # the port's one change to the case's views (2026-11-25, Zach: "no filters on the columns! I should be able to select
     # which different datasets etc I want to be comparing it on"): a speed level above the dataset (a `group`: each
-    # speed's dataset is its own median, never pooled across speeds) and the goal's full-trajectory RMS as a metric
+    # speed's dataset is its own median, never pooled across speeds) and the goal's full-trajectory RMS as a metric; a
+    # chart's column id names the speed level too (the one full speed under the dev deployment)
     ported = (case[case.index("\nviews:\n"):]
               .replace("splitBy: [deployment, dataset, kind, task]", "splitBy: [deployment, speed, dataset, kind, task]")
               .replace("roles: { deployment: deployment, dataset: dataset }",
                        "roles: { deployment: deployment, speed: group, dataset: dataset }")
               .replace("metrics: [rms_mm, max_mm, stop_mm, gates]", "metrics: [rms_mm, full_mm, max_mm, stop_mm, gates]")
               .replace("order: [model, config, solution, deployment, kind, task, rms_mm, max_mm,",
-                       "order: [model, config, solution, ruler, deployment, speed, dataset, kind, task, rms_mm, full_mm, max_mm,"))
+                       "order: [model, config, solution, ruler, deployment, speed, dataset, kind, task, rms_mm, full_mm, max_mm,")
+              .replace('column: "@ur5e_alone · dev / workspace/v2', 'column: "@ur5e_alone · dev / ×1.0 / workspace/v2'))
     assert base[base.index("\nviews:\n"):] == ported
 
 

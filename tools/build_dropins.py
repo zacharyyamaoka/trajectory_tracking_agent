@@ -35,15 +35,17 @@ What it writes, and from where (every input is committed; nothing is simulated o
   vendored by tools/build_coverage.py at its DATA_UI_REF; the pivot is in its table view): `models-datasets.base` over
   `models-datasets.csv` (+ its `.schema.json` sidecar), one row per solution × split × task from today's
   `scorecard.json` (dev) and `scorecard_holdout.json`, every number a scorecard's float, and `media/<task>.svg`, each
-  task's target tool path from its tape. The rows, the sidecar's fields and the three views are data-ui's gallery case
-  `gallery/examples/models-datasets-tta/` (views.base, tta.schema.json, source/build.py at 74be0c9a), ported here so
+  task's target tool path from its tape. The rows, the sidecar's fields and the views are data-ui's gallery case
+  `gallery/examples/models-datasets-tta/` (views.base, tta.schema.json, source/build.py at dbc89e48), ported here so
   the page is built from this repo's files: rows nest family › model › config (`FAMILY_RULE`), columns deployment ·
   split › speed › dataset › task kind › task. Beside the scorecards' rows (`ruler v1`), every other measured per-task
   result in the repo is a row marked `off-ruler` (`OFF_RULER_SOURCES`: the speed study, goal G1's sweep, the conveyor
   baseline, W3's loaded check), each source its own deployment column ending "off-ruler", never pooled with dev or
   holdout and never the sort column; the rail's Ruler, Dataset, Split, Speed fraction and Task kind facets pick columns
   (Zach, 2026-11-25: "no filters on the columns!"); **Leaderboard** (the default: ranked on the dev deployment, ablations left out),
-  **Pivot** (everything open, ablations drawn, nothing ranked), **Rows**. A dataset cell is the median of its tasks
+  **Pivot** (everything open, ablations drawn, nothing ranked), **Rows**, then CONTRACT §58's charts over the same
+  row model: **Ranks** (Demšar's mean ranks over the dev tasks, Friedman + Nemenyi) and four **Bars** presets (Bars,
+  Intervals · one task kind, Violin · tasks, Normalised · × p1). A dataset cell is the median of its tasks
   (the objective), a folded row the median of its rows, a deployment the equal-weight mean of its datasets, dev and
   holdout never pooled. A cell over one task result opens its run: the Comparison report on that run
   (`#tab=track&run=<solution>`) when the run is there, else the landing page's saved-run player on it
@@ -632,7 +634,7 @@ SPLITS = (("dev", "scorecard.json"), ("holdout", "scorecard_holdout.json"))
 MXD_KIND = {"a_to_b_joint": ("Joint A→B", 0), "a_to_b_line": ("Line A→B", 1), "via_points": ("Via points", 2),
             "iso9283_path": ("ISO 9283 path", 3), "iso9283_cube": ("ISO 9283 cube", 4)}
 # The data-ui commit whose gallery case gallery/examples/models-datasets-tta/ the rows, the schema and the views port
-MXD_CASE = "data-ui 74be0c9a gallery/examples/models-datasets-tta/"
+MXD_CASE = "data-ui dbc89e48 gallery/examples/models-datasets-tta/"
 
 
 def _scored_solutions() -> list[str]:
@@ -1014,13 +1016,15 @@ def _mxd_schema() -> dict[str, Any]:
             "schema": {"fields": fields}}
 
 
-# The views are the gallery case's views.base at MXD_CASE (CONTRACT §57; Zach's ruling of 2026-11-24 ~21:30), key for
-# key: Leaderboard (the default), Pivot, Rows. tests/test_dropins.py holds the names and the order; data-ui's checker
-# (`node <data-ui>/bin/data-ui.mjs check models-datasets.base`) holds the keys.
+# The views are the gallery case's views.base at MXD_CASE (CONTRACT §57 and §58; Zach's ruling of 2026-11-24 ~21:30),
+# key for key: Leaderboard (the default), Pivot, Rows, then the charts: Ranks and the four Bars presets. The port's one
+# change is the speed level (and full_mm) on every view; a chart's column id names it too (`@… / ×1.0 / workspace/v2`).
+# tests/test_dropins.py holds the names, the order and the bytes; data-ui's checker
+# (`node <data-ui>/bin/data-ui.mjs check models-datasets.base`) holds the keys and every column id against the rows.
 MXD_BASE = """# Model × Dataset · the solution leaderboard as ONE pivot over every task result (solution × split × task). CONTRACT
 # §57's `pivot:` keys; the views are __CASE__views.base, Zach's ruling of 2026-11-24
-# ~21:30: Leaderboard (the DEFAULT), Pivot (the bare stock pivot, nested rows, with the column roll-up) and the
-# plain Rows. A dataset cell is the median of its tasks (the ruler's objective), a folded row the median of the rows under
+# ~21:30: Leaderboard (the DEFAULT), Pivot (the bare stock pivot, nested rows, with the column roll-up), the
+# plain Rows, and §58's charts over the same row model: Ranks and the Bars presets. A dataset cell is the median of its tasks (the ruler's objective), a folded row the median of the rows under
 # it, a deployment the equal-weight mean of its datasets; dev and holdout are never pooled. Ablation-tagged solutions are
 # never ranked: the Leaderboard leaves them out; the Pivot, which ranks nothing (`color: none`, no sort), draws them.
 # GENERATED by tools/build_dropins.py from the scorecards and meta.json: change the build, never this file.
@@ -1100,6 +1104,70 @@ views:
     order: [model, config, solution, ruler, deployment, speed, dataset, kind, task, rms_mm, full_mm, max_mm, stop_mm, gates, gates_failed, admissible, ablation, change]
     groupBy: { property: family }
     fold: open
+  # ---- THE CHARTS (lane CHARTS, 2026-11-25; Zach's ruling 2026-11-24 ~21:30): Ranks and the configurable Bars over the
+  # same §57 row model (each view's `pivot:` block), and Bars presets that set every option at once. Ablations are never
+  # ranked: the Ranks view keeps them in its rows and lists them as never ranked. Part of the charts' acceptance ruler
+  # (tests/unit/mxd-charts.test.mjs, tests/browser/mxd_charts_checks.py, tests/fixtures/mxd-charts/): builders do not
+  # edit these views.
+  - type: ranks
+    name: Ranks
+    splitBy: [deployment, speed, dataset, kind, task]
+    value: { property: rms_mm }
+    pivot:
+      rows: [family, model, config]
+      roles: { deployment: deployment, speed: group, dataset: dataset }
+      rollup: median
+      metrics: [rms_mm, full_mm, max_mm, stop_mm, gates]
+      reference: ablation
+    ranks: { column: "@__SORT__", blocks: task, level: config, alpha: 0.05 }
+  - type: bars
+    name: Bars
+    filters: 'ablation == false && deployment == "__SORT__"'
+    splitBy: [deployment, speed, dataset, kind, task]
+    value: { property: rms_mm }
+    pivot:
+      rows: [family, model, config]
+      roles: { deployment: deployment, speed: group, dataset: dataset }
+      rollup: median
+      metrics: [rms_mm, full_mm, max_mm, stop_mm, gates]
+      reference: ablation
+    bars: { x: kind, color: model, orient: vertical, order: rung, scale: linear, mark: bar, interval: true, normalize: none }
+  - type: bars
+    name: Intervals · one task kind
+    filters: 'ablation == false'
+    splitBy: [deployment, speed, dataset, kind, task]
+    value: { property: rms_mm }
+    pivot:
+      rows: [family, model, config]
+      roles: { deployment: deployment, speed: group, dataset: dataset }
+      rollup: median
+      metrics: [rms_mm, full_mm, max_mm, stop_mm, gates]
+      reference: ablation
+    bars: { x: config, color: family, column: "@__SORT__ / ×1.0 / workspace/v2 / Joint A→B", orient: horizontal, order: value, scale: linear, mark: dot, interval: true, normalize: none }
+  - type: bars
+    name: Violin · tasks
+    filters: 'ablation == false'
+    splitBy: [deployment, speed, dataset, kind, task]
+    value: { property: rms_mm }
+    pivot:
+      rows: [family, model, config]
+      roles: { deployment: deployment, speed: group, dataset: dataset }
+      rollup: median
+      metrics: [rms_mm, full_mm, max_mm, stop_mm, gates]
+      reference: ablation
+    bars: { x: model, color: family, column: "@__SORT__ / ×1.0 / workspace/v2", orient: vertical, order: value, scale: linear, mark: violin, interval: false, normalize: none }
+  - type: bars
+    name: Normalised · × p1
+    filters: 'ablation == false && deployment == "__SORT__"'
+    splitBy: [deployment, speed, dataset, kind, task]
+    value: { property: rms_mm }
+    pivot:
+      rows: [family, model, config]
+      roles: { deployment: deployment, speed: group, dataset: dataset }
+      rollup: median
+      metrics: [rms_mm, full_mm, max_mm, stop_mm, gates]
+      reference: ablation
+    bars: { x: kind, color: model, orient: vertical, order: name, scale: log, mark: bar, interval: false, normalize: { against: "P1 · no feed-forward, board PD › p1", as: ratio } }
 """
 
 
@@ -1229,14 +1297,18 @@ def models_datasets() -> dict[str, Any]:
               f"dataset at one speed, so the <b>{html.escape(sort)}</b> column is each "
               "solution's objective, and the Leaderboard ranks on it. The Roll up buttons over the grid switch the "
               "method (Median, Mean, Best, Rank, Count) and the grid says the rule it is using in words.")
-    views = (f"Three views of the same rows (data-ui's leaderboard pivot, CONTRACT §57): <b>Leaderboard</b> (the "
+    views = (f"Three tables of the same rows (data-ui's leaderboard pivot, CONTRACT §57): <b>Leaderboard</b> (the "
              f"default) ranks the solutions on the dev deployment, tints each cell by its rank in its column, and puts a "
              f"picture of each task's target tool path over its column; the {len(ablations)} ablations are left out. "
              "<b>Pivot</b> is the bare pivot with every row and column open, the ablations drawn but never ranked. "
              "<b>Rows</b> is every task result. In both pivots a column group folds into one roll-up column that says "
              "its method and count; the Metric control switches the number (tool tracking RMS or max, stop error, "
              "full-trajectory RMS, gates passed), and the left panel filters the columns (ruler, dataset, split, speed, "
-             "task kind) and the rows (family, model, admissible).")
+             "task kind) and the rows (family, model, admissible). Then the charts over the same numbers (CONTRACT "
+             "§58): <b>Ranks</b> ranks the solutions on every dev task (mean rank, Friedman's test and the Nemenyi "
+             "critical difference; ablations listed, never ranked), and the <b>Bars</b> presets draw the medians as "
+             "bars per task kind, a 95 % interval per config on one task kind, a violin per model over the tasks, and "
+             "every bar as a ratio of p1's on a log scale.")
     links = ("A cell over one task result opens its run: in the Trajectory Comparison for the solutions saved on every "
              "dev task, in the landing page's player for those saved on one task per kind, else the task's Comparison "
              "(this run is not saved, only its score); a holdout task has no saved run, so its cell opens the records "
