@@ -18,6 +18,12 @@ Report positions on the nominal 100 Hz plan grid, after verifying that the archi
 
 The largest paired encoder trace difference was 1.1649 mm RMS. All 40 frozen development targets appear in each of the three matched tours and once in the 1× simulation. The stock rack twin exposes a load-side channel only with its separated transmission model active. `r18a` has neither a resolved gear gap nor gear stiffness, so the replay exposes only its encoder-equivalent trace. The archived physical runs also contain only the encoder trace. [Score evidence](r18a-evidence.json)
 
+## Prediction for the locked controller transfer
+
+Replay the [locked identified controller](../pendulum_workspace/controller-lock.json) and its 1× alternative on the same 40 development tapes at 100 Hz. Map the original per-tick position, secant velocity and feedforward torque into stock rack commands. The adopted model supplies rack delay, drive and encoder dynamics. Keep the controller's original lookahead, fit and damping lag. Compare both gain settings with the historical `ff_model` at matching gains. Expect the locked gains to lower worst stop and RMS versus the nominal identified version, and expect at least one requested target to fail with nominal identified gains on the adopted model.
+
+For the separate synthetic stress, freeze those same commands before revealing a transmission gap to the plant. Use the Sim2Real oracle's synthetic CAN 11 total gap of 0.002 rad and its documented rotor inertia share of 0.022, the rack wrapper's default stiff contact, and the adopted LuGre law acting entirely on the load. Stock LuGre supports one side at a time. The synthetic truth belongs only to the plant and scorer. Expect encoder-to-load tool-point disagreement to exceed 0.1 mm on at least one of the 40 tapes. The gap and LuGre placement in this variant are stress-test assumptions.
+
 ## Reproduce the archived comparison
 
 The runner uses the [archived rack code](https://github.com/zacharyyamaoka/bam_ws/tree/05573c957f9c7fb073bedf9a376c30ea38715305/src/dev/bam_rack_twin) through the rack Python environment with MuJoCo 3.11.0. Provide the workspace paths through `BAM_WS`, `ARM_MOTION_BENCH`, `ROBOT_MSGS`, and `ROBOT_TRAJECTORIES`. Run from this repository.
