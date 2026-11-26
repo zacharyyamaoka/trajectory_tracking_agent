@@ -121,7 +121,7 @@ The runs include 42 upright dev paths, 12 upright holdout paths and one 30-pick 
     table = f'''<section><h2>All three test sets</h2><div class="scroll"><table><thead><tr><th scope="col">Test set</th>
 <th scope="col">Runs</th><th scope="col">Worst stop (mm)</th><th scope="col">Worst full RMS (mm)</th>
 <th scope="col">Passed all gates</th></tr></thead><tbody>{rows}</tbody></table></div>
-<p><a href="comparison.html#tab=summary">Compare error distributions by nominal speed</a></p></section>'''
+<p><a href="comparison.html">Open trajectory comparison</a> and select Summary to compare errors by nominal speed.</p></section>'''
     return narrative, table
 
 
@@ -161,7 +161,7 @@ iframe {{width:100%;height:680px;border:1px solid var(--edge);border-radius:8px}
 <header><h1>{heading}</h1>
 {narrative}
 {clearance}
-<p><a href="comparison.html">Open stock full-speed playback and sweep charts</a> · <a href="baseline.json">Machine-readable results</a></p></header>
+<p><a href="comparison.html#tab=track">Open full-speed playback</a> · <a href="baseline.json">Machine-readable results</a></p></header>
 <figure><video controls autoplay muted loop playsinline preload="metadata" poster="media/poster.webp" aria-label="Recorded walkthrough of the stock playback">
 <source src="media/walkthrough.mp4" type="video/mp4"><img src="media/walkthrough.gif" alt="The simulated arm replays the conveyor route"></video>
 <figcaption>Browser recording of the stock trajectory comparison. <a href="media/walkthrough.gif">GIF fallback</a></figcaption></figure>

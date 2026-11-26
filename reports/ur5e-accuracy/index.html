@@ -18,14 +18,14 @@ The runs include 42 upright dev paths, 12 upright holdout paths and one 30-pick 
 <p><a href="../../dashboard/#goals">Blackbox Goals</a> · <a href="accuracy.json">Measurements and source checksums</a> ·
 <a href="../conveyor-baseline/">Unchanged-controller baseline</a> · <a href="../../comparison/#/sweeps">Upright speed sweeps</a></p>
 
-<p><a href="comparison.html">Open stock full-speed playback and sweep charts</a> · <a href="baseline.json">Machine-readable results</a></p></header>
+<p><a href="comparison.html#tab=track">Open full-speed playback</a> · <a href="baseline.json">Machine-readable results</a></p></header>
 <figure><video controls autoplay muted loop playsinline preload="metadata" poster="media/poster.webp" aria-label="Recorded walkthrough of the stock playback">
 <source src="media/walkthrough.mp4" type="video/mp4"><img src="media/walkthrough.gif" alt="The simulated arm replays the conveyor route"></video>
 <figcaption>Browser recording of the stock trajectory comparison. <a href="media/walkthrough.gif">GIF fallback</a></figcaption></figure>
 <section><h2>All three test sets</h2><div class="scroll"><table><thead><tr><th scope="col">Test set</th>
 <th scope="col">Runs</th><th scope="col">Worst stop (mm)</th><th scope="col">Worst full RMS (mm)</th>
 <th scope="col">Passed all gates</th></tr></thead><tbody><tr><th scope="row">Upright dev</th><td>420</td><td>0.236</td><td>0.120</td><td>420/420</td></tr><tr><th scope="row">Upright holdout</th><td>120</td><td>0.128</td><td>0.071</td><td>120/120</td></tr><tr><th scope="row">Portal</th><td>10</td><td>0.268</td><td>0.188</td><td>10/10</td></tr></tbody></table></div>
-<p><a href="comparison.html#tab=summary">Compare error distributions by nominal speed</a></p></section>
+<p><a href="comparison.html">Open trajectory comparison</a> and select Summary to compare errors by nominal speed.</p></section>
 <section><h2>Tracking across the same route</h2><p>Each speed uses the same ordered pick and bin poses. All distance
 measurements use the portal station’s tool point. The clearance column counts 4 kHz physics samples inside the
 station’s margin, which includes close approaches.</p>
