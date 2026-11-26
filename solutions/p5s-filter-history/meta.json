@@ -1,0 +1,18 @@
+{
+  "id": "p5s-filter-history",
+  "parent": "p5s-pass3",
+  "change": "Use a board-rate causal filter of encoder-delayed target velocity for damping feedforward compensation",
+  "proposed_by": {
+    "agent": "Codex (Trajectory Tracking Agent filter history lane)",
+    "model": "gpt-6.2-sol",
+    "session": "01a2154a-1522-7bd3-8334-68ee4c874e0b"
+  },
+  "created": "2026-11-25T17:46:28-07:00",
+  "tags": [
+    "transfer-risk:stiffness"
+  ],
+  "name": "P5.s.pass3.filter-history",
+  "summary": "Predict board damping lag from the delayed and filtered target velocity history.",
+  "description": "Replace the constant velocity lag times acceleration with the board-rate filter of the encoder-delayed target history. Preserve the fitted model, gains, reference tape and per-joint midpoint timing.",
+  "expect": "Reach dev tool_track_rms_mm < 0.03100 mm versus 0.031333594888818476 mm for p5s-pass3 with all five gates passing on all 42 dev tasks. The filtered target should improve compensation around acceleration changes."
+}
