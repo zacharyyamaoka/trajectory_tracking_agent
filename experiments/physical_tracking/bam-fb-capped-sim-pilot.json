@@ -1,0 +1,40 @@
+{
+  "simulation_only": true,
+  "rung": 0.25,
+  "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f",
+  "rows": [
+    {
+      "task": "workspace-dev-000",
+      "stop_mm": 0.18442455984599437,
+      "full_rms_mm": 1.473508668924076,
+      "gates_failed": [],
+      "sha256": "5798a0d97e5fbaad279c9927c1ef7ff8288a3bf1b1d016e22ce24ffac4d46aab"
+    },
+    {
+      "task": "workspace-dev-038",
+      "stop_mm": 0.27089587948844185,
+      "full_rms_mm": 1.159045146136965,
+      "gates_failed": [],
+      "sha256": "5c9f434c71f36d38f4794ad4e3f60dfbc7f786a5d376e08355c917c69f4e23ca"
+    },
+    {
+      "task": "conveyor-dev-000",
+      "stop_mm": 0.3318898299421681,
+      "full_rms_mm": 0.6440157959426474,
+      "gates_failed": [],
+      "sha256": "2c36cb9bf7e5bbbb02c1e9226add22546305380f810a8b8ec7c0dea553c4cba9"
+    },
+    {
+      "task": "conveyor-dev-011",
+      "stop_mm": 0.33187533561762267,
+      "full_rms_mm": 0.6840305334504578,
+      "gates_failed": [],
+      "sha256": "560b6075811bbe67ca4858d5f04f606cc569b400613374ea2e6c7275d54c5402"
+    }
+  ],
+  "schema": "tta.bam-fb-capped-simulation-pilot/1",
+  "bench_commit": "7a3bdc25984d5a53e1a5fe039aaa2c7a5c6fca2a",
+  "arm_model_key": "869c7d938677",
+  "scope": "Four development paths, frozen rung 0.25, same armed nominal-model controller as in G2. Only B0 static-belt conveyor tapes are available at this rung.",
+  "both_targets_passes": 2
+}
