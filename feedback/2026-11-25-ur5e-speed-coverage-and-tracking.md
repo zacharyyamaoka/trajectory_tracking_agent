@@ -4,6 +4,7 @@ polarity: negative
 added: 2026-11-25
 from: Zach
 filed_by: Codex
+model: gpt-6.2-sol
 words: paraphrase
 tracks: [trajectory-tracking-agent]
 specs: []
