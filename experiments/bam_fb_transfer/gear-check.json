@@ -1,0 +1,50 @@
+{
+  "schema": "tta.bam-fb-stock-gear-check/1",
+  "mujoco": "3.11.0",
+  "scope": "stock homing model topology and kinematics. Gear clearances are hidden simulation parameters.",
+  "rigid_joint_coordinates": 9,
+  "geared_joint_coordinates": 15,
+  "loop_closures": 1,
+  "output_tendon_friction_nm": [
+    0.74,
+    0.74,
+    0.74,
+    0.0413,
+    0.06565,
+    0.06113
+  ],
+  "drives": {
+    "J1": {
+      "gear_clearance_deg": 0.058333333333333334,
+      "mesh_stiffness_nm_per_rad": 44690.70802020421,
+      "link_change_at_fixed_encoder_deg": 0.014583333333333334
+    },
+    "J2": {
+      "gear_clearance_deg": 0.041666666666666664,
+      "mesh_stiffness_nm_per_rad": 44690.70802020421,
+      "link_change_at_fixed_encoder_deg": 0.010416666666666666
+    },
+    "C1": {
+      "gear_clearance_deg": 0.06666666666666667,
+      "mesh_stiffness_nm_per_rad": 44690.70802020421,
+      "link_change_at_fixed_encoder_deg": 0.016666666666666666
+    },
+    "W1": {
+      "gear_clearance_deg": 0.25,
+      "mesh_stiffness_nm_per_rad": 171.88733853924697,
+      "link_change_at_fixed_encoder_deg": 0.0625
+    },
+    "W2": {
+      "gear_clearance_deg": 0.3,
+      "mesh_stiffness_nm_per_rad": 171.88733853924697,
+      "link_change_at_fixed_encoder_deg": 0.075
+    },
+    "W3": {
+      "gear_clearance_deg": 0.19999999999999998,
+      "mesh_stiffness_nm_per_rad": 171.88733853924697,
+      "link_change_at_fixed_encoder_deg": 0.049999999999999996
+    }
+  },
+  "sim2real_commit": "7355462d9dd38e127c122c5cccbd546a67916ba1",
+  "bam_ws_commit": "43670c05ff445ca7781583ff832fd10b900ac941"
+}
