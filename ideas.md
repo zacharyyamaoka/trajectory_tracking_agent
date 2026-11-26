@@ -5,6 +5,37 @@ never delete it.
 
 ## I'll try
 
+- [ ] Verify the BAM FB workspace corpus and record its highest-speed simulation baseline.
+  - Goal: G2 · step 1 · bam_fb_workspace_sim_worst_stop_mm · bam_fb_workspace_sim_worst_full_rms_mm
+  - Effort: 45 min
+  - By: 2026-11-25T22:00-07:00
+- [ ] Verify the BAM FB conveyor corpus against the deployment and replay the highest rung.
+  - Goal: G2 · step 2 · bam_fb_conveyor_sim_worst_stop_mm · bam_fb_conveyor_sim_worst_full_rms_mm
+  - Effort: 90 min
+  - By: 2026-11-25T23:30-07:00
+- [ ] Verify the shoulder pendulum workspace corpus and replay the highest rung.
+  - Goal: G2 · step 3 · pendulum_workspace_sim_worst_stop_mm · pendulum_workspace_sim_worst_full_rms_mm
+  - Effort: 60 min
+  - By: 2026-11-25T22:30-07:00
+- [ ] Test identified friction and load feedforward on matched development tapes, then lock each candidate for holdout.
+  - Goal: G2 · step 4
+  - Effort: 120 min
+  - By: 2026-11-26T02:30-07:00
+  - Expect: bam_fb_workspace_sim_worst_full_rms_mm −20 %
+- [ ] Audit physical traces for system identification, matched targets, output-side sensing and acquisition coverage.
+  - Goal: G3 · step 1
+  - Effort: 60 min
+  - By: 2026-11-25T22:00-07:00
+- [ ] Compare calibrated friction and backlash against the same disjoint physical traces before commissioning a controller.
+  - Goal: G3 · step 2
+  - Effort: 120 min
+  - By: 2026-11-26T08:00-07:00
+  - Expect: bam_fb_workspace_real_worst_full_rms_mm −20 %
+- [ ] Qualify each ready station on a slow pilot, then collect matched highest-rung runs with its operator.
+  - Goal: G3 · step 3
+  - Effort: 120 min
+  - By: 2026-11-26T18:30-07:00
+
 - [x] Measure the worst stop and full-trajectory RMS across the matched UR5e workspace and conveyor runs, with one controller revision and all ten speeds in the report.
   - Goal: G1 · step 1
   - The locked mount-aware controller measured 0.268052 mm worst stop and 0.187768 mm worst full-run RMS across 550 simulations. [Evidence](goals/G1-ur5e-tracking-evidence.json) and [playback](reports/ur5e-accuracy/index.html).

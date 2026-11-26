@@ -22,6 +22,66 @@
           "ref": "9db606800373629397d2c493b0d059c93580cdc9"
         }
       ]
+    },
+    "bam_fb_workspace_sim_worst_stop_mm": {
+      "label": "BAM FB workspace worst stop error in simulation",
+      "unit": "mm",
+      "samples": []
+    },
+    "bam_fb_workspace_sim_worst_full_rms_mm": {
+      "label": "BAM FB workspace worst full-trajectory RMS in simulation",
+      "unit": "mm",
+      "samples": []
+    },
+    "bam_fb_conveyor_sim_worst_stop_mm": {
+      "label": "BAM FB conveyor worst stop error in simulation",
+      "unit": "mm",
+      "samples": []
+    },
+    "bam_fb_conveyor_sim_worst_full_rms_mm": {
+      "label": "BAM FB conveyor worst full-trajectory RMS in simulation",
+      "unit": "mm",
+      "samples": []
+    },
+    "pendulum_workspace_sim_worst_stop_mm": {
+      "label": "Pendulum workspace worst stop error in simulation",
+      "unit": "mm",
+      "samples": []
+    },
+    "pendulum_workspace_sim_worst_full_rms_mm": {
+      "label": "Pendulum workspace worst full-trajectory RMS in simulation",
+      "unit": "mm",
+      "samples": []
+    },
+    "bam_fb_workspace_real_worst_stop_mm": {
+      "label": "BAM FB workspace worst stop error in hardware",
+      "unit": "mm",
+      "samples": []
+    },
+    "bam_fb_workspace_real_worst_full_rms_mm": {
+      "label": "BAM FB workspace worst full-trajectory RMS in hardware",
+      "unit": "mm",
+      "samples": []
+    },
+    "bam_fb_conveyor_real_worst_stop_mm": {
+      "label": "BAM FB conveyor worst stop error in hardware",
+      "unit": "mm",
+      "samples": []
+    },
+    "bam_fb_conveyor_real_worst_full_rms_mm": {
+      "label": "BAM FB conveyor worst full-trajectory RMS in hardware",
+      "unit": "mm",
+      "samples": []
+    },
+    "pendulum_workspace_real_worst_stop_mm": {
+      "label": "Pendulum workspace worst stop error in hardware",
+      "unit": "mm",
+      "samples": []
+    },
+    "pendulum_workspace_real_worst_full_rms_mm": {
+      "label": "Pendulum workspace worst full-trajectory RMS in hardware",
+      "unit": "mm",
+      "samples": []
     }
   }
 }
