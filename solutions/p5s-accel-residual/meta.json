@@ -1,0 +1,18 @@
+{
+  "id": "p5s-accel-residual",
+  "parent": "p5s-pass3",
+  "change": "Add a fitted diagonal target-acceleration term to the parent feedforward",
+  "proposed_by": {
+    "agent": "Codex (Trajectory Tracking friction_asymmetry lane)",
+    "model": "gpt-6.2-sol",
+    "session": "01a214e8-7cf0-7411-93c0-de3d5044293c/friction_asymmetry"
+  },
+  "created": "2026-11-25T17:43:41-07:00",
+  "tags": [
+    "transfer-risk:stiffness"
+  ],
+  "name": "P5.s.pass3.AccelResidual",
+  "summary": "Fit one acceleration-correlated torque correction per joint at the parent’s gains.",
+  "description": "Estimate a diagonal target-acceleration feedforward term from all 42 saved p5s-pass3 dev runs. Differentiate each run’s recorded target velocities separately and shrink the fit toward zero using the given model’s stated inertia error scale. Keep the parent gains and all parent model terms.",
+  "expect": "Compared with p5s-pass3 at 0.031333594888818476 mm, score below 0.03100 mm median dev tool RMS and pass all five frozen gates on 42/42 dev tasks."
+}
