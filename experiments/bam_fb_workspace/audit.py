@@ -65,6 +65,9 @@ def observation(dataset, path, task, controller, repeat, *, acquisition):
             "full_trajectory_rms_mm": full_rms, "stop_count": len(stops), "samples": len(t),
             "faults": metadata.get("faults", []), "failed_gates": failed,
             "idealized": metadata.get("idealized"), "trace_sha256": digest(path),
+            "controller_sha256": metadata.get("controller_sha256"), "rung": metadata["rung"],
+            "bench_commit": metadata.get("source", {}).get("git_sha"),
+            "arm_model_key": metadata.get("source", {}).get("arm_model_key"),
             "target_sha256": dataset.manifest["files"][f"{task.task_id}.npz"]}
 
 
@@ -80,7 +83,11 @@ def run_audit(dataset_dir, traces_dir, controller, split, repeats, acquisition):
             except (OSError, ValueError) as error:
                 issues.append({"task": task.task_id, "repeat": repeat, "reason": str(error)})
     metrics_names = ("stop_error_max_mm", "full_trajectory_rms_mm")
+    revisions = {row["controller_sha256"] for row in rows}
+    if len(revisions) > 1:
+        raise ValueError("replay directory mixes controller revisions")
     return {"controller": controller, "split": split, "acquisition": acquisition, "rows": rows, "incomplete": issues,
+            "controller_sha256": next(iter(revisions), None),
             "dataset_manifest_sha256": digest(dataset_dir / "manifest.json"),
             "requested": len(dataset.tasks_in(split)) * len(repeats),
             "worst_observed": {name: max(rows, key=lambda row: row[name]) for name in metrics_names} if rows else {}}
