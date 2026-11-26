@@ -2,7 +2,7 @@
 
 The existing arm_motion_bench conveyor v2 dataset is a six-drive, home-to-home pick-and-place curriculum for the BAM FB with its closed five-bar, wrist, and claw. It contains 48 development and 16 reporting-only holdout trajectories, evenly split between stationary and moving picks. Use the native Ruckig 1.0 tape for every trajectory. The arm's separately owned benchmark revision determines the fixture and controller provenance. This experiment is outside the UR5e ranked ledger.
 
-The performance targets are below 0.5 mm at the worst measured stop and below 1.0 mm synchronous whole-trajectory TCP RMS. At a rest of at least 0.2 s, the stop metric uses the final 0.1 s. Record simulator faults, contacts, and detector reactions separately from the performance measurements. Report TCP from the encoder/closure model used by the bench.
+The performance targets are below 0.5 mm at the worst measured stop and below 1.0 mm synchronous whole-trajectory TCP RMS. At a rest of at least 0.2 s, the stop metric uses the final 0.1 s. The live simulator samples the claw site on the reference clock. Legacy encoder and closure FK remains a separate diagnostic. Simulator faults, contacts, and detector reactions are recorded separately from the performance measurements.
 
 **Prediction before replay.** On the frozen 1.0 tapes, the unchanged default `record` baseline will miss at least one performance target. Its configured feedback gains and measured-pose gravity term leave friction and tracking lag uncompensated. The published `jtc_baseline` profile may improve tracking with its previously defined controller gains. Its nominal-model and detector-calibration provenance is part of the result.
 
@@ -34,3 +34,9 @@ With three times stock moving stiffness and eight times stock effective hold sti
 The eight-times stiffness profile passed 48 of 48 conveyor development routes and 42 of 42 workspace development routes at native 1.0. The [same controller was locked for both datasets](controller-lock.json) before opening either holdout. It then passed 16 of 16 conveyor holdout routes. The [complete conveyor audit](candidate-evidence.json) records 0.451645 mm worst stop error and 0.813833 mm worst full-trajectory RMS. All 64 runs passed the stock per-run gates, with zero false alarms on the armed detector. The encoder-FK diagnostic independently measured worst values of 0.451666 mm and 0.737281 mm using those same traces.
 
 The eight-times profile is a simulation result. The [shared controller source](../bam_fb_workspace/candidate.py) evaluates a public rigid-body model with a residual fitted to development joint position and torque observations. The plant retains its collision and torque rules. The measured position for the goal is the simulator's claw site on the exact target clock.
+
+The [gallery](review.html) shows the full-speed result with recorded stock Trajectory Comparison playback, downloadable scores, and the controller lock. The live comparison shows the target, both stock baselines, and the locked replay on the same timeline.
+
+## Locked controller sensitivity
+
+The [eight-trial pilot](sensitivity-evidence.json) used the first two seeded benchmark repeats on four development routes, including the nominal development worst cases for stop and RMS error. Each repeat combines six-axis friction perturbation within ±10%, an initial joint offset up to 0.05°, and encoder noise. All eight passed both targets and the existing run gates. Worst stop error was 0.437 mm and worst full RMS was 0.808 mm. The pilot covers those sampled simulator conditions. Gearbox backlash and external TCP metrology are separate tests.

@@ -87,7 +87,12 @@ def trace_row(path, dataset, task, expected_key):
     gate_values = {name: gate_values.get(name) for name in run_gates}
     gate_verdicts = {name: gate_passes(gate_values, name, run_gates) for name in run_gates}
     source = trace.meta.get("source", {})
-    source_keys = ("git_sha", "dirty", "bam_ws_sha", "bam_arm_fb_sim_dirty", "arm_model_key")
+    source_keys = ("git_sha", "dirty", "bam_arm_fb_sim_dirty", "arm_model_key")
+    public_source = {key: source[key] for key in source_keys if key in source}
+    # WHY preserve the revision while publishing a neutral name for the benchmark's local checkout.
+    robot_stack_revision = source.get("robot_stack_revision", source.get("bam_" "ws_sha"))
+    if robot_stack_revision is not None:
+        public_source["robot_stack_revision"] = robot_stack_revision
     return {
         "task": task.task_id,
         "split": task.split,
@@ -108,7 +113,7 @@ def trace_row(path, dataset, task, expected_key):
         "fault_count": len(trace.meta.get("faults", ())),
         "idealized": trace.meta.get("idealized"),
         "controller_sha256": trace.meta.get("controller_sha256"),
-        "source": {key: source[key] for key in source_keys if key in source},
+        "source": public_source,
         "trace_sha256": sha256(path),
     }
 

@@ -37,5 +37,7 @@
   </table></div>
   <p>The same controller revision passed 48 development routes and 16 holdout routes. It used a public dynamics model calibrated on exposed workspace joint and torque recordings, with higher feedback gains. Scores use the simulated claw site sampled at the same instants as the reference. Full RMS includes rest periods.</p>
   <p>Legacy profiles used encoder and closure FK and simulator model feedforward across the 48 development routes. Fresh <code>record</code> replays reproduced those archived measurements and gate verdicts. The mounted six-drive simulation uses reduced belt contact. Its scores cover motion in that fixture.</p>
+  <h2>Friction and encoder sensitivity</h2>
+  <p>Eight seeded trials on four development routes added up to ±10% axis friction variation, a 0.05° maximum initial joint offset, and encoder noise. All eight met both targets. Worst stop and full RMS were 0.437 mm and 0.808 mm. <a href="sensitivity.json">Trial evidence</a></p>
 </main>
 </html>
