@@ -1,0 +1,984 @@
+{
+  "schema": "tta.ur5e-tracking-goal/1",
+  "controller": "p5s-damping185-mount-aware",
+  "controller_sha256": "238a5a2a55646b4620c2eba9c82bef5d4b70b631e5dfdcae9a496617ffb5ff24",
+  "datasets": {
+    "upright": "de0995a3f3f3f227f8f5cf394abf83a20e077324e71be27bc4045116647fd834",
+    "portal": "4095e1ec3fdf4079bd1c56996d80d3b5b77a93f1a916c7d2eea18a77cfe62411"
+  },
+  "evidence": {
+    "upright_dev_sha256": "52b1afe60629bc59eeb9962d718a40430aa6d3a77d0466c676d0d7aa52339660",
+    "upright_holdout_sha256": "f4f2cc8d50ae7a94c3fb704f3b76eccc83a577ec8b82feece87459e940f4f3f5",
+    "portal": [
+      {
+        "fraction": 0.1,
+        "summary_sha256": "4a47c9a000560b4bc732623f8637d05b66a1abc05491462df82441677677cbbf",
+        "tape_sha256": "50ef138fccbc7c202fb8a0735b5fe7577bf16f8b420b511d1cafe48560cfbdf5",
+        "recording_sha256": "aa9fd790bedb400f8d2356b134cc7a4aa5df092494c6dbbb7b5388d17439b203"
+      },
+      {
+        "fraction": 0.2,
+        "summary_sha256": "4ae27570e23be8b92f59aa814b300e90ec5e1189465c16e716e85352345a0a9b",
+        "tape_sha256": "a77a04e2d2fbd94821a6b83851b8e95faacff4a3a75cde9bbb0ac9fd031174b8",
+        "recording_sha256": "57fcfc4fdfd1a231a606296ba2d8df3b51bbe2d1929d273ee56eeda3d331fd02"
+      },
+      {
+        "fraction": 0.3,
+        "summary_sha256": "240a4c3e3d3eaa1984ccad3a3275b3e2268c8e4b0a5f25d2644d7e521f33429d",
+        "tape_sha256": "15f45f747ce487f5edbe2046ba39dd6a6d00c06186807c2a0933a7b5d5c501a3",
+        "recording_sha256": "d3109b955fdd05d06369a1d2847a0111f2f52358fd331938031edf7d3d44c915"
+      },
+      {
+        "fraction": 0.4,
+        "summary_sha256": "59e55486138e41793fb51693619e0250d521bd392034c8b7c99a0845aaf82389",
+        "tape_sha256": "c797171d551439728731bc8cdfc7a1666afa80ff7197a5434cc2a63bc576be57",
+        "recording_sha256": "d6c9af3674120740e87338d3f870e63e10758e69e3c238b719d0f10602768bd5"
+      },
+      {
+        "fraction": 0.5,
+        "summary_sha256": "7ec3cd1a5fb6e82c33fd17f50448583ad904b3d127d05363d7fac304f4269d8c",
+        "tape_sha256": "1cf10c4eb2572d940e5149732cd2415aaec2c1db2097c273b0ec6222d950025e",
+        "recording_sha256": "af6a4bf2c9fefdb5497e7b442df739673e2f98eab5e6b447304e8acd4aad4394"
+      },
+      {
+        "fraction": 0.6,
+        "summary_sha256": "7521abc052def52fe1ebe27b7b2fe0df93ac7f1aff35e35e5d868e7979ba9c34",
+        "tape_sha256": "a7b01aa37dd1cb26afaca2fa099d3df51ea49de83e92deb094662400dba8a4e5",
+        "recording_sha256": "a3c852aff69f428053a2aa70488d778aaa3ee379b0fca1cd9b795dd33ab99c39"
+      },
+      {
+        "fraction": 0.7,
+        "summary_sha256": "4a693d43cef7b6aa66e9e9fcdf8b13a134020e8e34893d36c2279e8a69684553",
+        "tape_sha256": "326261c0c1dc310fadde6a0a14287aff1b8827cfaaf047be72c7c3f53c8a57c6",
+        "recording_sha256": "fb6f606aa24b3847a62ade4c663f678e096ac167bc565444904df7d89fca51fd"
+      },
+      {
+        "fraction": 0.8,
+        "summary_sha256": "ab972c797b10e25de748296bade373bdbed4824824572ff0fde89c9cd5a2e900",
+        "tape_sha256": "14d66c8bbd7ec267bd44f5fa8a82899250164fd3ff361eb6913f4d4ffec609fa",
+        "recording_sha256": "acca2946d1ceb7531208efa24e2d8dc62197f92ad7f7ef7dfc09534ac7fef970"
+      },
+      {
+        "fraction": 0.9,
+        "summary_sha256": "4960a589ab3995eba738669b12bb8a6d3cf4281c49f20ae3422670df8b0aef37",
+        "tape_sha256": "0372507662d9a1319c83caf4fc00cee4602cfebc0009dfdfbd184da759c15717",
+        "recording_sha256": "e0b3938dbf6f44e0b8b1b033a2a344be7012ec0947b109fb01f1a108b040f128"
+      },
+      {
+        "fraction": 1.0,
+        "summary_sha256": "94130907d2af72f8c61b54a071118e5738f973e8c1e35a94923518a374208d9f",
+        "tape_sha256": "055aac5dc3dba2d6440c7acb404531267238a7247e6cafef0a08e1daa63232e6",
+        "recording_sha256": "61ec4d5f1ce2a868171b8a8d2d05f6be0bf9cf019a9c50afd2cc3f05c81804a3"
+      }
+    ]
+  },
+  "overall": {
+    "runs": 550,
+    "runs_passing_all_gates": 550,
+    "worst": {
+      "stop_error_max_mm": {
+        "cohort": "portal",
+        "target": "conveyor-cycle-01",
+        "fraction": 0.1,
+        "stops": 211,
+        "samples": 180531,
+        "stop_error_max_mm": 0.26805228959907396,
+        "full_trajectory_rms_mm": 0.18776750023244287,
+        "failed_gates": []
+      },
+      "full_trajectory_rms_mm": {
+        "cohort": "portal",
+        "target": "conveyor-cycle-01",
+        "fraction": 0.1,
+        "stops": 211,
+        "samples": 180531,
+        "stop_error_max_mm": 0.26805228959907396,
+        "full_trajectory_rms_mm": 0.18776750023244287,
+        "failed_gates": []
+      }
+    }
+  },
+  "cohorts": {
+    "upright dev": {
+      "runs": 420,
+      "runs_passing_all_gates": 420,
+      "worst": {
+        "stop_error_max_mm": {
+          "cohort": "upright dev",
+          "target": "workspace-dev-025",
+          "fraction": 0.1,
+          "stops": 1,
+          "samples": 1941,
+          "stop_error_max_mm": 0.2361160467665824,
+          "full_trajectory_rms_mm": 0.12018731215329839,
+          "failed_gates": []
+        },
+        "full_trajectory_rms_mm": {
+          "cohort": "upright dev",
+          "target": "workspace-dev-025",
+          "fraction": 0.1,
+          "stops": 1,
+          "samples": 1941,
+          "stop_error_max_mm": 0.2361160467665824,
+          "full_trajectory_rms_mm": 0.12018731215329839,
+          "failed_gates": []
+        }
+      }
+    },
+    "upright holdout": {
+      "runs": 120,
+      "runs_passing_all_gates": 120,
+      "worst": {
+        "stop_error_max_mm": {
+          "cohort": "upright holdout",
+          "target": "workspace-holdout-011",
+          "fraction": 0.2,
+          "stops": 1,
+          "samples": 1091,
+          "stop_error_max_mm": 0.12754624074220572,
+          "full_trajectory_rms_mm": 0.05708564843583858,
+          "failed_gates": []
+        },
+        "full_trajectory_rms_mm": {
+          "cohort": "upright holdout",
+          "target": "workspace-holdout-001",
+          "fraction": 0.2,
+          "stops": 1,
+          "samples": 1436,
+          "stop_error_max_mm": 0.07424911666806698,
+          "full_trajectory_rms_mm": 0.07064123832137133,
+          "failed_gates": []
+        }
+      }
+    },
+    "portal": {
+      "runs": 10,
+      "runs_passing_all_gates": 10,
+      "worst": {
+        "stop_error_max_mm": {
+          "cohort": "portal",
+          "target": "conveyor-cycle-01",
+          "fraction": 0.1,
+          "stops": 211,
+          "samples": 180531,
+          "stop_error_max_mm": 0.26805228959907396,
+          "full_trajectory_rms_mm": 0.18776750023244287,
+          "failed_gates": []
+        },
+        "full_trajectory_rms_mm": {
+          "cohort": "portal",
+          "target": "conveyor-cycle-01",
+          "fraction": 0.1,
+          "stops": 211,
+          "samples": 180531,
+          "stop_error_max_mm": 0.26805228959907396,
+          "full_trajectory_rms_mm": 0.18776750023244287,
+          "failed_gates": []
+        }
+      }
+    }
+  },
+  "speeds": {
+    "0.1": {
+      "upright dev": {
+        "runs": 42,
+        "runs_passing_all_gates": 42,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-025",
+            "fraction": 0.1,
+            "stops": 1,
+            "samples": 1941,
+            "stop_error_max_mm": 0.2361160467665824,
+            "full_trajectory_rms_mm": 0.12018731215329839,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-025",
+            "fraction": 0.1,
+            "stops": 1,
+            "samples": 1941,
+            "stop_error_max_mm": 0.2361160467665824,
+            "full_trajectory_rms_mm": 0.12018731215329839,
+            "failed_gates": []
+          }
+        }
+      },
+      "upright holdout": {
+        "runs": 12,
+        "runs_passing_all_gates": 12,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-011",
+            "fraction": 0.1,
+            "stops": 1,
+            "samples": 2181,
+            "stop_error_max_mm": 0.10667620741529532,
+            "full_trajectory_rms_mm": 0.06324037915253163,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-001",
+            "fraction": 0.1,
+            "stops": 1,
+            "samples": 2871,
+            "stop_error_max_mm": 0.07039468860096008,
+            "full_trajectory_rms_mm": 0.06813120448903287,
+            "failed_gates": []
+          }
+        }
+      },
+      "portal": {
+        "runs": 1,
+        "runs_passing_all_gates": 1,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-01",
+            "fraction": 0.1,
+            "stops": 211,
+            "samples": 180531,
+            "stop_error_max_mm": 0.26805228959907396,
+            "full_trajectory_rms_mm": 0.18776750023244287,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-01",
+            "fraction": 0.1,
+            "stops": 211,
+            "samples": 180531,
+            "stop_error_max_mm": 0.26805228959907396,
+            "full_trajectory_rms_mm": 0.18776750023244287,
+            "failed_gates": []
+          }
+        }
+      }
+    },
+    "0.2": {
+      "upright dev": {
+        "runs": 42,
+        "runs_passing_all_gates": 42,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-005",
+            "fraction": 0.2,
+            "stops": 1,
+            "samples": 881,
+            "stop_error_max_mm": 0.2186492640414243,
+            "full_trajectory_rms_mm": 0.110034234798454,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-005",
+            "fraction": 0.2,
+            "stops": 1,
+            "samples": 881,
+            "stop_error_max_mm": 0.2186492640414243,
+            "full_trajectory_rms_mm": 0.110034234798454,
+            "failed_gates": []
+          }
+        }
+      },
+      "upright holdout": {
+        "runs": 12,
+        "runs_passing_all_gates": 12,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-011",
+            "fraction": 0.2,
+            "stops": 1,
+            "samples": 1091,
+            "stop_error_max_mm": 0.12754624074220572,
+            "full_trajectory_rms_mm": 0.05708564843583858,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-001",
+            "fraction": 0.2,
+            "stops": 1,
+            "samples": 1436,
+            "stop_error_max_mm": 0.07424911666806698,
+            "full_trajectory_rms_mm": 0.07064123832137133,
+            "failed_gates": []
+          }
+        }
+      },
+      "portal": {
+        "runs": 1,
+        "runs_passing_all_gates": 1,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-02",
+            "fraction": 0.2,
+            "stops": 61,
+            "samples": 91191,
+            "stop_error_max_mm": 0.24841586390308387,
+            "full_trajectory_rms_mm": 0.17122624304931225,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-02",
+            "fraction": 0.2,
+            "stops": 61,
+            "samples": 91191,
+            "stop_error_max_mm": 0.24841586390308387,
+            "full_trajectory_rms_mm": 0.17122624304931225,
+            "failed_gates": []
+          }
+        }
+      }
+    },
+    "0.3": {
+      "upright dev": {
+        "runs": 42,
+        "runs_passing_all_gates": 42,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-005",
+            "fraction": 0.3,
+            "stops": 1,
+            "samples": 588,
+            "stop_error_max_mm": 0.2065647453185184,
+            "full_trajectory_rms_mm": 0.10531214416534487,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-005",
+            "fraction": 0.3,
+            "stops": 1,
+            "samples": 588,
+            "stop_error_max_mm": 0.2065647453185184,
+            "full_trajectory_rms_mm": 0.10531214416534487,
+            "failed_gates": []
+          }
+        }
+      },
+      "upright holdout": {
+        "runs": 12,
+        "runs_passing_all_gates": 12,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-011",
+            "fraction": 0.3,
+            "stops": 1,
+            "samples": 728,
+            "stop_error_max_mm": 0.11408012342070932,
+            "full_trajectory_rms_mm": 0.048104558618738996,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-001",
+            "fraction": 0.3,
+            "stops": 1,
+            "samples": 958,
+            "stop_error_max_mm": 0.07494545835688708,
+            "full_trajectory_rms_mm": 0.0679117152024329,
+            "failed_gates": []
+          }
+        }
+      },
+      "portal": {
+        "runs": 1,
+        "runs_passing_all_gates": 1,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-03",
+            "fraction": 0.3,
+            "stops": 61,
+            "samples": 61411,
+            "stop_error_max_mm": 0.24859690164061624,
+            "full_trajectory_rms_mm": 0.15888437025232632,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-03",
+            "fraction": 0.3,
+            "stops": 61,
+            "samples": 61411,
+            "stop_error_max_mm": 0.24859690164061624,
+            "full_trajectory_rms_mm": 0.15888437025232632,
+            "failed_gates": []
+          }
+        }
+      }
+    },
+    "0.4": {
+      "upright dev": {
+        "runs": 42,
+        "runs_passing_all_gates": 42,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-005",
+            "fraction": 0.4,
+            "stops": 1,
+            "samples": 441,
+            "stop_error_max_mm": 0.22289062786599706,
+            "full_trajectory_rms_mm": 0.0970482475338726,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-005",
+            "fraction": 0.4,
+            "stops": 1,
+            "samples": 441,
+            "stop_error_max_mm": 0.22289062786599706,
+            "full_trajectory_rms_mm": 0.0970482475338726,
+            "failed_gates": []
+          }
+        }
+      },
+      "upright holdout": {
+        "runs": 12,
+        "runs_passing_all_gates": 12,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-011",
+            "fraction": 0.4,
+            "stops": 1,
+            "samples": 546,
+            "stop_error_max_mm": 0.10626685600745714,
+            "full_trajectory_rms_mm": 0.04040772881902326,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-010",
+            "fraction": 0.4,
+            "stops": 1,
+            "samples": 434,
+            "stop_error_max_mm": 0.07458539760732438,
+            "full_trajectory_rms_mm": 0.06439102383333076,
+            "failed_gates": []
+          }
+        }
+      },
+      "portal": {
+        "runs": 1,
+        "runs_passing_all_gates": 1,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-04",
+            "fraction": 0.4,
+            "stops": 61,
+            "samples": 46575,
+            "stop_error_max_mm": 0.24852816359758262,
+            "full_trajectory_rms_mm": 0.1499875267754174,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-04",
+            "fraction": 0.4,
+            "stops": 61,
+            "samples": 46575,
+            "stop_error_max_mm": 0.24852816359758262,
+            "full_trajectory_rms_mm": 0.1499875267754174,
+            "failed_gates": []
+          }
+        }
+      }
+    },
+    "0.5": {
+      "upright dev": {
+        "runs": 42,
+        "runs_passing_all_gates": 42,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-005",
+            "fraction": 0.5,
+            "stops": 1,
+            "samples": 353,
+            "stop_error_max_mm": 0.20445205878911774,
+            "full_trajectory_rms_mm": 0.09265699906509646,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-005",
+            "fraction": 0.5,
+            "stops": 1,
+            "samples": 353,
+            "stop_error_max_mm": 0.20445205878911774,
+            "full_trajectory_rms_mm": 0.09265699906509646,
+            "failed_gates": []
+          }
+        }
+      },
+      "upright holdout": {
+        "runs": 12,
+        "runs_passing_all_gates": 12,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-000",
+            "fraction": 0.5,
+            "stops": 1,
+            "samples": 371,
+            "stop_error_max_mm": 0.10543216307362073,
+            "full_trajectory_rms_mm": 0.061316502574061925,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-001",
+            "fraction": 0.5,
+            "stops": 1,
+            "samples": 575,
+            "stop_error_max_mm": 0.0788036692879073,
+            "full_trajectory_rms_mm": 0.06304316322980794,
+            "failed_gates": []
+          }
+        }
+      },
+      "portal": {
+        "runs": 1,
+        "runs_passing_all_gates": 1,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-05",
+            "fraction": 0.5,
+            "stops": 61,
+            "samples": 37587,
+            "stop_error_max_mm": 0.23374701324672043,
+            "full_trajectory_rms_mm": 0.14392531704978456,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-05",
+            "fraction": 0.5,
+            "stops": 61,
+            "samples": 37587,
+            "stop_error_max_mm": 0.23374701324672043,
+            "full_trajectory_rms_mm": 0.14392531704978456,
+            "failed_gates": []
+          }
+        }
+      }
+    },
+    "0.6": {
+      "upright dev": {
+        "runs": 42,
+        "runs_passing_all_gates": 42,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-025",
+            "fraction": 0.6,
+            "stops": 1,
+            "samples": 325,
+            "stop_error_max_mm": 0.19543189826409857,
+            "full_trajectory_rms_mm": 0.10410893283296825,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-025",
+            "fraction": 0.6,
+            "stops": 1,
+            "samples": 325,
+            "stop_error_max_mm": 0.19543189826409857,
+            "full_trajectory_rms_mm": 0.10410893283296825,
+            "failed_gates": []
+          }
+        }
+      },
+      "upright holdout": {
+        "runs": 12,
+        "runs_passing_all_gates": 12,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-000",
+            "fraction": 0.6,
+            "stops": 1,
+            "samples": 310,
+            "stop_error_max_mm": 0.10813297936189674,
+            "full_trajectory_rms_mm": 0.05988039760041639,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-001",
+            "fraction": 0.6,
+            "stops": 1,
+            "samples": 480,
+            "stop_error_max_mm": 0.07190699110426296,
+            "full_trajectory_rms_mm": 0.06257576601616417,
+            "failed_gates": []
+          }
+        }
+      },
+      "portal": {
+        "runs": 1,
+        "runs_passing_all_gates": 1,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-06",
+            "fraction": 0.6,
+            "stops": 61,
+            "samples": 31631,
+            "stop_error_max_mm": 0.24668546173753403,
+            "full_trajectory_rms_mm": 0.13872665815236485,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-06",
+            "fraction": 0.6,
+            "stops": 61,
+            "samples": 31631,
+            "stop_error_max_mm": 0.24668546173753403,
+            "full_trajectory_rms_mm": 0.13872665815236485,
+            "failed_gates": []
+          }
+        }
+      }
+    },
+    "0.7": {
+      "upright dev": {
+        "runs": 42,
+        "runs_passing_all_gates": 42,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-039",
+            "fraction": 0.7,
+            "stops": 1,
+            "samples": 373,
+            "stop_error_max_mm": 0.19749485180517534,
+            "full_trajectory_rms_mm": 0.0886732522997818,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-025",
+            "fraction": 0.7,
+            "stops": 1,
+            "samples": 279,
+            "stop_error_max_mm": 0.1429350189179711,
+            "full_trajectory_rms_mm": 0.10633398586704572,
+            "failed_gates": []
+          }
+        }
+      },
+      "upright holdout": {
+        "runs": 12,
+        "runs_passing_all_gates": 12,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-000",
+            "fraction": 0.7,
+            "stops": 1,
+            "samples": 266,
+            "stop_error_max_mm": 0.10930707796208099,
+            "full_trajectory_rms_mm": 0.059904265388035415,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-001",
+            "fraction": 0.7,
+            "stops": 1,
+            "samples": 411,
+            "stop_error_max_mm": 0.07625310289111646,
+            "full_trajectory_rms_mm": 0.06679417863844402,
+            "failed_gates": []
+          }
+        }
+      },
+      "portal": {
+        "runs": 1,
+        "runs_passing_all_gates": 1,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-07",
+            "fraction": 0.7,
+            "stops": 61,
+            "samples": 27499,
+            "stop_error_max_mm": 0.24909764751448413,
+            "full_trajectory_rms_mm": 0.13552832481786015,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-07",
+            "fraction": 0.7,
+            "stops": 61,
+            "samples": 27499,
+            "stop_error_max_mm": 0.24909764751448413,
+            "full_trajectory_rms_mm": 0.13552832481786015,
+            "failed_gates": []
+          }
+        }
+      }
+    },
+    "0.8": {
+      "upright dev": {
+        "runs": 42,
+        "runs_passing_all_gates": 42,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-039",
+            "fraction": 0.8,
+            "stops": 1,
+            "samples": 326,
+            "stop_error_max_mm": 0.1971132461848162,
+            "full_trajectory_rms_mm": 0.08510783097858264,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-025",
+            "fraction": 0.8,
+            "stops": 1,
+            "samples": 244,
+            "stop_error_max_mm": 0.19035546269391188,
+            "full_trajectory_rms_mm": 0.112124306229704,
+            "failed_gates": []
+          }
+        }
+      },
+      "upright holdout": {
+        "runs": 12,
+        "runs_passing_all_gates": 12,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-000",
+            "fraction": 0.8,
+            "stops": 1,
+            "samples": 233,
+            "stop_error_max_mm": 0.10570670186266509,
+            "full_trajectory_rms_mm": 0.05928917522163375,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-001",
+            "fraction": 0.8,
+            "stops": 1,
+            "samples": 360,
+            "stop_error_max_mm": 0.07720372265919558,
+            "full_trajectory_rms_mm": 0.06584866991955282,
+            "failed_gates": []
+          }
+        }
+      },
+      "portal": {
+        "runs": 1,
+        "runs_passing_all_gates": 1,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-08",
+            "fraction": 0.8,
+            "stops": 61,
+            "samples": 24277,
+            "stop_error_max_mm": 0.2457387141682699,
+            "full_trajectory_rms_mm": 0.13313186652034495,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-08",
+            "fraction": 0.8,
+            "stops": 61,
+            "samples": 24277,
+            "stop_error_max_mm": 0.2457387141682699,
+            "full_trajectory_rms_mm": 0.13313186652034495,
+            "failed_gates": []
+          }
+        }
+      }
+    },
+    "0.9": {
+      "upright dev": {
+        "runs": 42,
+        "runs_passing_all_gates": 42,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-025",
+            "fraction": 0.9,
+            "stops": 1,
+            "samples": 217,
+            "stop_error_max_mm": 0.2286380621695695,
+            "full_trajectory_rms_mm": 0.11882981248054601,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-025",
+            "fraction": 0.9,
+            "stops": 1,
+            "samples": 217,
+            "stop_error_max_mm": 0.2286380621695695,
+            "full_trajectory_rms_mm": 0.11882981248054601,
+            "failed_gates": []
+          }
+        }
+      },
+      "upright holdout": {
+        "runs": 12,
+        "runs_passing_all_gates": 12,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-000",
+            "fraction": 0.9,
+            "stops": 1,
+            "samples": 207,
+            "stop_error_max_mm": 0.10655142238982068,
+            "full_trajectory_rms_mm": 0.05956849925589727,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-001",
+            "fraction": 0.9,
+            "stops": 1,
+            "samples": 320,
+            "stop_error_max_mm": 0.0723794833216744,
+            "full_trajectory_rms_mm": 0.06554021343524839,
+            "failed_gates": []
+          }
+        }
+      },
+      "portal": {
+        "runs": 1,
+        "runs_passing_all_gates": 1,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-09",
+            "fraction": 0.9,
+            "stops": 61,
+            "samples": 21777,
+            "stop_error_max_mm": 0.2497237283455261,
+            "full_trajectory_rms_mm": 0.13065911554875087,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-09",
+            "fraction": 0.9,
+            "stops": 61,
+            "samples": 21777,
+            "stop_error_max_mm": 0.2497237283455261,
+            "full_trajectory_rms_mm": 0.13065911554875087,
+            "failed_gates": []
+          }
+        }
+      }
+    },
+    "1.0": {
+      "upright dev": {
+        "runs": 42,
+        "runs_passing_all_gates": 42,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-039",
+            "fraction": 1.0,
+            "stops": 1,
+            "samples": 261,
+            "stop_error_max_mm": 0.20226337404098316,
+            "full_trajectory_rms_mm": 0.07730022015865018,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright dev",
+            "target": "workspace-dev-025",
+            "fraction": 1.0,
+            "stops": 1,
+            "samples": 195,
+            "stop_error_max_mm": 0.1795131977423758,
+            "full_trajectory_rms_mm": 0.0968735482694772,
+            "failed_gates": []
+          }
+        }
+      },
+      "upright holdout": {
+        "runs": 12,
+        "runs_passing_all_gates": 12,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-000",
+            "fraction": 1.0,
+            "stops": 1,
+            "samples": 186,
+            "stop_error_max_mm": 0.10441558172869192,
+            "full_trajectory_rms_mm": 0.05797519097015408,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "upright holdout",
+            "target": "workspace-holdout-001",
+            "fraction": 1.0,
+            "stops": 1,
+            "samples": 288,
+            "stop_error_max_mm": 0.07696057943494178,
+            "full_trajectory_rms_mm": 0.061923212562036964,
+            "failed_gates": []
+          }
+        }
+      },
+      "portal": {
+        "runs": 1,
+        "runs_passing_all_gates": 1,
+        "worst": {
+          "stop_error_max_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-10",
+            "fraction": 1.0,
+            "stops": 61,
+            "samples": 19719,
+            "stop_error_max_mm": 0.24071260124068997,
+            "full_trajectory_rms_mm": 0.12884161423577128,
+            "failed_gates": []
+          },
+          "full_trajectory_rms_mm": {
+            "cohort": "portal",
+            "target": "conveyor-cycle-10",
+            "fraction": 1.0,
+            "stops": 61,
+            "samples": 19719,
+            "stop_error_max_mm": 0.24071260124068997,
+            "full_trajectory_rms_mm": 0.12884161423577128,
+            "failed_gates": []
+          }
+        }
+      }
+    }
+  },
+  "separate_gate_failures": []
+}
