@@ -1,0 +1,18 @@
+{
+  "id": "p5s-friction-asym",
+  "parent": "p5s-pass3",
+  "change": "Add one bounded even-velocity friction term per joint to the parent feedforward",
+  "proposed_by": {
+    "agent": "Codex (Trajectory Tracking friction_asymmetry lane)",
+    "model": "gpt-6.2-sol",
+    "session": "01a214e8-7cf0-7411-93c0-de3d5044293c/friction_asymmetry"
+  },
+  "created": "2026-11-25T17:39:07-07:00",
+  "tags": [
+    "transfer-risk:stiffness"
+  ],
+  "name": "P5.s.pass3.FrictionAsym",
+  "summary": "Identify one bounded even-velocity friction correction per joint at the parent’s gains.",
+  "description": "Fit tanh(velocity / 0.035 rad/s)² per joint against PD-error torque from all 42 saved p5s-pass3 dev runs. The parent’s gains, gravity term, odd friction term, and timing are fixed.",
+  "expect": "Compared with p5s-pass3 at 0.031333594888818476 mm, score below 0.03100 mm median dev tool RMS and pass all five frozen gates on 42/42 dev tasks."
+}

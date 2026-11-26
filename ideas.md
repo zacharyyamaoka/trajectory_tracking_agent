@@ -26,6 +26,10 @@ never delete it.
 - [x] ~~…and without the kd·1.3 ms·qdd term~~ → `p5s-pass3-g1-nolag` 0.141 mm: that term is a tenth of the loss; the rest is friction, which in this twin depends on the loop around it.
 - [x] ~~Make the identification gain-portable by adding M(q)·ë to the PD error torque fit and running the same model at x1 and x4.~~ [Stiff gains](solutions/p5s-inertia/scorecard.json) scored 0.03179 mm vs 0.03133 mm for the matched PD-only fit. [Configured gains](solutions/p5s-inertia-g1/scorecard.json) scored 0.15701 mm vs 0.15645 mm for PD-only, missing the 10% improvement target. All 84 dev task runs passed every gate. Keep separate fits for each gain setting.
 - [x] ~~Middle rung: the same pass at kp ×2~~ → `p5s-kp2-pass2` 0.045 mm. Frontier fitted at each gain: x1 0.070 · x2 0.045 · x4 0.031 mm.
+- [ ] Fit direction-dependent friction at the leading controller’s fixed gains.
+  - Expect: dev `tool_track_rms_mm` below 0.03100 mm and every task passes all five gates.
+- [ ] Average the leading controller’s planned feedforward over each joint’s command hold.
+  - Expect: dev `tool_track_rms_mm` below 0.03100 mm and every task passes all five gates.
 - [ ] Identify from a dedicated calibration run (a rich excitation trajectory, its own runs only) instead of the dev records, so the identified model never sees the tasks it is scored on. Needs a way to run a non-dataset trajectory through the boundary without `deployment.plant()` (see Suggestions for Zach).
 - [x] Verify the message boundary and host cadence ([O1.1](specs/O1.1-the-boundary.md)). A valid controller receives joint states at 50 Hz. Malformed and incomplete commands fail `completed`.
 - [x] Verify scoring against the frozen tape ([O1.3](specs/O1.3-the-trajectory-is-given.md)). A half-speed controller is still scored on the original tape. The tests caught that a controller could reopen the original sample arrays for writing. It now receives its own immutable samples.

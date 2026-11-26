@@ -20,12 +20,14 @@
     "unit": "mm",
     "owner": "Trajectory Tracking Agent"
   },
-  "status": "idle",
+  "status": "working",
   "blocked_on": null,
   "todo": {
-    "open": 1,
+    "open": 3,
     "done_7d": 23,
     "top": [
+      "Fit direction-dependent friction at the leading controller\u2019s fixed gains.",
+      "Average the leading controller\u2019s planned feedforward over each joint\u2019s command hold.",
       "Identify from a dedicated calibration run (a rich excitation trajectory, its own runs only) instead of the dev records, so the identified model never sees the tasks it is scored on. Needs a way to run a non-dataset trajectory through the boundary without `deployment.plant()` (see Suggestions for Zach)."
     ]
   },
@@ -35,5 +37,5 @@
     "wandb": "Trajectory Tracking",
     "vault": null
   },
-  "updated_t": 1795650748.7582781
+  "updated_t": 1795653601.3689458
 }
