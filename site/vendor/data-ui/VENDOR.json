@@ -1,14 +1,24 @@
 {
   "what": "data-ui as this app serves it: re-vendor with data-ui vendor, never edit",
   "repo": "data-ui",
-  "ref": "dbc89e48aa246e9f6998d248c85b2695feaeb854",
+  "ref": "fd72347ec5fbee6a91ffe1d08c184f433132c03e",
   "version": "0.1.0",
-  "commit": "dbc89e48aa246e9f6998d248c85b2695feaeb854",
+  "commit": "fd72347ec5fbee6a91ffe1d08c184f433132c03e",
   "on_main": true,
-  "commit_date": "2026-11-25T22:46:33-07:00",
-  "subject": "mxd_charts_checks: wait for the presets to load, not for an empty list (an empty array is truthy before the file arrives; same wait as perf_core_checks.py:748)",
+  "commit_date": "2026-11-25T23:46:08-07:00",
+  "subject": "Merge fix/bars-dot-gap: Bars dots keep a 2 px gap on a phone (TTA CHARTSLIVE finding; mxd charts 208/208, use 40/40, fit 27/27)",
+  "parents": [
+    {
+      "commit": "dbc89e48aa246e9f6998d248c85b2695feaeb854",
+      "subject": "mxd_charts_checks: wait for the presets to load, not for an empty list (an empty array is truthy before the file arrives; same wait as perf_core_checks.py:748)"
+    },
+    {
+      "commit": "31f013d13f2fd0a7f4ccc5472f2095eca2bd2159",
+      "subject": "Bars: a dot is never wider than its slot plus the inner gap less 2 px (Mark = dot on TTA's 80 marks at 390 px drew dots edge to edge, 0 px; now 2 px); mxd_charts_checks measures that case, red before"
+    }
+  ],
   "built_with": "node build.mjs on a git archive of the commit (data-ui vendor, Node v24.22.3)",
-  "manifest_sha256": "df77ea7f2886d2a944e9fda48d7c2b5b9ad1c89ddd36289c4b800bd9eaaa3c79",
+  "manifest_sha256": "45c9c2dad8e5a46c153bdfede88347f28dd82ae9f94ceacf0054c10cae65a286",
   "kit_dir": ".",
   "views": [
     "table",
@@ -170,7 +180,7 @@
     "data-ui.css": "f69e52a860363c368db675d871dc23739b56f35568c3913a13d54d2626f01230",
     "data-ui.js": "aa76281d549a98dc0a647a998e354d507f67d2eb9f2eabacfb4af9987ef969a3",
     "LICENSES.md": "92f05a8eaada74b5e84455845a1dd8c6fd944b14d58aad15db8f9de90ee4ec87",
-    "manifest.json": "df77ea7f2886d2a944e9fda48d7c2b5b9ad1c89ddd36289c4b800bd9eaaa3c79",
+    "manifest.json": "45c9c2dad8e5a46c153bdfede88347f28dd82ae9f94ceacf0054c10cae65a286",
     "resize.js": "2c78d1b28e6abf1a8cd83c8fb6eae17d9c069ca468956fe96b07f738155e71d9",
     "rowmodel-worker.js": "4c3913445bf2d4ae9da9072ed045d2e97a4c37effc9009ea6b8c45a754a67e3a",
     "sources.js": "bd9aeb6039baaf046244f9b76c1975ef7d74f3930c3d27f38d89e8f8f35c686d",
@@ -178,7 +188,7 @@
     "views/cards.js": "aac4eb4fc57af1cc8d5f60c9c0e6b80efba7e3643993e14c856c5f56d86f3da8",
     "views/chart-chunk-4KBJSCMR.js": "be8fd83ba5aa1027844c3798438667b22db65be57c439b9ead935f7c88f7dd5b",
     "views/chart-plot-NSCRHRYP.js": "83a6534617cd4718a42c1f4e55e29e5a71f2beb96a95421896a858ef070f095b",
-    "views/chart.js": "134d344a3f78a59e1cfcd33f94c4f89262fe161a674b23f7cbbe2bf621148e98",
+    "views/chart.js": "a9f2b93bee31a595538ac527df47eae443b2bb241b6f9647cd2ff5c4f9c159d6",
     "views/coverage.js": "b4fbd2604fa05dbde66aada2d0688374adb8ece4fc50cdd2962c776d8fb6ec95",
     "views/table.js": "7767f4dba36b4dc7f2debf8865d37c8b5439561bc39eb6ef17538bf9b5587034"
   },

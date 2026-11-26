@@ -73,9 +73,10 @@ PUBLIC_URL = "https://zacharyyamaoka.github.io/trajectory_tracking_agent/"
 # relative path's '/', the rail's URL encoding a value once and the pills' labels at 4.5:1, lane COV2; then the
 # leaderboard pivot §57 and its coverage amendment, 74be0c9a, lane MXDLIVE; then the charts §58, Ranks and the
 # configurable Bars, merged as 8b9d364b, vendored at dbc89e48 (main), which the Model × Dataset page draws with, lane
-# CHARTSLIVE).
+# CHARTSLIVE; then fd72347e, a Bars dot never wider than its slot plus the inner gap less 2 px, so Mark = dot keeps its
+# gaps at 390 px, the lane's own finding).
 # WHY pinned, not "main": a rebuild must not change the kit underneath the committed pages; bump it here on purpose.
-DATA_UI_REF = "dbc89e48aa246e9f6998d248c85b2695feaeb854"
+DATA_UI_REF = "fd72347ec5fbee6a91ffe1d08c184f433132c03e"
 KIT = SITE / "vendor" / "data-ui"
 KIT_VIEWS = ("table", "cards", "chart", "coverage")
 # WHY these left out: like-obsidian/ (3.8 MB) opens a notes folder's record and python/ is the checker, neither used
