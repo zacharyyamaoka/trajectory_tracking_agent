@@ -1,0 +1,107 @@
+{
+  "schema": "tta.bam-fb-physical-tape-speed-preflight/1",
+  "physical_acquisition": false,
+  "scope": "stock speed preflight on frozen reference tapes. These files contain no final servo command or hardware readout.",
+  "stock_checker_sha256": "1e43f49c10ec07f5a99a720047082dfdeaa37e0e7b7a1600af745b04237f7ff7",
+  "max_sped_up_fraction": 0.25,
+  "joint_cap_deg_s": {
+    "J1": 450.0,
+    "J2": 450.0,
+    "C1": 450.0,
+    "W1": 450.0,
+    "W2": 450.0,
+    "W3": 450.0
+  },
+  "datasets": {
+    "workspace": {
+      "frozen_routes": 54,
+      "manifest_sha256": "145dc741e48691920478e2084839cee0cb523c5c698a31f49bf5a3cf95ef8c9b",
+      "rungs": {
+        "0.25": {
+          "available": 54,
+          "by_split": {
+            "dev": 42,
+            "holdout": 12
+          },
+          "passed_stock_tape_speed_check": 54,
+          "commanded_peak_deg_s": {
+            "J1": 24.400237843196393,
+            "J2": 28.526105254323664,
+            "C1": 28.638863093238857,
+            "W1": 28.576968545037328,
+            "W2": 28.60852392170275,
+            "W3": 28.64346379671941
+          },
+          "one_refusal_example": null
+        },
+        "1.0": {
+          "available": 54,
+          "by_split": {
+            "dev": 42,
+            "holdout": 12
+          },
+          "passed_stock_tape_speed_check": 0,
+          "commanded_peak_deg_s": {
+            "J1": 97.58207596056323,
+            "J2": 114.10442101729116,
+            "C1": 114.55545237294525,
+            "W1": 114.3078741801366,
+            "W2": 114.4340956867951,
+            "W3": 114.57385518684964
+          },
+          "one_refusal_example": {
+            "task": "workspace-dev-000",
+            "reasons": [
+              "REFUSED (speed cap): a sped-up tape (workspace) at speed_fraction 1.0, above 0.25 of its 100 % tape"
+            ]
+          }
+        }
+      }
+    },
+    "conveyor": {
+      "frozen_routes": 64,
+      "manifest_sha256": "9e378456c94bde64ac2837c0dd3882fd141146d61e3d8809067f7b47d9553cff",
+      "rungs": {
+        "0.25": {
+          "available": 32,
+          "by_split": {
+            "dev": 24,
+            "holdout": 8
+          },
+          "passed_stock_tape_speed_check": 32,
+          "commanded_peak_deg_s": {
+            "J1": 14.98192858923116,
+            "J2": 23.069730328145305,
+            "C1": 28.62732556094464,
+            "W1": 27.280064315601877,
+            "W2": 14.98192858936245,
+            "W3": 28.61388749415706
+          },
+          "one_refusal_example": null
+        },
+        "1.0": {
+          "available": 64,
+          "by_split": {
+            "dev": 48,
+            "holdout": 16
+          },
+          "passed_stock_tape_speed_check": 0,
+          "commanded_peak_deg_s": {
+            "J1": 59.92771435692464,
+            "J2": 92.26220492640816,
+            "C1": 114.57555927304473,
+            "W1": 109.10194698079948,
+            "W2": 59.9277143574498,
+            "W3": 114.45554997661806
+          },
+          "one_refusal_example": {
+            "task": "conveyor-dev-000",
+            "reasons": [
+              "REFUSED (speed cap): a sped-up tape (conveyor) at speed_fraction 1.0, above 0.25 of its 100 % tape"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

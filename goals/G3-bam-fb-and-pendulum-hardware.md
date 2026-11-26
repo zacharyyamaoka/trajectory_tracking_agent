@@ -19,3 +19,5 @@ Use archived runs to establish baselines and identify models where provenance pe
 The [archive audit](../experiments/physical_tracking/archive-evidence.json) records the historical encoder estimates and the coverage and clock gaps. It does not supply a goal measurement.
 
 The archived [CAN 11 plan preflight](../experiments/physical_tracking/pendulum-preflight.json) verifies the stock plan parser and limits checker with devices disabled. The [sampling study](../experiments/physical_tracking/camera-sampling-evidence.json) quantifies how the historical camera cadence affects RMS even with ideal positions and timestamps.
+
+The standing BAM FB bench rule caps sped-up physical tapes at rung 0.25 and caps each measured joint speed independently. The [stock speed preflight](../experiments/physical_tracking/bam-fb-speed-preflight.json) covers all 54 workspace and 32 static conveyor tapes at 0.25. The 32 moving-belt routes exist at rung 1.0 only. Record the fully covered admitted physical rung with the owner and preserve the simulation corpus. Any capped pilot remains partial qualification until the matching moving-belt routes and run evidence exist.

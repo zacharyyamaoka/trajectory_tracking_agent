@@ -40,6 +40,7 @@ never delete it.
   - Goal: G3 · step 3
   - Effort: 120 min
   - By: 2026-11-26T18:30-07:00
+  - The stock [BAM FB tape preflight](experiments/physical_tracking/bam-fb-speed-preflight.json) accepted 86 existing capped tapes. The moving-belt cases require an admitted intercept timing and a synchronized load-side capture.
 
 - [x] Measure the worst stop and full-trajectory RMS across the matched UR5e workspace and conveyor runs, with one controller revision and all ten speeds in the report.
   - Goal: G1 · step 1
