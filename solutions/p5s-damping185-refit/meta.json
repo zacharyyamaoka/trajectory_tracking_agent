@@ -1,0 +1,18 @@
+{
+  "id": "p5s-damping185-refit",
+  "parent": "p5s-damping185",
+  "change": "Refit the inherited feedforward model once using dev tracking errors at its configured gains",
+  "proposed_by": {
+    "agent": "Codex (Trajectory Tracking friction_asymmetry lane)",
+    "model": "gpt-6.2-sol",
+    "session": "01a214e8-7cf0-7411-93c0-de3d5044293c/friction_asymmetry"
+  },
+  "created": "2026-11-25T17:50:18-07:00",
+  "tags": [
+    "transfer-risk:stiffness"
+  ],
+  "name": "P5.s.pass3.Damping185.Refit",
+  "summary": "Refit feedforward once using 42 dev runs at 1.85× damping.",
+  "description": "Start from p5s-damping185's original model and run the same identification pass on its saved dev tracking errors with kp 4.0 and kd 1.85. Add the fitted gravity and odd-friction residual to the model while keeping the controller, gains, and timing fixed.",
+  "expect": "Pass all five frozen gates on 42/42 dev tasks and score below 0.03100 mm median dev tool_track_rms_mm (p5s-damping185 scored 0.03108265184569549 mm)."
+}
