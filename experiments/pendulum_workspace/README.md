@@ -26,6 +26,8 @@ The [development replays](identified-locked-dev.json) and [untouched holdout rep
 
 [Verification](verify.py) independently recomputes whole-trace and stop distances from every raw recording, validates the recorded tape arrays against the original bytes, and reconciles both split summaries with the controller lock. The [qualification](qualification.json) holds the maxima and checksums. Raw traces are saved in the output directories `identified-kp4-dev` and `identified-kp4-holdout` under `outputs/pendulum-workspace`.
 
+The stock arm motion bench verifier regenerated every frozen workspace v2 tape and sidecar with the original manifest hashes. A fresh development replay reproduced the summary and worst-RMS trace byte for byte. The holdout command refused a changed damping scale before it created an output directory.
+
 ```bash
 python experiments/pendulum_workspace/run.py --split dev --record-states --out outputs/pendulum-workspace/p3s-probes
 python experiments/pendulum_workspace/identify.py outputs/pendulum-workspace/p3s-probes outputs/pendulum-workspace/reproduced-fit.json
