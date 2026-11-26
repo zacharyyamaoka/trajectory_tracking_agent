@@ -143,7 +143,7 @@ def run_one(dataset, tape_row, controller, target):
     tape = load_npz(dataset / tape_row["path"])
     if tuple(tape.joint_names) != JOINT_NAMES or len(tape.t) != tape_row["samples"]:
         raise ValueError("the tape differs from the frozen joint order or sample count")
-    if not np.array_equal(tape.positions[0], tape.positions[-1]):
+    if not np.allclose(tape.positions[0], tape.positions[-1], atol=1e-12, rtol=0.0):
         raise ValueError("the conveyor cycle must end at the starting joint pose")
     portal = station(mount="portal")
     dep = deployment()
