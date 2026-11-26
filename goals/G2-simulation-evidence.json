@@ -1,0 +1,26 @@
+{
+  "schema": "tta.bam-fb-and-pendulum-simulation-evidence/1",
+  "rung": 1.0,
+  "runs": 170,
+  "existing_admission_run_passes": 170,
+  "cohorts": {
+    "bam_fb": {
+      "artifact": "experiments/bam_fb_transfer/qualification.json",
+      "sha256": "0fa8e3765bac963088a46ae1c58cf35a0072571e20a734ce39fcb769a6284b2f",
+      "controller_sha256": "4cdb58a73b9bec97bce825eff27b8618ee4b1f30232d0370b861ce598138c13f"
+    },
+    "pendulum": {
+      "artifact": "experiments/pendulum_workspace/qualification.json",
+      "sha256": "8f0391bac5b75cb4bb87ca9821138d00630462e5640de9c4c2b0f6173231115d",
+      "controller_sha256": "4f19b3ec1f5212608d7cb43664a19d303706cc8b85f6eb96ee79595001ce1931"
+    }
+  },
+  "goal_measurements_mm": {
+    "bam_fb_workspace_sim_worst_stop_mm": 0.4595658841007937,
+    "bam_fb_workspace_sim_worst_full_rms_mm": 0.9624655604049531,
+    "bam_fb_conveyor_sim_worst_stop_mm": 0.4516450212379311,
+    "bam_fb_conveyor_sim_worst_full_rms_mm": 0.8138332093867385,
+    "pendulum_workspace_sim_worst_stop_mm": 0.0972850656741417,
+    "pendulum_workspace_sim_worst_full_rms_mm": 0.0996352181195757
+  }
+}
