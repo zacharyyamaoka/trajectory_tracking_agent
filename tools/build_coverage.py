@@ -45,6 +45,7 @@ import argparse
 import ast
 import hashlib
 import html
+import inspect
 import json
 import os
 import re
@@ -710,7 +711,9 @@ def workbench_main(argv: list[str]) -> None:
     n = len(trajectories)
     subtitle = (f"{len(args.dataset)} dataset{'s' if len(args.dataset) != 1 else ''} in ruler v1 · dev + holdout at speed "
                 f"1.0 · {n} trajectories · tool = the dataset's TCP (flange + 0.144 m), base frame")
-    coverage = analyze(trajectories, tool=tools, tags=tags, group_by="dataset", title=args.title, subtitle=subtitle)
+    # WHY explicit: these are the ruler's original full-speed tapes. Instantaneous joint speed cannot identify a tape's scale.
+    coverage = analyze(trajectories, tool=tools, tags=tags, group_by="dataset", title=args.title, subtitle=subtitle,
+                       speed_scales=dict.fromkeys(trajectories, 1.0))
     out = args.out
     out.mkdir(parents=True, exist_ok=True)
     for stale in [*out.glob("rrd-*.rrd"), out / "embed.html"]:
@@ -724,12 +727,18 @@ def workbench_main(argv: list[str]) -> None:
                     rrd_for=rrd if args.rrd else None, dataset="dataset", facets=("split", "kind"), lead=("deployment",),
                     kit=args.kit, public_url=args.public_url if args.rrd else None,
                     rerun_server=bool(args.rrd and args.rerun_server), served_at=args.served_at, pages=False)
+    import traj_compare
+
+    write_json(out / "build.json", {"traj_compare": git_commit(Path(traj_compare.__file__).resolve().parents[2]),
+                                    "data_ui": DATA_UI_REF})
     pictures = write_thumbs(out / "parts.json", out / "trajectories.json", args.thumbs, args.robot)
     print(json.dumps({"trajectories": n, "datasets": counts, "thumbs": pictures, **written,
                       "rrd_bytes": sum((out / p).stat().st_size for p in rrd.values()) if args.rrd else 0}))
 
 
 RRD_INPUTS = "rrd_inputs.json"
+PREVIOUS_WORKBENCH_SHA = "40862996254f43e975de00a30ac81aad71624c57a7f99d39fd8d13ccd781f4a7"
+PREVIOUS_RRD_WRITER_SHA = "cee135d8f92df82f823b17ddb96080caa3343e10225d418bc8fd2cee1675cb4a"
 
 
 def _viewer_sources() -> dict:
@@ -738,10 +747,10 @@ def _viewer_sources() -> dict:
     does. WHY not their git commits: an unrelated commit in either repo would rewrite all 54 files (seen 2026-11-25)."""
     import rerun
     import robot_msgs.viz.rerun as viewer
-    import traj_compare.coverage.workbench as workbench
+    from traj_compare.coverage.workbench import write_trajectory_rrd
 
     return {"rerun_sdk": rerun.__version__, "robot_msgs.viz.rerun": sha256(Path(viewer.__file__)),
-            "traj_compare.coverage.workbench": sha256(Path(workbench.__file__))}
+            "traj_compare.write_trajectory_rrd": hashlib.sha256(inspect.getsource(write_trajectory_rrd).encode()).hexdigest()}
 
 
 def write_recordings(out: Path, rrd: dict, trajectories: dict, tags: dict, tape_digest: dict, urdfs: dict,
@@ -773,16 +782,26 @@ def write_recordings(out: Path, rrd: dict, trajectories: dict, tags: dict, tape_
         poses = {name: (arrays[f"t_{i}"], arrays[f"p_{i}"], arrays[f"R_{i}"]) for i, name in enumerate(names)}
     record_path = out / RRD_INPUTS
     before = json.loads(record_path.read_text())["files"] if record_path.exists() else {}
+    old_viewer = None
+    # WHY migrate both hashes: the robot= writer delegates to robot_msgs. Coverage HTML edits in its old module do
+    # not change the recording. Reuse old bytes only if this exact writer, robot_msgs, SDK, and recording inputs match.
+    if viewer["traj_compare.write_trajectory_rrd"] == PREVIOUS_RRD_WRITER_SHA:
+        old_viewer = {key: val for key, val in viewer.items() if key != "traj_compare.write_trajectory_rrd"}
+        old_viewer["traj_compare.coverage.workbench"] = PREVIOUS_WORKBENCH_SHA
     files, wrote, kept = {}, [], []
     for name, file in rrd.items():
         deployment = tags[name]["deployment"]
         t, positions, rotations = poses[name]
-        digest = hashlib.sha256(json.dumps({
+        inputs = {
             "name": name, "tape": tape_digest[name], "robot": folder_digest[deployment], "ghosts": False,
             "tool": hashlib.sha256(b"".join(np.ascontiguousarray(a, dtype="<f8").tobytes() for a in (t, positions, rotations))).hexdigest(),
-            "viewer": viewer}, sort_keys=True).encode()).hexdigest()
+            "viewer": viewer,
+        }
+        digest = hashlib.sha256(json.dumps(inputs, sort_keys=True).encode()).hexdigest()
         files[file] = digest
-        if before.get(file) == digest and (out / file).exists():
+        old_digest = (hashlib.sha256(json.dumps({**inputs, "viewer": old_viewer}, sort_keys=True).encode()).hexdigest()
+                      if old_viewer else None)
+        if before.get(file) in (digest, old_digest) and file in before and (out / file).exists():
             kept.append(file)
             continue
         # the ruler's tool point (OBJECTIVES §2), in the URDF's root link: the arm's tool path and its TCP tab

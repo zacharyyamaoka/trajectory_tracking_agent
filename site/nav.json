@@ -30,9 +30,12 @@
   {
    "id": "comparison", "label": "Trajectory comparison", "short": "Comparison", "group": "trajectory", "icon": "comparison", "href": "comparison/",
    "about": "Target vs sim, task by task: the runs the objective is computed from.",
-   "by": "traj_compare's dataset and run reports",
+   "by": "traj_compare's Dataset report, Runs workbench and playback reports",
    "pages": [
-    {"id": "comparison-tasks", "label": "Every dev task", "href": "comparison/", "match": "comparison/"}
+    {"id": "comparison-sweeps", "label": "Speed sweeps", "href": "comparison/#/sweeps"},
+    {"id": "comparison-workbench", "label": "Targets and runs", "href": "comparison/workbench/#tab=targets", "match": "comparison/workbench/"},
+    {"id": "comparison-study", "label": "UR5e speed study", "href": "reports/ur5e-speed-sweep.html"},
+    {"id": "comparison-tasks", "label": "Comparison overview", "href": "comparison/", "match": "comparison/"}
    ]
   },
   {

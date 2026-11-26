@@ -93,9 +93,8 @@ BUILD = WORK / "comparison-build"
 TRAJ_COMPARE_PYTHON = Path(os.environ.get("TTA_TRAJ_COMPARE_PYTHON",
                                           REPO.parent / "traj_compare" / ".venv" / "bin" / "python"))
 PUBLIC_DIR = "site/comparison"  # what the dataset page's commands call its folder (write_dataset_report command_root)
-# The first traj_compare commit with the stock options this build uses (assets=, command_root=, rerun=False,
-# stats_mask=, dark mode, #run= deep links); the build refuses an older checkout
-TRAJ_COMPARE_MIN = "a4c3c79"
+# The first traj_compare commit with matched sweep observations and the stock Runs workbench.
+TRAJ_COMPARE_MIN = "541f5f1"
 EXCLUDED_TAG = "ablation"
 TOOL_FRAME = "tool point"  # the flange site `tool`, 0.1 m along wrist_3 (OBJECTIVES §2); said once in each report
 # OBJECTIVES §3's words for the task kinds, in the order it lists them
@@ -413,14 +412,14 @@ def comparison_stage() -> None:
     import numpy as np
     from robot_msgs import load_npz
     from robot_msgs.trajectory import JointTrajectory
-    from traj_compare import (Comparison, Metric, MetricCard, ReportPage, RobotDisplay, Run, Situation, Sweep,
-                              write_comparison_report, write_dataset_report)
-
     import traj_compare
 
     here = Path(traj_compare.__file__).resolve().parents[2]
     if subprocess.run(["git", "-C", str(here), "merge-base", "--is-ancestor", TRAJ_COMPARE_MIN, "HEAD"]).returncode:
         raise SystemExit(f"traj_compare at {here} is older than {TRAJ_COMPARE_MIN} (the stock options this build uses)")
+    from traj_compare import (Comparison, Metric, MetricCard, ReportPage, RobotDisplay, Run, Situation, Sweep,
+                              SweepObservation, write_comparison_report, write_dataset_report, write_runs_workbench)
+
     manifest = _json(INPUTS / "manifest.json")
     joints = tuple(manifest["joint_names"])
     solutions = [s["id"] for s in manifest["solutions"]]
@@ -433,7 +432,8 @@ def comparison_stage() -> None:
     runs = []
     for task in manifest["tasks"]:
         data = np.load(INPUTS / f"{task['id']}.npz")
-        tags: dict[str, Any] = {"task": task["id"], "kind": task["kind_label"], "split": SPLIT, "speed_fraction": 1.0}
+        tags: dict[str, Any] = {"task": task["id"], "kind": task["kind_label"], "split": SPLIT,
+                                "dataset": DATASET, "speed_fraction": 1.0}
         measured = {}
         for situation in task["situations"]:
             sid, row = situation["id"], situation["row"]
@@ -445,11 +445,24 @@ def comparison_stage() -> None:
             tags[f"{sid}_tool_lag_ms"] = row["diagnostics"]["tool_lag_ms"]
         runs.append(Run(name=task["id"], title=task["title"], reference=load_npz(REPO / task["tape"]),
                         measured=measured, tags=tags, pairs=[("reference", sid) for sid in measured]))
+    speed_study = REPO / "experiments/ur5e_speed_sweep/study.json"
+    study = _json(speed_study)
+    if set(study["targets"]) != {task["id"] for task in manifest["tasks"]}:
+        raise ValueError("the speed study must use the same dev targets as Comparison")
+    observations = tuple(
+        SweepObservation(series=series, target=target, x=fraction, value=value)
+        for series, by_speed in study["tracking_rms_mm"].items()
+        for fraction, scores in zip(study["fractions"], by_speed, strict=True)
+        for target, value in zip(study["targets"], scores, strict=True)
+    )
+    # WHY separate observations: the ten-speed study has matched scalar results, while the recorded trajectories,
+    # Target views, and the ranked league are the frozen full-speed runs.
     sweep = Sweep(
         x="speed_fraction", y="{series}_tool_track_rms_mm", facet_by="kind",
-        x_label="speed fraction",
-        y_label="tool tracking RMS (the ruler's per-task number; the median is the objective)",
-        unit="mm",
+        x_label="Fraction of full-speed tape",
+        y_label="Tool tracking RMS",
+        x_domain=(0.0, 1.0), x_step=0.1, observations=observations,
+        unit="mm", log_y=True,
         metrics=(Metric("{series}_stop_error_mm", label="stop error", unit="mm"),
                  Metric("{series}_joint_track_rms_deg", label="worst-joint tracking RMS", unit="°"),
                  Metric("{series}_tool_lag_ms", label="tool lag", unit="ms")),
@@ -468,6 +481,9 @@ def comparison_stage() -> None:
     write_dataset_report(runs, BUILD, title=f"Trajectory Comparison: {DEPLOYMENT} · {DATASET} · {SPLIT}",
                          target_by="task", sweep=sweep, summary=summary, rows=(), drill_down="lazy",
                          command_root=PUBLIC_DIR, rerun=False)
+    write_runs_workbench({"UR5e": BUILD}, BUILD / "workbench", title="UR5e full-speed Targets and Runs",
+                         kit="../../vendor/data-ui", rail=("config", "kind", "target"),
+                         rerun_server=False, sim_vs_real=False, accuracy_fallback=False, serve_root=BUILD.relative_to(REPO))
     page = (BUILD / "index.html").read_text()
     payload = json.loads(re.search(r'id="traj-compare-dataset">(.*?)</script>', page, re.S).group(1).replace("<\\/", "</"))
     target_slug = {target["key"]: (target["slug"], target["title"]) for target in payload["levels"]["targets"]}
@@ -578,6 +594,10 @@ def publish() -> dict[str, Any]:
         out = COMPARISON / "runs" / slug / "report.html"
         out.parent.mkdir(parents=True)
         out.write_text(_with_bar(page, out, "comparison", here=f"Run · {slug}"))
+    shutil.copytree(BUILD / "workbench", COMPARISON / "workbench")
+    for name in ("index.html", "target.html"):
+        page = COMPARISON / "workbench" / name
+        page.write_text(_with_bar(page.read_text(), page, "comparison"))
     _keep_unchanged(old)
     manifest = _json(INPUTS / "manifest.json")
     files = sorted(p for p in COMPARISON.rglob("*") if p.is_file())
@@ -588,6 +608,7 @@ def publish() -> dict[str, Any]:
         "made_by": {"repo": manifest["repo"], "traj_compare": build["traj_compare"], "robot_msgs": build["robot_msgs"]},
         "solutions": [{"id": s["id"], "role": s["role"]} for s in manifest["solutions"]],
         "tasks": [task["id"] for task in manifest["tasks"]],
+        "speed_study_sha256": hashlib.sha256((REPO / "experiments/ur5e_speed_sweep/study.json").read_bytes()).hexdigest(),
         "assets": {asset.name: hashlib.sha256(asset.read_bytes()).hexdigest()
                    for asset in sorted((COMPARISON / "assets").iterdir())},
         "fk_check_worst_mm": manifest["fk_check_worst_mm"],
@@ -1139,7 +1160,8 @@ def private_hits(files: list[Path] | None = None) -> list[str]:
 
 def link_problems() -> list[str]:
     problems = []
-    pages = [COMPARISON / "index.html", MXD / "index.html", *sorted(COMPARISON.glob("runs/*/report.html"))]
+    pages = [COMPARISON / "index.html", MXD / "index.html", *sorted(COMPARISON.glob("runs/*/report.html")),
+             *sorted((COMPARISON / "workbench").glob("*.html"))]
     for page in pages:
         for link in page_links(page):
             if not resolves(page, link):
@@ -1180,12 +1202,12 @@ def number_problems() -> list[str]:
     cards = {sid: scorecard(sid) for sid in solutions}
     payload = dataset_payload()
     facet = next(f for f in payload["sweep"]["facets"] if f["value"] == "all")
-    league = {c["name"]: c["points"][0] for c in facet["configs"]}
+    full_speed = {c["name"]: next(point for point in c["points"] if point["x"] == 1.0) for c in facet["configs"]}
     for sid in solutions:
-        if league[sid]["median"] != cards[sid]["objective"]:
-            problems.append(f"league median {sid}: {league[sid]['median']} != scorecard {cards[sid]['objective']}")
-        if league[sid]["n"] != len(cards[sid]["tasks"]):
-            problems.append(f"league n {sid}")
+        if full_speed[sid]["median"] != cards[sid]["objective"]:
+            problems.append(f"full-speed median {sid}: {full_speed[sid]['median']} != scorecard {cards[sid]['objective']}")
+        if full_speed[sid]["n"] != len(cards[sid]["tasks"]):
+            problems.append(f"full-speed n {sid}")
     for task in dev_tasks(index):
         payload = report_payload(task["id"])
         table = payload["comparisons"][0]["statistics"]

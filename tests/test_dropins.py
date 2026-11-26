@@ -157,7 +157,8 @@ def test_league_is_the_objective():
     each task kind's median is the median of the scorecard's per-task numbers of that kind; the run tags the league
     scores are the scorecard rows' numbers, and their medians are the scorecard's diagnostics."""
     payload = _payload(COMPARISON / "index.html", "traj-compare-dataset")
-    facets = {facet["value"]: {c["name"]: c["points"][0] for c in facet["configs"]} for facet in payload["sweep"]["facets"]}
+    facets = {facet["value"]: {c["name"]: next(point for point in c["points"] if point["x"] == 1.0)
+                               for c in facet["configs"]} for facet in payload["sweep"]["facets"]}
     kinds = {task["id"]: task["kind"] for task in _runs_index()["tasks"]}
     labels = {run["name"]: run["tags"]["kind"] for run in payload["runs"]}
     for sid in _full():
@@ -175,6 +176,24 @@ def test_league_is_the_objective():
         for metric in ("stop_error_mm", "joint_track_rms_deg", "tool_lag_ms"):
             values = [run["tags"][f"{sid}_{metric}"] for run in payload["runs"]]
             assert float(np.median(values)) == card["diagnostics"][metric], (sid, metric)
+
+
+def test_matched_speed_curves_and_stock_workbench():
+    payload = _payload(COMPARISON / "index.html", "traj-compare-dataset")
+    study = json.loads((REPO / "experiments" / "ur5e_speed_sweep" / "study.json").read_text())
+    sweep = payload["sweep"]
+    assert sweep["x_domain"] == [0.0, 1.0]
+    assert sweep["x_buckets"] == study["fractions"] == [step / 10 for step in range(1, 11)]
+    curves = next(facet for facet in sweep["facets"] if facet["value"] == "all")["configs"]
+    assert {curve["name"] for curve in curves} == set(study["controllers"])
+    for curve in curves:
+        reference = study["controllers"][curve["name"]]["by_speed"]
+        assert [point["median"] for point in curve["points"]] == [row["median_mm"] for row in reference]
+        assert [point["n"] for point in curve["points"]] == [len(study["targets"])] * 10
+    runs = json.loads((COMPARISON / "workbench" / "runs.json").read_text())["rows"]
+    assert len(runs) == len(study["targets"]) * len(_full())
+    assert {row["speed"] for row in runs} == {1.0}
+    assert all((COMPARISON / "workbench" / row["run_report"]).is_file() for row in runs)
 
 
 def test_models_datasets_cells_are_the_scorecards():

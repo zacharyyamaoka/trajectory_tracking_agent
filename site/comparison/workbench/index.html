@@ -1,0 +1,160 @@
+<!doctype html>
+<!-- The runs workbench of traj_compare (traj_compare.runs_workbench): one stock data-ui <data-workbench> over every run of
+     every deployment (runs.base); the host script adds only what data-ui cannot (named in docs/RUNS_WORKBENCH.md).
+     Serve it (module scripts and the playback buttons need http):  python -m traj_compare.serve outputs/dropins/comparison-build  -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="data:,">
+<title>UR5e full-speed Targets and Runs</title>
+<link rel="stylesheet" href="../../vendor/data-ui/data-ui.css">
+<style>
+  html, body { margin: 0; }
+  body { font: 14px/1.4 system-ui, sans-serif; background: #fff; color: #1f2328; overflow-x: hidden; }
+  #host { display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 14px; box-sizing: border-box; min-width: 0; }
+  #host h1 { font-size: 14.5px; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 0 1 auto; }
+  #host .sub { color: #57606a; font-size: 12.5px; white-space: nowrap; }
+  #host button { font: inherit; font-size: 12.5px; padding: 3px 8px; border: 1px solid #d0d7de; border-radius: 6px; background: #fff; color: inherit; cursor: pointer; white-space: nowrap; }
+  #warn { font-size: 12.5px; color: #7d4e00; background: #fff8c5; border: 1px solid #eac54f; border-radius: 6px; padding: 2px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1 1 auto; }
+  #host .sp { flex: 1; }
+  #tc .dw-frame > data-fold[fold="always"] { width: auto; padding: 8px 6px 0 8px; border-right: 0; }
+  #tc .dw-frame > data-fold[fold="always"] + .dw-rail-handle { display: none !important; }
+  data-workbench { display: block; --data-height: calc(100vh - 40px); }
+  @media (prefers-color-scheme: dark) {
+    body { background: #111113; color: #e6edf3; }
+    #host .sub { color: #9198a1; }
+    #host button { background: #161b22; border-color: #30363d; }
+    #warn { color: #e3b341; background: #272115; border-color: #6c5418; }
+  }
+</style>
+</head>
+<body>
+<bb-site-nav src="../../nav.json" current="comparison"></bb-site-nav>
+<script type="module" src="../../dashboard/viewer/src/components/bb-site-nav.js"></script>
+<header id="host">
+  <button type="button" id="fold" aria-pressed="false" title="Fold the filter rail to a chip">⟨ Fold filters</button>
+  <h1>UR5e full-speed Targets and Runs</h1><span class="sub">84 runs · 42 targets · 1 deployments</span>
+  <span id="warn" role="status" hidden></span>
+  <span class="sp"></span>
+</header>
+<data-workbench id="tc" src="runs.base" aria-label="UR5e full-speed Targets and Runs"></data-workbench>
+<script type="application/json" id="tc-views">{"acc":{"id":"accuracy","kpi":"tool_track_rms_mm","label":"Tool tracking RMS","short":"Tool tracking RMS","unit":"mm","log":true,"fill":"traj_compare's own tool RMS (robot_msgs.compare)"},"costs":[{"id":"stop_error_mm","label":"stop error","short":"stop error","unit":"mm","log":false},{"id":"joint_track_rms_deg","label":"worst-joint tracking RMS","short":"worst-joint tracking RMS","unit":"°","log":false},{"id":"tool_lag_ms","label":"tool lag","short":"tool lag","unit":"ms","log":false}],"deployments":["UR5e"],"modelTypes":null,"modelTypeLabel":"Model type","configOrder":["p5s-damping185-refit","p6s"],"palette":["#2a78d6","#eb6834","#2f9e44","#8e5bd1","#c22f6e","#17a2b8","#a67c00","#6b7a8f","#d17c7b","#336a3a","#7d4b8b","#974811","#f356b8","#ac28ab","#b81b36","#9d86da"],"speed":{"label":"Fraction of full-speed tape","times":false,"word":"speed"},"rule":"median over targets of each target’s median over its runs","pairs":null,"coverage":null}</script>
+<script type="module" src="../../vendor/data-ui/data-ui.js"></script>
+<script type="module">
+// the host views (the Overview's tiles and pages, the sim-vs-real answer), registered through data-ui's own
+// registerView before the workbench draws a panel of runs.base (traj_compare.runs_overview, assets/runs_views.js)
+import { registerView } from '../../vendor/data-ui/data-ui.js';
+import { registerRunsViews } from './runs_views.js';
+registerRunsViews(registerView, JSON.parse(document.getElementById('tc-views').textContent));
+/* traj_compare's runs workbench, the host glue around the stock <data-workbench id="tc"> (traj_compare.runs_workbench).
+   Everything inside the workbench is stock data-ui; this file only does what data-ui cannot yet (docs/RUNS_WORKBENCH.md
+   names each gap and its data-ui ask):
+   - "Open target view" opens the target view IN THIS TAB, the runs the rail keeps for that target ticked (keep=) and
+     this page's URL (its rail and its tab) as back=, so the target view's ‹ link returns to exactly this filter
+     (data-ui's drill runs href / post / copy, and an href opens a new tab: gap 2); a "Does sim match real?" row
+     (pairs.json) ticks exactly its pair's two lines instead;
+   - the cross-deployment warning when the kept runs span more than one deployment (no conditional note: gap 5);
+   - the Fold button: the stock rail folds only under 1,100 px, so it sets the stock fold="always" (gap 6);
+   - html[data-ready=1] once the open page's panels drew (data-ui marks the workbench, not its dashboards).
+   The rows are the scope's own (wb.scope.data.rows, wb.model.rows): nothing is loaded twice. */
+const wb = document.getElementById('tc');
+const warn = document.getElementById('warn');
+const foldButton = document.getElementById('fold');
+const FOLD_KEY = `traj-compare/runs-workbench/${location.pathname}/rail-folded`;
+const store = {
+  get(key, fallback) { try { const v = localStorage.getItem(key); return v === null ? fallback : JSON.parse(v); } catch { return fallback; } },
+  set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* a private window */ } },
+};
+const allRows = () => (wb.scope && wb.scope.data ? wb.scope.data.rows : []);
+const keptRows = () => (wb.model ? wb.model.rows : []);
+let byId = new Map();
+let pairsById = new Map();
+/** The "Does sim match real?" tab's rows (pairs.json), by id: a pair's drill ticks exactly its two lines. */
+function pairs() {
+  if (!pairsById.size) {
+    const sets = wb.scope && wb.scope.datasets;
+    const rows = sets && sets.pairs && sets.pairs.rows ? sets.pairs.rows : [];
+    pairsById = new Map(rows.map((row) => [String(row.id), row]));
+  }
+  return pairsById;
+}
+
+function applyFold(folded) {
+  const fold = wb.querySelector('data-fold.dw-rail');
+  if (!fold) return;
+  if (folded) fold.setAttribute('fold', 'always');
+  else { fold.removeAttribute('fold'); if (fold.hasAttribute('open') && fold.toggle) fold.toggle(false); }
+  foldButton.setAttribute('aria-pressed', String(folded));
+  foldButton.textContent = folded ? '⟩ Show filters' : '⟨ Fold filters';
+}
+foldButton.addEventListener('click', () => {
+  const next = foldButton.getAttribute('aria-pressed') !== 'true';
+  store.set(FOLD_KEY, next);
+  applyFold(next);
+});
+
+function changed() {
+  const deployments = [...new Set(keptRows().map((row) => row.deployment))];
+  // WHY a warning and never a block (Zach, 2026-11-24): "If you use the same configuration across multiple deployments
+  // then you can compare it"; the earlier same-deployment rule survives only as this line
+  warn.hidden = deployments.length <= 1;
+  warn.textContent = deployments.length > 1
+    ? `⚠ ${deployments.length} deployments in the filter (${deployments.join(', ')}): a config compares across robots, but the robots differ — read the League with that in mind.`
+    : '';
+}
+wb.addEventListener('data-scope-load', () => {
+  byId = new Map(allRows().map((row) => [String(row.id), row]));
+  pairsById = new Map();
+  applyFold(store.get(FOLD_KEY, false));
+});
+wb.addEventListener('data-scope-change', changed);
+wb.addEventListener('data-scope-tab', changed);
+
+/** The target view's URL for one target: the runs the rail keeps ticked (or `lines`), this page (filter and tab) to come
+    back to. */
+function targetUrl(site, slug, lines = null) {
+  const key = `${site}|${slug}`;
+  const keep = lines || keptRows().filter((row) => row.target_key === key).map((row) => row.line);
+  // WHY the path, not location.href: back= travels on into playback's breadcrumb, which takes same-origin paths only
+  const query = new URLSearchParams({ site, target: slug, keep: keep.join(','), back: location.pathname + location.search + location.hash });
+  if (lines) query.set('why', 'pair');  // the target view then says "not in this pair", not "outside the rail filter"
+  return `target.html?${query.toString().replace(/%2C/g, ',')}`;
+}
+
+// the stock "Open target view" button, run here instead of data-ui's new tab (capture phase, matched by its label)
+document.addEventListener('click', (event) => {
+  const button = event.target.closest && event.target.closest('#tc [data-drill-action]');
+  if (!button || !button.textContent.trim().startsWith('Open target view')) return;
+  const id = button.dataset.drillRow || '';
+  const pair = pairs().get(id);
+  if (pair) {
+    // WHY both lines whatever the rail's Sim / real says: a pair IS the prediction and the measurement of one run
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    location.href = targetUrl(pair.site, pair.target_slug, String(pair.keep).split(',').map(Number));
+    return;
+  }
+  const row = byId.get(id);
+  // a Targets row's id is its target key (<site>|<slug>); a Runs row's is <site>:<line>
+  const [site, slug] = row ? [row.site, row.target_slug] : id.split('|');
+  if (!site || !slug) return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  location.href = targetUrl(site, slug);
+}, true);
+
+// ready: the workbench drew and every panel on the open page drew
+(function tick() {
+  const page = [...wb.querySelectorAll('data-dashboard[tab]')].find((d) => !d.hidden);
+  const views = page ? [...page.querySelectorAll('data-views')] : [];
+  if (wb.hasAttribute('data-ready') && page && page.hasAttribute('data-view') && views.length && views.every((v) => v.hasAttribute('data-view'))) {
+    document.documentElement.dataset.ready = '1';
+    return;
+  }
+  setTimeout(tick, 100);
+}());
+
+</script>
+</body>
+</html>

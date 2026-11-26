@@ -3,11 +3,11 @@
  "what": "Trajectory Comparison, written by tools/build_dropins.py build from committed files (the tapes, the bb-run/1 records in site/data/runs/, the scorecards); never edit, rebuild.",
  "made_by": {
   "repo": {
-   "commit": "6c756a0",
+   "commit": "ac2bf70",
    "dirty": true
   },
   "traj_compare": {
-   "commit": "e413020",
+   "commit": "541f5f1",
    "dirty": false,
    "version": "0.1.0"
   },
@@ -70,6 +70,7 @@
   "workspace-dev-040",
   "workspace-dev-041"
  ],
+ "speed_study_sha256": "73a2219ba5712877f466ee220aa752e5004e17f9a9d78f96579eda7f4e25886e",
  "assets": {
   "plots.js": "dbec72a233aaeb5c14dc5c1eec003b2ea02317a9182f3b6078e6a364c447a6d8",
   "style.css": "11766ddf7a6c63dd7f0de65c6b297db112f980fbb352f5da48c2a381be13a90a",
@@ -81,5 +82,5 @@
   "viewhelper.js": "3c5e9d7e97247bdac20607053430d7a05a3e49fa1baeacf8283a4c8e7ef80889"
  },
  "fk_check_worst_mm": 0.001910650301660398,
- "bytes": 23855455
+ "bytes": 24402484
 }

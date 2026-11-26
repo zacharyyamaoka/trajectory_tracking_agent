@@ -87,6 +87,13 @@ pages:
         - { view: Which way the tool points, w: 5, h: 5 }
         - { view: 'Every direction, equal area', w: 7, h: 5 }
         - { view: Tilt × yaw, w: 12, h: 4 }
+  - name: Trajectory speed scale
+    layout:
+      columns: 12
+      rowHeight: 96
+      panels:
+        - { view: Trajectories by speed scale, w: 12, h: 3 }
+        - { view: Planned motion time by speed scale, w: 12, h: 3 }
   - name: Trajectories
     layout: { columns: 12, rowHeight: 96, panels: [{ view: Trajectories, w: 12, h: 6, style: { title: none } }] }
 views:
@@ -167,6 +174,75 @@ views:
     from: parts
     filters: 'kind == "tilt_yaw"'
     coverage: { sum: grid }
+  - type: chart
+    name: Trajectories by speed scale
+    chart:
+      layer:
+        - transform:
+            - { filter: 'isValid(datum.speed_scale)' }
+            - { aggregate: [{ op: count, as: bin_total }], groupby: [speed_scale_low, speed_scale_high] }
+          mark: { type: bar, binSpacing: 2, cornerRadiusEnd: 0 }
+          encoding:
+            x:
+              field: speed_scale_low
+              type: quantitative
+              bin: { binned: true, step: 0.1 }
+              scale: { domain: [0, 1], nice: false }
+              axis:
+                title: Fraction of maximum feasible speed
+                values: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+                format: '.1f'
+                labelOverlap: false
+            x2: { field: speed_scale_high }
+            'y': { field: bin_total, type: quantitative, stack: null, title: Trajectories, axis: { tickMinStep: 1 } }
+        - transform:
+            - { aggregate: [{ op: valid, field: speed_scale, as: known }, { op: count, as: selected }] }
+            - { filter: 'datum.known == 0 || datum.known < datum.selected' }
+            - calculate: 'datum.known == 0 ? ''No recorded speed scales in this selection'' : (datum.selected - datum.known) + '' without a recorded speed scale'''
+              as: coverage_label
+          mark: { type: text, baseline: bottom }
+          encoding:
+            x:
+              datum: 0.5
+              type: quantitative
+              scale: { domain: [0, 1], nice: false }
+            'y': { value: -4 }
+            text: { field: coverage_label, type: nominal }
+  - type: chart
+    name: Planned motion time by speed scale
+    chart:
+      layer:
+        - transform:
+            - { filter: 'isValid(datum.speed_scale)' }
+            - aggregate: [{ op: sum, field: speed_scale_motion_s, as: bin_total }]
+              groupby: [speed_scale_low, speed_scale_high]
+          mark: { type: bar, binSpacing: 2, cornerRadiusEnd: 0 }
+          encoding:
+            x:
+              field: speed_scale_low
+              type: quantitative
+              bin: { binned: true, step: 0.1 }
+              scale: { domain: [0, 1], nice: false }
+              axis:
+                title: Fraction of maximum feasible speed
+                values: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+                format: '.1f'
+                labelOverlap: false
+            x2: { field: speed_scale_high }
+            'y': { field: bin_total, type: quantitative, stack: null, title: 'Planned motion (s)' }
+        - transform:
+            - { aggregate: [{ op: valid, field: speed_scale, as: known }, { op: count, as: selected }] }
+            - { filter: 'datum.known == 0 || datum.known < datum.selected' }
+            - calculate: 'datum.known == 0 ? ''No recorded speed scales in this selection'' : (datum.selected - datum.known) + '' without a recorded speed scale'''
+              as: coverage_label
+          mark: { type: text, baseline: bottom }
+          encoding:
+            x:
+              datum: 0.5
+              type: quantitative
+              scale: { domain: [0, 1], nice: false }
+            'y': { value: -4 }
+            text: { field: coverage_label, type: nominal }
   - type: table
     name: Trajectories
     order:
@@ -174,7 +250,9 @@ views:
       - dataset
       - split
       - kind
+      - speed_scale
       - duration_s
+      - speed_scale_motion_s
       - samples
       - new_cells
       - tool_path_m
