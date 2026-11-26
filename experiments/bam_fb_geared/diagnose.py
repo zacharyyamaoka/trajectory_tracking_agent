@@ -97,9 +97,10 @@ def diagnose(summary, directory):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("recording_dir", type=Path)
+    parser.add_argument("--summary", default="results.json")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    summary = json.loads((args.recording_dir / "results.json").read_text())
+    summary = json.loads((args.recording_dir / args.summary).read_text())
     result = diagnose(summary, args.recording_dir)
     args.output.write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")
 

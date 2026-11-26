@@ -88,19 +88,19 @@ def capture_tracking_spec(nominal):
     return captured
 
 
-def transfer_model(spec, nominal, gear):
+def transfer_model(spec, nominal, gear, *, friction_on_output):
     drive_names = nominal.drive_joints
     authored = spec.copy()
-    if any(item.total_gap_rad > 0.0 for item in gear.values()):
+    if friction_on_output and any(item.total_gap_rad > 0.0 for item in gear.values()):
         # WHY seed the joint friction before wrapping: the stock wrist adds breakaway only at runtime.
         # Wrapping a positive friction on every axis makes the stock wrapper route it to the output.
         for role, name in zip(plant.DRIVE_ORDER, drive_names, strict=True):
             truth = plant.TRUTH[role]
             if truth.sliding_nm is not None:
                 authored.joint(name).frictionloss = truth.sliding_nm
-    wrapped = BacklashModel(authored, gear, method="passive_joint", zero="center")
+    wrapped = BacklashModel(authored, gear, method="passive_joint", zero="center", output_friction=friction_on_output)
     arm = compose.arm_from_model(wrapped.model, compose.arm_meta(nominal))
-    if wrapped.enabled:
+    if wrapped.enabled and friction_on_output:
         tendon_ids = np.array([arm.model.tendon(name + LINK_SUFFIX).id for name in drive_names])
         solref = nominal.model.dof_solref[nominal.dadr].copy()
         solref[[plant.TRUTH[role].sliding_nm is not None for role in plant.DRIVE_ORDER]] = (0.002, 1.0)
@@ -182,10 +182,11 @@ def geometry_check(nominal, variant, wrapped, datasets):
 
 
 @contextmanager
-def replay_plant(nominal, variant, wrapped, capture, friction_factor):
+def replay_plant(nominal, variant, wrapped, capture, friction_factor, *, friction_on_output):
     original = plant.ArmPlant
     original_bench_context = bench._bench_plants
     mj_step = mujoco.mj_step
+    output_tendons = wrapped.enabled and friction_on_output
 
     class TransferPlant(original):
         def __init__(self, tracking_arm, gains, start_drives, **kwargs):
@@ -197,7 +198,7 @@ def replay_plant(nominal, variant, wrapped, capture, friction_factor):
             self.data.qpos[:] = qpos
             mujoco.mj_forward(self.model, self.data)
             capture["data"] = self.data
-            if wrapped.enabled:
+            if output_tendons:
                 capture["wrist"] = np.flatnonzero(self._switched)
                 capture["slide"] = self._sliding[self._switched] * friction_factor
                 capture["break"] = self._breakaway[self._switched] * friction_factor
@@ -221,7 +222,7 @@ def replay_plant(nominal, variant, wrapped, capture, friction_factor):
             return point
 
     def before_physics(model, data):
-        if wrapped.enabled and data is capture.get("data"):
+        if output_tendons and data is capture.get("data"):
             # WHY select stick/slip before mj_step: the solver copies friction loss when creating constraints.
             # Link speed includes gear twist, so an accelerating rotor alone cannot break wrist static friction.
             speed = wrapped.link_qvel(data)[nominal.dadr[capture["wrist"]]]
@@ -239,7 +240,7 @@ def replay_plant(nominal, variant, wrapped, capture, friction_factor):
             yield
 
     branch_kin = Kin(nominal)
-    if wrapped.enabled:
+    if output_tendons:
         tendon_ids = np.array([variant.model.tendon(variant.drive_joints[axis] + LINK_SUFFIX).id
                               for axis, role in enumerate(plant.DRIVE_ORDER) if plant.TRUTH[role].sliding_nm is not None])
     # Both shims are restricted to the simulator process. The bench still owns its private collision detector,
@@ -290,14 +291,14 @@ def compare_archive(trace, archived):
     return delta_mm
 
 
-def run_case(bundle, dataset, kind, task_id, nominal, variant, wrapped, condition, factor, out):
+def run_case(bundle, dataset, kind, task_id, nominal, variant, wrapped, condition, factor, out, *, friction_on_output):
     lock, module, parameters, gains = bundle
     task = dataset.task(task_id)
     target = dataset.target(task_id, rung=1.0)
     stops = dataset.stops(task_id, rung=1.0)
     capture = {"motor": [], "link": [], "branch": [], "clock": []}
     meta = {"task_id": task_id, "dataset": kind, "split": "dev", "dataset_version": "v2"}
-    with replay_plant(nominal, variant, wrapped, capture, factor):
+    with replay_plant(nominal, variant, wrapped, capture, factor, friction_on_output=friction_on_output):
         trace = module.replay(target, stops, parameters, meta=meta, task_meta=dict(task.meta), detector="armed",
                               gains=gains, repeat=0, seed=bench.task_seed(task_id), rung=1.0)
     require(trace.meta["controller_sha256"] == lock["controller_sha256"] and not trace.meta["idealized"],
@@ -356,7 +357,11 @@ def main():
     parser.add_argument("--bench", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--resume", action="store_true", help="retain complete, previously verified zero-gap replays")
+    parser.add_argument("--motor-friction-ablation", action="store_true",
+                        help="keep the stock Coulomb model on the original motor hinges while adding B2")
     args = parser.parse_args()
+    if args.motor_friction_ablation and not args.resume:
+        parser.error("--motor-friction-ablation requires --resume and an existing zero-gap checkpoint")
     args.output.mkdir(parents=True, exist_ok=True)
     bundle = read_lock()
     lock = bundle[0]
@@ -392,10 +397,14 @@ def main():
     print("Rebuilding the stock tracking MJCF to retain its authored geometry", flush=True)
     source = capture_tracking_spec(nominal)
     conditions = (("b2", 1.0), ("b2-friction-1.25", plant.FRICTION_VARIANTS["friction_x1.25"]))
-    if not args.resume:
+    if args.motor_friction_ablation:
+        output = args.output / "motor-friction-results.json"
+        conditions = (("b2-motor-friction", 1.0),)
+    elif not args.resume:
         conditions = (("zero-gap", 1.0),) + conditions
     for condition, factor in conditions:
         print(f"Preparing {condition}", flush=True)
+        friction_on_output = condition != "b2-motor-friction"
         if condition == "b2-friction-1.25":
             # The two B2 conditions differ only in friction. Reuse the mesh and compiled model.
             for role, name in zip(plant.DRIVE_ORDER, nominal.drive_joints, strict=True):
@@ -404,11 +413,13 @@ def main():
                     variant.model.tendon_frictionloss[tendon] *= factor
             payload["geometry"][condition] = payload["geometry"]["b2"]
         else:
-            variant, wrapped = transfer_model(source, nominal, zero if condition == "zero-gap" else gaps)
+            variant, wrapped = transfer_model(source, nominal, zero if condition == "zero-gap" else gaps,
+                                              friction_on_output=friction_on_output)
             payload["geometry"][condition] = geometry_check(nominal, variant, wrapped, datasets)
         for kind, tasks in PANEL.items():
             for task_id in tasks:
-                row = run_case(bundle, datasets[kind], kind, task_id, nominal, variant, wrapped, condition, factor, args.output)
+                row = run_case(bundle, datasets[kind], kind, task_id, nominal, variant, wrapped, condition, factor, args.output,
+                               friction_on_output=friction_on_output)
                 payload["runs"].append(row)
                 temporary = output.with_suffix(".partial.json")
                 temporary.write_text(json.dumps(payload, indent=2, allow_nan=False) + "\n")
