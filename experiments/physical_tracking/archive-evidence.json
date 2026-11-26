@@ -1,0 +1,194 @@
+{
+  "schema": "tta.physical-archive-audit/1",
+  "measurement": "paired encoder FK on the nominal plan clock",
+  "qualification": "diagnostic archive scores only. Load-side tool position and reply clock were not measured in these traces.",
+  "corpora": {
+    "bam_fb/workspace/v2": {
+      "device": "bam_fb",
+      "kind": "workspace",
+      "target_count": 54,
+      "dataset_manifest_sha256": "145dc741e48691920478e2084839cee0cb523c5c698a31f49bf5a3cf95ef8c9b",
+      "controllers": {
+        "fullarm_jtc": {
+          "matched_traces": 0,
+          "unique_targets": 0,
+          "repeat_counts": {},
+          "matched_traces_with_raw_source": 0,
+          "matched_traces_with_missing_plan_ticks": 0,
+          "rejected": [
+            {
+              "trace": "workspace-dev-000__s1__r0.trace.npz",
+              "reason": "recorded t differs from the full frozen tape"
+            }
+          ],
+          "worst": {}
+        }
+      }
+    },
+    "bam_fb/conveyor/v2": {
+      "device": "bam_fb",
+      "kind": "conveyor",
+      "target_count": 64,
+      "dataset_manifest_sha256": "9e378456c94bde64ac2837c0dd3882fd141146d61e3d8809067f7b47d9553cff",
+      "controllers": {}
+    },
+    "pendulum/workspace/v2": {
+      "device": "pendulum",
+      "kind": "workspace",
+      "target_count": 52,
+      "dataset_manifest_sha256": "461445be5e01ae95ff0e1623059bc21d4f2ed446581e7557470e6bca856ec85f",
+      "controllers": {
+        "ff_board_i": {
+          "matched_traces": 156,
+          "unique_targets": 52,
+          "repeat_counts": {
+            "3": 52
+          },
+          "matched_traces_with_raw_source": 156,
+          "matched_traces_with_missing_plan_ticks": 12,
+          "rejected": [],
+          "worst": {
+            "stop_error_max_mm": {
+              "task": "workspace-holdout-008",
+              "split": "holdout",
+              "rung": 1.0,
+              "repeat": 2,
+              "trace": "workspace-holdout-008__s1.0__r2.trace.npz",
+              "trace_sha256": "6033f3db63c91df2f24accd326c43a9e7cf404558d68786409597bf2f499db78",
+              "samples": 105,
+              "raw_source": true,
+              "stops": 1,
+              "aborted": false,
+              "faults": false,
+              "missing_plan_ticks": 2,
+              "stop_error_max_mm": 1.3185398929288836,
+              "full_trajectory_rms_mm": 1.1374147339784342
+            },
+            "full_trajectory_rms_mm": {
+              "task": "workspace-holdout-008",
+              "split": "holdout",
+              "rung": 1.0,
+              "repeat": 2,
+              "trace": "workspace-holdout-008__s1.0__r2.trace.npz",
+              "trace_sha256": "6033f3db63c91df2f24accd326c43a9e7cf404558d68786409597bf2f499db78",
+              "samples": 105,
+              "raw_source": true,
+              "stops": 1,
+              "aborted": false,
+              "faults": false,
+              "missing_plan_ticks": 2,
+              "stop_error_max_mm": 1.3185398929288836,
+              "full_trajectory_rms_mm": 1.1374147339784342
+            }
+          }
+        },
+        "ff_model": {
+          "matched_traces": 156,
+          "unique_targets": 52,
+          "repeat_counts": {
+            "3": 52
+          },
+          "matched_traces_with_raw_source": 156,
+          "matched_traces_with_missing_plan_ticks": 0,
+          "rejected": [],
+          "worst": {
+            "stop_error_max_mm": {
+              "task": "workspace-holdout-008",
+              "split": "holdout",
+              "rung": 1.0,
+              "repeat": 2,
+              "trace": "workspace-holdout-008__s1.0__r2.trace.npz",
+              "trace_sha256": "2d02ba00a9988a44699c191e8fb86f88f4e707e4b0c0eb8ea73c1fd9d7ac5100",
+              "samples": 105,
+              "raw_source": true,
+              "stops": 1,
+              "aborted": false,
+              "faults": false,
+              "missing_plan_ticks": 0,
+              "stop_error_max_mm": 1.4130886983952022,
+              "full_trajectory_rms_mm": 1.1066819963200103
+            },
+            "full_trajectory_rms_mm": {
+              "task": "workspace-dev-008",
+              "split": "dev",
+              "rung": 1.0,
+              "repeat": 2,
+              "trace": "workspace-dev-008__s1.0__r2.trace.npz",
+              "trace_sha256": "74ac781045334578b228dbfd225176c0d5de19b3a92c92fbfbe4a6c086855a8f",
+              "samples": 81,
+              "raw_source": true,
+              "stops": 1,
+              "aborted": false,
+              "faults": false,
+              "missing_plan_ticks": 0,
+              "stop_error_max_mm": 1.3410348169541224,
+              "full_trajectory_rms_mm": 1.2076693760337214
+            }
+          }
+        },
+        "round9_ff": {
+          "matched_traces": 156,
+          "unique_targets": 52,
+          "repeat_counts": {
+            "3": 52
+          },
+          "matched_traces_with_raw_source": 156,
+          "matched_traces_with_missing_plan_ticks": 0,
+          "rejected": [],
+          "worst": {
+            "stop_error_max_mm": {
+              "task": "workspace-dev-008",
+              "split": "dev",
+              "rung": 1.0,
+              "repeat": 2,
+              "trace": "workspace-dev-008__s1.0__r2.trace.npz",
+              "trace_sha256": "9eaec2f85b2f52f208d9221d52f1782cc82bb4688e2291f14129af545a960f48",
+              "samples": 81,
+              "raw_source": true,
+              "stops": 1,
+              "aborted": false,
+              "faults": false,
+              "missing_plan_ticks": 0,
+              "stop_error_max_mm": 2.389933685314253,
+              "full_trajectory_rms_mm": 2.0041921610602795
+            },
+            "full_trajectory_rms_mm": {
+              "task": "workspace-dev-032",
+              "split": "dev",
+              "rung": 1.0,
+              "repeat": 2,
+              "trace": "workspace-dev-032__s1.0__r2.trace.npz",
+              "trace_sha256": "144bb091409a573711ef261d4054d0f524c1ac57d4c7372d3b126ead977ef6ac",
+              "samples": 117,
+              "raw_source": true,
+              "stops": 1,
+              "aborted": false,
+              "faults": false,
+              "missing_plan_ticks": 0,
+              "stop_error_max_mm": 1.6302232241848482,
+              "full_trajectory_rms_mm": 2.015574696112578
+            }
+          }
+        }
+      }
+    }
+  },
+  "legacy_bam_workspace_run": {
+    "task": "workspace-dev-000",
+    "run_id": "jtc-20261121T010031Z-2999031",
+    "date": "2026-11-21T01:00:31Z",
+    "command_clock": true,
+    "trace_sha256": "6e796db0fc72210a9f442f4a3c9abfd21bfdcfa78d11d5b4540d3476feb9267e",
+    "report_sha256": "5d0521e60ec2c734554bda483dbb6f1e5447f030cdaa764a50edb7d42ebd6fe0",
+    "planned_raw_bundle_samples": 2231,
+    "planned_raw_bundle_sha256": "aa5a10b9384182f2ad99e83feec38992a04c0ddf1fe16d4ebab679f02911fbf8",
+    "workspace_exchanges": 257,
+    "workspace_median_exchange_ms": 17.01187700382434,
+    "workspace_late_ticks": 256,
+    "overspeed_events": 1,
+    "stops": 1,
+    "stop_error_max_mm": 4.634474096104687,
+    "full_trajectory_rms_mm": 12.961192367939681,
+    "full_frozen_corpus_evidence": false
+  }
+}
