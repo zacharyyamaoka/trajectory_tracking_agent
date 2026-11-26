@@ -1,0 +1,13 @@
+{
+  "schema": "tta.bam-fb-conveyor-regeneration/1",
+  "method": "arm_motion_bench.datasets.verify",
+  "dataset_manifest_sha256": "9e378456c94bde64ac2837c0dd3882fd141146d61e3d8809067f7b47d9553cff",
+  "ruckig_binary_sha256": "f68b044258081449d51c6e11701ae36f6e2fdb62409ccf21efa42002d3086caa",
+  "frozen_tapes_and_fk_caches": 256,
+  "text_records_checked": [
+    "tasks.jsonl",
+    "rejections.jsonl",
+    "station.json"
+  ],
+  "regeneration_mismatches": []
+}

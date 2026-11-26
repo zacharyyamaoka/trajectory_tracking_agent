@@ -14,6 +14,8 @@ The simulation fixture is the stock mounted BAM arm from arm_motion_bench. The s
 
 The [scorer](score.py) checks every native tape and FK cache against the frozen manifest, verifies the recorded reference arrays against their corresponding native tape, and reports the five run gates and dataset false-alarm gate independently. An interrupted recording supplies no complete-tape measurement. Legacy traces have encoder and closure FK only. Replays with the synchronous simulated site use its position with the encoder measurement retained separately.
 
+A [fresh native Ruckig regeneration](target-regeneration.json) reproduced all 256 frozen tape and FK payloads and matched the station, tasks, and rejection records exactly.
+
 Set `BENCH` to the arm_motion_bench checkout and `TRAJ_COMPARE` to the stock Trajectory Comparison checkout. Use their existing environments and pass one controller directory to the scorer. Keep raw records under the output root.
 
 ```sh
